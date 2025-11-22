@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournée Europe 2026</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -13,12 +14,13 @@
         }
         
         body {
-            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.9)), 
-                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><defs><linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:%23007cf0;stop-opacity:1" /><stop offset="100%" style="stop-color:%2300c6ff;stop-opacity:1" /></linearGradient></defs><rect width="1200" height="800" fill="url(%23sky)"/><circle cx="200" cy="150" r="60" fill="%23FFD700"/><path d="M0,500 Q300,450 600,500 T1200,500 L1200,800 L0,800 Z" fill="%234CAF50"/><path d="M100,550 Q350,500 600,550 T1100,550 L1100,800 L100,800 Z" fill="%23388E3C"/><path d="M200,600 Q450,550 700,600 T1000,600 L1000,800 L200,800 Z" fill="%232E7D32"/><text x="600" y="300" font-family="Arial" font-size="40" fill="white" text-anchor="middle" opacity="0.1">EUROPE 2026</text></svg>');
+            background: 
+                linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.9)),
+                url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            color: #333;
+            color: #2d3748;
             min-height: 100vh;
             padding: 20px;
         }
@@ -36,16 +38,19 @@
         }
         
         h1 {
-            font-size: 2.8rem;
+            font-size: 3rem;
             margin-bottom: 10px;
-            color: #2c3e50;
+            color: #2d3748;
             text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .subtitle {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 20px;
-            color: #34495e;
+            color: #4a5568;
             font-weight: 500;
         }
         
@@ -58,8 +63,8 @@
         }
         
         .flag {
-            width: 60px;
-            height: 40px;
+            width: 70px;
+            height: 45px;
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s;
@@ -93,17 +98,17 @@
         }
         
         .flag-switzerland::before {
-            width: 40px;
-            height: 10px;
-            top: 15px;
-            left: 10px;
+            width: 45px;
+            height: 12px;
+            top: 16px;
+            left: 12px;
         }
         
         .flag-switzerland::after {
-            width: 10px;
-            height: 40px;
+            width: 12px;
+            height: 45px;
             top: 0;
-            left: 25px;
+            left: 29px;
         }
         
         .flag-uk {
@@ -118,15 +123,15 @@
         }
         
         .flag-uk::before {
-            width: 60px;
-            height: 8px;
-            top: 16px;
+            width: 70px;
+            height: 9px;
+            top: 18px;
         }
         
         .flag-uk::after {
-            width: 8px;
-            height: 40px;
-            left: 26px;
+            width: 9px;
+            height: 45px;
+            left: 30px;
         }
         
         .flag-wales {
@@ -136,80 +141,89 @@
         
         .flag-wales::before {
             content: '';
-            width: 30px;
-            height: 40px;
+            width: 35px;
+            height: 45px;
             background: #D21034;
         }
         
         .flag-wales::after {
             content: '🏴';
-            font-size: 30px;
+            font-size: 35px;
             margin-left: 5px;
         }
         
         .sections-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
             margin-top: 30px;
         }
         
         .section {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             transition: transform 0.3s, box-shadow 0.3s;
         }
         
         .section:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
         
         .section-title {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
+            font-size: 1.6rem;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
             gap: 10px;
-            border-bottom: 2px solid rgba(52, 152, 219, 0.3);
-            padding-bottom: 10px;
-            color: #2c3e50;
+            border-bottom: 3px solid rgba(66, 153, 225, 0.4);
+            padding-bottom: 12px;
+            color: #2d3748;
         }
         
-        .btn-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
         
         .btn {
             display: flex;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             gap: 12px;
-            padding: 15px 20px;
-            background: rgba(52, 152, 219, 0.1);
-            border: 1px solid rgba(52, 152, 219, 0.2);
-            border-radius: 10px;
-            color: #2c3e50;
+            padding: 25px 15px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(66, 153, 225, 0.2);
+            border-radius: 15px;
+            color: #2d3748;
             font-size: 1rem;
-            text-align: left;
+            text-align: center;
             cursor: pointer;
             transition: all 0.3s;
             text-decoration: none;
+            height: 140px;
         }
         
         .btn:hover {
-            background: rgba(52, 152, 219, 0.2);
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+            background: rgba(66, 153, 225, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(66, 153, 225, 0.2);
+            border-color: rgba(66, 153, 225, 0.4);
         }
         
         .btn-emoji {
-            font-size: 1.5rem;
+            font-size: 2.2rem;
+        }
+        
+        .btn-text {
+            font-weight: 600;
+            line-height: 1.3;
         }
         
         .admin-section {
@@ -218,12 +232,12 @@
         }
         
         .admin-toggle {
-            background: rgba(241, 196, 15, 0.2);
-            border: 2px solid #f1c40f;
-            color: #d35400;
-            padding: 12px 25px;
+            background: rgba(237, 137, 54, 0.2);
+            border: 2px solid #ed8936;
+            color: #c05621;
+            padding: 15px 30px;
             border-radius: 30px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.3s;
             display: inline-flex;
@@ -233,17 +247,17 @@
         }
         
         .admin-toggle:hover {
-            background: rgba(241, 196, 15, 0.3);
+            background: rgba(237, 137, 54, 0.3);
             transform: scale(1.05);
         }
         
         .admin-content {
             display: none;
             margin-top: 25px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
         
         .password-input {
@@ -254,66 +268,86 @@
         }
         
         .password-input input {
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            width: 200px;
+            padding: 12px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            width: 220px;
             font-size: 1rem;
             transition: border 0.3s;
         }
         
         .password-input input:focus {
-            border-color: #3498db;
+            border-color: #4299e1;
             outline: none;
-            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+            box-shadow: 0 0 8px rgba(66, 153, 225, 0.5);
         }
         
         .password-input button {
-            padding: 10px 20px;
-            background: #2ecc71;
+            padding: 12px 25px;
+            background: #48bb78;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 1rem;
+            font-weight: 600;
             transition: background 0.3s;
         }
         
         .password-input button:hover {
-            background: #27ae60;
+            background: #38a169;
         }
         
         .monuments {
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
-            margin-top: 30px;
-            gap: 15px;
+            margin-top: 40px;
+            gap: 20px;
         }
         
         .monument {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 160px;
+            height: 120px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s;
+            position: relative;
         }
         
         .monument:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
+        }
+        
+        .monument img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .monument-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
         
         footer {
             text-align: center;
-            margin-top: 50px;
-            padding: 20px;
-            font-size: 0.9rem;
-            color: #7f8c8d;
+            margin-top: 60px;
+            padding: 25px;
+            font-size: 1rem;
+            color: #718096;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
         }
         
         @media (max-width: 768px) {
@@ -321,17 +355,38 @@
                 font-size: 2.2rem;
             }
             
-            .section {
-                padding: 20px;
+            .sections-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-grid {
+                grid-template-columns: 1fr;
             }
             
             .btn {
-                padding: 12px 15px;
+                height: 120px;
+            }
+            
+            .monument {
+                width: 140px;
+                height: 100px;
             }
             
             .password-input {
                 flex-direction: column;
                 align-items: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .monument {
+                width: 120px;
+                height: 90px;
+            }
+            
+            .flag {
+                width: 55px;
+                height: 35px;
             }
         }
     </style>
@@ -354,37 +409,37 @@
         
         <div class="sections-container">
             <div class="section">
-                <h2 class="section-title">📋 Informations générales</h2>
-                <div class="btn-container">
+                <h2 class="section-title"><i class="fas fa-info-circle"></i> Informations générales</h2>
+                <div class="btn-grid">
                     <a href="https://nyakotour26-del.github.io/PV-TOURNEE26/" class="btn" target="_blank">
                         <span class="btn-emoji">📄</span>
-                        <span>PV réunion et répétition</span>
+                        <span class="btn-text">PV réunion et répétition</span>
                     </a>
                     <a href="https://nyakotour26-del.github.io/journal-ff26/" class="btn" target="_blank">
                         <span class="btn-emoji">📔</span>
-                        <span>Journal de bord tournée</span>
+                        <span class="btn-text">Journal de bord tournée</span>
                     </a>
                     <a href="https://nyakotour26-del.github.io/h-bergeur--tourn-e26/" class="btn" target="_blank">
                         <span class="btn-emoji">🏠</span>
-                        <span>Liste Hébergeurs</span>
+                        <span class="btn-text">Liste Hébergeurs</span>
                     </a>
                     <a href="https://nyakotour26-del.github.io/chansons-nyako/" class="btn" target="_blank">
                         <span class="btn-emoji">🎵</span>
-                        <span>Fiche chanson tournée</span>
+                        <span class="btn-text">Fiche chanson tournée</span>
                     </a>
                     <a href="https://nyakotour26-del.github.io/LIVRE-D-OR-TOUR26/" class="btn" target="_blank">
                         <span class="btn-emoji">📖</span>
-                        <span>Livre d'or</span>
+                        <span class="btn-text">Livre d'or</span>
                     </a>
                 </div>
             </div>
             
             <div class="section">
-                <h2 class="section-title">✍️ Contributions</h2>
-                <div class="btn-container">
+                <h2 class="section-title"><i class="fas fa-edit"></i> Contributions</h2>
+                <div class="btn-grid">
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLScty4eoEMuR6pQ9wtchtVK9awB01HIGi5OeEtggZuRkKJM8og/viewform?usp=header" class="btn" target="_blank">
                         <span class="btn-emoji">🏠</span>
-                        <span>Fiche pour remplir Hébergeurs</span>
+                        <span class="btn-text">Fiche pour remplir Hébergeurs</span>
                     </a>
                 </div>
             </div>
@@ -392,12 +447,12 @@
         
         <div class="admin-section">
             <button class="admin-toggle" onclick="toggleAdminSection()">
-                <span>🔐</span>
+                <i class="fas fa-lock"></i>
                 <span>Accès Administrateur</span>
             </button>
             
             <div class="admin-content" id="adminContent">
-                <h2>Zone Administrateur</h2>
+                <h2><i class="fas fa-user-shield"></i> Zone Administrateur</h2>
                 <p>Veuillez entrer le mot de passe pour accéder aux formulaires d'administration</p>
                 
                 <div class="password-input">
@@ -406,22 +461,22 @@
                 </div>
                 
                 <div id="adminLinks" style="display: none;">
-                    <div class="btn-container">
+                    <div class="btn-grid">
                         <a href="https://docs.google.com/forms/d/e/1FAIpQLSeHoUZ_Y5fl_Boa6MtcFDjmXw54sFo-CXMqv4GagrmHr2hfdg/viewform?usp=header" class="btn" target="_blank">
                             <span class="btn-emoji">📄</span>
-                            <span>Fiche PV réunion et répétition</span>
+                            <span class="btn-text">Fiche PV réunion et répétition</span>
                         </a>
                         <a href="https://docs.google.com/forms/d/e/1FAIpQLSdFwjo69WNzQlrGSI8GQUTP-M8_wXsEVc6T7JogUzoj1V-JlA/viewform?usp=header" class="btn" target="_blank">
                             <span class="btn-emoji">📔</span>
-                            <span>Fiche Journal de bord tournée</span>
+                            <span class="btn-text">Fiche Journal de bord tournée</span>
                         </a>
                         <a href="https://docs.google.com/forms/d/e/1FAIpQLSc8-vDc86ukap_X4BYRQUlpCoIN_59Ugry7XdDZR-QPyRTPxQ/viewform?usp=header" class="btn" target="_blank">
                             <span class="btn-emoji">🎵</span>
-                            <span>Fiche chanson tournée</span>
+                            <span class="btn-text">Fiche chanson tournée</span>
                         </a>
                         <a href="https://docs.google.com/forms/d/e/1FAIpQLSfrJKU6QpRFo8ni9RVDBPUo8H-Wi-rJzxDXHQNWxoeC2LxL0A/viewform?usp=header" class="btn" target="_blank">
                             <span class="btn-emoji">📖</span>
-                            <span>Fiche Livre d'or</span>
+                            <span class="btn-text">Fiche Livre d'or</span>
                         </a>
                     </div>
                 </div>
@@ -429,11 +484,26 @@
         </div>
         
         <div class="monuments">
-            <div class="monument">🗼</div>
-            <div class="monument">🏰</div>
-            <div class="monument">⛪</div>
-            <div class="monument">🌉</div>
-            <div class="monument">🏛️</div>
+            <div class="monument">
+                <img src="https://images.unsplash.com/photo-1549144511-f099e773c147?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Tour Eiffel">
+                <div class="monument-label">Tour Eiffel - France</div>
+            </div>
+            <div class="monument">
+                <img src="https://images.unsplash.com/photo-1596484552834-6a58f850e0a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Brandenburg Gate">
+                <div class="monument-label">Porte de Brandebourg - Allemagne</div>
+            </div>
+            <div class="monument">
+                <img src="https://images.unsplash.com/photo-1590077428593-a55bb07c4665?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Atomium">
+                <div class="monument-label">Atomium - Belgique</div>
+            </div>
+            <div class="monument">
+                <img src="https://images.unsplash.com/photo-1594736797933-d0ea3ff8db41?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Matterhorn">
+                <div class="monument-label">Matterhorn - Suisse</div>
+            </div>
+            <div class="monument">
+                <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Big Ben">
+                <div class="monument-label">Big Ben - Royaume-Uni</div>
+            </div>
         </div>
         
         <footer>
@@ -453,10 +523,10 @@
             
             if (passwordInput.value === 'admin') {
                 adminLinks.style.display = 'block';
-                passwordInput.style.border = '2px solid #2ecc71';
+                passwordInput.style.border = '2px solid #48bb78';
             } else {
                 adminLinks.style.display = 'none';
-                passwordInput.style.border = '2px solid #e74c3c';
+                passwordInput.style.border = '2px solid #e53e3e';
                 alert('Mot de passe incorrect');
             }
         }
