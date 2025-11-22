@@ -136,20 +136,32 @@
         
         .flag-wales {
             background: white;
-            display: flex;
+            position: relative;
+            overflow: hidden;
         }
         
         .flag-wales::before {
             content: '';
-            width: 27px;
-            height: 37px;
-            background: #D21034;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFFFFF 50%, #D21034 50%, #D21034 100%);
         }
         
         .flag-wales::after {
-            content: '🏴';
-            font-size: 28px;
-            margin-left: 5px;
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: 
+                radial-gradient(circle, #008000 0%, #008000 40%, transparent 40%),
+                linear-gradient(45deg, transparent 45%, #FFFFFF 45%, #FFFFFF 55%, transparent 55%),
+                linear-gradient(-45deg, transparent 45%, #FFFFFF 45%, #FFFFFF 55%, transparent 55%);
         }
         
         .sections-container {
@@ -410,13 +422,9 @@
                 left: 19px;
             }
             
-            .flag-wales::before {
-                width: 22px;
-                height: 30px;
-            }
-            
             .flag-wales::after {
-                font-size: 22px;
+                width: 16px;
+                height: 16px;
             }
         }
         
