@@ -688,6 +688,286 @@
             font-size: 1.1rem;
         }
         
+        /* Styles pour les notifications améliorées */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 20px 25px;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transform: translateX(400px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-width: 350px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .finance-notification {
+            background: linear-gradient(135deg, #ed8936, #dd771c);
+            border-left: 5px solid #c05621;
+        }
+        
+        .secretariat-notification {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            border-left: 5px solid #2b6cb0;
+        }
+        
+        .notification-icon {
+            font-size: 1.8rem;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .notification-message {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Styles pour la modal du calendrier - AMÉLIORÉE */
+        .date-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .date-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.7);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+        }
+        
+        .date-modal.show {
+            display: flex;
+        }
+        
+        .date-modal-content.show {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .date-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+        
+        .date-modal-title {
+            font-size: 1.4rem;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #718096;
+            transition: color 0.3s;
+            padding: 5px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .close-modal:hover {
+            background: #f7fafc;
+            color: #e53e3e;
+        }
+        
+        .date-info-modal {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4299e1;
+        }
+        
+        .date-location {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .date-country {
+            color: #718096;
+            font-size: 0.95rem;
+        }
+        
+        .date-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .date-action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 15px 8px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            color: #718096;
+            font-size: 0.85rem;
+            text-align: center;
+            cursor: not-allowed;
+            transition: all 0.3s;
+            height: 95px;
+            position: relative;
+        }
+        
+        .date-action-btn.active {
+            border-color: #4299e1;
+            color: #2d3748;
+            cursor: pointer;
+            background: rgba(66, 153, 225, 0.05);
+        }
+        
+        .date-action-btn.active:hover {
+            background: rgba(66, 153, 225, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(66, 153, 225, 0.2);
+        }
+        
+        .date-action-emoji {
+            font-size: 1.4rem;
+        }
+        
+        .date-action-text {
+            font-weight: 600;
+            line-height: 1.2;
+        }
+        
+        .date-action-locked {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: #cbd5e0;
+            font-size: 0.7rem;
+        }
+        
+        .secretariat-access-section {
+            background: #edf2f7;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 2px dashed #cbd5e0;
+        }
+        
+        .secretariat-access-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .modal-password-input {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .modal-password-input input {
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border 0.3s;
+            width: 100%;
+        }
+        
+        .modal-password-input input:focus {
+            border-color: #4299e1;
+            outline: none;
+            box-shadow: 0 0 8px rgba(66, 153, 225, 0.5);
+        }
+        
+        .modal-password-input button {
+            padding: 12px 20px;
+            background: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        
+        .modal-password-input button:hover {
+            background: #3182ce;
+        }
+        
+        .secretariat-access-note {
+            background: #fffaf0;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #f6ad55;
+            font-size: 0.85rem;
+            color: #744210;
+            text-align: center;
+            margin-top: 15px;
+        }
+        
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
@@ -744,7 +1024,7 @@
             backdrop-filter: blur(5px);
         }
         
-        /* Media Queries */
+        /* Media Queries - AMÉLIORÉES */
         @media (max-width: 900px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -782,6 +1062,36 @@
             
             .finance-btn-emoji, .sheet-btn-emoji {
                 font-size: 2rem;
+            }
+            
+            .date-actions {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .date-action-btn {
+                height: 85px;
+                padding: 12px 8px;
+            }
+            
+            .notification {
+                max-width: 300px;
+                right: 10px;
+                top: 10px;
+                padding: 15px 20px;
+            }
+            
+            .date-modal {
+                padding: 15px;
+            }
+            
+            .date-modal-content {
+                padding: 20px;
+                max-height: 85vh;
+            }
+            
+            .date-modal-title {
+                font-size: 1.2rem;
             }
         }
         
@@ -845,6 +1155,19 @@
                 width: 16px;
                 height: 16px;
             }
+            
+            .date-action-btn {
+                height: 80px;
+                padding: 10px 6px;
+            }
+            
+            .date-action-emoji {
+                font-size: 1.2rem;
+            }
+            
+            .date-action-text {
+                font-size: 0.8rem;
+            }
         }
         
         @media (max-width: 350px) {
@@ -854,6 +1177,14 @@
             
             .btn, .secretariat-btn {
                 height: 90px;
+            }
+            
+            .date-modal {
+                padding: 10px;
+            }
+            
+            .date-modal-content {
+                padding: 15px;
             }
         }
     </style>
@@ -1049,6 +1380,86 @@
         </footer>
     </div>
 
+    <!-- Modal pour les détails de date -->
+    <div class="date-modal" id="dateModal">
+        <div class="date-modal-content" id="dateModalContent">
+            <div class="date-modal-header">
+                <h3 class="date-modal-title">
+                    <i class="fas fa-calendar-day"></i>
+                    <span id="modalDateTitle">Détails de la date</span>
+                </h3>
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="date-info-modal">
+                <div class="date-location" id="modalLocation"></div>
+                <div class="date-country" id="modalCountry"></div>
+            </div>
+            
+            <div class="date-actions" id="dateActions">
+                <div class="date-action-btn" id="pvBtn">
+                    <span class="date-action-emoji">📄</span>
+                    <span class="date-action-text">PV réunion</span>
+                    <span class="date-action-locked"><i class="fas fa-lock"></i></span>
+                </div>
+                <div class="date-action-btn" id="journalBtn">
+                    <span class="date-action-emoji">📔</span>
+                    <span class="date-action-text">Journal de bord</span>
+                    <span class="date-action-locked"><i class="fas fa-lock"></i></span>
+                </div>
+                <div class="date-action-btn" id="chansonBtn">
+                    <span class="date-action-emoji">🎵</span>
+                    <span class="date-action-text">Fiche chanson</span>
+                    <span class="date-action-locked"><i class="fas fa-lock"></i></span>
+                </div>
+                <div class="date-action-btn" id="livreOrBtn">
+                    <span class="date-action-emoji">📖</span>
+                    <span class="date-action-text">Livre d'or</span>
+                    <span class="date-action-locked"><i class="fas fa-lock"></i></span>
+                </div>
+            </div>
+            
+            <!-- Section de déverrouillage intégrée -->
+            <div class="secretariat-access-section" id="secretariatAccessSection">
+                <div class="secretariat-access-title">
+                    <i class="fas fa-key"></i>
+                    Déverrouiller le Secrétariat
+                </div>
+                <div class="modal-password-input">
+                    <input type="password" id="modalSecretariatPassword" placeholder="Mot de passe secrétariat">
+                    <button onclick="checkModalSecretariatPassword()">Déverrouiller</button>
+                </div>
+                <div class="secretariat-access-note">
+                    <i class="fas fa-info-circle"></i>
+                    Connectez-vous pour activer les fonctionnalités du secrétariat
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="notification finance-notification" id="financeNotification">
+        <div class="notification-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="notification-content">
+            <div class="notification-title">Accès Autorisé</div>
+            <div class="notification-message">Rapport financier déverrouillé avec succès</div>
+        </div>
+    </div>
+
+    <div class="notification secretariat-notification" id="secretariatNotification">
+        <div class="notification-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="notification-content">
+            <div class="notification-title">Accès Autorisé</div>
+            <div class="notification-message">Secrétariat déverrouillé avec succès</div>
+        </div>
+    </div>
+
     <script>
         // URL du Google Sheets (identique au code modèle)
         const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrF0hs00W-QvR3v5wxZA1ceGEx4xWR0dJv5kF3zgab6YVV00OehcwxYg-EJfOrMqj4IJnDl649SIkg/pub?gid=106676164&single=true&output=csv';
@@ -1057,6 +1468,7 @@
         let datesWithData = [];
         let currentDate = new Date(2026, 3, 1); // Avril 2026
         let selectedDate = null;
+        let secretariatAccess = false;
 
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('prevMonth').addEventListener('click', prevMonth);
@@ -1064,6 +1476,7 @@
             document.getElementById('tryDirect').addEventListener('click', () => loadDataFromGoogleSheets('direct'));
             document.getElementById('tryProxy').addEventListener('click', () => loadDataFromGoogleSheets('proxy'));
             document.getElementById('tryCors').addEventListener('click', () => loadDataFromGoogleSheets('cors'));
+            document.getElementById('closeModal').addEventListener('click', closeDateModal);
             
             // Permettre de valider avec la touche Entrée pour les mots de passe
             document.getElementById('financePasswordInput').addEventListener('keypress', function(e) {
@@ -1075,6 +1488,19 @@
             document.getElementById('secretariatPasswordInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     checkSecretariatPassword();
+                }
+            });
+            
+            document.getElementById('modalSecretariatPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkModalSecretariatPassword();
+                }
+            });
+            
+            // Fermer la modal en cliquant à l'extérieur
+            document.getElementById('dateModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeDateModal();
                 }
             });
             
@@ -1095,9 +1521,7 @@
             if (passwordInput.value === 'finadmin') {
                 financeLinks.style.display = 'block';
                 passwordInput.style.border = '2px solid #48bb78';
-                setTimeout(() => {
-                    alert('Accès autorisé au rapport financier');
-                }, 100);
+                showNotification('finance');
             } else {
                 financeLinks.style.display = 'none';
                 passwordInput.style.border = '2px solid #e53e3e';
@@ -1118,13 +1542,119 @@
             if (passwordInput.value === 'admin') {
                 secretariatLinks.style.display = 'block';
                 passwordInput.style.border = '2px solid #48bb78';
-                setTimeout(() => {
-                    alert('Accès secrétariat autorisé');
-                }, 100);
+                secretariatAccess = true;
+                updateDateActionButtons();
+                showNotification('secretariat');
             } else {
                 secretariatLinks.style.display = 'none';
                 passwordInput.style.border = '2px solid #e53e3e';
                 alert('Mot de passe secrétariat incorrect');
+            }
+        }
+
+        // Fonction pour déverrouiller depuis la modal
+        function checkModalSecretariatPassword() {
+            const passwordInput = document.getElementById('modalSecretariatPassword');
+            
+            if (passwordInput.value === 'admin') {
+                secretariatAccess = true;
+                updateDateActionButtons();
+                showNotification('secretariat');
+                passwordInput.style.border = '2px solid #48bb78';
+                
+                // Mettre à jour aussi la section principale
+                document.getElementById('secretariatLinks').style.display = 'block';
+                document.getElementById('secretariatPasswordInput').style.border = '2px solid #48bb78';
+                
+                // Cacher la section de déverrouillage après succès
+                setTimeout(() => {
+                    document.getElementById('secretariatAccessSection').style.display = 'none';
+                }, 1000);
+            } else {
+                passwordInput.style.border = '2px solid #e53e3e';
+                alert('Mot de passe secrétariat incorrect');
+            }
+        }
+
+        // Fonctions pour les notifications améliorées
+        function showNotification(type) {
+            const notification = document.getElementById(`${type}Notification`);
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // Fonctions pour la modal de date
+        function showDateModal(date, location, country) {
+            const modal = document.getElementById('dateModal');
+            const modalContent = document.getElementById('dateModalContent');
+            const modalTitle = document.getElementById('modalDateTitle');
+            const modalLocation = document.getElementById('modalLocation');
+            const modalCountry = document.getElementById('modalCountry');
+            
+            modalTitle.textContent = formatDateForDisplay(date);
+            modalLocation.textContent = location || 'Localité non spécifiée';
+            modalCountry.textContent = country || 'Pays non spécifié';
+            
+            // Réafficher la section de déverrouillage si nécessaire
+            if (!secretariatAccess) {
+                document.getElementById('secretariatAccessSection').style.display = 'block';
+            } else {
+                document.getElementById('secretariatAccessSection').style.display = 'none';
+            }
+            
+            modal.classList.add('show');
+            setTimeout(() => {
+                modalContent.classList.add('show');
+            }, 10);
+            
+            updateDateActionButtons();
+        }
+        
+        function closeDateModal() {
+            const modal = document.getElementById('dateModal');
+            const modalContent = document.getElementById('dateModalContent');
+            
+            modalContent.classList.remove('show');
+            setTimeout(() => {
+                modal.classList.remove('show');
+            }, 300);
+        }
+        
+        function updateDateActionButtons() {
+            const buttons = document.querySelectorAll('.date-action-btn');
+            const lockedIcons = document.querySelectorAll('.date-action-locked');
+            
+            if (secretariatAccess) {
+                buttons.forEach(btn => {
+                    btn.classList.add('active');
+                    btn.style.cursor = 'pointer';
+                });
+                lockedIcons.forEach(icon => {
+                    icon.style.display = 'none';
+                });
+                
+                // Ajouter les événements de clic
+                document.getElementById('pvBtn').onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSeHoUZ_Y5fl_Boa6MtcFDjmXw54sFo-CXMqv4GagrmHr2hfdg/viewform?usp=header', '_blank');
+                document.getElementById('journalBtn').onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSdFwjo69WNzQlrGSI8GQUTP-M8_wXsEVc6T7JogUzoj1V-JlA/viewform?usp=header', '_blank');
+                document.getElementById('chansonBtn').onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSc8-vDc86ukap_X4BYRQUlpCoIN_59Ugry7XdDZR-QPyRTPxQ/viewform?usp=header', '_blank');
+                document.getElementById('livreOrBtn').onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSfrJKU6QpRFo8ni9RVDBPUo8H-Wi-rJzxDXHQNWxoeC2LxL0A/viewform?usp=header', '_blank');
+                
+                // Cacher la section de déverrouillage
+                document.getElementById('secretariatAccessSection').style.display = 'none';
+            } else {
+                buttons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.style.cursor = 'not-allowed';
+                });
+                lockedIcons.forEach(icon => {
+                    icon.style.display = 'block';
+                });
+                
+                // Afficher la section de déverrouillage
+                document.getElementById('secretariatAccessSection').style.display = 'block';
             }
         }
 
@@ -1438,9 +1968,9 @@
             
             if (matchingDates.length > 0) {
                 const dateInfo = matchingDates[0];
-                alert(`Concert prévu le ${formatDateForDisplay(date)} à ${dateInfo.localite}, ${dateInfo.pays}`);
+                showDateModal(date, dateInfo.localite, dateInfo.pays);
             } else {
-                alert(`Aucun concert prévu le ${formatDateForDisplay(date)}`);
+                showDateModal(date, 'Aucun concert prévu', '');
             }
         }
         
