@@ -244,6 +244,16 @@
             line-height: 1.3;
         }
         
+        /* NOUVEAU: Section d'accès mobile */
+        .mobile-access {
+            display: none;
+            margin-bottom: 25px;
+        }
+        
+        .desktop-access {
+            display: block;
+        }
+        
         /* Styles pour le calendrier */
         .calendar-section {
             background: rgba(255, 255, 255, 0.9);
@@ -413,12 +423,12 @@
             transition: all 0.3s;
         }
         
-        /* Styles pour les sections côte à côte */
+        /* Styles pour les sections d'accès */
         .access-sections {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 25px;
-            margin-top: 40px;
+            margin-top: 25px;
         }
         
         .access-section {
@@ -464,117 +474,7 @@
             border-bottom: 3px solid rgba(66, 153, 225, 0.4);
         }
         
-        .access-toggle {
-            background: rgba(255, 255, 255, 0.8);
-            border: 2px solid;
-            padding: 15px 25px;
-            border-radius: 15px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 600;
-            width: 100%;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .finance-toggle {
-            border-color: #ed8936;
-            color: #c05621;
-            background: rgba(237, 137, 54, 0.1);
-        }
-        
-        .finance-toggle:hover {
-            background: rgba(237, 137, 54, 0.2);
-            transform: scale(1.02);
-        }
-        
-        .secretariat-toggle {
-            border-color: #4299e1;
-            color: #2b6cb0;
-            background: rgba(66, 153, 225, 0.1);
-        }
-        
-        .secretariat-toggle:hover {
-            background: rgba(66, 153, 225, 0.2);
-            transform: scale(1.02);
-        }
-        
-        .access-content {
-            display: none;
-            margin-top: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .password-input {
-            margin: 20px 0;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        .password-input input {
-            padding: 12px 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            width: 100%;
-            max-width: 250px;
-            font-size: 1rem;
-            transition: border 0.3s;
-        }
-        
-        .finance-password-input input:focus {
-            border-color: #ed8936;
-            outline: none;
-            box-shadow: 0 0 8px rgba(237, 137, 54, 0.5);
-        }
-        
-        .secretariat-password-input input:focus {
-            border-color: #4299e1;
-            outline: none;
-            box-shadow: 0 0 8px rgba(66, 153, 225, 0.5);
-        }
-        
-        .password-input button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-        
-        .finance-password-input button {
-            background: #ed8936;
-            color: white;
-        }
-        
-        .finance-password-input button:hover {
-            background: #dd771c;
-        }
-        
-        .secretariat-password-input button {
-            background: #4299e1;
-            color: white;
-        }
-        
-        .secretariat-password-input button:hover {
-            background: #3182ce;
-        }
-        
-        .access-links {
-            display: none;
-        }
-        
-        .finance-btn {
+        .finance-btn-direct {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -592,9 +492,10 @@
             text-decoration: none;
             height: 140px;
             box-shadow: 0 4px 15px rgba(237, 137, 54, 0.3);
+            width: 100%;
         }
         
-        .finance-btn:hover {
+        .finance-btn-direct:hover {
             background: linear-gradient(135deg, #dd771c, #c05621);
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(237, 137, 54, 0.4);
@@ -972,6 +873,188 @@
             to { transform: rotate(360deg); }
         }
         
+        /* NOUVEAUX STYLES POUR LA SECTION RÉCAPITULATIF */
+        .recap-section {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            margin-top: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .recap-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .recap-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 3px solid rgba(102, 51, 153, 0.4);
+            padding-bottom: 12px;
+            color: #2d3748;
+        }
+        
+        .recap-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .country-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid;
+            transition: transform 0.3s;
+        }
+        
+        .country-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .country-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .country-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+        
+        .country-flag {
+            width: 40px;
+            height: 27px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .country-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .country-stats {
+            font-size: 0.9rem;
+            color: #718096;
+            background: #f7fafc;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        .toggle-dates-btn {
+            background: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.3s;
+        }
+        
+        .toggle-dates-btn:hover {
+            background: #3182ce;
+        }
+        
+        .country-period {
+            background: #f0f9ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #0ea5e9;
+            font-size: 0.95rem;
+            color: #0369a1;
+            font-weight: 500;
+        }
+        
+        .country-dates {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .country-dates.show {
+            display: flex;
+        }
+        
+        .date-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f7fafc;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        
+        .date-item:hover {
+            background: #edf2f7;
+        }
+        
+        .date-location {
+            font-weight: 500;
+            color: #2d3748;
+        }
+        
+        .date-value {
+            color: #4a5568;
+            font-weight: 500;
+        }
+        
+        .no-dates {
+            text-align: center;
+            color: #718096;
+            font-style: italic;
+            padding: 20px;
+        }
+        
+        .recap-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px dashed #e2e8f0;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 12px;
+            min-width: 120px;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+        
         .monuments {
             display: flex;
             justify-content: space-around;
@@ -1024,10 +1107,86 @@
             backdrop-filter: blur(5px);
         }
         
+        /* Modal pour mot de passe financier */
+        .password-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .password-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .password-modal h3 {
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+        
+        .password-modal input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+        
+        .password-modal input:focus {
+            border-color: #ed8936;
+            outline: none;
+        }
+        
+        .password-modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .password-modal-buttons button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .password-modal-confirm {
+            background: #ed8936;
+            color: white;
+        }
+        
+        .password-modal-cancel {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        
         /* Media Queries - AMÉLIORÉES */
         @media (max-width: 900px) {
             .main-content {
                 grid-template-columns: 1fr;
+            }
+            
+            .mobile-access {
+                display: block;
+            }
+            
+            .desktop-access {
+                display: none;
             }
             
             .access-sections {
@@ -1055,7 +1214,7 @@
                 padding: 5px;
             }
             
-            .finance-btn, .sheet-btn {
+            .finance-btn-direct, .sheet-btn {
                 height: 130px;
                 padding: 20px 10px;
             }
@@ -1092,6 +1251,35 @@
             
             .date-modal-title {
                 font-size: 1.2rem;
+            }
+            
+            /* Responsive pour le récapitulatif */
+            .recap-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .recap-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stat-item {
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            .country-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .country-info {
+                width: 100%;
+            }
+            
+            .toggle-dates-btn {
+                align-self: flex-end;
             }
         }
         
@@ -1205,6 +1393,49 @@
             </div>
         </header>
         
+        <!-- Accès mobile (affiché seulement sur mobile) -->
+        <div class="mobile-access">
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-lock"></i> Accès Réservés</h2>
+                <div class="btn-grid">
+                    <button class="btn finance-btn-direct" onclick="openFinanceWithPassword()">
+                        <span class="btn-emoji">💰</span>
+                        <span class="btn-text">Rapport Financier</span>
+                    </button>
+                    <div class="btn" onclick="toggleSecretariatSection()">
+                        <span class="btn-emoji">👥</span>
+                        <span class="btn-text">Secrétariat & Comm</span>
+                    </div>
+                </div>
+                
+                <!-- Section secrétariat mobile -->
+                <div class="access-content" id="mobileSecretariatContent" style="display: none; margin-top: 20px;">
+                    <div class="secretariat-btn-grid">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeHoUZ_Y5fl_Boa6MtcFDjmXw54sFo-CXMqv4GagrmHr2hfdg/viewform?usp=header" class="secretariat-btn" target="_blank">
+                            <span class="secretariat-btn-emoji">📄</span>
+                            <span class="secretariat-btn-text">Écrire PV réunion</span>
+                        </a>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdFwjo69WNzQlrGSI8GQUTP-M8_wXsEVc6T7JogUzoj1V-JlA/viewform?usp=header" class="secretariat-btn" target="_blank">
+                            <span class="secretariat-btn-emoji">📔</span>
+                            <span class="secretariat-btn-text">Écrire Journal de bord</span>
+                        </a>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc8-vDc86ukap_X4BYRQUlpCoIN_59Ugry7XdDZR-QPyRTPxQ/viewform?usp=header" class="secretariat-btn" target="_blank">
+                            <span class="secretariat-btn-emoji">🎵</span>
+                            <span class="secretariat-btn-text">Écrire Fiche chanson</span>
+                        </a>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfrJKU6QpRFo8ni9RVDBPUo8H-Wi-rJzxDXHQNWxoeC2LxL0A/viewform?usp=header" class="secretariat-btn" target="_blank">
+                            <span class="secretariat-btn-emoji">📖</span>
+                            <span class="secretariat-btn-text">Écrire Livre d'or</span>
+                        </a>
+                        <a href="https://docs.google.com/spreadsheets/d/1nBOB3zzWtzXMT86yDt8kY1IsuyQniV5TVfVsc7Kht6M/edit?gid=1755798110#gid=1755798110" class="sheet-btn" target="_blank">
+                            <span class="sheet-btn-emoji">📊</span>
+                            <span class="sheet-btn-text">Accès aux données complètes</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="main-content">
             <div class="sections-container">
                 <div class="section">
@@ -1242,6 +1473,49 @@
                         </a>
                     </div>
                 </div>
+                
+                <!-- Accès desktop (affiché seulement sur desktop) -->
+                <div class="desktop-access">
+                    <div class="section">
+                        <h2 class="section-title"><i class="fas fa-lock"></i> Accès Réservés</h2>
+                        <div class="btn-grid">
+                            <button class="btn finance-btn-direct" onclick="openFinanceWithPassword()">
+                                <span class="btn-emoji">💰</span>
+                                <span class="btn-text">Rapport Financier</span>
+                            </button>
+                            <div class="btn" onclick="toggleSecretariatSection()">
+                                <span class="btn-emoji">👥</span>
+                                <span class="btn-text">Secrétariat & Comm</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Section secrétariat desktop -->
+                        <div class="access-content" id="desktopSecretariatContent" style="display: none; margin-top: 20px;">
+                            <div class="secretariat-btn-grid">
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeHoUZ_Y5fl_Boa6MtcFDjmXw54sFo-CXMqv4GagrmHr2hfdg/viewform?usp=header" class="secretariat-btn" target="_blank">
+                                    <span class="secretariat-btn-emoji">📄</span>
+                                    <span class="secretariat-btn-text">Écrire PV réunion</span>
+                                </a>
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdFwjo69WNzQlrGSI8GQUTP-M8_wXsEVc6T7JogUzoj1V-JlA/viewform?usp=header" class="secretariat-btn" target="_blank">
+                                    <span class="secretariat-btn-emoji">📔</span>
+                                    <span class="secretariat-btn-text">Écrire Journal de bord</span>
+                                </a>
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc8-vDc86ukap_X4BYRQUlpCoIN_59Ugry7XdDZR-QPyRTPxQ/viewform?usp=header" class="secretariat-btn" target="_blank">
+                                    <span class="secretariat-btn-emoji">🎵</span>
+                                    <span class="secretariat-btn-text">Écrire Fiche chanson</span>
+                                </a>
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfrJKU6QpRFo8ni9RVDBPUo8H-Wi-rJzxDXHQNWxoeC2LxL0A/viewform?usp=header" class="secretariat-btn" target="_blank">
+                                    <span class="secretariat-btn-emoji">📖</span>
+                                    <span class="secretariat-btn-text">Écrire Livre d'or</span>
+                                </a>
+                                <a href="https://docs.google.com/spreadsheets/d/1nBOB3zzWtzXMT86yDt8kY1IsuyQniV5TVfVsc7Kht6M/edit?gid=1755798110#gid=1755798110" class="sheet-btn" target="_blank">
+                                    <span class="sheet-btn-emoji">📊</span>
+                                    <span class="sheet-btn-text">Accès aux données complètes</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="calendar-section">
@@ -1275,80 +1549,20 @@
             </div>
         </div>
         
-        <!-- Sections d'accès côte à côte -->
-        <div class="access-sections">
-            <div class="access-section finance-section">
-                <h2 class="access-title finance-title">
-                    <i class="fas fa-chart-line"></i>
-                    Accès Rapport Financier
-                </h2>
-                <button class="access-toggle finance-toggle" onclick="toggleFinanceSection()">
-                    <i class="fas fa-lock"></i>
-                    <span>Déverrouiller le Rapport Financier</span>
-                </button>
-                
-                <div class="access-content" id="financeContent">
-                    <h3><i class="fas fa-file-invoice-dollar"></i> Rapport Financier de la Tournée</h3>
-                    <p>Veuillez entrer le mot de passe pour accéder au rapport financier détaillé</p>
-                    
-                    <div class="password-input finance-password-input">
-                        <input type="password" id="financePasswordInput" placeholder="Mot de passe financier">
-                        <button onclick="checkFinancePassword()">Valider</button>
-                    </div>
-                    
-                    <div class="access-links" id="financeLinks">
-                        <a href="https://nyakotour26-del.github.io/Rapport-financier-NyakoFF26/" class="finance-btn" target="_blank">
-                            <span class="finance-btn-emoji">💰</span>
-                            <span class="finance-btn-text">Rapport Financier Complet</span>
-                        </a>
-                    </div>
+        <!-- NOUVELLE SECTION: Récapitulatif des dates par pays -->
+        <div class="recap-section" id="recapSection">
+            <h2 class="recap-title">
+                <i class="fas fa-list-alt"></i>
+                Récapitulatif des dates par pays
+            </h2>
+            <div class="recap-container" id="recapContainer">
+                <!-- Le contenu sera généré dynamiquement -->
+                <div class="no-dates" id="noDatesMessage">
+                    Aucune donnée de tournée disponible. Veuillez charger les données du calendrier.
                 </div>
             </div>
-            
-            <div class="access-section secretariat-section">
-                <h2 class="access-title secretariat-title">
-                    <i class="fas fa-users-cog"></i>
-                    Accès Secrétariat et Comm
-                </h2>
-                <button class="access-toggle secretariat-toggle" onclick="toggleSecretariatSection()">
-                    <i class="fas fa-lock"></i>
-                    <span>Déverrouiller le Secrétariat</span>
-                </button>
-                
-                <div class="access-content" id="secretariatContent">
-                    <h3><i class="fas fa-tasks"></i> Zone Secrétariat et Communication</h3>
-                    <p>Veuillez entrer le mot de passe pour accéder aux outils du secrétariat</p>
-                    
-                    <div class="password-input secretariat-password-input">
-                        <input type="password" id="secretariatPasswordInput" placeholder="Mot de passe secrétariat">
-                        <button onclick="checkSecretariatPassword()">Valider</button>
-                    </div>
-                    
-                    <div class="access-links" id="secretariatLinks">
-                        <div class="secretariat-btn-grid">
-                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeHoUZ_Y5fl_Boa6MtcFDjmXw54sFo-CXMqv4GagrmHr2hfdg/viewform?usp=header" class="secretariat-btn" target="_blank">
-                                <span class="secretariat-btn-emoji">📄</span>
-                                <span class="secretariat-btn-text">Écrire PV réunion</span>
-                            </a>
-                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdFwjo69WNzQlrGSI8GQUTP-M8_wXsEVc6T7JogUzoj1V-JlA/viewform?usp=header" class="secretariat-btn" target="_blank">
-                                <span class="secretariat-btn-emoji">📔</span>
-                                <span class="secretariat-btn-text">Écrire Journal de bord</span>
-                            </a>
-                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc8-vDc86ukap_X4BYRQUlpCoIN_59Ugry7XdDZR-QPyRTPxQ/viewform?usp=header" class="secretariat-btn" target="_blank">
-                                <span class="secretariat-btn-emoji">🎵</span>
-                                <span class="secretariat-btn-text">Écrire Fiche chanson</span>
-                            </a>
-                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfrJKU6QpRFo8ni9RVDBPUo8H-Wi-rJzxDXHQNWxoeC2LxL0A/viewform?usp=header" class="secretariat-btn" target="_blank">
-                                <span class="secretariat-btn-emoji">📖</span>
-                                <span class="secretariat-btn-text">Écrire Livre d'or</span>
-                            </a>
-                            <a href="https://docs.google.com/spreadsheets/d/1nBOB3zzWtzXMT86yDt8kY1IsuyQniV5TVfVsc7Kht6M/edit?gid=1755798110#gid=1755798110" class="sheet-btn" target="_blank">
-                                <span class="sheet-btn-emoji">📊</span>
-                                <span class="sheet-btn-text">Accès aux données complètes (Google Sheet)</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <div class="recap-stats" id="recapStats">
+                <!-- Les statistiques seront générées dynamiquement -->
             </div>
         </div>
         
@@ -1439,6 +1653,19 @@
         </div>
     </div>
 
+    <!-- Modal pour mot de passe financier -->
+    <div class="password-modal" id="financePasswordModal">
+        <div class="password-modal-content">
+            <h3><i class="fas fa-lock"></i> Accès Rapport Financier</h3>
+            <p>Veuillez entrer le mot de passe pour accéder au rapport financier</p>
+            <input type="password" id="financePasswordInput" placeholder="Mot de passe financier">
+            <div class="password-modal-buttons">
+                <button class="password-modal-cancel" onclick="closeFinancePasswordModal()">Annuler</button>
+                <button class="password-modal-confirm" onclick="validateFinancePassword()">Valider</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Notifications -->
     <div class="notification finance-notification" id="financeNotification">
         <div class="notification-icon">
@@ -1461,7 +1688,7 @@
     </div>
 
     <script>
-        // URL du Google Sheets (identique au code modèle)
+        // URL du Google Sheets
         const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrF0hs00W-QvR3v5wxZA1ceGEx4xWR0dJv5kF3zgab6YVV00OehcwxYg-EJfOrMqj4IJnDl649SIkg/pub?gid=106676164&single=true&output=csv';
         
         let sheetData = [];
@@ -1469,6 +1696,29 @@
         let currentDate = new Date(2026, 3, 1); // Avril 2026
         let selectedDate = null;
         let secretariatAccess = false;
+        let financeAccess = false;
+
+        // Objet pour mapper les noms de pays aux drapeaux
+        const countryFlags = {
+            'FRANCE': 'flag-france',
+            'ALLEMAGNE': 'flag-germany',
+            'BELGIQUE': 'flag-belgium',
+            'SUISSE': 'flag-switzerland',
+            'ANGLETERRE': 'flag-uk',
+            'WALES': 'flag-wales',
+            'PAYS DE GALLES': 'flag-wales'
+        };
+
+        // Objet pour mapper les noms de pays aux couleurs de bordure
+        const countryColors = {
+            'FRANCE': '#002395',
+            'ALLEMAGNE': '#000000',
+            'BELGIQUE': '#000000',
+            'SUISSE': '#D52B1E',
+            'ANGLETERRE': '#012169',
+            'WALES': '#D21034',
+            'PAYS DE GALLES': '#D21034'
+        };
 
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('prevMonth').addEventListener('click', prevMonth);
@@ -1478,25 +1728,6 @@
             document.getElementById('tryCors').addEventListener('click', () => loadDataFromGoogleSheets('cors'));
             document.getElementById('closeModal').addEventListener('click', closeDateModal);
             
-            // Permettre de valider avec la touche Entrée pour les mots de passe
-            document.getElementById('financePasswordInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    checkFinancePassword();
-                }
-            });
-            
-            document.getElementById('secretariatPasswordInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    checkSecretariatPassword();
-                }
-            });
-            
-            document.getElementById('modalSecretariatPassword').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    checkModalSecretariatPassword();
-                }
-            });
-            
             // Fermer la modal en cliquant à l'extérieur
             document.getElementById('dateModal').addEventListener('click', function(e) {
                 if (e.target === this) {
@@ -1504,79 +1735,67 @@
                 }
             });
             
+            document.getElementById('financePasswordModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeFinancePasswordModal();
+                }
+            });
+            
             // Charger les données depuis Google Sheets avec méthode directe
             loadDataFromGoogleSheets('direct');
         });
 
-        // Fonctions pour la section financière
-        function toggleFinanceSection() {
-            const financeContent = document.getElementById('financeContent');
-            financeContent.style.display = financeContent.style.display === 'block' ? 'none' : 'block';
-        }
-        
-        function checkFinancePassword() {
-            const passwordInput = document.getElementById('financePasswordInput');
-            const financeLinks = document.getElementById('financeLinks');
-            
-            if (passwordInput.value === 'finadmin') {
-                financeLinks.style.display = 'block';
-                passwordInput.style.border = '2px solid #48bb78';
-                showNotification('finance');
+        // Fonctions pour le rapport financier
+        function openFinanceWithPassword() {
+            if (financeAccess) {
+                // Si déjà authentifié, ouvrir directement
+                window.open('https://nyakotour26-del.github.io/Rapport-financier-NyakoFF26/', '_blank');
             } else {
-                financeLinks.style.display = 'none';
-                passwordInput.style.border = '2px solid #e53e3e';
-                alert('Mot de passe incorrect pour le rapport financier');
+                // Sinon, demander le mot de passe
+                document.getElementById('financePasswordModal').style.display = 'flex';
+            }
+        }
+
+        function closeFinancePasswordModal() {
+            document.getElementById('financePasswordModal').style.display = 'none';
+            document.getElementById('financePasswordInput').value = '';
+        }
+
+        function validateFinancePassword() {
+            const password = document.getElementById('financePasswordInput').value;
+            if (password === 'finadmin') {
+                financeAccess = true;
+                closeFinancePasswordModal();
+                showNotification('finance');
+                // Ouvrir le lien après validation
+                setTimeout(() => {
+                    window.open('https://nyakotour26-del.github.io/Rapport-financier-NyakoFF26/', '_blank');
+                }, 500);
+            } else {
+                alert('Mot de passe incorrect');
+                document.getElementById('financePasswordInput').value = '';
             }
         }
 
         // Fonctions pour la section secrétariat
         function toggleSecretariatSection() {
-            const secretariatContent = document.getElementById('secretariatContent');
-            secretariatContent.style.display = secretariatContent.style.display === 'block' ? 'none' : 'block';
-        }
-        
-        function checkSecretariatPassword() {
-            const passwordInput = document.getElementById('secretariatPasswordInput');
-            const secretariatLinks = document.getElementById('secretariatLinks');
+            const mobileContent = document.getElementById('mobileSecretariatContent');
+            const desktopContent = document.getElementById('desktopSecretariatContent');
             
-            if (passwordInput.value === 'admin') {
-                secretariatLinks.style.display = 'block';
-                passwordInput.style.border = '2px solid #48bb78';
-                secretariatAccess = true;
-                updateDateActionButtons();
-                showNotification('secretariat');
+            if (mobileContent.style.display === 'block') {
+                mobileContent.style.display = 'none';
             } else {
-                secretariatLinks.style.display = 'none';
-                passwordInput.style.border = '2px solid #e53e3e';
-                alert('Mot de passe secrétariat incorrect');
+                mobileContent.style.display = 'block';
+            }
+            
+            if (desktopContent.style.display === 'block') {
+                desktopContent.style.display = 'none';
+            } else {
+                desktopContent.style.display = 'block';
             }
         }
 
-        // Fonction pour déverrouiller depuis la modal
-        function checkModalSecretariatPassword() {
-            const passwordInput = document.getElementById('modalSecretariatPassword');
-            
-            if (passwordInput.value === 'admin') {
-                secretariatAccess = true;
-                updateDateActionButtons();
-                showNotification('secretariat');
-                passwordInput.style.border = '2px solid #48bb78';
-                
-                // Mettre à jour aussi la section principale
-                document.getElementById('secretariatLinks').style.display = 'block';
-                document.getElementById('secretariatPasswordInput').style.border = '2px solid #48bb78';
-                
-                // Cacher la section de déverrouillage après succès
-                setTimeout(() => {
-                    document.getElementById('secretariatAccessSection').style.display = 'none';
-                }, 1000);
-            } else {
-                passwordInput.style.border = '2px solid #e53e3e';
-                alert('Mot de passe secrétariat incorrect');
-            }
-        }
-
-        // Fonctions pour les notifications améliorées
+        // Fonctions pour les notifications
         function showNotification(type) {
             const notification = document.getElementById(`${type}Notification`);
             notification.classList.add('show');
@@ -1598,19 +1817,10 @@
             modalLocation.textContent = location || 'Localité non spécifiée';
             modalCountry.textContent = country || 'Pays non spécifié';
             
-            // Réafficher la section de déverrouillage si nécessaire
-            if (!secretariatAccess) {
-                document.getElementById('secretariatAccessSection').style.display = 'block';
-            } else {
-                document.getElementById('secretariatAccessSection').style.display = 'none';
-            }
-            
             modal.classList.add('show');
             setTimeout(() => {
                 modalContent.classList.add('show');
             }, 10);
-            
-            updateDateActionButtons();
         }
         
         function closeDateModal() {
@@ -1622,40 +1832,241 @@
                 modal.classList.remove('show');
             }, 300);
         }
-        
-        function updateDateActionButtons() {
-            const buttons = document.querySelectorAll('.date-action-btn');
-            const lockedIcons = document.querySelectorAll('.date-action-locked');
+
+        // NOUVELLE FONCTION: Générer le récapitulatif par pays
+        function generateRecapByCountry() {
+            const recapContainer = document.getElementById('recapContainer');
+            const noDatesMessage = document.getElementById('noDatesMessage');
+            const recapStats = document.getElementById('recapStats');
             
-            if (secretariatAccess) {
-                buttons.forEach(btn => {
-                    btn.classList.add('active');
-                    btn.style.cursor = 'pointer';
-                });
-                lockedIcons.forEach(icon => {
-                    icon.style.display = 'none';
-                });
-                
-                // Ajouter les événements de clic
-                document.getElementById('pvBtn').onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSeHoUZ_Y5fl_Boa6MtcFDjmXw54sFo-CXMqv4GagrmHr2hfdg/viewform?usp=header', '_blank');
-                document.getElementById('journalBtn').onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSdFwjo69WNzQlrGSI8GQUTP-M8_wXsEVc6T7JogUzoj1V-JlA/viewform?usp=header', '_blank');
-                document.getElementById('chansonBtn').onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSc8-vDc86ukap_X4BYRQUlpCoIN_59Ugry7XdDZR-QPyRTPxQ/viewform?usp=header', '_blank');
-                document.getElementById('livreOrBtn').onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSfrJKU6QpRFo8ni9RVDBPUo8H-Wi-rJzxDXHQNWxoeC2LxL0A/viewform?usp=header', '_blank');
-                
-                // Cacher la section de déverrouillage
-                document.getElementById('secretariatAccessSection').style.display = 'none';
-            } else {
-                buttons.forEach(btn => {
-                    btn.classList.remove('active');
-                    btn.style.cursor = 'not-allowed';
-                });
-                lockedIcons.forEach(icon => {
-                    icon.style.display = 'block';
-                });
-                
-                // Afficher la section de déverrouillage
-                document.getElementById('secretariatAccessSection').style.display = 'block';
+            if (datesWithData.length === 0) {
+                noDatesMessage.style.display = 'block';
+                recapStats.innerHTML = '';
+                return;
             }
+            
+            noDatesMessage.style.display = 'none';
+            
+            // Grouper les dates par pays
+            const datesByCountry = {};
+            datesWithData.forEach(item => {
+                const country = item.pays.toUpperCase();
+                if (!datesByCountry[country]) {
+                    datesByCountry[country] = [];
+                }
+                datesByCountry[country].push(item);
+            });
+            
+            // Ajouter les pays manquants
+            const allCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE', 'PAYS DE GALLES'];
+            allCountries.forEach(country => {
+                if (!datesByCountry[country]) {
+                    datesByCountry[country] = [];
+                }
+            });
+            
+            // Trier les pays dans l'ordre spécifié
+            const countryOrder = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'PAYS DE GALLES', 'ANGLETERRE'];
+            const sortedCountries = countryOrder.filter(country => datesByCountry[country]);
+            
+            // Générer les cartes de pays
+            recapContainer.innerHTML = '';
+            sortedCountries.forEach(country => {
+                const countryCard = document.createElement('div');
+                countryCard.className = 'country-card';
+                countryCard.id = `country-${country.toLowerCase()}`;
+                
+                // Appliquer la couleur de bordure selon le pays
+                const borderColor = countryColors[country] || '#718096';
+                countryCard.style.borderLeftColor = borderColor;
+                
+                const countryDates = datesByCountry[country];
+                
+                // Filtrer les dates avec localité spécifiée
+                const datesWithLocation = countryDates.filter(item => 
+                    item.localite && item.localite.trim() !== '' && 
+                    item.localite.toLowerCase() !== 'localité non spécifiée'
+                );
+                
+                // Trier les dates par ordre chronologique
+                countryDates.sort((a, b) => a.date - b.date);
+                datesWithLocation.sort((a, b) => a.date - b.date);
+                
+                // Calculer les statistiques
+                const concertCount = datesWithLocation.length;
+                const uniqueDays = new Set(countryDates.map(item => item.date.getTime())).size;
+                
+                // Créer le header de la carte
+                const countryHeader = document.createElement('div');
+                countryHeader.className = 'country-header';
+                
+                const countryInfo = document.createElement('div');
+                countryInfo.className = 'country-info';
+                
+                const flagDiv = document.createElement('div');
+                flagDiv.className = `country-flag ${countryFlags[country] || 'flag-france'}`;
+                
+                const countryName = document.createElement('div');
+                countryName.className = 'country-name';
+                countryName.textContent = formatCountryName(country);
+                
+                const countryStats = document.createElement('div');
+                countryStats.className = 'country-stats';
+                countryStats.textContent = `${concertCount} concert${concertCount > 1 ? 's' : ''} - ${uniqueDays} jour${uniqueDays > 1 ? 's' : ''}`;
+                
+                countryInfo.appendChild(flagDiv);
+                countryInfo.appendChild(countryName);
+                countryInfo.appendChild(countryStats);
+                
+                const toggleBtn = document.createElement('button');
+                toggleBtn.className = 'toggle-dates-btn';
+                toggleBtn.innerHTML = '<i class="fas fa-list"></i> Afficher';
+                toggleBtn.onclick = () => toggleCountryDates(country);
+                
+                countryHeader.appendChild(countryInfo);
+                countryHeader.appendChild(toggleBtn);
+                
+                // Créer la période de visite
+                const periodDiv = document.createElement('div');
+                periodDiv.className = 'country-period';
+                
+                if (countryDates.length > 0) {
+                    const firstDate = countryDates[0].date;
+                    const lastDate = countryDates[countryDates.length - 1].date;
+                    
+                    const firstDateFormatted = formatDateForPeriod(firstDate);
+                    const lastDateFormatted = formatDateForPeriod(lastDate);
+                    
+                    periodDiv.innerHTML = `<i class="fas fa-calendar-alt"></i> ${firstDateFormatted} - ${lastDateFormatted}`;
+                } else {
+                    periodDiv.innerHTML = `<i class="fas fa-calendar-alt"></i> Dates à venir`;
+                }
+                
+                // Créer la liste des dates (uniquement celles avec localité spécifiée)
+                const datesList = document.createElement('div');
+                datesList.className = 'country-dates';
+                datesList.id = `dates-${country.toLowerCase()}`;
+                
+                if (datesWithLocation.length > 0) {
+                    datesWithLocation.forEach(dateItem => {
+                        const dateElement = document.createElement('div');
+                        dateElement.className = 'date-item';
+                        
+                        const locationSpan = document.createElement('span');
+                        locationSpan.className = 'date-location';
+                        locationSpan.textContent = dateItem.localite;
+                        
+                        const dateSpan = document.createElement('span');
+                        dateSpan.className = 'date-value';
+                        dateSpan.textContent = formatDateForDisplay(dateItem.date);
+                        
+                        dateElement.appendChild(locationSpan);
+                        dateElement.appendChild(dateSpan);
+                        datesList.appendChild(dateElement);
+                    });
+                } else {
+                    const noLocationMessage = document.createElement('div');
+                    noLocationMessage.className = 'no-dates';
+                    noLocationMessage.textContent = 'Aucune localité spécifiée pour ce pays';
+                    datesList.appendChild(noLocationMessage);
+                }
+                
+                countryCard.appendChild(countryHeader);
+                countryCard.appendChild(periodDiv);
+                countryCard.appendChild(datesList);
+                recapContainer.appendChild(countryCard);
+            });
+            
+            // Générer les statistiques
+            generateStats(datesByCountry, sortedCountries.length);
+        }
+        
+        // Fonction pour afficher/masquer les dates d'un pays
+        function toggleCountryDates(country) {
+            const datesList = document.getElementById(`dates-${country.toLowerCase()}`);
+            const toggleBtn = document.querySelector(`#country-${country.toLowerCase()} .toggle-dates-btn`);
+            
+            if (datesList.classList.contains('show')) {
+                datesList.classList.remove('show');
+                toggleBtn.innerHTML = '<i class="fas fa-list"></i> Afficher';
+            } else {
+                datesList.classList.add('show');
+                toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i> Masquer';
+            }
+        }
+        
+        // Fonction pour formater le nom du pays
+        function formatCountryName(country) {
+            const names = {
+                'SUISSE': 'Suisse',
+                'FRANCE': 'France',
+                'ALLEMAGNE': 'Allemagne',
+                'BELGIQUE': 'Belgique',
+                'WALES': 'Pays de Galles',
+                'PAYS DE GALLES': 'Pays de Galles',
+                'ANGLETERRE': 'Angleterre'
+            };
+            return names[country] || country;
+        }
+        
+        // Fonction pour formater la date pour la période
+        function formatDateForPeriod(date) {
+            const months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 
+                           'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+            
+            const day = date.getDate();
+            const month = months[date.getMonth()];
+            const year = date.getFullYear();
+            
+            return `${day} ${month} ${year}`;
+        }
+        
+        // Fonction pour générer les statistiques
+        function generateStats(datesByCountry, countryCount) {
+            const recapStats = document.getElementById('recapStats');
+            
+            // Calculer le nombre total de dates avec localité spécifiée
+            const totalDatesWithLocation = datesWithData.filter(item => 
+                item.localite && item.localite.trim() !== '' && 
+                item.localite.toLowerCase() !== 'localité non spécifiée'
+            ).length;
+            
+            // Calculer le nombre total de jours uniques
+            const totalUniqueDays = new Set(datesWithData.map(item => item.date.getTime())).size;
+            
+            // Trouver le pays avec le plus de concerts
+            let maxCountry = '';
+            let maxCount = 0;
+            
+            Object.keys(datesByCountry).forEach(country => {
+                const datesWithLocation = datesByCountry[country].filter(item => 
+                    item.localite && item.localite.trim() !== '' && 
+                    item.localite.toLowerCase() !== 'localité non spécifiée'
+                );
+                if (datesWithLocation.length > maxCount) {
+                    maxCount = datesWithLocation.length;
+                    maxCountry = country;
+                }
+            });
+            
+            recapStats.innerHTML = `
+                <div class="stat-item">
+                    <div class="stat-value">${countryCount}</div>
+                    <div class="stat-label">Pays visités</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${totalDatesWithLocation}</div>
+                    <div class="stat-label">Concerts programmés</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${totalUniqueDays}</div>
+                    <div class="stat-label">Jours de tournée</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${formatCountryName(maxCountry)}</div>
+                    <div class="stat-label">Pays le plus visité (${maxCount} concerts)</div>
+                </div>
+            `;
         }
 
         // Le reste du code pour le calendrier reste inchangé
@@ -1825,6 +2236,9 @@
             
             datesWithData.sort((a, b) => a.date - b.date);
             console.log(`📅 ${datesWithData.length} dates avec données trouvées`);
+            
+            // Générer le récapitulatif après extraction des dates
+            generateRecapByCountry();
         }
         
         function parseDate(dateStr) {
