@@ -1843,19 +1843,68 @@
             const sectionType = document.getElementById('secretariatPasswordModal').getAttribute('data-section-type');
             
             if (password === 'admin') {
+                // Déverrouiller l'accès globalement
                 secretariatAccess = true;
                 closeSecretariatPasswordModal();
                 showNotification('secretariat');
                 
-                // Afficher la section correspondante
-                if (sectionType === 'mobile') {
-                    document.getElementById('mobileSecretariatContent').style.display = 'block';
-                } else {
-                    document.getElementById('desktopSecretariatContent').style.display = 'block';
-                }
+                // Déverrouiller toutes les sections secrétariat
+                document.getElementById('mobileSecretariatContent').style.display = 'block';
+                document.getElementById('desktopSecretariatContent').style.display = 'block';
+                
+                // Déverrouiller les boutons dans la modal de date
+                unlockSecretariatButtons();
             } else {
                 alert('Mot de passe incorrect');
                 document.getElementById('secretariatPasswordInput').value = '';
+            }
+        }
+
+        // Fonction pour déverrouiller les boutons dans la modal de date
+        function unlockSecretariatButtons() {
+            const buttons = document.querySelectorAll('.date-action-btn');
+            buttons.forEach(btn => {
+                btn.classList.add('active');
+                btn.style.cursor = 'pointer';
+                const lockIcon = btn.querySelector('.date-action-locked');
+                if (lockIcon) {
+                    lockIcon.innerHTML = '<i class="fas fa-unlock"></i>';
+                }
+                
+                // Ajouter les fonctionnalités aux boutons
+                if (btn.id === 'pvBtn') {
+                    btn.onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSeHoUZ_Y5fl_Boa6MtcFDjmXw54sFo-CXMqv4GagrmHr2hfdg/viewform?usp=header', '_blank');
+                } else if (btn.id === 'journalBtn') {
+                    btn.onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSdFwjo69WNzQlrGSI8GQUTP-M8_wXsEVc6T7JogUzoj1V-JlA/viewform?usp=header', '_blank');
+                } else if (btn.id === 'chansonBtn') {
+                    btn.onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSc8-vDc86ukap_X4BYRQUlpCoIN_59Ugry7XdDZR-QPyRTPxQ/viewform?usp=header', '_blank');
+                } else if (btn.id === 'livreOrBtn') {
+                    btn.onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSfrJKU6QpRFo8ni9RVDBPUo8H-Wi-rJzxDXHQNWxoeC2LxL0A/viewform?usp=header', '_blank');
+                }
+            });
+        }
+
+        // Fonction pour vérifier le mot de passe dans la modal
+        function checkModalSecretariatPassword() {
+            const password = document.getElementById('modalSecretariatPassword').value;
+            
+            if (password === 'admin') {
+                // Déverrouiller l'accès globalement
+                secretariatAccess = true;
+                document.getElementById('modalSecretariatPassword').value = '';
+                
+                // Déverrouiller les boutons dans la modal
+                unlockSecretariatButtons();
+                
+                // Déverrouiller toutes les sections secrétariat
+                document.getElementById('mobileSecretariatContent').style.display = 'block';
+                document.getElementById('desktopSecretariatContent').style.display = 'block';
+                
+                // Afficher une notification
+                showNotification('secretariat');
+            } else {
+                alert('Mot de passe incorrect');
+                document.getElementById('modalSecretariatPassword').value = '';
             }
         }
 
@@ -1880,6 +1929,11 @@
             modalTitle.textContent = formatDateForDisplay(date);
             modalLocation.textContent = location || 'Localité non spécifiée';
             modalCountry.textContent = country || 'Pays non spécifié';
+            
+            // Si l'accès secrétariat est déjà activé, déverrouiller les boutons
+            if (secretariatAccess) {
+                unlockSecretariatButtons();
+            }
             
             modal.classList.add('show');
             setTimeout(() => {
