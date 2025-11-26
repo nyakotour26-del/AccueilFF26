@@ -1055,6 +1055,42 @@
             color: #718096;
         }
         
+        /* Styles pour les statistiques du calendrier */
+        .calendar-stats {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .calendar-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .calendar-stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 12px;
+            border-left: 4px solid #4299e1;
+        }
+        
+        .calendar-stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .calendar-stat-label {
+            font-size: 0.9rem;
+            color: #718096;
+            font-weight: 500;
+        }
+        
         .monuments {
             display: flex;
             justify-content: space-around;
@@ -1281,6 +1317,10 @@
             .toggle-dates-btn {
                 align-self: flex-end;
             }
+            
+            .calendar-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         
         @media (max-width: 600px) {
@@ -1356,6 +1396,10 @@
             .date-action-text {
                 font-size: 0.8rem;
             }
+            
+            .calendar-stats-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         @media (max-width: 350px) {
@@ -1402,7 +1446,7 @@
                         <span class="btn-emoji">💰</span>
                         <span class="btn-text">Rapport Financier</span>
                     </button>
-                    <div class="btn" onclick="toggleSecretariatSection()">
+                    <div class="btn" onclick="openSecretariatWithPassword('mobile')">
                         <span class="btn-emoji">👥</span>
                         <span class="btn-text">Secrétariat & Comm</span>
                     </div>
@@ -1483,7 +1527,7 @@
                                 <span class="btn-emoji">💰</span>
                                 <span class="btn-text">Rapport Financier</span>
                             </button>
-                            <div class="btn" onclick="toggleSecretariatSection()">
+                            <div class="btn" onclick="openSecretariatWithPassword('desktop')">
                                 <span class="btn-emoji">👥</span>
                                 <span class="btn-text">Secrétariat & Comm</span>
                             </div>
@@ -1543,6 +1587,28 @@
                         </div>
                         <div class="calendar-grid" id="calendarGrid">
                             <!-- Le calendrier sera généré ici -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section des statistiques sous le calendrier -->
+                <div class="calendar-stats" id="calendarStats">
+                    <div class="calendar-stats-grid">
+                        <div class="calendar-stat-item">
+                            <div class="calendar-stat-value" id="statsPaysVisites">0</div>
+                            <div class="calendar-stat-label">Pays visités</div>
+                        </div>
+                        <div class="calendar-stat-item">
+                            <div class="calendar-stat-value" id="statsConcertsProgrammes">0</div>
+                            <div class="calendar-stat-label">Concerts programmés</div>
+                        </div>
+                        <div class="calendar-stat-item">
+                            <div class="calendar-stat-value" id="statsJoursTournee">0</div>
+                            <div class="calendar-stat-label">Jours de tournée</div>
+                        </div>
+                        <div class="calendar-stat-item">
+                            <div class="calendar-stat-value" id="statsPaysPlusConcerts">-</div>
+                            <div class="calendar-stat-label">Pays le plus de concerts</div>
                         </div>
                     </div>
                 </div>
@@ -1666,6 +1732,19 @@
         </div>
     </div>
 
+    <!-- Modal pour mot de passe secrétariat -->
+    <div class="password-modal" id="secretariatPasswordModal">
+        <div class="password-modal-content">
+            <h3><i class="fas fa-lock"></i> Accès Secrétariat & Comm</h3>
+            <p>Veuillez entrer le mot de passe pour accéder au secrétariat</p>
+            <input type="password" id="secretariatPasswordInput" placeholder="Mot de passe secrétariat">
+            <div class="password-modal-buttons">
+                <button class="password-modal-cancel" onclick="closeSecretariatPasswordModal()">Annuler</button>
+                <button class="password-modal-confirm" onclick="validateSecretariatPassword()">Valider</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Notifications -->
     <div class="notification finance-notification" id="financeNotification">
         <div class="notification-icon">
@@ -1741,6 +1820,12 @@
                 }
             });
             
+            document.getElementById('secretariatPasswordModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeSecretariatPasswordModal();
+                }
+            });
+            
             // Charger les données depuis Google Sheets avec méthode directe
             loadDataFromGoogleSheets('direct');
         });
@@ -1777,21 +1862,46 @@
             }
         }
 
-        // Fonctions pour la section secrétariat
-        function toggleSecretariatSection() {
-            const mobileContent = document.getElementById('mobileSecretariatContent');
-            const desktopContent = document.getElementById('desktopSecretariatContent');
-            
-            if (mobileContent.style.display === 'block') {
-                mobileContent.style.display = 'none';
+        // Fonctions pour la section secrétariat avec mot de passe
+        function openSecretariatWithPassword(type) {
+            if (secretariatAccess) {
+                // Si déjà authentifié, afficher directement
+                if (type === 'mobile') {
+                    document.getElementById('mobileSecretariatContent').style.display = 'block';
+                } else {
+                    document.getElementById('desktopSecretariatContent').style.display = 'block';
+                }
             } else {
-                mobileContent.style.display = 'block';
+                // Sinon, demander le mot de passe
+                document.getElementById('secretariatPasswordModal').style.display = 'flex';
+                // Stocker le type pour savoir quelle section afficher après authentification
+                document.getElementById('secretariatPasswordModal').setAttribute('data-section-type', type);
             }
+        }
+
+        function closeSecretariatPasswordModal() {
+            document.getElementById('secretariatPasswordModal').style.display = 'none';
+            document.getElementById('secretariatPasswordInput').value = '';
+        }
+
+        function validateSecretariatPassword() {
+            const password = document.getElementById('secretariatPasswordInput').value;
+            const sectionType = document.getElementById('secretariatPasswordModal').getAttribute('data-section-type');
             
-            if (desktopContent.style.display === 'block') {
-                desktopContent.style.display = 'none';
+            if (password === 'admin') {
+                secretariatAccess = true;
+                closeSecretariatPasswordModal();
+                showNotification('secretariat');
+                
+                // Afficher la section correspondante
+                if (sectionType === 'mobile') {
+                    document.getElementById('mobileSecretariatContent').style.display = 'block';
+                } else {
+                    document.getElementById('desktopSecretariatContent').style.display = 'block';
+                }
             } else {
-                desktopContent.style.display = 'block';
+                alert('Mot de passe incorrect');
+                document.getElementById('secretariatPasswordInput').value = '';
             }
         }
 
@@ -1831,6 +1941,54 @@
             setTimeout(() => {
                 modal.classList.remove('show');
             }, 300);
+        }
+
+        // Fonction pour mettre à jour les statistiques du calendrier
+        function updateCalendarStats() {
+            if (datesWithData.length === 0) return;
+            
+            // Calculer les pays visités (uniques)
+            const uniqueCountries = new Set(datesWithData
+                .filter(item => item.pays && item.pays.trim() !== '')
+                .map(item => item.pays.toUpperCase())
+            );
+            
+            // Calculer les concerts programmés (dates avec localité)
+            const concertsProgrammes = datesWithData.filter(item => 
+                item.localite && item.localite.trim() !== '' && 
+                item.localite.toLowerCase() !== 'localité non spécifiée'
+            ).length;
+            
+            // Calculer les jours de tournée uniques
+            const joursTournee = new Set(datesWithData.map(item => item.date.getTime())).size;
+            
+            // Trouver le pays avec le plus de concerts
+            const concertsParPays = {};
+            datesWithData.forEach(item => {
+                if (item.localite && item.localite.trim() !== '' && 
+                    item.localite.toLowerCase() !== 'localité non spécifiée' &&
+                    item.pays && item.pays.trim() !== '') {
+                    
+                    const pays = item.pays.toUpperCase();
+                    concertsParPays[pays] = (concertsParPays[pays] || 0) + 1;
+                }
+            });
+            
+            let paysPlusConcerts = '-';
+            let maxConcerts = 0;
+            
+            Object.keys(concertsParPays).forEach(pays => {
+                if (concertsParPays[pays] > maxConcerts) {
+                    maxConcerts = concertsParPays[pays];
+                    paysPlusConcerts = formatCountryName(pays);
+                }
+            });
+            
+            // Mettre à jour l'interface
+            document.getElementById('statsPaysVisites').textContent = uniqueCountries.size;
+            document.getElementById('statsConcertsProgrammes').textContent = concertsProgrammes;
+            document.getElementById('statsJoursTournee').textContent = joursTournee;
+            document.getElementById('statsPaysPlusConcerts').textContent = paysPlusConcerts;
         }
 
         // NOUVELLE FONCTION: Générer le récapitulatif par pays
@@ -2165,6 +2323,7 @@
                 
                 extractDatesWithData();
                 renderCalendar();
+                updateCalendarStats(); // Mettre à jour les statistiques
                 
             } catch (error) {
                 console.error('❌ Erreur de traitement:', error);
