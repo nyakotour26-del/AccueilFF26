@@ -247,7 +247,6 @@
         /* NOUVEAU: Section d'accès mobile */
         .mobile-access {
             display: none;
-            margin-bottom: 25px;
         }
         
         .desktop-access {
@@ -1025,36 +1024,6 @@
             padding: 20px;
         }
         
-        .recap-stats {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 2px dashed #e2e8f0;
-        }
-        
-        .stat-item {
-            text-align: center;
-            padding: 15px;
-            background: #f7fafc;
-            border-radius: 12px;
-            min-width: 120px;
-        }
-        
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #2d3748;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            color: #718096;
-        }
-        
         /* Styles pour les statistiques du calendrier */
         .calendar-stats {
             margin-top: 20px;
@@ -1294,16 +1263,6 @@
                 grid-template-columns: 1fr;
             }
             
-            .recap-stats {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .stat-item {
-                width: 100%;
-                max-width: 200px;
-            }
-            
             .country-header {
                 flex-direction: column;
                 align-items: flex-start;
@@ -1433,52 +1392,9 @@
                 <div class="flag flag-belgium" title="Belgique"></div>
                 <div class="flag flag-switzerland" title="Suisse"></div>
                 <div class="flag flag-uk" title="Royaume-Uni"></div>
-                <div class="flag flag-wales" title="Pays de Galles"></div>
+                <div class="flag flag-wales" title="Wales"></div>
             </div>
         </header>
-        
-        <!-- Accès mobile (affiché seulement sur mobile) -->
-        <div class="mobile-access">
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-lock"></i> Accès Réservés</h2>
-                <div class="btn-grid">
-                    <button class="btn finance-btn-direct" onclick="openFinanceWithPassword()">
-                        <span class="btn-emoji">💰</span>
-                        <span class="btn-text">Rapport Financier</span>
-                    </button>
-                    <div class="btn" onclick="openSecretariatWithPassword('mobile')">
-                        <span class="btn-emoji">👥</span>
-                        <span class="btn-text">Secrétariat & Comm</span>
-                    </div>
-                </div>
-                
-                <!-- Section secrétariat mobile -->
-                <div class="access-content" id="mobileSecretariatContent" style="display: none; margin-top: 20px;">
-                    <div class="secretariat-btn-grid">
-                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeHoUZ_Y5fl_Boa6MtcFDjmXw54sFo-CXMqv4GagrmHr2hfdg/viewform?usp=header" class="secretariat-btn" target="_blank">
-                            <span class="secretariat-btn-emoji">📄</span>
-                            <span class="secretariat-btn-text">Écrire PV réunion</span>
-                        </a>
-                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdFwjo69WNzQlrGSI8GQUTP-M8_wXsEVc6T7JogUzoj1V-JlA/viewform?usp=header" class="secretariat-btn" target="_blank">
-                            <span class="secretariat-btn-emoji">📔</span>
-                            <span class="secretariat-btn-text">Écrire Journal de bord</span>
-                        </a>
-                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc8-vDc86ukap_X4BYRQUlpCoIN_59Ugry7XdDZR-QPyRTPxQ/viewform?usp=header" class="secretariat-btn" target="_blank">
-                            <span class="secretariat-btn-emoji">🎵</span>
-                            <span class="secretariat-btn-text">Écrire Fiche chanson</span>
-                        </a>
-                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfrJKU6QpRFo8ni9RVDBPUo8H-Wi-rJzxDXHQNWxoeC2LxL0A/viewform?usp=header" class="secretariat-btn" target="_blank">
-                            <span class="secretariat-btn-emoji">📖</span>
-                            <span class="secretariat-btn-text">Écrire Livre d'or</span>
-                        </a>
-                        <a href="https://docs.google.com/spreadsheets/d/1nBOB3zzWtzXMT86yDt8kY1IsuyQniV5TVfVsc7Kht6M/edit?gid=1755798110#gid=1755798110" class="sheet-btn" target="_blank">
-                            <span class="sheet-btn-emoji">📊</span>
-                            <span class="sheet-btn-text">Accès aux données complètes</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
         
         <div class="main-content">
             <div class="sections-container">
@@ -1515,6 +1431,49 @@
                             <span class="btn-emoji">🏠</span>
                             <span class="btn-text">Fiche pour remplir Hébergeurs</span>
                         </a>
+                    </div>
+                </div>
+                
+                <!-- Accès mobile (affiché seulement sur mobile) -->
+                <div class="mobile-access">
+                    <div class="section">
+                        <h2 class="section-title"><i class="fas fa-lock"></i> Accès Réservés</h2>
+                        <div class="btn-grid">
+                            <button class="btn finance-btn-direct" onclick="openFinanceWithPassword()">
+                                <span class="btn-emoji">💰</span>
+                                <span class="btn-text">Rapport Financier</span>
+                            </button>
+                            <div class="btn" onclick="openSecretariatWithPassword('mobile')">
+                                <span class="btn-emoji">👥</span>
+                                <span class="btn-text">Secrétariat & Comm</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Section secrétariat mobile -->
+                        <div class="access-content" id="mobileSecretariatContent" style="display: none; margin-top: 20px;">
+                            <div class="secretariat-btn-grid">
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeHoUZ_Y5fl_Boa6MtcFDjmXw54sFo-CXMqv4GagrmHr2hfdg/viewform?usp=header" class="secretariat-btn" target="_blank">
+                                    <span class="secretariat-btn-emoji">📄</span>
+                                    <span class="secretariat-btn-text">Écrire PV réunion</span>
+                                </a>
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdFwjo69WNzQlrGSI8GQUTP-M8_wXsEVc6T7JogUzoj1V-JlA/viewform?usp=header" class="secretariat-btn" target="_blank">
+                                    <span class="secretariat-btn-emoji">📔</span>
+                                    <span class="secretariat-btn-text">Écrire Journal de bord</span>
+                                </a>
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc8-vDc86ukap_X4BYRQUlpCoIN_59Ugry7XdDZR-QPyRTPxQ/viewform?usp=header" class="secretariat-btn" target="_blank">
+                                    <span class="secretariat-btn-emoji">🎵</span>
+                                    <span class="secretariat-btn-text">Écrire Fiche chanson</span>
+                                </a>
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfrJKU6QpRFo8ni9RVDBPUo8H-Wi-rJzxDXHQNWxoeC2LxL0A/viewform?usp=header" class="secretariat-btn" target="_blank">
+                                    <span class="secretariat-btn-emoji">📖</span>
+                                    <span class="secretariat-btn-text">Écrire Livre d'or</span>
+                                </a>
+                                <a href="https://docs.google.com/spreadsheets/d/1nBOB3zzWtzXMT86yDt8kY1IsuyQniV5TVfVsc7Kht6M/edit?gid=1755798110#gid=1755798110" class="sheet-btn" target="_blank">
+                                    <span class="sheet-btn-emoji">📊</span>
+                                    <span class="sheet-btn-text">Accès aux données complètes</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -1626,9 +1585,6 @@
                 <div class="no-dates" id="noDatesMessage">
                     Aucune donnée de tournée disponible. Veuillez charger les données du calendrier.
                 </div>
-            </div>
-            <div class="recap-stats" id="recapStats">
-                <!-- Les statistiques seront générées dynamiquement -->
             </div>
         </div>
         
@@ -1784,8 +1740,7 @@
             'BELGIQUE': 'flag-belgium',
             'SUISSE': 'flag-switzerland',
             'ANGLETERRE': 'flag-uk',
-            'WALES': 'flag-wales',
-            'PAYS DE GALLES': 'flag-wales'
+            'WALES': 'flag-wales'
         };
 
         // Objet pour mapper les noms de pays aux couleurs de bordure
@@ -1795,8 +1750,7 @@
             'BELGIQUE': '#000000',
             'SUISSE': '#D52B1E',
             'ANGLETERRE': '#012169',
-            'WALES': '#D21034',
-            'PAYS DE GALLES': '#D21034'
+            'WALES': '#D21034'
         };
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -1995,11 +1949,9 @@
         function generateRecapByCountry() {
             const recapContainer = document.getElementById('recapContainer');
             const noDatesMessage = document.getElementById('noDatesMessage');
-            const recapStats = document.getElementById('recapStats');
             
             if (datesWithData.length === 0) {
                 noDatesMessage.style.display = 'block';
-                recapStats.innerHTML = '';
                 return;
             }
             
@@ -2016,7 +1968,7 @@
             });
             
             // Ajouter les pays manquants
-            const allCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE', 'PAYS DE GALLES'];
+            const allCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
             allCountries.forEach(country => {
                 if (!datesByCountry[country]) {
                     datesByCountry[country] = [];
@@ -2024,7 +1976,7 @@
             });
             
             // Trier les pays dans l'ordre spécifié
-            const countryOrder = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'PAYS DE GALLES', 'ANGLETERRE'];
+            const countryOrder = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
             const sortedCountries = countryOrder.filter(country => datesByCountry[country]);
             
             // Générer les cartes de pays
@@ -2134,9 +2086,6 @@
                 countryCard.appendChild(datesList);
                 recapContainer.appendChild(countryCard);
             });
-            
-            // Générer les statistiques
-            generateStats(datesByCountry, sortedCountries.length);
         }
         
         // Fonction pour afficher/masquer les dates d'un pays
@@ -2160,8 +2109,7 @@
                 'FRANCE': 'France',
                 'ALLEMAGNE': 'Allemagne',
                 'BELGIQUE': 'Belgique',
-                'WALES': 'Pays de Galles',
-                'PAYS DE GALLES': 'Pays de Galles',
+                'WALES': 'Wales',
                 'ANGLETERRE': 'Angleterre'
             };
             return names[country] || country;
@@ -2177,54 +2125,6 @@
             const year = date.getFullYear();
             
             return `${day} ${month} ${year}`;
-        }
-        
-        // Fonction pour générer les statistiques
-        function generateStats(datesByCountry, countryCount) {
-            const recapStats = document.getElementById('recapStats');
-            
-            // Calculer le nombre total de dates avec localité spécifiée
-            const totalDatesWithLocation = datesWithData.filter(item => 
-                item.localite && item.localite.trim() !== '' && 
-                item.localite.toLowerCase() !== 'localité non spécifiée'
-            ).length;
-            
-            // Calculer le nombre total de jours uniques
-            const totalUniqueDays = new Set(datesWithData.map(item => item.date.getTime())).size;
-            
-            // Trouver le pays avec le plus de concerts
-            let maxCountry = '';
-            let maxCount = 0;
-            
-            Object.keys(datesByCountry).forEach(country => {
-                const datesWithLocation = datesByCountry[country].filter(item => 
-                    item.localite && item.localite.trim() !== '' && 
-                    item.localite.toLowerCase() !== 'localité non spécifiée'
-                );
-                if (datesWithLocation.length > maxCount) {
-                    maxCount = datesWithLocation.length;
-                    maxCountry = country;
-                }
-            });
-            
-            recapStats.innerHTML = `
-                <div class="stat-item">
-                    <div class="stat-value">${countryCount}</div>
-                    <div class="stat-label">Pays visités</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">${totalDatesWithLocation}</div>
-                    <div class="stat-label">Concerts programmés</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">${totalUniqueDays}</div>
-                    <div class="stat-label">Jours de tournée</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">${formatCountryName(maxCountry)}</div>
-                    <div class="stat-label">Pays le plus visité (${maxCount} concerts)</div>
-                </div>
-            `;
         }
 
         // Le reste du code pour le calendrier reste inchangé
