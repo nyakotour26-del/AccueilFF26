@@ -744,6 +744,7 @@
             font-size: 0.95rem;
         }
         
+        /* NOUVEAU: Changement du titre */
         .date-details {
             background: white;
             border-radius: 12px;
@@ -790,6 +791,7 @@
             border-left: 3px solid #4299e1;
         }
         
+        /* NOUVEAU: Les boutons en 2 colonnes sur mobile */
         .date-actions {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -1047,6 +1049,7 @@
             background: #f7fafc;
             border-radius: 8px;
             transition: background 0.2s;
+            cursor: pointer;
         }
         
         .date-item:hover {
@@ -1056,11 +1059,13 @@
         .date-location {
             font-weight: 500;
             color: #2d3748;
+            cursor: pointer;
         }
         
         .date-value {
             color: #4a5568;
             font-weight: 500;
+            cursor: pointer;
         }
         
         .no-dates {
@@ -1226,6 +1231,133 @@
             color: #4a5568;
         }
         
+        /* NOUVEAU: Modal pour les détails d'une date dans le récapitulatif */
+        .recap-date-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .recap-date-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.7);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+        }
+        
+        .recap-date-modal.show {
+            display: flex;
+        }
+        
+        .recap-date-modal-content.show {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .recap-date-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+        
+        .recap-date-modal-title {
+            font-size: 1.3rem;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .recap-date-info-modal {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4299e1;
+        }
+        
+        .recap-date-location {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .recap-date-country {
+            color: #718096;
+            font-size: 0.95rem;
+        }
+        
+        .recap-date-details {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .recap-date-details-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+        
+        .recap-date-details-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        
+        .recap-date-detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .recap-date-detail-label {
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+        
+        .recap-date-detail-value {
+            color: #2d3748;
+            padding: 8px 12px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-left: 3px solid #4299e1;
+        }
+        
         /* Media Queries - AMÉLIORÉES */
         @media (max-width: 900px) {
             .main-content {
@@ -1274,8 +1406,9 @@
                 font-size: 2rem;
             }
             
+            /* Les boutons restent en 2 colonnes sur mobile comme demandé */
             .date-actions {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
             }
             
@@ -1677,17 +1810,18 @@
                 <div class="date-country" id="modalCountry"></div>
             </div>
             
-            <!-- NOUVELLE SECTION: Détails du programme du jour -->
+            <!-- CHANGÉ: "Détails infos jour" au lieu de "Programme du jour" -->
             <div class="date-details" id="dateDetails">
                 <div class="date-details-title">
                     <i class="fas fa-info-circle"></i>
-                    Programme du jour
+                    Détails infos jour
                 </div>
                 <div class="date-details-grid" id="dateDetailsGrid">
                     <!-- Les détails seront ajoutés dynamiquement ici -->
                 </div>
             </div>
             
+            <!-- Les boutons restent en 2 colonnes sur mobile -->
             <div class="date-actions" id="dateActions">
                 <div class="date-action-btn" id="pvBtn">
                     <span class="date-action-emoji">📄</span>
@@ -1724,6 +1858,36 @@
                 <div class="secretariat-access-note">
                     <i class="fas fa-info-circle"></i>
                     Connectez-vous pour activer les fonctionnalités du secrétariat
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOUVELLE MODAL pour les détails d'une date dans le récapitulatif -->
+    <div class="recap-date-modal" id="recapDateModal">
+        <div class="recap-date-modal-content" id="recapDateModalContent">
+            <div class="recap-date-modal-header">
+                <h3 class="recap-date-modal-title">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="recapModalDateTitle">Détails du concert</span>
+                </h3>
+                <button class="close-modal" id="closeRecapModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="recap-date-info-modal">
+                <div class="recap-date-location" id="recapModalLocation"></div>
+                <div class="recap-date-country" id="recapModalCountry"></div>
+            </div>
+            
+            <div class="recap-date-details" id="recapDateDetails">
+                <div class="recap-date-details-title">
+                    <i class="fas fa-info-circle"></i>
+                    Détails infos jour
+                </div>
+                <div class="recap-date-details-grid" id="recapDateDetailsGrid">
+                    <!-- Les détails seront ajoutés dynamiquement ici -->
                 </div>
             </div>
         </div>
@@ -1800,11 +1964,18 @@
             document.getElementById('tryProxy').addEventListener('click', () => loadDataFromGoogleSheets('proxy'));
             document.getElementById('tryCors').addEventListener('click', () => loadDataFromGoogleSheets('cors'));
             document.getElementById('closeModal').addEventListener('click', closeDateModal);
+            document.getElementById('closeRecapModal').addEventListener('click', closeRecapDateModal);
             
-            // Fermer la modal en cliquant à l'extérieur
+            // Fermer les modals en cliquant à l'extérieur
             document.getElementById('dateModal').addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeDateModal();
+                }
+            });
+            
+            document.getElementById('recapDateModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeRecapDateModal();
                 }
             });
             
@@ -2057,6 +2228,97 @@
             }, 300);
         }
 
+        // NOUVELLES FONCTIONS pour la modal du récapitulatif
+        function showRecapDateModal(dateInfo) {
+            const modal = document.getElementById('recapDateModal');
+            const modalContent = document.getElementById('recapDateModalContent');
+            const modalTitle = document.getElementById('recapModalDateTitle');
+            const modalLocation = document.getElementById('recapModalLocation');
+            const modalCountry = document.getElementById('recapModalCountry');
+            const dateDetails = document.getElementById('recapDateDetails');
+            const dateDetailsGrid = document.getElementById('recapDateDetailsGrid');
+            
+            modalTitle.textContent = formatDateForDisplay(dateInfo.date);
+            modalLocation.textContent = dateInfo.localite || 'Localité non spécifiée';
+            modalCountry.textContent = dateInfo.pays || 'Pays non spécifié';
+            
+            // Récupérer les données détaillées pour cette date
+            const dateData = getDetailedDateData(dateInfo.date);
+            
+            // Afficher ou masquer la section des détails selon les données disponibles
+            if (dateData && hasDetailedData(dateData)) {
+                dateDetails.style.display = 'block';
+                displayRecapDateDetails(dateDetailsGrid, dateData);
+            } else {
+                dateDetails.style.display = 'none';
+            }
+            
+            modal.classList.add('show');
+            setTimeout(() => {
+                modalContent.classList.add('show');
+            }, 10);
+        }
+        
+        function displayRecapDateDetails(container, dateData) {
+            container.innerHTML = '';
+            
+            // Colonnes à afficher selon vos spécifications
+            const detailsToShow = [
+                { label: 'LIEU', key: 'LIEU' },
+                { label: 'HEURES', key: 'HEURES' },
+                { label: 'ADRESSE ET/OU CONTACT', key: 'ADRESSE ET/OU CONTACT' },
+                { label: 'HEBERGEMENT', key: 'HEBERGEMENT' },
+                { label: 'SITE', key: 'SITE' }
+            ];
+            
+            let hasAnyData = false;
+            
+            detailsToShow.forEach(detail => {
+                const colIndex = columnMapping[detail.key];
+                let value = dateData[colIndex] || '';
+                
+                // Nettoyer les unités monétaires
+                value = cleanMonetaryUnits(value);
+                
+                // Ne pas afficher les champs vides
+                if (value.trim() !== '') {
+                    hasAnyData = true;
+                    const detailItem = document.createElement('div');
+                    detailItem.className = 'recap-date-detail-item';
+                    
+                    const label = document.createElement('div');
+                    label.className = 'recap-date-detail-label';
+                    label.textContent = detail.label;
+                    
+                    const valueDiv = document.createElement('div');
+                    valueDiv.className = 'recap-date-detail-value';
+                    valueDiv.textContent = value;
+                    
+                    detailItem.appendChild(label);
+                    detailItem.appendChild(valueDiv);
+                    container.appendChild(detailItem);
+                }
+            });
+            
+            // Si aucun détail n'est affiché, montrer un message
+            if (!hasAnyData) {
+                const noDetails = document.createElement('div');
+                noDetails.className = 'recap-date-detail-item';
+                noDetails.innerHTML = '<div class="recap-date-detail-value" style="text-align: center; font-style: italic; color: #718096;">Aucun détail supplémentaire disponible pour cette date</div>';
+                container.appendChild(noDetails);
+            }
+        }
+        
+        function closeRecapDateModal() {
+            const modal = document.getElementById('recapDateModal');
+            const modalContent = document.getElementById('recapDateModalContent');
+            
+            modalContent.classList.remove('show');
+            setTimeout(() => {
+                modal.classList.remove('show');
+            }, 300);
+        }
+
         // Fonction pour mettre à jour les statistiques du calendrier
         function updateCalendarStats() {
             if (datesWithData.length === 0) return;
@@ -2067,24 +2329,43 @@
                 .map(item => item.pays.toUpperCase())
             );
             
-            // Calculer les concerts programmés (dates avec localité)
-            const concertsProgrammes = datesWithData.filter(item => 
-                item.localite && item.localite.trim() !== '' && 
-                item.localite.toLowerCase() !== 'localité non spécifiée'
-            ).length;
+            // Calculer les concerts programmés (dates avec localité, excluant RETOUR MADAGASCAR)
+            const concertsProgrammes = datesWithData.filter(item => {
+                const localite = item.localite ? item.localite.trim() : '';
+                const pays = item.pays ? item.pays.trim() : '';
+                
+                // Exclure "RETOUR MADAGASCAR"
+                if (localite.toUpperCase().includes('RETOUR MADAGASCAR') || 
+                    localite.toUpperCase().includes('MADAGASCAR')) {
+                    return false;
+                }
+                
+                return localite !== '' && 
+                       localite.toLowerCase() !== 'localité non spécifiée' &&
+                       pays !== '';
+            }).length;
             
             // Calculer les jours de tournée uniques
             const joursTournee = new Set(datesWithData.map(item => item.date.getTime())).size;
             
-            // Trouver le pays avec le plus de concerts
+            // Trouver le pays avec le plus de concerts (en excluant RETOUR MADAGASCAR)
             const concertsParPays = {};
             datesWithData.forEach(item => {
-                if (item.localite && item.localite.trim() !== '' && 
-                    item.localite.toLowerCase() !== 'localité non spécifiée' &&
-                    item.pays && item.pays.trim() !== '') {
+                const localite = item.localite ? item.localite.trim() : '';
+                const pays = item.pays ? item.pays.trim() : '';
+                
+                // Exclure "RETOUR MADAGASCAR"
+                if (localite.toUpperCase().includes('RETOUR MADAGASCAR') || 
+                    localite.toUpperCase().includes('MADAGASCAR')) {
+                    return;
+                }
+                
+                if (localite !== '' && 
+                    localite.toLowerCase() !== 'localité non spécifiée' &&
+                    pays !== '') {
                     
-                    const pays = item.pays.toUpperCase();
-                    concertsParPays[pays] = (concertsParPays[pays] || 0) + 1;
+                    const paysUpper = pays.toUpperCase();
+                    concertsParPays[paysUpper] = (concertsParPays[paysUpper] || 0) + 1;
                 }
             });
             
@@ -2152,11 +2433,19 @@
                 
                 const countryDates = datesByCountry[country];
                 
-                // Filtrer les dates avec localité spécifiée
-                const datesWithLocation = countryDates.filter(item => 
-                    item.localite && item.localite.trim() !== '' && 
-                    item.localite.toLowerCase() !== 'localité non spécifiée'
-                );
+                // Filtrer les dates avec localité spécifiée (en excluant RETOUR MADAGASCAR)
+                const datesWithLocation = countryDates.filter(item => {
+                    const localite = item.localite ? item.localite.trim() : '';
+                    
+                    // Exclure "RETOUR MADAGASCAR"
+                    if (localite.toUpperCase().includes('RETOUR MADAGASCAR') || 
+                        localite.toUpperCase().includes('MADAGASCAR')) {
+                        return false;
+                    }
+                    
+                    return localite !== '' && 
+                           localite.toLowerCase() !== 'localité non spécifiée';
+                });
                 
                 // Trier les dates par ordre chronologique
                 countryDates.sort((a, b) => a.date - b.date);
@@ -2225,10 +2514,12 @@
                         const locationSpan = document.createElement('span');
                         locationSpan.className = 'date-location';
                         locationSpan.textContent = dateItem.localite;
+                        locationSpan.onclick = () => showRecapDateModal(dateItem);
                         
                         const dateSpan = document.createElement('span');
                         dateSpan.className = 'date-value';
                         dateSpan.textContent = formatDateForDisplay(dateItem.date);
+                        dateSpan.onclick = () => showRecapDateModal(dateItem);
                         
                         dateElement.appendChild(locationSpan);
                         dateElement.appendChild(dateSpan);
