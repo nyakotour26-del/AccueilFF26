@@ -662,7 +662,7 @@
             border-radius: 20px;
             padding: 25px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 500px;
+            max-width: 600px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -742,6 +742,52 @@
         .date-country {
             color: #718096;
             font-size: 0.95rem;
+        }
+        
+        .date-details {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .date-details-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+        
+        .date-details-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        
+        .date-detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .date-detail-label {
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+        
+        .date-detail-value {
+            color: #2d3748;
+            padding: 8px 12px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-left: 3px solid #4299e1;
         }
         
         .date-actions {
@@ -1421,6 +1467,11 @@
                             <span class="btn-emoji">📖</span>
                             <span class="btn-text">Livre d'or</span>
                         </a>
+                        <!-- NOUVEAU: Bouton Rapport Financier dans Informations générales -->
+                        <a href="https://nyakotour26-del.github.io/Rapport-financier-NyakoFF26/" class="btn finance-btn-direct" target="_blank" style="background: linear-gradient(135deg, #ed8936, #dd771c); color: white;">
+                            <span class="btn-emoji">💰</span>
+                            <span class="btn-text">Rapport Financier</span>
+                        </a>
                     </div>
                 </div>
                 
@@ -1439,10 +1490,6 @@
                     <div class="section">
                         <h2 class="section-title"><i class="fas fa-lock"></i> Accès Réservés</h2>
                         <div class="btn-grid">
-                            <button class="btn finance-btn-direct" onclick="openFinanceWithPassword()">
-                                <span class="btn-emoji">💰</span>
-                                <span class="btn-text">Rapport Financier</span>
-                            </button>
                             <div class="btn" onclick="openSecretariatWithPassword('mobile')">
                                 <span class="btn-emoji">👥</span>
                                 <span class="btn-text">Secrétariat & Comm</span>
@@ -1456,7 +1503,7 @@
                                     <span class="secretariat-btn-emoji">📄</span>
                                     <span class="secretariat-btn-text">Écrire PV réunion</span>
                                 </a>
-                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdFwjo69WNzQlrGSI8GQUTP-M8_wXsEVc6T7JogUzoj1V-JlA/viewform?usp=header" class="secretariat-btn" target="_blank">
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header" class="secretariat-btn" target="_blank">
                                     <span class="secretariat-btn-emoji">📔</span>
                                     <span class="secretariat-btn-text">Écrire Journal de bord</span>
                                 </a>
@@ -1482,10 +1529,6 @@
                     <div class="section">
                         <h2 class="section-title"><i class="fas fa-lock"></i> Accès Réservés</h2>
                         <div class="btn-grid">
-                            <button class="btn finance-btn-direct" onclick="openFinanceWithPassword()">
-                                <span class="btn-emoji">💰</span>
-                                <span class="btn-text">Rapport Financier</span>
-                            </button>
                             <div class="btn" onclick="openSecretariatWithPassword('desktop')">
                                 <span class="btn-emoji">👥</span>
                                 <span class="btn-text">Secrétariat & Comm</span>
@@ -1499,7 +1542,7 @@
                                     <span class="secretariat-btn-emoji">📄</span>
                                     <span class="secretariat-btn-text">Écrire PV réunion</span>
                                 </a>
-                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdFwjo69WNzQlrGSI8GQUTP-M8_wXsEVc6T7JogUzoj1V-JlA/viewform?usp=header" class="secretariat-btn" target="_blank">
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header" class="secretariat-btn" target="_blank">
                                     <span class="secretariat-btn-emoji">📔</span>
                                     <span class="secretariat-btn-text">Écrire Journal de bord</span>
                                 </a>
@@ -1634,6 +1677,17 @@
                 <div class="date-country" id="modalCountry"></div>
             </div>
             
+            <!-- NOUVELLE SECTION: Détails du programme du jour -->
+            <div class="date-details" id="dateDetails">
+                <div class="date-details-title">
+                    <i class="fas fa-info-circle"></i>
+                    Programme du jour
+                </div>
+                <div class="date-details-grid" id="dateDetailsGrid">
+                    <!-- Les détails seront ajoutés dynamiquement ici -->
+                </div>
+            </div>
+            
             <div class="date-actions" id="dateActions">
                 <div class="date-action-btn" id="pvBtn">
                     <span class="date-action-emoji">📄</span>
@@ -1675,19 +1729,6 @@
         </div>
     </div>
 
-    <!-- Modal pour mot de passe financier -->
-    <div class="password-modal" id="financePasswordModal">
-        <div class="password-modal-content">
-            <h3><i class="fas fa-lock"></i> Accès Rapport Financier</h3>
-            <p>Veuillez entrer le mot de passe pour accéder au rapport financier</p>
-            <input type="password" id="financePasswordInput" placeholder="Mot de passe financier">
-            <div class="password-modal-buttons">
-                <button class="password-modal-cancel" onclick="closeFinancePasswordModal()">Annuler</button>
-                <button class="password-modal-confirm" onclick="validateFinancePassword()">Valider</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Modal pour mot de passe secrétariat -->
     <div class="password-modal" id="secretariatPasswordModal">
         <div class="password-modal-content">
@@ -1702,16 +1743,6 @@
     </div>
 
     <!-- Notifications -->
-    <div class="notification finance-notification" id="financeNotification">
-        <div class="notification-icon">
-            <i class="fas fa-check-circle"></i>
-        </div>
-        <div class="notification-content">
-            <div class="notification-title">Accès Autorisé</div>
-            <div class="notification-message">Rapport financier déverrouillé avec succès</div>
-        </div>
-    </div>
-
     <div class="notification secretariat-notification" id="secretariatNotification">
         <div class="notification-icon">
             <i class="fas fa-check-circle"></i>
@@ -1731,7 +1762,6 @@
         let currentDate = new Date(2026, 3, 1); // Avril 2026
         let selectedDate = null;
         let secretariatAccess = false;
-        let financeAccess = false;
 
         // Objet pour mapper les noms de pays aux drapeaux
         const countryFlags = {
@@ -1753,6 +1783,16 @@
             'WALES': '#D21034'
         };
 
+        // Mapping des colonnes pour les détails du programme selon vos spécifications
+        // X = 23, Y = 24, Z = 25, AA = 26, AB = 27 (si A=0, B=1, etc.)
+        const columnMapping = {
+            'LIEU': 23,           // Colonne X
+            'HEURES': 24,         // Colonne Y
+            'ADRESSE ET/OU CONTACT': 25,  // Colonne Z
+            'HEBERGEMENT': 26,    // Colonne AA
+            'SITE': 27            // Colonne AB
+        };
+
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('prevMonth').addEventListener('click', prevMonth);
             document.getElementById('nextMonth').addEventListener('click', nextMonth);
@@ -1768,12 +1808,6 @@
                 }
             });
             
-            document.getElementById('financePasswordModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeFinancePasswordModal();
-                }
-            });
-            
             document.getElementById('secretariatPasswordModal').addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeSecretariatPasswordModal();
@@ -1783,38 +1817,6 @@
             // Charger les données depuis Google Sheets avec méthode directe
             loadDataFromGoogleSheets('direct');
         });
-
-        // Fonctions pour le rapport financier
-        function openFinanceWithPassword() {
-            if (financeAccess) {
-                // Si déjà authentifié, ouvrir directement
-                window.open('https://nyakotour26-del.github.io/Rapport-financier-NyakoFF26/', '_blank');
-            } else {
-                // Sinon, demander le mot de passe
-                document.getElementById('financePasswordModal').style.display = 'flex';
-            }
-        }
-
-        function closeFinancePasswordModal() {
-            document.getElementById('financePasswordModal').style.display = 'none';
-            document.getElementById('financePasswordInput').value = '';
-        }
-
-        function validateFinancePassword() {
-            const password = document.getElementById('financePasswordInput').value;
-            if (password === 'finadmin') {
-                financeAccess = true;
-                closeFinancePasswordModal();
-                showNotification('finance');
-                // Ouvrir le lien après validation
-                setTimeout(() => {
-                    window.open('https://nyakotour26-del.github.io/Rapport-financier-NyakoFF26/', '_blank');
-                }, 500);
-            } else {
-                alert('Mot de passe incorrect');
-                document.getElementById('financePasswordInput').value = '';
-            }
-        }
 
         // Fonctions pour la section secrétariat avec mot de passe
         function openSecretariatWithPassword(type) {
@@ -1875,7 +1877,7 @@
                 if (btn.id === 'pvBtn') {
                     btn.onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSeHoUZ_Y5fl_Boa6MtcFDjmXw54sFo-CXMqv4GagrmHr2hfdg/viewform?usp=header', '_blank');
                 } else if (btn.id === 'journalBtn') {
-                    btn.onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSdFwjo69WNzQlrGSI8GQUTP-M8_wXsEVc6T7JogUzoj1V-JlA/viewform?usp=header', '_blank');
+                    btn.onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header', '_blank');
                 } else if (btn.id === 'chansonBtn') {
                     btn.onclick = () => window.open('https://docs.google.com/forms/d/e/1FAIpQLSc8-vDc86ukap_X4BYRQUlpCoIN_59Ugry7XdDZR-QPyRTPxQ/viewform?usp=header', '_blank');
                 } else if (btn.id === 'livreOrBtn') {
@@ -1918,6 +1920,18 @@
             }, 4000);
         }
 
+        // Fonction pour nettoyer les unités monétaires
+        function cleanMonetaryUnits(text) {
+            if (!text) return '';
+            
+            // Supprimer les symboles monétaires courants et les formats de prix
+            return text
+                .replace(/€|\$|£|CHF|EUR|USD|GBP/g, '')  // Supprimer les symboles de devises
+                .replace(/\d+[\.,]\d{2}/g, '')           // Supprimer les prix (ex: 12.50, 12,50)
+                .replace(/\s+/g, ' ')                    // Normaliser les espaces
+                .trim();
+        }
+
         // Fonctions pour la modal de date
         function showDateModal(date, location, country) {
             const modal = document.getElementById('dateModal');
@@ -1925,10 +1939,23 @@
             const modalTitle = document.getElementById('modalDateTitle');
             const modalLocation = document.getElementById('modalLocation');
             const modalCountry = document.getElementById('modalCountry');
+            const dateDetails = document.getElementById('dateDetails');
+            const dateDetailsGrid = document.getElementById('dateDetailsGrid');
             
             modalTitle.textContent = formatDateForDisplay(date);
             modalLocation.textContent = location || 'Localité non spécifiée';
             modalCountry.textContent = country || 'Pays non spécifié';
+            
+            // Récupérer les données détaillées pour cette date
+            const dateData = getDetailedDateData(date);
+            
+            // Afficher ou masquer la section des détails selon les données disponibles
+            if (dateData && hasDetailedData(dateData)) {
+                dateDetails.style.display = 'block';
+                displayDateDetails(dateDetailsGrid, dateData);
+            } else {
+                dateDetails.style.display = 'none';
+            }
             
             // Si l'accès secrétariat est déjà activé, déverrouiller les boutons
             if (secretariatAccess) {
@@ -1939,6 +1966,85 @@
             setTimeout(() => {
                 modalContent.classList.add('show');
             }, 10);
+        }
+        
+        function getDetailedDateData(date) {
+            const matchingDates = datesWithData.filter(item => 
+                item.date.getDate() === date.getDate() &&
+                item.date.getMonth() === date.getMonth() &&
+                item.date.getFullYear() === date.getFullYear()
+            );
+            
+            if (matchingDates.length > 0) {
+                const rowIndex = matchingDates[0].rowIndex;
+                if (sheetData[rowIndex]) {
+                    return sheetData[rowIndex];
+                }
+            }
+            return null;
+        }
+        
+        function hasDetailedData(dateData) {
+            // Vérifier s'il y a des données dans les colonnes spécifiées
+            const columnsToCheck = ['LIEU', 'HEURES', 'ADRESSE ET/OU CONTACT', 'HEBERGEMENT', 'SITE'];
+            
+            for (let key of columnsToCheck) {
+                const colIndex = columnMapping[key];
+                if (dateData[colIndex] && dateData[colIndex].trim() !== '') {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        function displayDateDetails(container, dateData) {
+            container.innerHTML = '';
+            
+            // Colonnes à afficher selon vos spécifications
+            const detailsToShow = [
+                { label: 'LIEU', key: 'LIEU' },
+                { label: 'HEURES', key: 'HEURES' },
+                { label: 'ADRESSE ET/OU CONTACT', key: 'ADRESSE ET/OU CONTACT' },
+                { label: 'HEBERGEMENT', key: 'HEBERGEMENT' },
+                { label: 'SITE', key: 'SITE' }
+            ];
+            
+            let hasAnyData = false;
+            
+            detailsToShow.forEach(detail => {
+                const colIndex = columnMapping[detail.key];
+                let value = dateData[colIndex] || '';
+                
+                // Nettoyer les unités monétaires
+                value = cleanMonetaryUnits(value);
+                
+                // Ne pas afficher les champs vides
+                if (value.trim() !== '') {
+                    hasAnyData = true;
+                    const detailItem = document.createElement('div');
+                    detailItem.className = 'date-detail-item';
+                    
+                    const label = document.createElement('div');
+                    label.className = 'date-detail-label';
+                    label.textContent = detail.label;
+                    
+                    const valueDiv = document.createElement('div');
+                    valueDiv.className = 'date-detail-value';
+                    valueDiv.textContent = value;
+                    
+                    detailItem.appendChild(label);
+                    detailItem.appendChild(valueDiv);
+                    container.appendChild(detailItem);
+                }
+            });
+            
+            // Si aucun détail n'est affiché, montrer un message
+            if (!hasAnyData) {
+                const noDetails = document.createElement('div');
+                noDetails.className = 'date-detail-item';
+                noDetails.innerHTML = '<div class="date-detail-value" style="text-align: center; font-style: italic; color: #718096;">Aucun détail supplémentaire disponible pour cette date</div>';
+                container.appendChild(noDetails);
+            }
         }
         
         function closeDateModal() {
