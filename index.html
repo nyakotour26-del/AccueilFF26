@@ -211,6 +211,33 @@
                 linear-gradient(-45deg, transparent 45%, #FFFFFF 45%, #FFFFFF 55%, transparent 55%);
         }
         
+        /* NOUVEAU: Drapeau de Madagascar */
+        .flag-madagascar {
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .flag-madagascar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 33.33%;
+            height: 100%;
+            background: #FC3D32;
+        }
+        
+        .flag-madagascar::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 33.33%;
+            height: 50%;
+            background: #007E3A;
+        }
+        
         .main-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -372,7 +399,7 @@
             border-radius: 4px;
             transition: background-color 0.2s;
             position: relative;
-            min-height: 80px;
+            min-height: 85px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -400,17 +427,38 @@
         
         /* NOUVEAU: Styles pour les jours fériés */
         .calendar-day.holiday {
-            background-color: rgba(255, 215, 0, 0.1);
+            background-color: rgba(255, 215, 0, 0.15);
             border: 1px solid rgba(255, 215, 0, 0.3);
         }
         
+        .calendar-day.malagasy-holiday {
+            background-color: rgba(252, 61, 50, 0.15);
+            border: 1px solid rgba(252, 61, 50, 0.3);
+        }
+        
         .holiday-name {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: #000;
             font-style: italic;
             margin-top: 2px;
             font-weight: normal;
-            line-height: 1;
+            line-height: 1.1;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 1px 3px;
+            border-radius: 2px;
+        }
+        
+        .malagasy-holiday-name {
+            font-size: 0.6rem;
+            color: #000;
+            font-style: italic;
+            margin-top: 2px;
+            font-weight: normal;
+            line-height: 1.1;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 1px 3px;
+            border-radius: 2px;
+            color: #FC3D32;
         }
         
         .day-number {
@@ -1470,7 +1518,7 @@
             }
             
             .calendar-day {
-                min-height: 70px;
+                min-height: 75px;
                 padding: 5px;
             }
             
@@ -1619,12 +1667,12 @@
             }
             
             .calendar-day {
-                min-height: 65px;
+                min-height: 70px;
                 font-size: 0.8rem;
             }
             
-            .holiday-name {
-                font-size: 0.55rem;
+            .holiday-name, .malagasy-holiday-name {
+                font-size: 0.5rem;
             }
             
             .program-count {
@@ -1698,6 +1746,8 @@
                 <div class="flag flag-switzerland" title="Suisse"></div>
                 <div class="flag flag-uk" title="Royaume-Uni"></div>
                 <div class="flag flag-wales" title="Wales"></div>
+                <!-- NOUVEAU: Drapeau de Madagascar -->
+                <div class="flag flag-madagascar" title="Madagascar"></div>
             </div>
         </header>
         
@@ -2066,7 +2116,8 @@
             'BELGIQUE': 'flag-belgium',
             'SUISSE': 'flag-switzerland',
             'ANGLETERRE': 'flag-uk',
-            'WALES': 'flag-wales'
+            'WALES': 'flag-wales',
+            'MADAGASCAR': 'flag-madagascar'
         };
 
         // Objet pour mapper les noms de pays aux couleurs de bordure
@@ -2076,7 +2127,8 @@
             'BELGIQUE': '#000000',
             'SUISSE': '#D52B1E',
             'ANGLETERRE': '#012169',
-            'WALES': '#D21034'
+            'WALES': '#D21034',
+            'MADAGASCAR': '#FC3D32'
         };
 
         // Mapping des colonnes pour les détails du programme selon vos spécifications
@@ -2088,8 +2140,45 @@
             'SITE': 27            // Colonne AB
         };
 
-        // NOUVEAU: Jours fériés pour 2026
-        const holidays2026 = {
+        // NOUVEAU: Jours fériés malgaches pour 2026
+        const malagasyHolidays2026 = {
+            // Janvier
+            '01-01': 'Taom-baovao / Nouvel An',
+            '01-14': 'Fetin\'ny drafitra / Fête du drapeau',
+            
+            // Mars
+            '03-08': 'Fetin\'ny vehivavy / Journée de la femme',
+            '03-29': 'Fahatsiarovana ny martiora / Commémoration des martyrs',
+            
+            // Avril - Pâques
+            '04-05': 'Paska / Pâques',
+            '04-06': 'Alatsinainy Paska / Lundi de Pâques',
+            
+            // Mai
+            '05-01': 'Fetin\'ny asa / Fête du Travail',
+            '05-14': 'Fiakarana / Ascension',
+            '05-24': 'Pentekosta / Pentecôte',
+            '05-25': 'Alatsinainy Pentekosta / Lundi de Pentecôte',
+            
+            // Juin
+            '06-26': 'Fetin\'ny fahaleovantena / Fête nationale',
+            
+            // Août
+            '08-15': 'Fiakaran\'ny Virjiny / Assomption',
+            
+            // Septembre
+            '09-13': 'Fetin\'ny vahoaka / Fête du peuple',
+            
+            // Novembre
+            '11-01': 'Fetin\'ny olo-masina / Toussaint',
+            
+            // Décembre
+            '12-11': 'Fetin\'ny Repoblika / Fête de la République',
+            '12-25': 'Krismasy / Noël'
+        };
+
+        // Jours fériés français pour 2026 (pour référence)
+        const frenchHolidays2026 = {
             '01-01': 'Jour de l\'An',
             '04-05': 'Dimanche de Pâques',
             '04-06': 'Lundi de Pâques',
@@ -2495,13 +2584,13 @@
             }, 300);
         }
 
-        // NOUVELLE FONCTION: Vérifier si une date est un jour férié
-        function getHolidayName(date) {
+        // NOUVELLE FONCTION: Vérifier si une date est un jour férié malgache
+        function getMalagasyHolidayName(date) {
             const month = (date.getMonth() + 1).toString().padStart(2, '0');
             const day = date.getDate().toString().padStart(2, '0');
             const dateStr = `${month}-${day}`;
             
-            return holidays2026[dateStr] || null;
+            return malagasyHolidays2026[dateStr] || null;
         }
 
         // NOUVELLE FONCTION: Compter le nombre de programmes pour une date
@@ -2630,7 +2719,7 @@
             });
             
             // Ajouter les pays manquants
-            const allCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
+            const allCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE', 'MADAGASCAR'];
             allCountries.forEach(country => {
                 if (!datesByCountry[country]) {
                     datesByCountry[country] = [];
@@ -2638,7 +2727,7 @@
             });
             
             // Trier les pays dans l'ordre spécifié
-            const countryOrder = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
+            const countryOrder = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE', 'MADAGASCAR'];
             const sortedCountries = countryOrder.filter(country => datesByCountry[country]);
             
             // Générer les cartes de pays
@@ -2782,7 +2871,8 @@
                 'ALLEMAGNE': 'Allemagne',
                 'BELGIQUE': 'Belgique',
                 'WALES': 'Wales',
-                'ANGLETERRE': 'Angleterre'
+                'ANGLETERRE': 'Angleterre',
+                'MADAGASCAR': 'Madagascar'
             };
             return names[country] || country;
         }
@@ -3047,13 +3137,13 @@
                 day.className = 'calendar-day other-month';
                 day.innerHTML = `<div class="day-number">${prevMonthLastDay - i}</div>`;
                 
-                // Vérifier si c'est un jour férié
+                // Vérifier si c'est un jour férié malgache
                 const prevMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, prevMonthLastDay - i);
-                const holidayName = getHolidayName(prevMonthDate);
+                const holidayName = getMalagasyHolidayName(prevMonthDate);
                 if (holidayName) {
-                    day.classList.add('holiday');
+                    day.classList.add('malagasy-holiday');
                     const holidayElement = document.createElement('div');
-                    holidayElement.className = 'holiday-name';
+                    holidayElement.className = 'malagasy-holiday-name';
                     holidayElement.textContent = holidayName;
                     day.appendChild(holidayElement);
                 }
@@ -3083,12 +3173,12 @@
                     day.appendChild(programCountElement);
                 }
                 
-                // NOUVEAU: Vérifier si c'est un jour férié
-                const holidayName = getHolidayName(dateToCheck);
+                // NOUVEAU: Vérifier si c'est un jour férié malgache
+                const holidayName = getMalagasyHolidayName(dateToCheck);
                 if (holidayName) {
-                    day.classList.add('holiday');
+                    day.classList.add('malagasy-holiday');
                     const holidayElement = document.createElement('div');
-                    holidayElement.className = 'holiday-name';
+                    holidayElement.className = 'malagasy-holiday-name';
                     holidayElement.textContent = holidayName;
                     day.appendChild(holidayElement);
                 }
@@ -3129,13 +3219,13 @@
                 day.className = 'calendar-day other-month';
                 day.innerHTML = `<div class="day-number">${i}</div>`;
                 
-                // Vérifier si c'est un jour férié
+                // Vérifier si c'est un jour férié malgache
                 const nextMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, i);
-                const holidayName = getHolidayName(nextMonthDate);
+                const holidayName = getMalagasyHolidayName(nextMonthDate);
                 if (holidayName) {
-                    day.classList.add('holiday');
+                    day.classList.add('malagasy-holiday');
                     const holidayElement = document.createElement('div');
-                    holidayElement.className = 'holiday-name';
+                    holidayElement.className = 'malagasy-holiday-name';
                     holidayElement.textContent = holidayName;
                     day.appendChild(holidayElement);
                 }
