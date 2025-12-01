@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournée Europe 2026</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -45,6 +46,52 @@
             background: linear-gradient(135deg, #2d3748, #4a5568);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+        
+        /* NOUVEAU: Thème avec fleurs */
+        .theme-container {
+            position: relative;
+            margin: 30px 0;
+            padding: 25px 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(102, 51, 153, 0.2);
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .theme-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            color: #8a2be2;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        .flower {
+            position: absolute;
+            font-size: 2rem;
+            color: #ff69b4;
+            opacity: 0.7;
+            z-index: 0;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .flower-1 { top: 15px; left: 20px; animation-delay: 0s; }
+        .flower-2 { top: 10px; right: 25px; animation-delay: 1s; }
+        .flower-3 { bottom: 15px; left: 30px; animation-delay: 2s; }
+        .flower-4 { bottom: 10px; right: 20px; animation-delay: 3s; }
+        .flower-5 { top: 50%; left: 15px; transform: translateY(-50%); animation-delay: 4s; }
+        .flower-6 { top: 50%; right: 15px; transform: translateY(-50%); animation-delay: 5s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(10deg); }
         }
         
         .subtitle {
@@ -244,7 +291,18 @@
             line-height: 1.3;
         }
         
-        /* NOUVEAU: Section d'accès mobile */
+        /* NOUVEAU: Style pour le bouton Rapport Financier comme les autres */
+        .btn-finance {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(66, 153, 225, 0.2);
+            color: #2d3748;
+        }
+        
+        .btn-finance:hover {
+            background: rgba(66, 153, 225, 0.1);
+            border-color: rgba(66, 153, 225, 0.4);
+        }
+        
         .mobile-access {
             display: none;
         }
@@ -317,8 +375,9 @@
             min-height: 80px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start;
             border: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 0.9rem;
         }
         
         .calendar-day:hover {
@@ -339,9 +398,48 @@
             color: #ccc;
         }
         
+        /* NOUVEAU: Styles pour les jours fériés */
+        .calendar-day.holiday {
+            background-color: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .holiday-name {
+            font-size: 0.65rem;
+            color: #000;
+            font-style: italic;
+            margin-top: 2px;
+            font-weight: normal;
+            line-height: 1;
+        }
+        
+        .day-number {
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+        
+        /* NOUVEAU: Indicateur du nombre de programmes */
+        .program-count {
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            background: rgba(66, 153, 225, 0.7);
+            color: white;
+            font-size: 0.6rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
         .date-info {
             font-size: 0.7em;
             line-height: 1.2;
+            margin-top: auto;
         }
         
         .localite {
@@ -473,43 +571,6 @@
             border-bottom: 3px solid rgba(66, 153, 225, 0.4);
         }
         
-        .finance-btn-direct {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 25px 15px;
-            background: linear-gradient(135deg, #ed8936, #dd771c);
-            border: 2px solid #ed8936;
-            border-radius: 15px;
-            color: white;
-            font-size: 1rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            height: 140px;
-            box-shadow: 0 4px 15px rgba(237, 137, 54, 0.3);
-            width: 100%;
-        }
-        
-        .finance-btn-direct:hover {
-            background: linear-gradient(135deg, #dd771c, #c05621);
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(237, 137, 54, 0.4);
-        }
-        
-        .finance-btn-emoji {
-            font-size: 2.2rem;
-        }
-        
-        .finance-btn-text {
-            font-weight: 700;
-            line-height: 1.3;
-            font-size: 1.1rem;
-        }
-        
         .secretariat-btn-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -588,7 +649,25 @@
             font-size: 1.1rem;
         }
         
-        /* Styles pour les notifications améliorées */
+        /* NOUVEAU: Styles améliorés pour les messages d'erreur de mot de passe */
+        .password-error {
+            background-color: #fee;
+            color: #c33;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid #f66;
+            font-size: 0.9rem;
+            display: none;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
         .notification {
             position: fixed;
             top: 20px;
@@ -641,7 +720,7 @@
             opacity: 0.9;
         }
         
-        /* Styles pour la modal du calendrier - AMÉLIORÉE */
+        /* Styles pour la modal du calendrier */
         .date-modal {
             display: none;
             position: fixed;
@@ -744,7 +823,6 @@
             font-size: 0.95rem;
         }
         
-        /* NOUVEAU: Changement du titre */
         .date-details {
             background: white;
             border-radius: 12px;
@@ -791,7 +869,6 @@
             border-left: 3px solid #4299e1;
         }
         
-        /* NOUVEAU: Les boutons en 2 colonnes sur mobile */
         .date-actions {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -1198,7 +1275,7 @@
             padding: 12px 15px;
             border: 2px solid #e2e8f0;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             font-size: 1rem;
         }
         
@@ -1358,7 +1435,7 @@
             border-left: 3px solid #4299e1;
         }
         
-        /* Media Queries - AMÉLIORÉES */
+        /* Media Queries */
         @media (max-width: 900px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -1393,20 +1470,27 @@
             }
             
             .calendar-day {
-                min-height: 60px;
+                min-height: 70px;
                 padding: 5px;
             }
             
-            .finance-btn-direct, .sheet-btn {
+            .theme-text {
+                font-size: 2.2rem;
+            }
+            
+            .flower {
+                font-size: 1.5rem;
+            }
+            
+            .sheet-btn {
                 height: 130px;
                 padding: 20px 10px;
             }
             
-            .finance-btn-emoji, .sheet-btn-emoji {
+            .sheet-btn-emoji {
                 font-size: 2rem;
             }
             
-            /* Les boutons restent en 2 colonnes sur mobile comme demandé */
             .date-actions {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
@@ -1483,6 +1567,18 @@
                 font-size: 1.1rem;
             }
             
+            .theme-text {
+                font-size: 1.8rem;
+            }
+            
+            .theme-container {
+                padding: 20px 15px;
+            }
+            
+            .flower {
+                font-size: 1.2rem;
+            }
+            
             .flags-container {
                 gap: 10px;
             }
@@ -1522,6 +1618,21 @@
                 height: 16px;
             }
             
+            .calendar-day {
+                min-height: 65px;
+                font-size: 0.8rem;
+            }
+            
+            .holiday-name {
+                font-size: 0.55rem;
+            }
+            
+            .program-count {
+                width: 14px;
+                height: 14px;
+                font-size: 0.55rem;
+            }
+            
             .date-action-btn {
                 height: 80px;
                 padding: 10px 6px;
@@ -1556,6 +1667,10 @@
             .date-modal-content {
                 padding: 15px;
             }
+            
+            .theme-text {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -1564,6 +1679,17 @@
         <header>
             <h1>Tournée Europe 2026</h1>
             <p class="subtitle">Découvrez tous les aspects de notre tournée à travers l'Europe</p>
+            
+            <!-- NOUVEAU: Thème avec fleurs -->
+            <div class="theme-container">
+                <div class="flower flower-1">🌸</div>
+                <div class="flower flower-2">🌺</div>
+                <div class="flower flower-3">🌼</div>
+                <div class="flower flower-4">🌻</div>
+                <div class="flower flower-5">💮</div>
+                <div class="flower flower-6">🏵️</div>
+                <div class="theme-text">"Nos sources sont en Toi"</div>
+            </div>
             
             <div class="flags-container">
                 <div class="flag flag-france" title="France"></div>
@@ -1600,8 +1726,8 @@
                             <span class="btn-emoji">📖</span>
                             <span class="btn-text">Livre d'or</span>
                         </a>
-                        <!-- NOUVEAU: Bouton Rapport Financier dans Informations générales -->
-                        <a href="https://nyakotour26-del.github.io/Rapport-financier-NyakoFF26/" class="btn finance-btn-direct" target="_blank" style="background: linear-gradient(135deg, #ed8936, #dd771c); color: white;">
+                        <!-- MODIFIÉ: Bouton Rapport Financier comme les autres boutons -->
+                        <a href="https://nyakotour26-del.github.io/Rapport-financier-NyakoFF26/" class="btn btn-finance" target="_blank">
                             <span class="btn-emoji">💰</span>
                             <span class="btn-text">Rapport Financier</span>
                         </a>
@@ -1750,7 +1876,7 @@
             </div>
         </div>
         
-        <!-- NOUVELLE SECTION: Récapitulatif des dates par pays -->
+        <!-- SECTION: Récapitulatif des dates par pays -->
         <div class="recap-section" id="recapSection">
             <h2 class="recap-title">
                 <i class="fas fa-list-alt"></i>
@@ -1810,7 +1936,6 @@
                 <div class="date-country" id="modalCountry"></div>
             </div>
             
-            <!-- CHANGÉ: "Détails infos jour" au lieu de "Programme du jour" -->
             <div class="date-details" id="dateDetails">
                 <div class="date-details-title">
                     <i class="fas fa-info-circle"></i>
@@ -1821,7 +1946,6 @@
                 </div>
             </div>
             
-            <!-- Les boutons restent en 2 colonnes sur mobile -->
             <div class="date-actions" id="dateActions">
                 <div class="date-action-btn" id="pvBtn">
                     <span class="date-action-emoji">📄</span>
@@ -1853,6 +1977,10 @@
                 </div>
                 <div class="modal-password-input">
                     <input type="password" id="modalSecretariatPassword" placeholder="Mot de passe secrétariat">
+                    <!-- NOUVEAU: Message d'erreur amélioré -->
+                    <div class="password-error" id="modalPasswordError">
+                        <i class="fas fa-exclamation-triangle"></i> Mot de passe incorrect. Veuillez réessayer.
+                    </div>
                     <button onclick="checkModalSecretariatPassword()">Déverrouiller</button>
                 </div>
                 <div class="secretariat-access-note">
@@ -1899,6 +2027,10 @@
             <h3><i class="fas fa-lock"></i> Accès Secrétariat & Comm</h3>
             <p>Veuillez entrer le mot de passe pour accéder au secrétariat</p>
             <input type="password" id="secretariatPasswordInput" placeholder="Mot de passe secrétariat">
+            <!-- NOUVEAU: Message d'erreur amélioré -->
+            <div class="password-error" id="passwordError">
+                <i class="fas fa-exclamation-triangle"></i> Mot de passe incorrect. Veuillez réessayer.
+            </div>
             <div class="password-modal-buttons">
                 <button class="password-modal-cancel" onclick="closeSecretariatPasswordModal()">Annuler</button>
                 <button class="password-modal-confirm" onclick="validateSecretariatPassword()">Valider</button>
@@ -1948,13 +2080,29 @@
         };
 
         // Mapping des colonnes pour les détails du programme selon vos spécifications
-        // X = 23, Y = 24, Z = 25, AA = 26, AB = 27 (si A=0, B=1, etc.)
         const columnMapping = {
             'LIEU': 23,           // Colonne X
             'HEURES': 24,         // Colonne Y
             'ADRESSE ET/OU CONTACT': 25,  // Colonne Z
             'HEBERGEMENT': 26,    // Colonne AA
             'SITE': 27            // Colonne AB
+        };
+
+        // NOUVEAU: Jours fériés pour 2026
+        const holidays2026 = {
+            '01-01': 'Jour de l\'An',
+            '04-05': 'Dimanche de Pâques',
+            '04-06': 'Lundi de Pâques',
+            '05-01': 'Fête du Travail',
+            '05-08': 'Victoire 1945',
+            '05-14': 'Jeudi de l\'Ascension',
+            '05-24': 'Dimanche de Pentecôte',
+            '05-25': 'Lundi de Pentecôte',
+            '07-14': 'Fête Nationale',
+            '08-15': 'Assomption',
+            '11-01': 'Toussaint',
+            '11-11': 'Armistice 1918',
+            '12-25': 'Noël'
         };
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -2001,6 +2149,8 @@
             } else {
                 // Sinon, demander le mot de passe
                 document.getElementById('secretariatPasswordModal').style.display = 'flex';
+                // Cacher le message d'erreur précédent
+                document.getElementById('passwordError').style.display = 'none';
                 // Stocker le type pour savoir quelle section afficher après authentification
                 document.getElementById('secretariatPasswordModal').setAttribute('data-section-type', type);
             }
@@ -2009,11 +2159,14 @@
         function closeSecretariatPasswordModal() {
             document.getElementById('secretariatPasswordModal').style.display = 'none';
             document.getElementById('secretariatPasswordInput').value = '';
+            // Cacher le message d'erreur
+            document.getElementById('passwordError').style.display = 'none';
         }
 
         function validateSecretariatPassword() {
             const password = document.getElementById('secretariatPasswordInput').value;
             const sectionType = document.getElementById('secretariatPasswordModal').getAttribute('data-section-type');
+            const errorElement = document.getElementById('passwordError');
             
             if (password === 'admin') {
                 // Déverrouiller l'accès globalement
@@ -2028,8 +2181,18 @@
                 // Déverrouiller les boutons dans la modal de date
                 unlockSecretariatButtons();
             } else {
-                alert('Mot de passe incorrect');
+                // Afficher le message d'erreur amélioré
+                errorElement.style.display = 'block';
+                // Secouer l'input pour attirer l'attention
+                document.getElementById('secretariatPasswordInput').style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    document.getElementById('secretariatPasswordInput').style.animation = '';
+                }, 500);
+                
+                // Vider le champ mot de passe
                 document.getElementById('secretariatPasswordInput').value = '';
+                // Focus sur le champ
+                document.getElementById('secretariatPasswordInput').focus();
             }
         }
 
@@ -2060,11 +2223,14 @@
         // Fonction pour vérifier le mot de passe dans la modal
         function checkModalSecretariatPassword() {
             const password = document.getElementById('modalSecretariatPassword').value;
+            const errorElement = document.getElementById('modalPasswordError');
             
             if (password === 'admin') {
                 // Déverrouiller l'accès globalement
                 secretariatAccess = true;
                 document.getElementById('modalSecretariatPassword').value = '';
+                // Cacher le message d'erreur
+                errorElement.style.display = 'none';
                 
                 // Déverrouiller les boutons dans la modal
                 unlockSecretariatButtons();
@@ -2076,8 +2242,18 @@
                 // Afficher une notification
                 showNotification('secretariat');
             } else {
-                alert('Mot de passe incorrect');
+                // Afficher le message d'erreur amélioré
+                errorElement.style.display = 'block';
+                // Secouer l'input pour attirer l'attention
+                document.getElementById('modalSecretariatPassword').style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    document.getElementById('modalSecretariatPassword').style.animation = '';
+                }, 500);
+                
+                // Vider le champ mot de passe
                 document.getElementById('modalSecretariatPassword').value = '';
+                // Focus sur le champ
+                document.getElementById('modalSecretariatPassword').focus();
             }
         }
 
@@ -2319,6 +2495,45 @@
             }, 300);
         }
 
+        // NOUVELLE FONCTION: Vérifier si une date est un jour férié
+        function getHolidayName(date) {
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            const dateStr = `${month}-${day}`;
+            
+            return holidays2026[dateStr] || null;
+        }
+
+        // NOUVELLE FONCTION: Compter le nombre de programmes pour une date
+        function countProgramsForDate(date) {
+            const matchingDates = datesWithData.filter(item => 
+                item.date.getDate() === date.getDate() &&
+                item.date.getMonth() === date.getMonth() &&
+                item.date.getFullYear() === date.getFullYear()
+            );
+            
+            if (matchingDates.length === 0) return 0;
+            
+            // Compter les programmes avec des données dans les colonnes spécifiées
+            let programCount = 0;
+            matchingDates.forEach(match => {
+                const rowIndex = match.rowIndex;
+                if (sheetData[rowIndex]) {
+                    const columnsToCheck = ['LIEU', 'HEURES', 'ADRESSE ET/OU CONTACT', 'HEBERGEMENT', 'SITE'];
+                    
+                    for (let key of columnsToCheck) {
+                        const colIndex = columnMapping[key];
+                        if (sheetData[rowIndex][colIndex] && sheetData[rowIndex][colIndex].trim() !== '') {
+                            programCount++;
+                            break; // Compter une seule fois par ligne même si plusieurs colonnes ont des données
+                        }
+                    }
+                }
+            });
+            
+            return programCount;
+        }
+
         // Fonction pour mettre à jour les statistiques du calendrier
         function updateCalendarStats() {
             if (datesWithData.length === 0) return;
@@ -2345,8 +2560,14 @@
                        pays !== '';
             }).length;
             
-            // Calculer les jours de tournée uniques
-            const joursTournee = new Set(datesWithData.map(item => item.date.getTime())).size;
+            // MODIFIÉ: Calculer les jours de tournée uniques avec un nom de pays
+            const joursTourneeSet = new Set();
+            datesWithData.forEach(item => {
+                if (item.pays && item.pays.trim() !== '') {
+                    joursTourneeSet.add(item.date.getTime());
+                }
+            });
+            const joursTournee = joursTourneeSet.size;
             
             // Trouver le pays avec le plus de concerts (en excluant RETOUR MADAGASCAR)
             const concertsParPays = {};
@@ -2386,7 +2607,7 @@
             document.getElementById('statsPaysPlusConcerts').textContent = paysPlusConcerts;
         }
 
-        // NOUVELLE FONCTION: Générer le récapitulatif par pays
+        // Fonction pour générer le récapitulatif par pays
         function generateRecapByCountry() {
             const recapContainer = document.getElementById('recapContainer');
             const noDatesMessage = document.getElementById('noDatesMessage');
@@ -2578,7 +2799,6 @@
             return `${day} ${month} ${year}`;
         }
 
-        // Le reste du code pour le calendrier reste inchangé
         async function loadDataFromGoogleSheets(method = 'direct') {
             console.log(`🔍 Tentative de chargement avec méthode: ${method}`);
             document.getElementById('loadingIndicator').style.display = 'block';
@@ -2825,14 +3045,26 @@
             for (let i = firstDayOfWeek - 1; i >= 0; i--) {
                 const day = document.createElement('div');
                 day.className = 'calendar-day other-month';
-                day.textContent = prevMonthLastDay - i;
+                day.innerHTML = `<div class="day-number">${prevMonthLastDay - i}</div>`;
+                
+                // Vérifier si c'est un jour férié
+                const prevMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, prevMonthLastDay - i);
+                const holidayName = getHolidayName(prevMonthDate);
+                if (holidayName) {
+                    day.classList.add('holiday');
+                    const holidayElement = document.createElement('div');
+                    holidayElement.className = 'holiday-name';
+                    holidayElement.textContent = holidayName;
+                    day.appendChild(holidayElement);
+                }
+                
                 calendarGrid.appendChild(day);
             }
             
             for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
                 const day = document.createElement('div');
                 day.className = 'calendar-day';
-                day.innerHTML = `<div>${i}</div>`;
+                day.innerHTML = `<div class="day-number">${i}</div>`;
                 
                 const dateToCheck = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
                 const dateData = datesWithData.find(item => 
@@ -2840,6 +3072,26 @@
                     item.date.getMonth() === dateToCheck.getMonth() &&
                     item.date.getFullYear() === dateToCheck.getFullYear()
                 );
+                
+                // NOUVEAU: Ajouter l'indicateur du nombre de programmes
+                const programCount = countProgramsForDate(dateToCheck);
+                if (programCount > 0) {
+                    const programCountElement = document.createElement('div');
+                    programCountElement.className = 'program-count';
+                    programCountElement.textContent = programCount;
+                    programCountElement.title = `${programCount} programme${programCount > 1 ? 's' : ''}`;
+                    day.appendChild(programCountElement);
+                }
+                
+                // NOUVEAU: Vérifier si c'est un jour férié
+                const holidayName = getHolidayName(dateToCheck);
+                if (holidayName) {
+                    day.classList.add('holiday');
+                    const holidayElement = document.createElement('div');
+                    holidayElement.className = 'holiday-name';
+                    holidayElement.textContent = holidayName;
+                    day.appendChild(holidayElement);
+                }
                 
                 if (dateData) {
                     day.classList.add('has-data');
@@ -2875,7 +3127,19 @@
             for (let i = 1; i <= nextMonthDays; i++) {
                 const day = document.createElement('div');
                 day.className = 'calendar-day other-month';
-                day.textContent = i;
+                day.innerHTML = `<div class="day-number">${i}</div>`;
+                
+                // Vérifier si c'est un jour férié
+                const nextMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, i);
+                const holidayName = getHolidayName(nextMonthDate);
+                if (holidayName) {
+                    day.classList.add('holiday');
+                    const holidayElement = document.createElement('div');
+                    holidayElement.className = 'holiday-name';
+                    holidayElement.textContent = holidayName;
+                    day.appendChild(holidayElement);
+                }
+                
                 calendarGrid.appendChild(day);
             }
         }
