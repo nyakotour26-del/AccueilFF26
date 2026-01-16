@@ -3586,6 +3586,435 @@
         height: 28px;
     }
 }
+/* ===== CALENDRIER COMPACT DANS LE HEADER ===== */
+
+.calendar-center-container-compact {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    border: 2px solid rgba(66, 153, 225, 0.25);
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+.calendar-header-compact {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.calendar-title-compact {
+    font-size: 1.4rem; /* Réduit */
+    color: #2d3748;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.calendar-title-compact i {
+    color: #4299e1;
+    font-size: 1.3rem;
+}
+
+.calendar-stats-compact {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.calendar-stat-compact {
+    text-align: center;
+    padding: 15px 10px; /* Réduit */
+    background: #f7fafc;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s ease;
+    height: 80px; /* Hauteur fixe réduite */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendar-stat-compact:hover {
+    background: #edf2f7;
+    border-color: #cbd5e0;
+    transform: translateY(-3px);
+}
+
+.stat-value-compact {
+    font-size: 1.8rem; /* Réduit */
+    font-weight: 800;
+    color: #2d3748;
+    margin-bottom: 5px;
+    line-height: 1;
+}
+
+.stat-label-compact {
+    font-size: 0.85rem; /* Réduit */
+    color: #718096;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.calendar-actions-compact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.calendar-btn-compact, .info-btn-compact {
+    padding: 14px 12px; /* Réduit */
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem; /* Réduit */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+    min-height: 50px;
+}
+
+.calendar-btn-compact {
+    background: linear-gradient(135deg, #4299e1, #3182ce);
+    color: white;
+    box-shadow: 0 6px 20px rgba(66, 153, 225, 0.3);
+}
+
+.calendar-btn-compact:hover {
+    background: linear-gradient(135deg, #3182ce, #2b6cb0);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(66, 153, 225, 0.4);
+}
+
+.info-btn-compact {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    color: white;
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.3);
+}
+
+.info-btn-compact:hover {
+    background: linear-gradient(135deg, #38a169, #2f855a);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4);
+}
+
+/* Ajuster l'espacement global du contenu central */
+.header-center-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Réduit de 25px à 20px */
+    min-width: 400px;
+    max-width: 500px;
+    margin: 0 20px;
+}
+
+/* Responsive pour le calendrier compact */
+@media (max-width: 1300px) {
+    .calendar-center-container-compact {
+        padding: 18px;
+    }
+    
+    .calendar-title-compact {
+        font-size: 1.3rem;
+    }
+    
+    .calendar-stats-compact {
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+    
+    .calendar-stat-compact {
+        padding: 12px 8px;
+        height: 75px;
+    }
+    
+    .stat-value-compact {
+        font-size: 1.7rem;
+    }
+    
+    .calendar-btn-compact, .info-btn-compact {
+        padding: 12px 10px;
+        font-size: 0.9rem;
+        min-height: 48px;
+    }
+}
+
+@media (max-width: 900px) {
+    .calendar-center-container-compact {
+        padding: 16px;
+    }
+    
+    .calendar-title-compact {
+        font-size: 1.25rem;
+    }
+    
+    .calendar-stats-compact {
+        gap: 10px;
+    }
+    
+    .calendar-stat-compact {
+        height: 70px;
+        padding: 10px 6px;
+    }
+    
+    .stat-value-compact {
+        font-size: 1.6rem;
+    }
+    
+    .stat-label-compact {
+        font-size: 0.8rem;
+    }
+    
+    .calendar-actions-compact {
+        gap: 10px;
+    }
+    
+    .calendar-btn-compact, .info-btn-compact {
+        padding: 11px 9px;
+        font-size: 0.85rem;
+        min-height: 45px;
+    }
+}
+
+@media (max-width: 768px) {
+    .calendar-center-container-compact {
+        padding: 15px;
+    }
+    
+    .calendar-title-compact {
+        font-size: 1.2rem;
+    }
+    
+    .calendar-stats-compact {
+        margin-bottom: 16px;
+    }
+    
+    .calendar-stat-compact {
+        height: 65px;
+    }
+    
+    .stat-value-compact {
+        font-size: 1.5rem;
+    }
+    
+    .calendar-btn-compact, .info-btn-compact {
+        padding: 10px 8px;
+        font-size: 0.82rem;
+        min-height: 42px;
+    }
+}
+
+@media (max-width: 600px) {
+    .calendar-center-container-compact {
+        padding: 14px;
+    }
+    
+    .calendar-title-compact {
+        font-size: 1.15rem;
+        gap: 8px;
+    }
+    
+    .calendar-title-compact i {
+        font-size: 1.1rem;
+    }
+    
+    .calendar-stats-compact {
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .calendar-stat-compact {
+        height: 60px;
+        padding: 8px 5px;
+    }
+    
+    .stat-value-compact {
+        font-size: 1.4rem;
+        margin-bottom: 3px;
+    }
+    
+    .stat-label-compact {
+        font-size: 0.75rem;
+        letter-spacing: 0.3px;
+    }
+    
+    .calendar-actions-compact {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .calendar-btn-compact, .info-btn-compact {
+        padding: 12px 10px;
+        font-size: 0.85rem;
+        min-height: 44px;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar-center-container-compact {
+        padding: 12px;
+    }
+    
+    .calendar-title-compact {
+        font-size: 1.1rem;
+    }
+    
+    .calendar-stat-compact {
+        height: 55px;
+        padding: 6px 4px;
+    }
+    
+    .stat-value-compact {
+        font-size: 1.3rem;
+    }
+    
+    .stat-label-compact {
+        font-size: 0.7rem;
+    }
+    
+    .calendar-btn-compact, .info-btn-compact {
+        padding: 10px 8px;
+        font-size: 0.8rem;
+        min-height: 40px;
+    }
+}
+/* Styles pour le bouton Dates par pays */
+.dates-btn-compact {
+    padding: 14px 12px;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+    min-height: 50px;
+    background: linear-gradient(135deg, #9f7aea, #805ad5);
+    color: white;
+    box-shadow: 0 6px 20px rgba(159, 122, 234, 0.3);
+}
+
+.dates-btn-compact:hover {
+    background: linear-gradient(135deg, #805ad5, #6b46c1);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(159, 122, 234, 0.4);
+}
+
+/* Modifier la grille pour 3 boutons */
+.calendar-actions-compact {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px; /* Espacement réduit */
+}
+
+/* Réduire encore la taille des boutons pour 3 colonnes */
+.calendar-btn-compact, .dates-btn-compact, .info-btn-compact {
+    padding: 12px 8px; /* Encore plus compact */
+    font-size: 0.9rem; /* Plus petit */
+    min-height: 48px;
+    gap: 6px;
+}
+
+/* Ajuster la taille des icônes dans les boutons */
+.calendar-btn-compact i, .dates-btn-compact i, .info-btn-compact i {
+    font-size: 0.95rem;
+}
+
+/* Responsive pour 3 boutons */
+@media (max-width: 1300px) {
+    .calendar-btn-compact, .dates-btn-compact, .info-btn-compact {
+        padding: 11px 7px;
+        font-size: 0.85rem;
+        min-height: 46px;
+    }
+    
+    .calendar-actions-compact {
+        gap: 8px;
+    }
+}
+
+@media (max-width: 900px) {
+    .calendar-btn-compact, .dates-btn-compact, .info-btn-compact {
+        padding: 10px 6px;
+        font-size: 0.82rem;
+        min-height: 44px;
+        gap: 5px;
+    }
+    
+    .calendar-actions-compact {
+        gap: 7px;
+    }
+    
+    .calendar-btn-compact i, .dates-btn-compact i, .info-btn-compact i {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .calendar-btn-compact, .dates-btn-compact, .info-btn-compact {
+        padding: 9px 5px;
+        font-size: 0.8rem;
+        min-height: 42px;
+    }
+    
+    .calendar-actions-compact {
+        gap: 6px;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Sur mobile, passer à 2 lignes */
+    .calendar-actions-compact {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    
+    /* Le bouton Infos prend toute la largeur sur la 2ème ligne */
+    .info-btn-compact {
+        grid-column: span 2;
+    }
+    
+    .calendar-btn-compact, .dates-btn-compact, .info-btn-compact {
+        padding: 11px 8px;
+        font-size: 0.85rem;
+        min-height: 44px;
+        gap: 6px;
+    }
+    
+    .info-btn-compact {
+        padding: 12px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar-actions-compact {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+    
+    /* Tous les boutons prennent toute la largeur sur très petit mobile */
+    .calendar-btn-compact, .dates-btn-compact, .info-btn-compact {
+        grid-column: span 1;
+        padding: 10px 8px;
+        font-size: 0.83rem;
+        min-height: 42px;
+    }
+}
     </style>
 </head>
 <body>
@@ -3625,34 +4054,36 @@
             </div>
             
             <!-- CALENDRIER AU MILIEU -->
-            <div class="calendar-center-container">
-                <div class="calendar-header-center">
-                    <h3><i class="fas fa-calendar-alt"></i> Calendrier Tournée</h3>
-                    <p class="calendar-subtitle-center">Prochains concerts et événements</p>
-                </div>
-                <div class="calendar-stats-center">
-                    <div class="calendar-stat-center">
-                        <div class="stat-value-center" id="sidePaysCount">7</div>
-                        <div class="stat-label-center">Pays</div>
-                    </div>
-                    <div class="calendar-stat-center">
-                        <div class="stat-value-center" id="sideConcertsCount">12</div>
-                        <div class="stat-label-center">Concerts programmés</div>
-                    </div>
-                    <div class="calendar-stat-center">
-                        <div class="stat-value-center" id="sideJoursCount">90</div>
-                        <div class="stat-label-center">Jours</div>
-                    </div>
-                </div>
-                <div class="calendar-actions-center">
-                    <button class="calendar-btn-center" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
-                        <i class="fas fa-calendar-day"></i> Calendrier complet
-                    </button>
-                    <button class="dates-btn-center" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
-                        <i class="fas fa-list-alt"></i> Dates par pays
-                    </button>
-                </div>
-            </div>
+           <div class="calendar-center-container-compact">
+    <div class="calendar-header-compact">
+        <h3 class="calendar-title-compact"><i class="fas fa-calendar-alt"></i> Calendrier</h3>
+    </div>
+    <div class="calendar-stats-compact">
+        <div class="calendar-stat-compact">
+            <div class="stat-value-compact" id="sidePaysCount">7</div>
+            <div class="stat-label-compact">Pays</div>
+        </div>
+        <div class="calendar-stat-compact">
+            <div class="stat-value-compact" id="sideConcertsCount">12</div>
+            <div class="stat-label-compact">Concerts</div>
+        </div>
+        <div class="calendar-stat-compact">
+            <div class="stat-value-compact" id="sideJoursCount">90</div>
+            <div class="stat-label-compact">Jours</div>
+        </div>
+    </div>
+   <div class="calendar-actions-compact">
+    <button class="calendar-btn-compact" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-calendar-day"></i> Calendrier
+    </button>
+    <button class="dates-btn-compact" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-list-alt"></i> Dates
+    </button>
+    <button class="info-btn-compact" onclick="scrollToGeneralInfo()">
+        <i class="fas fa-info-circle"></i> Infos
+    </button>
+</div>
+</div>
         </div>
         
         <!-- DRAPEAUX EN VERTICAL À DROITE -->
@@ -5377,6 +5808,66 @@ function debugConcertsData() {
 // Appelez cette fonction après le chargement pour voir les résultats
 // Ajoutez cette ligne dans processCSVData après updateSideCalendarStats():
 // debugConcertsData();
+// Fonction pour faire défiler vers la section Informations générales
+function scrollToGeneralInfo() {
+    // Trouver la première section "Informations générales"
+    const sections = document.querySelectorAll('.section');
+    let generalInfoSection = null;
+    
+    // Chercher la section avec le titre "Informations générales"
+    for (let section of sections) {
+        const title = section.querySelector('.section-title');
+        if (title && title.textContent.includes('Informations générales')) {
+            generalInfoSection = section;
+            break;
+        }
+    }
+    
+    // Si trouvée, faire défiler vers elle
+    if (generalInfoSection) {
+        generalInfoSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+        
+        // Effet visuel pour mettre en évidence la section
+        generalInfoSection.style.boxShadow = '0 0 0 3px rgba(66, 153, 225, 0.5)';
+        generalInfoSection.style.transition = 'box-shadow 0.5s ease';
+        
+        // Retirer l'effet après 2 secondes
+        setTimeout(() => {
+            generalInfoSection.style.boxShadow = '';
+        }, 2000);
+        
+        console.log('✅ Défilement vers Informations générales');
+    } else {
+        // Fallback: aller vers la première section
+        const firstSection = document.querySelector('.section');
+        if (firstSection) {
+            firstSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+        console.log('⚠️ Section Informations générales non trouvée');
+    }
+}
+
+// Optionnel: Ajouter un effet au survol sur les boutons d'information dans la page
+document.addEventListener('DOMContentLoaded', function() {
+    // Attendre que le contenu soit chargé
+    setTimeout(() => {
+        const infoButtons = document.querySelectorAll('.btn');
+        infoButtons.forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        });
+    }, 1000);
+});
     </script>
 </body>
 </html>
