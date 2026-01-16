@@ -1277,326 +1277,559 @@
             font-size: 0.8rem;
             font-weight: 600;
         }
-      /* ===== NOUVEAUX AJUSTEMENTS ===== */
+        /* ===== NOUVEAU HEADER AVEC PHOTO LARGE ET CALENDRIER À DROITE ===== */
 
-.header-top-section {
+.header-main-container {
     display: flex;
-    align-items: flex-start;
-    gap: 40px;
-    margin-bottom: 20px; /* Réduit */
+    gap: 35px;
+    margin-bottom: 30px;
     flex-wrap: wrap;
+    align-items: flex-start;
 }
 
-.photo-left-container {
-    flex: 0 0 auto;
+/* Photo principale plus large */
+.photo-main-container {
+    flex: 0 0 350px; /* Largeur fixe plus grande */
+}
+
+.polaroid-frame-large {
+    background: white;
+    padding: 18px 18px 55px 18px;
+    border-radius: 3px;
+    box-shadow: 
+        0 18px 40px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.15),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+    position: relative;
+    transform: rotate(-1.2deg);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 380px;
+    margin: 0;
+}
+
+.polaroid-frame-large:hover {
+    transform: rotate(0.8deg) translateY(-10px);
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.2),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.polaroid-link-large {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+    text-decoration: none;
+}
+
+.polaroid-photo-large {
+    width: 100%;
+    height: 280px; /* Plus haute */
+    object-fit: cover;
+    display: block;
+    transition: all 0.6s ease;
+    filter: sepia(0.08) contrast(1.08);
+}
+
+.polaroid-link-large:hover .polaroid-photo-large {
+    transform: scale(1.07);
+    filter: sepia(0) contrast(1.12);
+}
+
+.polaroid-overlay-large {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: rgba(255, 255, 255, 0.95);
+    color: #222;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    font-weight: 600;
+}
+
+.polaroid-link-large:hover .polaroid-overlay-large {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Texte dans la photo PLUS GRAND */
+.polaroid-caption-large {
+    margin-top: 22px;
     text-align: center;
+    font-family: 'Playfair Display', serif;
     position: relative;
     padding-top: 15px;
 }
 
-/* Photo polaroid AGRANDIE */
-.polaroid-frame {
-    background: white;
-    padding: 15px 15px 45px 15px; /* Augmenté */
-    border-radius: 2px;
-    box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.25),
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        inset 0 0 0 1px rgba(0, 0, 0, 0.05);
-    position: relative;
-    transform: rotate(-1.5deg);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    max-width: 300px; /* AGRANDI (était 260px) */
-    margin: 0;
+.polaroid-caption-large::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #999, transparent);
 }
 
-.polaroid-frame:hover {
-    transform: rotate(0.5deg) translateY(-8px);
-    box-shadow: 
-        0 20px 45px rgba(0, 0, 0, 0.35),
-        0 0 0 1px rgba(255, 255, 255, 0.15),
-        inset 0 0 0 1px rgba(0, 0, 0, 0.05);
-}
-
-.polaroid-photo {
-    width: 100%;
-    height: 260px; /* AGRANDI (était 220px) */
-    object-fit: cover;
-    display: block;
-    transition: all 0.6s ease;
-    filter: sepia(0.1) contrast(1.05);
-}
-
-/* Texte dans la photo PLUS ÉVIDENT */
-.polaroid-caption {
-    margin-top: 18px; /* Augmenté */
-    text-align: center;
-    font-family: 'Courier New', monospace;
-    position: relative;
-    padding-top: 12px; /* Augmenté */
-}
-
-.polaroid-title {
-    font-size: 1.1rem; /* Augmenté */
-    font-weight: 800; /* Plus gras */
-    color: #222; /* Plus foncé */
-    letter-spacing: 0.8px; /* Plus espacé */
-    margin-bottom: 4px;
-    text-transform: uppercase; /* Majuscules */
-}
-
-.polaroid-date {
-    font-size: 0.9rem; /* Augmenté */
-    color: #444; /* Plus foncé */
-    font-weight: 600; /* Plus gras */
+.polaroid-title-large {
+    font-size: 1.4rem; /* BEAUCOUP PLUS GRAND */
+    font-weight: 900;
+    color: #111;
+    letter-spacing: 1px;
     margin-bottom: 6px;
+    text-transform: uppercase;
+    line-height: 1.2;
 }
 
-.polaroid-icon {
-    font-size: 1rem; /* Augmenté */
+.polaroid-date-large {
+    font-size: 1rem;
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-style: normal;
+}
+
+.polaroid-icon-large {
+    font-size: 1.1rem;
     color: #e74c3c;
-    margin-top: 5px;
+    font-weight: 600;
+    margin-top: 8px;
 }
 
-/* Section droite avec espacements réduits */
-.header-right-section {
+.polaroid-tape-large {
+    position: absolute;
+    top: -18px;
+    left: 28%;
+    right: 28%;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.75);
+    transform: rotate(6deg);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    opacity: 0.85;
+    transition: all 0.3s ease;
+}
+
+.polaroid-frame-large:hover .polaroid-tape-large {
+    transform: rotate(-3deg);
+    opacity: 0.95;
+}
+
+/* Section droite avec thème, drapeaux et calendrier */
+.header-content-right {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 15px; /* RÉDUIT (était 25px) */
-    min-width: 300px;
+    gap: 25px;
+    min-width: 400px;
 }
 
-/* Titre seul */
-.header-title-section {
-    text-align: left;
-    margin-bottom: 5px; /* Réduit */
+/* Thème et drapeaux en haut */
+.top-right-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.header-title-section h1 {
-    margin-top: 0;
-    margin-bottom: 0; /* Supprimé */
+/* Thème compact */
+.theme-container-compact {
+    position: relative;
+    margin: 0;
+    padding: 20px 30px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    border: 2px solid rgba(102, 51, 153, 0.25);
+    z-index: 1;
+    overflow: hidden;
+}
+
+.theme-text-compact {
+    font-family: 'Dancing Script', cursive;
     font-size: 2.6rem;
-    color: #2d3748;
-    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
-    line-height: 1.1; /* Réduit */
+    color: #8a2be2;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    letter-spacing: 1.2px;
+    line-height: 1.1;
 }
 
-/* Thème rapproché du titre */
-.theme-container {
-    margin-top: 0; /* Supprimé */
-    padding: 15px 25px; /* Réduit */
-    margin-bottom: 5px; /* Ajouté pour rapprocher des drapeaux */
+/* Drapeaux compacts */
+.flags-compact-container {
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    border: 2px solid rgba(66, 153, 225, 0.25);
 }
 
-.theme-text {
-    font-size: 2.5rem; /* Légèrement réduit pour équilibre */
-}
-
-/* Drapeaux RAPPROCHÉS du thème */
-.flags-right-container {
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 15px;
-    padding: 15px; /* Réduit */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(5px);
-    margin-top: 0; /* Supprimé */
-}
-
-.flags-label {
-    font-size: 1.1rem;
+.flags-label-compact {
+    font-size: 1.2rem;
     color: #2d3748;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 12px; /* Réduit */
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    padding-bottom: 10px; /* Réduit */
-    border-bottom: 2px solid rgba(66, 153, 225, 0.3);
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(66, 153, 225, 0.4);
 }
 
-/* Supprimer la note des drapeaux */
-.flags-note {
-    display: none;
+.flags-label-compact i {
+    color: #3498db;
+    font-size: 1.4rem;
 }
 
-/* Ligne de drapeaux avec espacement réduit */
-.flags-row {
+.flags-row-compact {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px; /* Réduit */
-    margin-bottom: 0; /* Supprimé */
+    gap: 12px;
 }
 
-/* Responsive pour la photo agrandie */
-@media (max-width: 1100px) {
-    .header-top-section {
-        gap: 30px;
-    }
-    
-    .polaroid-frame {
-        max-width: 280px;
-    }
-    
-    .polaroid-photo {
-        height: 240px;
-    }
-    
-    .header-title-section h1 {
-        font-size: 2.4rem;
-    }
+.flag-compact {
+    width: 60px;
+    height: 40px;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-@media (max-width: 900px) {
-    .header-top-section {
+.flag-compact:hover {
+    transform: translateY(-6px) scale(1.12);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* Styles des drapeaux compacts (copiez vos styles de .flag) */
+.flag-compact.flag-france {
+    background: linear-gradient(to right, #002395 33%, white 33%, white 66%, #ED2939 66%);
+}
+.flag-compact.flag-germany {
+    background: linear-gradient(to bottom, #000000 33%, #DD0000 33%, #DD0000 66%, #FFCE00 66%);
+}
+.flag-compact.flag-belgium {
+    background: linear-gradient(to right, #000000 33%, #FAE042 33%, #FAE042 66%, #ED2939 66%);
+}
+.flag-compact.flag-switzerland {
+    background: #D52B1E;
+    position: relative;
+}
+.flag-compact.flag-switzerland::before {
+    width: 38px;
+    height: 10px;
+    top: 15px;
+    left: 11px;
+}
+.flag-compact.flag-switzerland::after {
+    width: 10px;
+    height: 40px;
+    left: 25px;
+}
+.flag-compact.flag-uk {
+    background: #012169;
+    position: relative;
+}
+.flag-compact.flag-uk::before {
+    width: 60px;
+    height: 8px;
+    top: 16px;
+}
+.flag-compact.flag-uk::after {
+    width: 8px;
+    height: 40px;
+    left: 26px;
+}
+.flag-compact.flag-wales {
+    background: white;
+    position: relative;
+    overflow: hidden;
+}
+.flag-compact.flag-wales::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #FFFFFF 0%, #FFFFFF 50%, #D21034 50%, #D21034 100%);
+}
+.flag-compact.flag-wales::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 22px;
+    height: 22px;
+    background: 
+        radial-gradient(circle, #008000 0%, #008000 40%, transparent 40%),
+        linear-gradient(45deg, transparent 45%, #FFFFFF 45%, #FFFFFF 55%, transparent 55%),
+        linear-gradient(-45deg, transparent 45%, #FFFFFF 45%, #FFFFFF 55%, transparent 55%);
+}
+.flag-compact.flag-madagascar {
+    background: white;
+    position: relative;
+    overflow: hidden;
+}
+.flag-compact.flag-madagascar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 33.33%;
+    height: 100%;
+    background: #FC3D32;
+}
+.flag-compact.flag-madagascar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 33.33%;
+    height: 50%;
+    background: #007E3A;
+}
+
+/* Calendrier à droite de la photo */
+.calendar-side-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    border: 2px solid rgba(66, 153, 225, 0.2);
+    margin-top: 10px;
+}
+
+.calendar-side-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.calendar-side-header h3 {
+    font-size: 1.6rem;
+    color: #2d3748;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.calendar-side-header h3 i {
+    color: #4299e1;
+}
+
+.calendar-side-subtitle {
+    font-size: 1rem;
+    color: #718096;
+    font-weight: 500;
+}
+
+.calendar-side-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.calendar-stat-side {
+    text-align: center;
+    padding: 15px 10px;
+    background: #f7fafc;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.calendar-stat-side:hover {
+    background: #edf2f7;
+    border-color: #cbd5e0;
+    transform: translateY(-3px);
+}
+
+.stat-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #2d3748;
+    margin-bottom: 5px;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #718096;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.calendar-side-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.calendar-btn, .dates-btn {
+    padding: 14px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.calendar-btn {
+    background: linear-gradient(135deg, #4299e1, #3182ce);
+    color: white;
+    box-shadow: 0 6px 20px rgba(66, 153, 225, 0.3);
+}
+
+.calendar-btn:hover {
+    background: linear-gradient(135deg, #3182ce, #2b6cb0);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(66, 153, 225, 0.4);
+}
+
+.dates-btn {
+    background: rgba(255, 255, 255, 0.9);
+    color: #4a5568;
+    border: 2px solid #e2e8f0;
+}
+
+.dates-btn:hover {
+    background: white;
+    border-color: #cbd5e0;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .header-main-container {
         flex-direction: column;
         align-items: center;
-        text-align: center;
-        gap: 25px;
     }
     
-    .header-right-section {
-        align-items: center;
-        text-align: center;
+    .photo-main-container {
+        flex: 0 0 auto;
         width: 100%;
-        gap: 12px; /* Réduit sur mobile */
+        max-width: 380px;
+        margin-bottom: 20px;
     }
     
-    .header-title-section {
-        text-align: center;
-    }
-    
-    .flags-right-container {
+    .header-content-right {
         width: 100%;
-        max-width: 600px;
+        min-width: auto;
+        max-width: 700px;
         margin: 0 auto;
-    }
-    
-    .polaroid-frame {
-        max-width: 300px;
-        margin: 0 auto;
-    }
-    
-    .polaroid-photo {
-        height: 260px;
     }
 }
 
 @media (max-width: 768px) {
-    .header-title-section h1 {
-        font-size: 2.2rem;
+    .header-main-container {
+        gap: 25px;
     }
     
-    .theme-container {
-        padding: 12px 20px; /* Réduit */
+    .polaroid-frame-large {
+        max-width: 340px;
+        padding: 15px 15px 45px 15px;
     }
     
-    .theme-text {
-        font-size: 2.2rem;
-    }
-    
-    .flags-right-container {
-        padding: 12px; /* Réduit */
-    }
-    
-    .polaroid-frame {
-        max-width: 280px;
-        padding: 12px 12px 40px 12px;
-    }
-    
-    .polaroid-photo {
+    .polaroid-photo-large {
         height: 240px;
     }
     
-    .polaroid-title {
-        font-size: 1rem;
+    .polaroid-title-large {
+        font-size: 1.2rem;
     }
     
-    .polaroid-date {
-        font-size: 0.85rem;
+    .polaroid-date-large {
+        font-size: 0.9rem;
+    }
+    
+    .theme-text-compact {
+        font-size: 2.2rem;
+    }
+    
+    .flags-row-compact {
+        gap: 10px;
+    }
+    
+    .flag-compact {
+        width: 50px;
+        height: 33px;
+    }
+    
+    .calendar-side-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+    
+    .stat-value {
+        font-size: 1.8rem;
     }
 }
 
 @media (max-width: 600px) {
-    .header-top-section {
+    .header-content-right {
         gap: 20px;
     }
     
-    .header-right-section {
-        gap: 10px; /* Encore réduit */
+    .top-right-section {
+        gap: 12px;
     }
     
-    .header-title-section h1 {
-        font-size: 2rem;
+    .theme-container-compact {
+        padding: 15px 20px;
     }
     
-    .theme-container {
-        padding: 10px 15px;
-        margin-bottom: 0;
-    }
-    
-    .theme-text {
+    .theme-text-compact {
         font-size: 1.9rem;
     }
     
-    .polaroid-frame {
-        max-width: 250px;
+    .flags-compact-container {
+        padding: 15px;
     }
     
-    .polaroid-photo {
-        height: 210px;
+    .flags-label-compact {
+        font-size: 1.1rem;
     }
     
-    .flags-row {
-        gap: 8px;
-    }
-    
-    .flag {
+    .flag-compact {
         width: 45px;
         height: 30px;
     }
-}
-
-@media (max-width: 480px) {
-    .header-top-section {
-        gap: 15px;
+    
+    .calendar-side-container {
+        padding: 20px;
     }
     
-    .header-title-section h1 {
-        font-size: 1.8rem;
+    .calendar-side-header h3 {
+        font-size: 1.4rem;
     }
     
-    .flags-right-container {
-        padding: 10px;
-    }
-    
-    .flags-label {
-        font-size: 0.95rem;
-        margin-bottom: 10px;
-    }
-    
-    .polaroid-frame {
-        max-width: 230px;
-        padding: 10px 10px 35px 10px;
-    }
-    
-    .polaroid-photo {
-        height: 190px;
-    }
-    
-    .polaroid-title {
+    .calendar-btn, .dates-btn {
+        padding: 12px 16px;
         font-size: 0.95rem;
     }
-    
-    .polaroid-date {
-        font-size: 0.8rem;
-    }
 }
-  
         footer {
             text-align: center;
             margin-top: 50px;
@@ -2044,61 +2277,87 @@
 </head>
 <body>
     <div class="container">
-        <header>
-    <div class="header-top-section">
-        <!-- PHOTO À GAUCHE - STYLE POLAROID AGRANDI -->
-        <div class="photo-left-container">
-            <div class="polaroid-frame">
+       <header>
+    <div class="header-main-container">
+        <!-- PHOTO À GAUCHE - PLUS LARGE -->
+        <div class="photo-main-container">
+            <div class="polaroid-frame-large">
                 <a href="https://drive.google.com/file/d/193k18u5i7g3JvpQWTK4xFoi7uzJl1vhI/view?usp=sharing" 
                    target="_blank" 
-                   class="polaroid-link" 
+                   class="polaroid-link-large" 
                    title="Cliquez pour agrandir la photo">
-                    <img src="https://drive.google.com/thumbnail?id=193k18u5i7g3JvpQWTK4xFoi7uzJl1vhI&sz=w600" 
+                    <img src="https://drive.google.com/thumbnail?id=193k18u5i7g3JvpQWTK4xFoi7uzJl1vhI&sz=w700" 
                          alt="Tournée Europe 2026" 
-                         class="polaroid-photo"
-                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1528164344705-47542687000d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'">
-                    <div class="polaroid-overlay">📸 Cliquez pour agrandir</div>
+                         class="polaroid-photo-large"
+                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1528164344705-47542687000d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=700&q=80'">
+                    <div class="polaroid-overlay-large">📸 Cliquez pour agrandir</div>
                 </a>
-                <div class="polaroid-caption">
-                    <div class="polaroid-title">Tournée Europe 2026</div>
-                    <div class="polaroid-date">Avril - Juin 2026</div>
-                    <div class="polaroid-icon"><i class="fas fa-music"></i></div>
+                <div class="polaroid-caption-large">
+                    <div class="polaroid-title-large">TOURNÉE EUROPE 2026</div>
+                    <div class="polaroid-date-large">Avril - Juin 2026</div>
+                    <div class="polaroid-icon-large"><i class="fas fa-music"></i> Chants & Concerts</div>
                 </div>
-                <div class="polaroid-tape"></div>
+                <div class="polaroid-tape-large"></div>
             </div>
         </div>
         
-        <!-- CONTENU DROITE AVEC TITRE, THÈME ET DRAPEAUX RAPPROCHÉS -->
-        <div class="header-right-section">
-            <!-- TITRE SEUL (sans sous-titre) -->
-            <div class="header-title-section">
-                <h1>Tournée Europe 2026</h1>
-            </div>
-            
-            <!-- THÈME AVEC FLEURS -->
-            <div class="theme-container">
-                <div class="flower flower-1">🌸</div>
-                <div class="flower flower-2">🌺</div>
-                <div class="flower flower-3">🌼</div>
-                <div class="flower flower-4">🌻</div>
-                <div class="flower flower-5">💮</div>
-                <div class="flower flower-6">🏵️</div>
-                <div class="theme-text">"Nos sources sont en Toi"</div>
-            </div>
-            
-            <!-- DRAPEAUX HORIZONTAUX RAPPROCHÉS DU THÈME -->
-            <div class="flags-right-container">
-                <div class="flags-label">
-                    <i class="fas fa-globe-europe"></i> Itinéraire de la tournée
+        <!-- CONTENU DROITE AVEC THÈME ET DRAPEAUX EN HAUT + CALENDRIER EN BAS -->
+        <div class="header-content-right">
+            <!-- THÈME ET DRAPEAUX EN HAUT -->
+            <div class="top-right-section">
+                <!-- THÈME AVEC FLEURS -->
+                <div class="theme-container-compact">
+                    <div class="flower flower-1">🌸</div>
+                    <div class="flower flower-2">🌺</div>
+                    <div class="flower flower-3">🌼</div>
+                    <div class="flower flower-4">🌻</div>
+                    <div class="flower flower-5">💮</div>
+                    <div class="flower flower-6">🏵️</div>
+                    <div class="theme-text-compact">"Nos sources sont en Toi"</div>
                 </div>
-                <div class="flags-row">
-                    <div class="flag flag-france" title="France"></div>
-                    <div class="flag flag-germany" title="Allemagne"></div>
-                    <div class="flag flag-belgium" title="Belgique"></div>
-                    <div class="flag flag-switzerland" title="Suisse"></div>
-                    <div class="flag flag-uk" title="Royaume-Uni"></div>
-                    <div class="flag flag-wales" title="Wales"></div>
-                    <div class="flag flag-madagascar" title="Madagascar"></div>
+                
+                <!-- DRAPEAUX HORIZONTAUX -->
+                <div class="flags-compact-container">
+                   
+                    <div class="flags-row-compact">
+                        <div class="flag-compact flag-france" title="France"></div>
+                        <div class="flag-compact flag-germany" title="Allemagne"></div>
+                        <div class="flag-compact flag-belgium" title="Belgique"></div>
+                        <div class="flag-compact flag-switzerland" title="Suisse"></div>
+                        <div class="flag-compact flag-uk" title="Royaume-Uni"></div>
+                        <div class="flag-compact flag-wales" title="Wales"></div>
+                        <div class="flag-compact flag-madagascar" title="Madagascar"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CALENDRIER À DROITE DE LA PHOTO -->
+            <div class="calendar-side-container">
+                <div class="calendar-side-header">
+                    <h3><i class="fas fa-calendar-alt"></i> Calendrier de la Tournée</h3>
+                    <p class="calendar-side-subtitle">Prochains concerts et événements</p>
+                </div>
+                <div class="calendar-side-stats">
+                    <div class="calendar-stat-side">
+                        <div class="stat-value">7</div>
+                        <div class="stat-label">Pays</div>
+                    </div>
+                    <div class="calendar-stat-side">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Concerts</div>
+                    </div>
+                    <div class="calendar-stat-side">
+                        <div class="stat-value">90</div>
+                        <div class="stat-label">Jours</div>
+                    </div>
+                </div>
+                <div class="calendar-side-actions">
+                    <button class="calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
+                        <i class="fas fa-calendar-day"></i> Voir le calendrier complet
+                    </button>
+                    <button class="dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
+                        <i class="fas fa-list-alt"></i> Dates par pays
+                    </button>
                 </div>
             </div>
         </div>
