@@ -100,7 +100,185 @@
             color: #4a5568;
             font-weight: 500;
         }
-        
+        /* ===== NOUVEAU HEADER AVEC PHOTO À GAUCHE ===== */
+
+.header-top-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.photo-left-container {
+    flex: 0 0 auto;
+    text-align: center;
+}
+
+.header-right-content {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Style de la photo (identique à avant) */
+.main-photo-link {
+    display: block;
+    width: 220px; /* Légèrement plus petit pour s'adapter */
+    height: 220px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    border: 4px solid #FFD700;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    text-decoration: none;
+    margin: 0;
+}
+
+.main-photo-link:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: #FFA500;
+}
+
+.main-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.main-photo-link:hover .main-photo {
+    transform: scale(1.08);
+}
+
+.photo-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+    color: white;
+    padding: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.4s ease;
+    text-align: center;
+    backdrop-filter: blur(3px);
+    letter-spacing: 0.5px;
+}
+
+.main-photo-link:hover .photo-overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.photo-caption {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: #2d3748;
+    font-weight: 600;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.1));
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: inline-block;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.1);
+}
+
+/* Ajustements pour le titre et sous-titre à droite */
+.header-right-content h1 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+    color: #2d3748;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+}
+
+.header-right-content .subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: #4a5568;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Ajustement du thème pour la nouvelle disposition */
+.header-right-content .theme-container {
+    margin-top: 15px;
+    padding: 20px 30px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .header-top-section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+    }
+    
+    .header-right-content {
+        text-align: center;
+        min-width: 100%;
+    }
+    
+    .main-photo-link {
+        width: 250px;
+        height: 250px;
+        margin: 0 auto;
+    }
+    
+    .header-right-content h1 {
+        font-size: 2.2rem;
+    }
+    
+    .header-right-content .subtitle {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .header-right-content h1 {
+        font-size: 2rem;
+    }
+    
+    .header-right-content .subtitle {
+        font-size: 1rem;
+    }
+    
+    .main-photo-link {
+        width: 220px;
+        height: 220px;
+    }
+    
+    .photo-caption {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+    }
+    
+    .header-right-content .theme-container {
+        padding: 15px 20px;
+    }
+    
+    .theme-text {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .main-photo-link {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .header-right-content h1 {
+        font-size: 1.8rem;
+    }
+}
         .flags-container {
             display: flex;
             justify-content: center;
@@ -1726,10 +1904,28 @@
 <body>
     <div class="container">
         <header>
+    <div class="header-top-section">
+        <!-- PHOTO À GAUCHE -->
+        <div class="photo-left-container">
+            <a href="https://drive.google.com/file/d/182apmFXwCNtkBurJZdZVM2mjiz5XDa1N/view?usp=sharing" 
+               target="_blank" 
+               class="main-photo-link" 
+               title="Cliquez pour agrandir la photo">
+                <img src="https://drive.google.com/thumbnail?id=182apmFXwCNtkBurJZdZVM2mjiz5XDa1N&sz=w500" 
+                     alt="Tournée Europe 2026" 
+                     class="main-photo"
+                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1528164344705-47542687000d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80'">
+                <div class="photo-overlay">📸 Cliquez pour agrandir</div>
+            </a>
+           
+        </div>
+        
+        <!-- TITRE ET THÈME À DROITE -->
+        <div class="header-right-content">
             <h1>Tournée Europe 2026</h1>
             <p class="subtitle">Découvrez tous les aspects de notre tournée à travers l'Europe</p>
             
-            <!-- NOUVEAU: Thème avec fleurs -->
+            <!-- Thème avec fleurs -->
             <div class="theme-container">
                 <div class="flower flower-1">🌸</div>
                 <div class="flower flower-2">🌺</div>
@@ -1739,18 +1935,20 @@
                 <div class="flower flower-6">🏵️</div>
                 <div class="theme-text">"Nos sources sont en Toi"</div>
             </div>
-            
-            <div class="flags-container">
-                <div class="flag flag-france" title="France"></div>
-                <div class="flag flag-germany" title="Allemagne"></div>
-                <div class="flag flag-belgium" title="Belgique"></div>
-                <div class="flag flag-switzerland" title="Suisse"></div>
-                <div class="flag flag-uk" title="Royaume-Uni"></div>
-                <div class="flag flag-wales" title="Wales"></div>
-                <!-- NOUVEAU: Drapeau de Madagascar -->
-                <div class="flag flag-madagascar" title="Madagascar"></div>
-            </div>
-        </header>
+        </div>
+    </div>
+    
+    <div class="flags-container">
+        <div class="flag flag-france" title="France"></div>
+        <div class="flag flag-germany" title="Allemagne"></div>
+        <div class="flag flag-belgium" title="Belgique"></div>
+        <div class="flag flag-switzerland" title="Suisse"></div>
+        <div class="flag flag-uk" title="Royaume-Uni"></div>
+        <div class="flag flag-wales" title="Wales"></div>
+        <!-- Drapeau de Madagascar -->
+        <div class="flag flag-madagascar" title="Madagascar"></div>
+    </div>
+</header>
         
         <div class="main-content">
             <div class="sections-container">
