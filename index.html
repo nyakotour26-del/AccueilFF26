@@ -24,11 +24,13 @@
             color: #2d3748;
             min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden; /* Ajout pour éviter le débordement horizontal général */
         }
         
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            width: 100%; /* Ajout pour assurer la bonne largeur */
         }
         
         header {
@@ -67,7 +69,7 @@
         .header-right-column {
             display: flex;
             flex-direction: column;
-            gap: 15px; /* Réduit de 25px à 15px */
+            gap: 15px;
         }
         
         /* Thème avec fleurs */
@@ -358,13 +360,13 @@
             opacity: 1;
         }
         
-        /* Sections de la colonne droite (informations générales, contributions, accès réservé) */
+        /* ===== MODIFICATIONS : RÉDUCTION DE LA HAUTEUR DES SECTIONS DROITES SUR DESKTOP ===== */
         .header-info-section,
         .header-contrib-section,
         .header-access-section {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 18px;
-            padding: 20px; /* Réduit de 25px à 20px */
+            padding: 18px; /* Réduction supplémentaire de padding */
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             border: 2px solid rgba(66, 153, 225, 0.2);
             transition: transform 0.3s, box-shadow 0.3s;
@@ -380,22 +382,22 @@
         .header-info-section .section-title,
         .header-contrib-section .section-title,
         .header-access-section .section-title {
-            font-size: 1.4rem;
-            margin-bottom: 15px; /* Réduit de 20px à 15px */
+            font-size: 1.3rem; /* Réduction de taille */
+            margin-bottom: 12px; /* Réduction supplémentaire */
             display: flex;
             align-items: center;
-            gap: 10px;
-            border-bottom: 3px solid rgba(66, 153, 225, 0.3);
-            padding-bottom: 10px; /* Réduit de 12px à 10px */
+            gap: 8px;
+            border-bottom: 2px solid rgba(66, 153, 225, 0.3);
+            padding-bottom: 8px;
             color: #2d3748;
         }
         
-        /* Grille des boutons pour informations générales */
+        /* Grille des boutons pour informations générales - RÉDUIT */
         .header-btn-grid-compact {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 10px;
+            gap: 10px; /* Réduction de l'espacement */
+            margin-top: 8px;
         }
         
         .header-btn-compact {
@@ -403,18 +405,18 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 12px 8px;
+            gap: 6px; /* Réduction */
+            padding: 10px 6px; /* Réduction */
             background: rgba(255, 255, 255, 0.95);
             border: 2px solid rgba(66, 153, 225, 0.15);
-            border-radius: 12px;
+            border-radius: 10px;
             color: #2d3748;
-            font-size: 0.9rem;
+            font-size: 0.85rem; /* Réduction */
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
             text-decoration: none;
-            height: 90px;
+            height: 80px; /* RÉDUCTION DE HAUTEUR (était 90px) */
         }
         
         .header-btn-compact:hover {
@@ -425,20 +427,21 @@
         }
         
         .header-btn-emoji-compact {
-            font-size: 1.4rem;
+            font-size: 1.2rem; /* Réduction */
         }
         
         .header-btn-text-compact {
             font-weight: 600;
-            line-height: 1.2;
+            line-height: 1.1; /* Ajustement */
+            font-size: 0.85rem; /* Ajustement */
         }
         
-        /* Grille des boutons pour contributions */
+        /* ===== MODIFICATION : RÉDUCTION DE LA HAUTEUR DU CHAMP CONTRIBUTIONS ===== */
         .header-contrib-section .btn-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 10px;
+            gap: 12px; /* Réduction */
+            margin-top: 8px;
         }
         
         .header-contrib-section .btn {
@@ -446,18 +449,18 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px; /* Réduit de 10px à 8px */
-            padding: 12px 10px; /* Réduit de 18px 12px */
+            gap: 6px;
+            padding: 10px 8px; /* Réduction */
             background: rgba(255, 255, 255, 0.95);
             border: 2px solid rgba(66, 153, 225, 0.15);
-            border-radius: 12px;
+            border-radius: 10px;
             color: #2d3748;
-            font-size: 0.9rem; /* Réduit de 1rem */
+            font-size: 0.85rem; /* Réduction */
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
             text-decoration: none;
-            height: 90px; /* Réduit de 110px à 90px */
+            height: 80px; /* RÉDUCTION DE HAUTEUR (était 90px) */
         }
         
         .header-contrib-section .btn:hover {
@@ -468,20 +471,21 @@
         }
         
         .header-contrib-section .btn-emoji {
-            font-size: 1.4rem; /* Réduit de 1.6rem */
+            font-size: 1.2rem; /* Réduction */
         }
         
         .header-contrib-section .btn-text {
             font-weight: 600;
-            line-height: 1.2;
+            line-height: 1.1;
+            font-size: 0.85rem; /* Ajustement */
         }
         
-        /* Grille des boutons pour accès réservé */
+        /* ===== MODIFICATION : RÉDUCTION DE LA HAUTEUR DU CHAMP ACCÈS RÉSERVÉ ===== */
         .header-access-section .btn-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
-            margin-top: 10px;
+            gap: 12px; /* Réduction */
+            margin-top: 8px;
         }
         
         .header-access-section .btn {
@@ -489,18 +493,18 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px; /* Réduit de 10px à 8px */
-            padding: 12px 10px; /* Réduit de 18px 12px */
+            gap: 6px;
+            padding: 10px 8px; /* Réduction */
             background: rgba(255, 255, 255, 0.95);
             border: 2px solid rgba(66, 153, 225, 0.15);
-            border-radius: 12px;
+            border-radius: 10px;
             color: #2d3748;
-            font-size: 0.9rem; /* Réduit de 1rem */
+            font-size: 0.85rem; /* Réduction */
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
             text-decoration: none;
-            height: 90px; /* Réduit de 110px à 90px */
+            height: 80px; /* RÉDUCTION DE HAUTEUR (était 90px) */
         }
         
         .header-access-section .btn:hover {
@@ -511,25 +515,26 @@
         }
         
         .header-access-section .btn-emoji {
-            font-size: 1.4rem; /* Réduit de 1.6rem */
+            font-size: 1.2rem; /* Réduction */
         }
         
         .header-access-section .btn-text {
             font-weight: 600;
-            line-height: 1.2;
+            line-height: 1.1;
+            font-size: 0.85rem; /* Ajustement */
         }
         
-        /* Section secrétariat dans la colonne droite */
+        /* ===== SECTION SECRÉTARIAT RÉDUITE ===== */
         .header-access-section .access-content {
-            margin-top: 15px; /* Réduit de 20px */
-            padding-top: 15px; /* Réduit de 20px */
+            margin-top: 12px; /* Réduction */
+            padding-top: 12px; /* Réduction */
             border-top: 2px dashed rgba(66, 153, 225, 0.2);
         }
         
         .header-access-section .secretariat-btn-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 10px; /* Réduction */
         }
         
         .header-access-section .secretariat-btn {
@@ -537,18 +542,18 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 6px; /* Réduit de 8px */
-            padding: 12px 8px; /* Réduit de 15px 10px */
+            gap: 5px; /* Réduction */
+            padding: 10px 6px; /* Réduction */
             background: rgba(255, 255, 255, 0.95);
             border: 2px solid rgba(66, 153, 225, 0.15);
-            border-radius: 12px;
+            border-radius: 10px;
             color: #2d3748;
-            font-size: 0.85rem; /* Réduit de 0.9rem */
+            font-size: 0.8rem; /* Réduction */
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
             text-decoration: none;
-            height: 85px; /* Réduit de 100px à 85px */
+            height: 75px; /* RÉDUCTION (était 85px) */
         }
         
         .header-access-section .secretariat-btn:hover {
@@ -559,12 +564,13 @@
         }
         
         .header-access-section .secretariat-btn-emoji {
-            font-size: 1.2rem; /* Réduit de 1.4rem */
+            font-size: 1.1rem; /* Réduction */
         }
         
         .header-access-section .secretariat-btn-text {
             font-weight: 600;
-            line-height: 1.2;
+            line-height: 1.1;
+            font-size: 0.8rem; /* Ajustement */
         }
         
         .header-access-section .sheet-btn {
@@ -573,20 +579,20 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px; /* Réduit de 10px */
-            padding: 15px 10px; /* Réduit de 20px 15px */
+            gap: 6px; /* Réduction */
+            padding: 12px 8px; /* Réduction */
             background: linear-gradient(135deg, #48bb78, #38a169);
             border: 2px solid #48bb78;
-            border-radius: 15px;
+            border-radius: 12px;
             color: white;
-            font-size: 0.95rem; /* Réduit de 1rem */
+            font-size: 0.9rem; /* Réduction */
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
             text-decoration: none;
-            height: 100px; /* Réduit de 120px à 100px */
+            height: 90px; /* RÉDUCTION (était 100px) */
             box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
-            margin-top: 10px;
+            margin-top: 8px;
         }
         
         .header-access-section .sheet-btn:hover {
@@ -596,13 +602,13 @@
         }
         
         .header-access-section .sheet-btn-emoji {
-            font-size: 1.6rem; /* Réduit de 2rem */
+            font-size: 1.4rem; /* Réduction */
         }
         
         .header-access-section .sheet-btn-text {
             font-weight: 700;
-            line-height: 1.3;
-            font-size: 1rem; /* Réduit de 1.1rem */
+            line-height: 1.2;
+            font-size: 0.95rem; /* Réduction */
         }
         
         /* ===== CORRECTION DES DRAPEAUX DANS "DATES PAR PAYS" ===== */
@@ -616,7 +622,6 @@
             flex-shrink: 0;
         }
 
-        /* Styles spécifiques pour chaque drapeau dans le récapitulatif */
         .country-flag.flag-france {
             background: linear-gradient(to right, #002395 33%, white 33%, white 66%, #ED2939 66%);
         }
@@ -737,10 +742,20 @@
         
         /* ===== MODIFICATIONS POUR MOBILE (768px et moins) ===== */
         @media (max-width: 768px) {
+            body {
+                padding: 15px; /* Réduction du padding sur mobile */
+                overflow-x: hidden; /* Empêcher le débordement horizontal */
+            }
+            
+            .container {
+                max-width: 100%;
+                padding: 0 5px; /* Réduction supplémentaire */
+            }
+            
             .header-desktop-layout {
                 display: flex;
                 flex-direction: column;
-                gap: 20px;
+                gap: 15px; /* Réduction de l'espacement */
             }
             
             .header-left-column,
@@ -755,73 +770,170 @@
             }
             
             .theme-container-simple {
-                padding: 12px 20px;
+                padding: 10px 15px; /* Réduction */
             }
             
             .theme-text-simple {
-                font-size: 1.8rem;
+                font-size: 1.6rem; /* Réduction */
             }
             
             .flower {
-                font-size: 1.2rem;
+                font-size: 1rem; /* Réduction */
             }
             
             .flags-horizontal {
-                padding: 12px;
-                gap: 8px;
+                padding: 10px; /* Réduction */
+                gap: 6px; /* Réduction */
             }
             
             .flag-horizontal {
-                width: 40px;
-                height: 27px;
+                width: 35px; /* Réduction */
+                height: 23px; /* Réduction */
             }
             
             .photo-main-container {
-                max-width: 400px;
+                max-width: 100%; /* Utilisation de toute la largeur */
                 margin: 0 auto;
             }
             
             .polaroid-frame-extra-large {
-                padding: 15px 15px 50px 15px;
+                padding: 12px 12px 40px 12px; /* Réduction */
             }
             
             .polaroid-photo-extra-large {
-                height: 250px;
+                height: 200px; /* Réduction */
             }
             
             .polaroid-title-extra-large {
-                font-size: 1.3rem;
+                font-size: 1.1rem; /* Réduction */
             }
             
             .polaroid-date-extra-large {
-                font-size: 0.95rem;
+                font-size: 0.85rem; /* Réduction */
+            }
+            
+            .header-right-column {
+                gap: 12px; /* Réduction */
+            }
+            
+            /* ===== MODIFICATION : CALENDRIER SCROLLABLE HORIZONTALEMENT ===== */
+            .calendar-section {
+                overflow-x: auto; /* Permettre le défilement horizontal */
+                -webkit-overflow-scrolling: touch; /* Défilement fluide sur iOS */
+                padding: 15px; /* Réduction du padding */
+                margin: 0 -5px; /* Compensation pour le défilement */
+            }
+            
+            .calendar-container {
+                min-width: 700px; /* Largeur minimale pour forcer le défilement */
+                width: 100%;
+                overflow-x: visible;
+            }
+            
+            .calendar {
+                min-width: 650px; /* Largeur minimale du calendrier */
+                width: 100%;
+            }
+            
+            .calendar-grid {
+                min-width: 650px; /* Largeur minimale de la grille */
+                width: 100%;
+            }
+            
+            .calendar-day {
+                min-height: 80px; /* Légère réduction pour économiser l'espace */
+            }
+            
+            /* ===== MODIFICATION : RÉCAPITULATIF DES DATES PAR PAYS ===== */
+            .recap-section {
+                padding: 15px; /* Réduction du padding */
+                width: 100%;
+                overflow-x: hidden; /* Empêcher le débordement horizontal */
+            }
+            
+            .recap-container {
+                grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+                gap: 15px; /* Réduction de l'espacement */
+                width: 100%;
+                max-width: 100%; /* Limiter la largeur */
+            }
+            
+            .country-card {
+                padding: 15px; /* Réduction du padding */
+                min-width: 0; /* Permettre le rétrécissement */
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            .country-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .country-info {
+                width: 100%;
+                gap: 10px; /* Réduction de l'espacement */
+            }
+            
+            .country-stats {
+                font-size: 0.8rem; /* Réduction */
+                padding: 4px 8px; /* Réduction */
+            }
+            
+            .toggle-dates-btn {
+                align-self: stretch; /* Prendre toute la largeur */
+                width: 100%;
+            }
+            
+            .country-dates {
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+            
+            .date-item {
+                flex-direction: column; /* Empiler les éléments */
+                gap: 5px;
+                align-items: flex-start;
+            }
+            
+            .date-location,
+            .date-value {
+                width: 100%;
+                text-align: left;
             }
             
             /* Ajustements mobile pour les sections redimensionnées */
-            .header-right-column {
-                gap: 15px;
-            }
-            
             .header-info-section,
             .header-contrib-section,
             .header-access-section {
-                padding: 18px;
+                padding: 15px; /* Réduction */
             }
             
             .header-btn-compact {
-                height: 80px;
-                padding: 10px 6px;
+                height: 70px; /* Réduction supplémentaire */
+                padding: 8px 4px;
             }
             
             /* Afficher les sections originales dans le main-content sur mobile */
             .sections-container {
                 display: flex;
                 flex-direction: column;
-                gap: 25px;
+                gap: 20px; /* Réduction */
+                width: 100%;
             }
             
             .mobile-only {
                 display: block !important;
+            }
+            
+            /* ===== AJUSTEMENT DU CALENDRIER-RECAP CONTAINER ===== */
+            .calendar-recap-container {
+                display: flex;
+                flex-direction: column;
+                gap: 20px; /* Réduction */
+                width: 100%;
+                max-width: 100%;
+                overflow: hidden;
             }
         }
         
@@ -837,28 +949,65 @@
         
         @media (max-width: 480px) {
             .theme-text-simple {
-                font-size: 1.6rem;
+                font-size: 1.4rem; /* Réduction supplémentaire */
             }
             
             .flags-horizontal {
-                gap: 6px;
+                gap: 5px; /* Réduction supplémentaire */
+                padding: 8px; /* Réduction supplémentaire */
             }
             
             .flag-horizontal {
-                width: 35px;
-                height: 23px;
+                width: 30px; /* Réduction supplémentaire */
+                height: 20px; /* Réduction supplémentaire */
             }
             
             .photo-main-container {
-                max-width: 350px;
+                max-width: 100%;
             }
             
             .polaroid-photo-extra-large {
-                height: 220px;
+                height: 180px; /* Réduction supplémentaire */
             }
             
             .polaroid-title-extra-large {
-                font-size: 1.2rem;
+                font-size: 1rem; /* Réduction supplémentaire */
+            }
+            
+            /* ===== AJUSTEMENTS SUPPLÉMENTAIRES POUR TRÈS PETITS ÉCRANS ===== */
+            .calendar-container {
+                min-width: 600px; /* Réduction pour très petits écrans */
+            }
+            
+            .calendar {
+                min-width: 550px; /* Réduction */
+            }
+            
+            .calendar-grid {
+                min-width: 550px; /* Réduction */
+            }
+            
+            .calendar-day {
+                min-height: 70px; /* Réduction supplémentaire */
+                font-size: 0.8rem; /* Réduction */
+            }
+            
+            .holiday-name, .malagasy-holiday-name {
+                font-size: 0.5rem; /* Réduction */
+            }
+            
+            .program-count {
+                width: 12px; /* Réduction */
+                height: 12px; /* Réduction */
+                font-size: 0.5rem; /* Réduction */
+            }
+            
+            .recap-section {
+                padding: 12px; /* Réduction supplémentaire */
+            }
+            
+            .country-card {
+                padding: 12px; /* Réduction supplémentaire */
             }
         }
         
