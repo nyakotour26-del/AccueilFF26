@@ -845,7 +845,7 @@
                 position: relative;
             }
             
-            /* NOUVEAU : Ajout de l'image de fond au calendrier pour MOBILE */
+            /* FOND DU CALENDRIER - l'image avec les numéros 1,2,3... */
             .calendar::before {
                 content: '';
                 position: absolute;
@@ -1071,7 +1071,7 @@
             position: relative;
         }
         
-        /* NOUVEAU : Ajout de l'image de fond au calendrier pour DESKTOP/TABLETTE */
+        /* FOND DU CALENDRIER - l'image avec les numéros 1,2,3... */
         .calendar-section::before {
             content: '';
             position: absolute;
@@ -1342,6 +1342,26 @@
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             padding: 15px;
+            position: relative;
+        }
+        
+        .calendar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://drive.google.com/thumbnail?id=1Lwx-umcJDvmhBQJJItpA0TsRMqm-u0iw&sz=w800') center center no-repeat;
+            background-size: cover;
+            opacity: 0.2; /* Transparence pour que le contenu reste lisible */
+            border-radius: 12px;
+            z-index: 1;
+        }
+        
+        .calendar > * {
+            position: relative;
+            z-index: 2; /* Pour que le contenu soit au-dessus du fond */
         }
         
         .calendar-header {
