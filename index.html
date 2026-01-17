@@ -828,6 +828,9 @@
                 -webkit-overflow-scrolling: touch;
                 padding: 15px;
                 margin: 0 -5px;
+                width: 100vw;
+                margin-left: -20px;
+                margin-right: -20px;
             }
             
             .calendar-container {
@@ -839,6 +842,30 @@
             .calendar {
                 min-width: 650px;
                 width: 100%;
+                position: relative;
+            }
+            
+            /* NOUVEAU : Ajout de l'image de fond au calendrier pour MOBILE */
+            .calendar::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('https://drive.google.com/thumbnail?id=1Lwx-umcJDvmhBQJJItpA0TsRMqm-u0iw&sz=w800') center center no-repeat;
+                background-size: cover;
+                opacity: 0.3; /* Transparence pour que le contenu reste lisible */
+                border-radius: 10px;
+                z-index: 1;
+            }
+            
+            .calendar-header,
+            .calendar-grid,
+            .calendar-day,
+            .calendar-day-header {
+                position: relative;
+                z-index: 3; /* Pour que le texte soit au-dessus du fond */
             }
             
             .calendar-grid {
@@ -850,7 +877,7 @@
                 min-height: 80px;
             }
             
-            /* ===== MODIFICATION : RÉCAPITULATIF DES DATES PAR PAYS ===== */
+            /* ===== MODIFICATION : RÉCAPITULATIF DES DATES PAR PAYS POUR MOBILE ===== */
             .recap-section {
                 padding: 15px;
                 width: 100%;
@@ -1032,6 +1059,7 @@
             margin-top: 30px;
         }
         
+        /* ===== MODIFICATION : CALENDRIER POUR TOUS LES ÉCRANS ===== */
         .calendar-section {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
@@ -1040,6 +1068,27 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.5);
             transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        /* NOUVEAU : Ajout de l'image de fond au calendrier pour DESKTOP/TABLETTE */
+        .calendar-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://drive.google.com/thumbnail?id=1Lwx-umcJDvmhBQJJItpA0TsRMqm-u0iw&sz=w800') center center no-repeat;
+            background-size: cover;
+            opacity: 0.2; /* Transparence pour que le contenu reste lisible */
+            border-radius: 20px;
+            z-index: 1;
+        }
+        
+        .calendar-section > * {
+            position: relative;
+            z-index: 2; /* Pour que le contenu soit au-dessus du fond */
         }
         
         .calendar-section:hover {
@@ -1060,6 +1109,90 @@
         .recap-section:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* ===== MODIFICATION SPÉCIFIQUE POUR 768px ===== */
+        @media (max-width: 768px) and (min-width: 481px) {
+            .calendar-section {
+                padding: 20px;
+                width: 95%;
+                margin: 0 auto;
+                overflow-x: visible;
+            }
+            
+            .calendar-container {
+                min-width: 100%;
+                width: 100%;
+                overflow-x: visible;
+            }
+            
+            .calendar {
+                min-width: 100%;
+                width: 100%;
+                max-width: 700px;
+                margin: 0 auto;
+            }
+            
+            .calendar-grid {
+                min-width: 100%;
+                width: 100%;
+                gap: 4px;
+            }
+            
+            .calendar-day {
+                min-height: 65px;
+                font-size: 0.8rem;
+                padding: 8px 4px;
+            }
+            
+            .day-number {
+                font-size: 0.9rem;
+            }
+            
+            .holiday-name, .malagasy-holiday-name {
+                font-size: 0.55rem;
+                padding: 0 2px;
+                line-height: 1;
+            }
+            
+            .program-count {
+                width: 14px;
+                height: 14px;
+                font-size: 0.55rem;
+            }
+            
+            .date-info {
+                font-size: 0.6rem;
+            }
+            
+            .localite, .pays {
+                font-size: 0.6rem;
+            }
+            
+            /* RÉCAPITULATIF DES DATES PAR PAYS POUR 768px */
+            .recap-section {
+                padding: 20px;
+                width: 100%;
+            }
+            
+            .recap-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .country-card {
+                padding: 18px;
+            }
+            
+            .country-header {
+                flex-direction: row;
+                align-items: center;
+            }
+            
+            .toggle-dates-btn {
+                align-self: center;
+                width: auto;
+            }
         }
         
         /* Responsive pour calendrier et récapitulatif */
