@@ -758,7 +758,7 @@
             margin-top: 1px !important;
         }
         
-        /* ===== MODIFICATION : BULLE D'INFO CALENDRIER COMPACTE ===== */
+        /* ===== MODIFICATION : BULLE D'INFO CALENDRIER AMÉLIORÉE ===== */
         .date-modal-content {
             max-width: 500px !important;
         }
@@ -767,9 +767,13 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
+            margin-bottom: 8px; /* Réduit de 10px à 8px */
+            padding-bottom: 6px; /* Réduit de 8px à 6px */
             border-bottom: 1px solid #e2e8f0;
+            background-color: #4CAF50;
+            border-radius: 10px 10px 0 0;
+            padding: 10px 15px; /* Réduit de 12px à 10px */
+            margin: -20px -20px 10px -20px; /* Réduit de 15px à 10px */
         }
         
         .modal-compact-title-left {
@@ -779,87 +783,148 @@
         }
         
         .modal-date-title {
-            font-size: 1rem !important;
-            font-weight: 700;
-            color: #2d3748;
+            font-size: 1.1rem !important;
+            font-weight: 900 !important;
+            color: white !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            letter-spacing: 0.5px;
+            line-height: 1.2; /* Ajout pour réduire la hauteur */
         }
         
         .modal-location-info {
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 0.9rem;
-            color: #4a5568;
+            font-size: 1rem !important;
+            color: #2d3748;
+            font-weight: 700 !important;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 8px; /* Réduit de 10px à 8px */
+            border-left: 4px solid #4CAF50;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         .modal-flag-small {
-            width: 20px;
-            height: 14px;
+            width: 24px !important;
+            height: 16px !important;
             border-radius: 2px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
         
         .date-info-modal-compact {
             background: #f8f9fa;
-            padding: 10px;
+            padding: 8px; /* Réduit de 10px à 8px */
             border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 0.8rem;
-            line-height: 1.3;
+            margin-bottom: 12px; /* Réduit de 15px à 12px */
+            font-size: 0.85rem !important;
+            line-height: 1.2; /* Réduit de 1.3 à 1.2 pour moins d'espace */
+        }
+        
+        .date-info-modal-compact .lieu-info {
+            color: #FF9800; /* Orange */
+            font-weight: bold; /* Gras */
+            margin-bottom: 4px; /* Réduit l'espacement */
+            font-size: 0.9rem;
         }
         
         .date-details-compact {
             background: white;
             border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 15px;
+            padding: 10px; /* Réduit de 12px à 10px */
+            margin-bottom: 12px; /* Réduit de 15px à 12px */
             border: 1px solid #e2e8f0;
-            font-size: 0.75rem;
+            font-size: 0.85rem !important;
             line-height: 1.2;
         }
         
         .date-details-title-compact {
-            font-size: 0.85rem !important;
-            font-weight: 600;
-            margin-bottom: 8px !important;
+            font-size: 1rem !important;
+            font-weight: 700 !important;
+            margin-bottom: 8px !important; /* Réduit de 10px à 8px */
             color: #2d3748;
             display: flex;
             align-items: center;
             gap: 6px;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 6px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px; /* Réduit de 8px à 6px */
+            background-color: #f0f7f0;
+            border-radius: 6px 6px 0 0;
+            padding: 8px 12px; /* Réduit de 10px à 8px */
+            margin: -10px -10px 8px -10px; /* Réduit de -12px à -10px et 10px à 8px */
         }
         
         .date-details-grid-compact {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 6px;
+            gap: 6px; /* Réduit de 8px à 6px */
         }
         
         .date-detail-item-compact {
             display: flex;
             align-items: flex-start;
             gap: 6px;
-            padding: 4px 0;
+            padding: 5px 0; /* Réduit de 6px à 5px */
         }
         
         .date-detail-label-compact {
             font-weight: 600;
             color: #4a5568;
-            font-size: 0.7rem;
-            min-width: 80px;
+            font-size: 0.8rem;
+            min-width: 85px;
         }
         
         .date-detail-value-compact {
             color: #2d3748;
             flex: 1;
-            font-size: 0.7rem;
+            font-size: 0.8rem;
         }
         
         .detail-emoji {
-            width: 16px;
+            width: 18px;
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
+        }
+        
+        /* ===== MODIFICATION : PROGRAMMES DU JOUR AMÉLIORÉS ===== */
+        .programmes-list {
+            background: white;
+            border-radius: 8px;
+            padding: 8px; /* Réduit de 10px à 8px */
+            margin-bottom: 12px; /* Réduit de 15px à 12px */
+            border-left: 4px solid #8A2BE2;
+            box-shadow: 0 3px 8px rgba(138, 43, 226, 0.1);
+        }
+        
+        .programmes-list-title {
+            font-size: 0.9rem !important;
+            font-weight: 700;
+            margin-bottom: 6px !important; /* Réduit de 8px à 6px */
+            color: #8A2BE2 !important;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 6px; /* Réduit de 8px à 6px */
+        }
+        
+        .programme-item {
+            padding: 4px 6px !important; /* Réduit de 6px 8px à 4px 6px */
+            background: #f8f0ff !important;
+            border-radius: 6px !important;
+            margin-bottom: 3px !important; /* Réduit de 5px à 3px */
+            border-left: 2px solid #8A2BE2 !important;
+            font-size: 0.8rem !important;
+            line-height: 1.2 !important; /* Réduit de 1.3 à 1.2 */
+            min-height: 24px !important; /* Réduit de 28px à 24px */
+            display: flex;
+            align-items: center;
+            color: #4a148c;
+        }
+        
+        .programme-item:last-child {
+            margin-bottom: 0 !important;
         }
         
         /* ===== MODIFICATION : FLÈCHES DE NAVIGATION PLUS FINES ===== */
@@ -894,7 +959,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 10px 0;
+            margin: 8px 0; /* Réduit de 10px à 8px */
             padding: 8px 12px;
             background: #f7fafc;
             border-radius: 8px;
@@ -904,10 +969,10 @@
         .program-counter-slim {
             font-weight: 600;
             color: #2d3748;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
         }
         
-        /* ===== MODIFICATION : RÉCAPITULATIF PAR PAYS COMPACT ===== */
+        /* ===== MODIFICATION : RÉCAPITULATIF PAR PAYS COMPACT AVEC DATES LIBRES ===== */
         .recap-container-compact {
             display: grid;
             grid-template-columns: 1fr;
@@ -968,7 +1033,7 @@
         }
         
         .toggle-dates-btn-compact {
-            background: #4299e1;
+            background: #FF9800 !important; /* Orange */
             color: white;
             border: none;
             border-radius: 6px;
@@ -980,10 +1045,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 4px;
         }
         
         .toggle-dates-btn-compact:hover {
-            background: #3182ce;
+            background: #F57C00 !important; /* Orange plus foncé */
         }
         
         .country-period-compact {
@@ -1080,6 +1146,63 @@
             font-style: italic;
             padding: 10px;
             font-size: 0.8rem;
+        }
+        
+        /* ===== NOUVEAU : SECTION DATES LIBRES DANS LE RÉCAPITULATIF ===== */
+        .free-dates-section {
+            background: #fffaf0;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            border-left: 3px solid #f6ad55;
+            font-size: 0.75rem;
+        }
+        
+        .free-dates-title {
+            font-weight: 600;
+            color: #c05621;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+        }
+        
+        .free-dates-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 5px;
+        }
+        
+        .free-date-item {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            border: 1px solid #fc8181;
+        }
+        
+        .free-date-item.empty {
+            background: #c6f6d5;
+            color: #22543d;
+            border-color: #9ae6b4;
+        }
+        
+        .free-date-item.booked {
+            background: #e2e8f0;
+            color: #4a5568;
+            border-color: #cbd5e0;
+            text-decoration: line-through;
+        }
+        
+        .free-dates-summary {
+            font-size: 0.7rem;
+            color: #718096;
+            margin-top: 8px;
+            font-style: italic;
         }
         
         /* ===== STYLES DES DRAPEAUX (inchangés mais nécessaires) ===== */
@@ -1462,6 +1585,17 @@
             
             .date-details-line-compact {
                 font-size: 0.65rem;
+            }
+            
+            /* Dates libres mobile */
+            .free-dates-section {
+                padding: 8px;
+                font-size: 0.7rem;
+            }
+            
+            .free-date-item {
+                font-size: 0.65rem;
+                padding: 2px 6px;
             }
         }
         
@@ -2385,38 +2519,6 @@
         .program-dot.active {
             background: #4299e1;
             transform: scale(1.2);
-        }
-        
-        .programmes-list {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 10px;
-            margin: 10px 0;
-            border-left: 3px solid #4299e1;
-            font-size: 0.8rem;
-        }
-        
-        .programmes-list-title {
-            font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.9rem;
-        }
-        
-        .programme-item {
-            padding: 6px;
-            background: white;
-            border-radius: 6px;
-            margin-bottom: 5px;
-            border-left: 2px solid #4299e1;
-            font-size: 0.75rem;
-        }
-        
-        .programme-item:last-child {
-            margin-bottom: 0;
         }
         
         .secretariat-access-section {
@@ -3950,15 +4052,15 @@
             displayDateDetailsCompact(dateDetailsGrid, programData);
         }
 
-        // ===== NOUVELLE FONCTION : AFFICHAGE COMPACT DES INFOS DU PROGRAMME =====
+        // ===== MODIFICATION : AFFICHAGE COMPACT DES INFOS DU PROGRAMME =====
         function displayDateInfoCompact(container, programData) {
             container.innerHTML = '';
             
             const infoLines = [];
             
-            // Lieu
+            // Lieu en gras et orange
             if (programData.lieu && programData.lieu.trim() !== '') {
-                infoLines.push(`🏛️ ${programData.lieu}`);
+                infoLines.push(`<span class="lieu-info">🏛️ ${programData.lieu}</span>`);
             }
             
             // Heures
@@ -3975,7 +4077,7 @@
             if (infoLines.length > 0) {
                 infoLines.forEach(line => {
                     const lineDiv = document.createElement('div');
-                    lineDiv.style.marginBottom = '4px';
+                    lineDiv.style.marginBottom = '2px'; /* Réduit l'espacement */
                     lineDiv.style.fontSize = '0.8rem';
                     lineDiv.style.lineHeight = '1.2';
                     lineDiv.innerHTML = line;
@@ -3991,7 +4093,7 @@
             }
         }
 
-        // ===== NOUVELLE FONCTION : AFFICHAGE COMPACT DES DÉTAILS =====
+        // ===== MODIFICATION : AFFICHAGE COMPACT DES DÉTAILS =====
         function displayDateDetailsCompact(container, programData) {
             container.innerHTML = '';
             
@@ -4197,8 +4299,9 @@
             const dateData = getDetailedDateData(dateInfo.date, dateInfo.localite);
             
             if (dateData) {
-                displayDateInfoCompact(dateInfoModal, dateData);
-                displayDateDetailsCompact(dateDetailsGrid, dateData);
+                // Afficher avec le lieu en orange et gras
+                displayDateInfoCompactRecap(dateInfoModal, dateData);
+                displayDateDetailsCompactRecap(dateDetailsGrid, dateData);
             } else {
                 dateInfoModal.innerHTML = '<div style="font-size: 0.8rem; color: #718096; font-style: italic;">Aucune information disponible</div>';
                 dateDetailsGrid.innerHTML = '<div class="date-detail-item-compact"><div class="date-detail-value-compact" style="text-align: center; font-style: italic; color: #718096; font-size: 0.7rem;">Aucun détail disponible</div></div>';
@@ -4208,6 +4311,104 @@
             setTimeout(() => {
                 modalContent.classList.add('show');
             }, 10);
+        }
+        
+        // Fonction spécifique pour le récapitulatif avec texte en vert
+        function displayDateInfoCompactRecap(container, programData) {
+            container.innerHTML = '';
+            
+            const infoLines = [];
+            
+            // Lieu en gras et orange (même que pour la modal principale)
+            if (programData.lieu && programData.lieu.trim() !== '') {
+                infoLines.push(`<span class="lieu-info">🏛️ ${programData.lieu}</span>`);
+            }
+            
+            // Heures
+            if (programData.heures && programData.heures.trim() !== '') {
+                infoLines.push(`🕒 ${programData.heures}`);
+            }
+            
+            // Programme (avec "Concert" par défaut) en vert
+            const programme = programData.programme && programData.programme.trim() !== '' 
+                ? programData.programme 
+                : 'Concert';
+            infoLines.push(`<span style="color: #2E8B57; font-weight: 500;">🎵 ${programme}</span>`);
+            
+            if (infoLines.length > 0) {
+                infoLines.forEach(line => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.style.marginBottom = '2px';
+                    lineDiv.style.fontSize = '0.8rem';
+                    lineDiv.style.lineHeight = '1.2';
+                    lineDiv.innerHTML = line;
+                    container.appendChild(lineDiv);
+                });
+            } else {
+                const noInfo = document.createElement('div');
+                noInfo.style.fontSize = '0.8rem';
+                noInfo.style.color = '#718096';
+                noInfo.style.fontStyle = 'italic';
+                noInfo.textContent = 'Aucune information supplémentaire';
+                container.appendChild(noInfo);
+            }
+        }
+        
+        // Fonction spécifique pour les détails du récapitulatif avec texte en vert
+        function displayDateDetailsCompactRecap(container, programData) {
+            container.innerHTML = '';
+            
+            const detailsToShow = [
+                { label: 'Adresse', key: 'adresse', emoji: '📍' },
+                { label: 'Hébergement', key: 'hebergement', emoji: '🏠' },
+                { label: 'Localisation', key: 'localisation', emoji: '🗺️' },
+                { label: 'Site', key: 'site', emoji: '🌐' }
+            ];
+            
+            let hasAnyData = false;
+            
+            detailsToShow.forEach(detail => {
+                let value = programData[detail.key] || '';
+                value = cleanMonetaryUnits(value);
+                
+                if (value.trim() !== '') {
+                    hasAnyData = true;
+                    const detailItem = document.createElement('div');
+                    detailItem.className = 'date-detail-item-compact';
+                    
+                    const emojiSpan = document.createElement('span');
+                    emojiSpan.className = 'detail-emoji';
+                    emojiSpan.textContent = detail.emoji;
+                    
+                    const label = document.createElement('span');
+                    label.className = 'date-detail-label-compact';
+                    label.textContent = detail.label + ':';
+                    
+                    const valueDiv = document.createElement('span');
+                    valueDiv.className = 'date-detail-value-compact';
+                    valueDiv.style.color = '#2E8B57'; /* Vert pour les valeurs */
+                    
+                    // Rendre les liens cliquables
+                    if ((detail.key === 'hebergement' || detail.key === 'localisation' || detail.key === 'site') && 
+                        (value.includes('http') || value.includes('www.'))) {
+                        valueDiv.innerHTML = `<a href="${value}" target="_blank" style="color: #2E8B57; text-decoration: none;">${value} <i class="fas fa-external-link-alt" style="font-size: 0.7em;"></i></a>`;
+                    } else {
+                        valueDiv.textContent = value;
+                    }
+                    
+                    detailItem.appendChild(emojiSpan);
+                    detailItem.appendChild(label);
+                    detailItem.appendChild(valueDiv);
+                    container.appendChild(detailItem);
+                }
+            });
+            
+            if (!hasAnyData) {
+                const noDetails = document.createElement('div');
+                noDetails.className = 'date-detail-item-compact';
+                noDetails.innerHTML = '<div class="date-detail-value-compact" style="text-align: center; font-style: italic; color: #718096; font-size: 0.7rem;">Aucun détail supplémentaire disponible</div>';
+                container.appendChild(noDetails);
+            }
         }
         
         function getDetailedDateData(date, localite) {
@@ -4338,7 +4539,7 @@
             if (statsPaysPlusConcerts) statsPaysPlusConcerts.textContent = paysPlusConcerts;
         }
 
-        // ===== MODIFICATION : GÉNÉRATION DU RÉCAPITULATIF PAR PAYS COMPACT =====
+        // ===== MODIFICATION : GÉNÉRATION DU RÉCAPITULATIF PAR PAYS COMPACT AVEC DATES LIBRES =====
         function generateRecapByCountry() {
             const recapContainer = document.getElementById('recapContainer');
             const noDatesMessage = document.getElementById('noDatesMessage');
@@ -4350,9 +4551,12 @@
             
             noDatesMessage.style.display = 'none';
             
+            // Grouper les dates par pays
             const datesByCountry = {};
             datesWithData.forEach(item => {
-                const country = item.pays.toUpperCase();
+                const country = item.pays ? item.pays.toUpperCase() : '';
+                if (!country) return;
+                
                 if (!datesByCountry[country]) {
                     datesByCountry[country] = [];
                 }
@@ -4363,6 +4567,11 @@
                     ...getRowData(item.rowIndex)
                 };
                 datesByCountry[country].push(detailedItem);
+            });
+            
+            // Trier les dates par pays
+            Object.keys(datesByCountry).forEach(country => {
+                datesByCountry[country].sort((a, b) => a.date - b.date);
             });
             
             const allCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE', 'MADAGASCAR'];
@@ -4398,9 +4607,6 @@
                            localite.toLowerCase() !== 'localité non spécifiée';
                 });
                 
-                countryDates.sort((a, b) => a.date - b.date);
-                datesWithLocation.sort((a, b) => a.date - b.date);
-                
                 const concertCount = datesWithLocation.length;
                 const uniqueDays = new Set(countryDates.map(item => item.date.getTime())).size;
                 
@@ -4430,26 +4636,159 @@
                 
                 const toggleBtn = document.createElement('button');
                 toggleBtn.className = 'toggle-dates-btn-compact';
-                toggleBtn.innerHTML = '<i class="fas fa-list"></i> Afficher';
+                toggleBtn.innerHTML = '<i class="fas fa-list"></i> Afficher les programmes';
                 toggleBtn.onclick = () => toggleCountryDates(country);
                 
                 countryHeader.appendChild(countryInfo);
                 countryHeader.appendChild(toggleBtn);
                 
+                // Calculer les périodes discontinues
                 const periodDiv = document.createElement('div');
                 periodDiv.className = 'country-period-compact';
                 
                 if (countryDates.length > 0) {
-                    const firstDate = countryDates[0].date;
-                    const lastDate = countryDates[countryDates.length - 1].date;
+                    // Trier les dates
+                    countryDates.sort((a, b) => a.date - b.date);
                     
-                    const firstDateFormatted = formatDateForPeriod(firstDate);
-                    const lastDateFormatted = formatDateForPeriod(lastDate);
+                    // Trouver les périodes discontinues
+                    const periods = [];
+                    let currentPeriod = null;
                     
-                    periodDiv.innerHTML = `<i class="fas fa-calendar-alt"></i> ${firstDateFormatted} - ${lastDateFormatted}`;
+                    countryDates.forEach((dateItem, index) => {
+                        if (!currentPeriod) {
+                            currentPeriod = {
+                                start: dateItem.date,
+                                end: dateItem.date
+                            };
+                        } else {
+                            const prevDate = countryDates[index - 1].date;
+                            const currentDate = dateItem.date;
+                            const dayDiff = Math.floor((currentDate - prevDate) / (1000 * 60 * 60 * 24));
+                            
+                            if (dayDiff === 1) {
+                                // Date continue, étendre la période
+                                currentPeriod.end = currentDate;
+                            } else {
+                                // Nouvelle période discontinue
+                                periods.push(currentPeriod);
+                                currentPeriod = {
+                                    start: currentDate,
+                                    end: currentDate
+                                };
+                            }
+                        }
+                    });
+                    
+                    if (currentPeriod) {
+                        periods.push(currentPeriod);
+                    }
+                    
+                    // Formater les périodes
+                    if (periods.length > 0) {
+                        const periodTexts = periods.map(period => {
+                            const startFormatted = formatDateForPeriod(period.start);
+                            const endFormatted = formatDateForPeriod(period.end);
+                            return `${startFormatted} - ${endFormatted}`;
+                        });
+                        
+                        periodDiv.innerHTML = `<i class="fas fa-calendar-alt"></i> ${periodTexts.join(' | ')}`;
+                    } else {
+                        periodDiv.innerHTML = `<i class="fas fa-calendar-alt"></i> Dates à venir`;
+                    }
                 } else {
                     periodDiv.innerHTML = `<i class="fas fa-calendar-alt"></i> Dates à venir`;
                 }
+                
+                // NOUVEAU : Ajouter la section des dates libres (seulement pour les dates réelles dans le pays)
+                const freeDatesSection = document.createElement('div');
+                freeDatesSection.className = 'free-dates-section';
+                
+                const freeDatesTitle = document.createElement('div');
+                freeDatesTitle.className = 'free-dates-title';
+                freeDatesTitle.innerHTML = '<i class="fas fa-calendar-check"></i> Dates disponibles';
+                
+                const freeDatesList = document.createElement('div');
+                freeDatesList.className = 'free-dates-list';
+                
+                const freeDatesSummary = document.createElement('div');
+                freeDatesSummary.className = 'free-dates-summary';
+                
+                // Calculer les dates libres pour ce pays (seulement les dates avec ce pays dans la colonne PAYS)
+                if (countryDates.length > 0) {
+                    // Trier les dates
+                    countryDates.sort((a, b) => a.date - b.date);
+                    
+                    // Créer une carte de toutes les dates occupées pour ce pays
+                    const occupiedDates = new Set();
+                    countryDates.forEach(dateItem => {
+                        if (dateItem.localite && dateItem.localite.trim() !== '' && 
+                            !dateItem.localite.toUpperCase().includes('MADAGASCAR') &&
+                            !dateItem.localite.toUpperCase().includes('RETOUR')) {
+                            occupiedDates.add(dateItem.date.getTime());
+                        }
+                    });
+                    
+                    // Obtenir la première et dernière date pour ce pays
+                    const firstDate = new Date(countryDates[0].date);
+                    const lastDate = new Date(countryDates[countryDates.length - 1].date);
+                    
+                    // Générer toutes les dates entre le premier et dernier jour
+                    const allDates = [];
+                    const currentDate = new Date(firstDate);
+                    
+                    while (currentDate <= lastDate) {
+                        // Vérifier si cette date est dans le pays (si elle existe dans countryDates)
+                        const isInCountry = countryDates.some(dateItem => 
+                            dateItem.date.getTime() === currentDate.getTime()
+                        );
+                        
+                        if (isInCountry) {
+                            allDates.push(new Date(currentDate));
+                        }
+                        currentDate.setDate(currentDate.getDate() + 1);
+                    }
+                    
+                    let freeCount = 0;
+                    let occupiedCount = 0;
+                    
+                    // Afficher les dates
+                    allDates.forEach(date => {
+                        const dateElement = document.createElement('div');
+                        dateElement.className = 'free-date-item';
+                        
+                        const dateStr = formatDateShort(date);
+                        const isOccupied = occupiedDates.has(date.getTime());
+                        
+                        if (isOccupied) {
+                            dateElement.classList.add('booked');
+                            dateElement.textContent = dateStr;
+                            occupiedCount++;
+                        } else {
+                            dateElement.classList.add('empty');
+                            dateElement.textContent = dateStr;
+                            freeCount++;
+                        }
+                        
+                        freeDatesList.appendChild(dateElement);
+                    });
+                    
+                    // Ajouter le résumé
+                    if (allDates.length > 0) {
+                        if (freeCount > 0) {
+                            freeDatesSummary.textContent = `${freeCount} jour${freeCount > 1 ? 's' : ''} libre${freeCount > 1 ? 's' : ''} sur ${allDates.length} jour${allDates.length > 1 ? 's' : ''} de séjour`;
+                        } else {
+                            freeDatesSummary.textContent = 'Toutes les dates sont occupées';
+                        }
+                    } else {
+                        freeDatesList.innerHTML = '<div style="color: #718096; font-style: italic; font-size: 0.7rem;">Aucune période définie pour ce pays</div>';
+                    }
+                } else {
+                    freeDatesList.innerHTML = '<div style="color: #718096; font-style: italic; font-size: 0.7rem;">Aucune période définie pour ce pays</div>';
+                }
+                
+                freeDatesSection.appendChild(freeDatesTitle);
+                freeDatesSection.appendChild(freeDatesList);
+                freeDatesSection.appendChild(freeDatesSummary);
                 
                 const datesList = document.createElement('div');
                 datesList.className = 'country-dates-compact';
@@ -4521,12 +4860,25 @@
                 
                 countryCard.appendChild(countryHeader);
                 countryCard.appendChild(periodDiv);
+                countryCard.appendChild(freeDatesSection);
                 countryCard.appendChild(datesList);
                 recapContainer.appendChild(countryCard);
             });
             
             // Forcer l'application des styles CSS
             setTimeout(applyFlagStyles, 100);
+        }
+        
+        // Fonction pour formater la date en format court (ex: "19 Avr")
+        function formatDateShort(date) {
+            const days = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+            const months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
+            
+            const dayName = days[date.getDay()];
+            const day = date.getDate();
+            const month = months[date.getMonth()];
+            
+            return `${dayName} ${day} ${month}`;
         }
         
         // Fonction pour forcer l'application des styles CSS
@@ -4545,7 +4897,7 @@
             
             if (datesList.classList.contains('show')) {
                 datesList.classList.remove('show');
-                toggleBtn.innerHTML = '<i class="fas fa-list"></i> Afficher';
+                toggleBtn.innerHTML = '<i class="fas fa-list"></i> Afficher les programmes';
             } else {
                 datesList.classList.add('show');
                 toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i> Masquer';
