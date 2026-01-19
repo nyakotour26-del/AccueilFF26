@@ -695,86 +695,453 @@
             background: #cbd5e0;
         }
         
-        /* ===== CORRECTION DES DRAPEAUX DANS "DATES PAR PAYS" ===== */
-        .country-flag {
-            width: 40px;
-            height: 27px;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        /* ===== NOUVEAUX STYLES POUR LE CALENDRIER COMPACT ===== */
+        .calendar-day {
+            min-height: 90px !important;
+            padding: 6px 4px !important;
+            font-size: 0.75rem !important;
+            line-height: 1.2 !important;
+        }
+        
+        .calendar-day .day-number {
+            font-size: 0.85rem !important;
+            margin-bottom: 2px !important;
+        }
+        
+        /* Drapeau au centre de la date */
+        .calendar-day-flag {
+            width: 20px;
+            height: 14px;
+            margin: 2px auto;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
             background-size: cover;
             background-position: center;
-            flex-shrink: 0;
         }
-
-        .country-flag.flag-france {
+        
+        .calendar-day-info {
+            font-size: 0.65rem !important;
+            line-height: 1.1 !important;
+            margin-top: 2px;
+        }
+        
+        .calendar-day-info .localite {
+            color: #2980b9;
+            font-weight: 600;
+            font-size: 0.7rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .calendar-day-info .pays {
+            color: #e74c3c;
+            font-weight: 600;
+            font-size: 0.6rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .program-count {
+            width: 14px !important;
+            height: 14px !important;
+            font-size: 0.55rem !important;
+            top: 2px !important;
+            right: 2px !important;
+        }
+        
+        .holiday-name, .malagasy-holiday-name {
+            font-size: 0.5rem !important;
+            padding: 1px 2px !important;
+            line-height: 1 !important;
+            margin-top: 1px !important;
+        }
+        
+        /* ===== MODIFICATION : BULLE D'INFO CALENDRIER COMPACTE ===== */
+        .date-modal-content {
+            max-width: 500px !important;
+        }
+        
+        .modal-compact-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .modal-compact-title-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .modal-date-title {
+            font-size: 1rem !important;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        
+        .modal-location-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+        
+        .modal-flag-small {
+            width: 20px;
+            height: 14px;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .date-info-modal-compact {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+        
+        .date-details-compact {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.75rem;
+            line-height: 1.2;
+        }
+        
+        .date-details-title-compact {
+            font-size: 0.85rem !important;
+            font-weight: 600;
+            margin-bottom: 8px !important;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+        
+        .date-details-grid-compact {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 6px;
+        }
+        
+        .date-detail-item-compact {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            padding: 4px 0;
+        }
+        
+        .date-detail-label-compact {
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.7rem;
+            min-width: 80px;
+        }
+        
+        .date-detail-value-compact {
+            color: #2d3748;
+            flex: 1;
+            font-size: 0.7rem;
+        }
+        
+        .detail-emoji {
+            width: 16px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+        
+        /* ===== MODIFICATION : FLÈCHES DE NAVIGATION PLUS FINES ===== */
+        .nav-arrow-slim {
+            background: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            padding: 0;
+        }
+        
+        .nav-arrow-slim:hover:not(:disabled) {
+            background: #3182ce;
+            transform: scale(1.1);
+        }
+        
+        .nav-arrow-slim:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        
+        .date-navigation-slim {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 8px 12px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .program-counter-slim {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 0.8rem;
+        }
+        
+        /* ===== MODIFICATION : RÉCAPITULATIF PAR PAYS COMPACT ===== */
+        .recap-container-compact {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        
+        .country-card-compact {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid;
+            transition: transform 0.3s;
+        }
+        
+        .country-card-compact:hover {
+            transform: translateY(-2px);
+        }
+        
+        .country-header-compact {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e2e8f0;
+            min-height: 40px;
+        }
+        
+        .country-info-compact {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .country-flag-compact {
+            width: 30px;
+            height: 20px;
+            border-radius: 3px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .country-name-compact {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        
+        .country-stats-compact {
+            font-size: 0.7rem;
+            color: #718096;
+            background: #f7fafc;
+            padding: 3px 6px;
+            border-radius: 6px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .toggle-dates-btn-compact {
+            background: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: background 0.3s;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .toggle-dates-btn-compact:hover {
+            background: #3182ce;
+        }
+        
+        .country-period-compact {
+            background: #f0f9ff;
+            padding: 6px 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 3px solid #0ea5e9;
+            font-size: 0.75rem;
+            color: #0369a1;
+            font-weight: 500;
+        }
+        
+        .country-dates-compact {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .country-dates-compact.show {
+            display: flex;
+        }
+        
+        .date-item-compact {
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
+            background: #f7fafc;
+            border-radius: 6px;
+            transition: background 0.2s;
+            cursor: pointer;
+            border-left: 3px solid #4299e1;
+            margin-bottom: 4px;
+            font-size: 0.75rem;
+            line-height: 1.2;
+        }
+        
+        .date-item-compact:hover {
+            background: #edf2f7;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .date-header-compact {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .date-value-compact {
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 0.8rem;
+        }
+        
+        .date-flag-compact {
+            width: 20px;
+            height: 14px;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .date-location-compact {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 0.8rem;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .date-details-line-compact {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 2px;
+            color: #4a5568;
+            font-size: 0.7rem;
+        }
+        
+        .detail-emoji-small {
+            font-size: 0.7rem;
+            width: 14px;
+            text-align: center;
+        }
+        
+        .no-dates-compact {
+            text-align: center;
+            color: #718096;
+            font-style: italic;
+            padding: 10px;
+            font-size: 0.8rem;
+        }
+        
+        /* ===== STYLES DES DRAPEAUX (inchangés mais nécessaires) ===== */
+        .flag-france {
             background: linear-gradient(to right, #002395 33%, white 33%, white 66%, #ED2939 66%);
         }
-
-        .country-flag.flag-germany {
+        .flag-germany {
             background: linear-gradient(to bottom, #000000 33%, #DD0000 33%, #DD0000 66%, #FFCE00 66%);
         }
-
-        .country-flag.flag-belgium {
+        .flag-belgium {
             background: linear-gradient(to right, #000000 33%, #FAE042 33%, #FAE042 66%, #ED2939 66%);
         }
-
-        .country-flag.flag-switzerland {
+        .flag-switzerland {
             background: #D52B1E;
             position: relative;
         }
-
-        .country-flag.flag-switzerland::before,
-        .country-flag.flag-switzerland::after {
+        .flag-switzerland::before,
+        .flag-switzerland::after {
             content: '';
             position: absolute;
             background: white;
         }
-
-        .country-flag.flag-switzerland::before {
-            width: 20px;
-            height: 5px;
-            top: 11px;
-            left: 10px;
+        .flag-switzerland::before {
+            width: 14px;
+            height: 3px;
+            top: 8px;
+            left: 8px;
         }
-
-        .country-flag.flag-switzerland::after {
-            width: 5px;
-            height: 27px;
-            top: 0;
-            left: 17px;
+        .flag-switzerland::after {
+            width: 3px;
+            height: 14px;
+            top: 3px;
+            left: 11px;
         }
-
-        .country-flag.flag-uk {
+        .flag-uk {
             background: #012169;
             position: relative;
         }
-
-        .country-flag.flag-uk::before,
-        .country-flag.flag-uk::after {
+        .flag-uk::before,
+        .flag-uk::after {
             content: '';
             position: absolute;
             background: white;
         }
-
-        .country-flag.flag-uk::before {
-            width: 40px;
-            height: 4px;
-            top: 11px;
+        .flag-uk::before {
+            width: 20px;
+            height: 2px;
+            top: 9px;
+            left: 0;
         }
-
-        .country-flag.flag-uk::after {
-            width: 4px;
-            height: 27px;
-            left: 18px;
+        .flag-uk::after {
+            width: 2px;
+            height: 20px;
+            top: 0;
+            left: 9px;
         }
-
-        .country-flag.flag-wales {
+        .flag-wales {
             background: white;
             position: relative;
             overflow: hidden;
         }
-
-        .country-flag.flag-wales::before {
+        .flag-wales::before {
             content: '';
             position: absolute;
             top: 0;
@@ -783,28 +1150,25 @@
             bottom: 0;
             background: linear-gradient(135deg, #FFFFFF 0%, #FFFFFF 50%, #D21034 50%, #D21034 100%);
         }
-
-        .country-flag.flag-wales::after {
+        .flag-wales::after {
             content: '';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 14px;
-            height: 14px;
+            width: 10px;
+            height: 10px;
             background: 
                 radial-gradient(circle, #008000 0%, #008000 40%, transparent 40%),
                 linear-gradient(45deg, transparent 45%, #FFFFFF 45%, #FFFFFF 55%, transparent 55%),
                 linear-gradient(-45deg, transparent 45%, #FFFFFF 45%, #FFFFFF 55%, transparent 55%);
         }
-
-        .country-flag.flag-madagascar {
+        .flag-madagascar {
             background: white;
             position: relative;
             overflow: hidden;
         }
-
-        .country-flag.flag-madagascar::before {
+        .flag-madagascar::before {
             content: '';
             position: absolute;
             top: 0;
@@ -813,8 +1177,7 @@
             height: 100%;
             background: #FC3D32;
         }
-
-        .country-flag.flag-madagascar::after {
+        .flag-madagascar::after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -875,7 +1238,6 @@
                 height: 23px;
             }
             
-            /* ===== MODIFICATION : RETOUR À LA PRÉSENTATION ORIGINALE DE LA PHOTO ===== */
             .photo-main-container {
                 max-width: 100%;
                 margin: 0 auto;
@@ -906,7 +1268,7 @@
                 gap: 12px;
             }
             
-            /* ===== MODIFICATION : CALENDRIER SCROLLABLE HORIZONTALEMENT - NOUVELLE VERSION ===== */
+            /* Calendrier mobile */
             .calendar-section {
                 width: 100%;
                 overflow-x: auto;
@@ -916,7 +1278,6 @@
                 position: relative;
             }
             
-            /* Ajout d'une barre de défilement stylisée */
             .calendar-section::-webkit-scrollbar {
                 height: 8px;
             }
@@ -942,7 +1303,6 @@
                 position: relative;
             }
             
-            /* Ajustement de la taille du calendrier en fonction de la largeur de l'écran */
             .calendar {
                 min-width: 700px;
                 width: 100%;
@@ -951,7 +1311,6 @@
                 transform: scale(0.9);
             }
             
-            /* Pour les très petits écrans */
             @media (max-width: 480px) {
                 .calendar {
                     transform: scale(0.75);
@@ -964,14 +1323,12 @@
                 }
             }
             
-            /* Pour les écrans entre 480px et 768px */
             @media (min-width: 481px) and (max-width: 768px) {
                 .calendar {
                     transform: scale(calc(100vw / 768));
                 }
             }
             
-            /* FOND DU CALENDRIER - l'image avec les numéros 1,2,3... */
             .calendar::before {
                 content: '';
                 position: absolute;
@@ -1000,96 +1357,111 @@
             }
             
             .calendar-day {
-                min-height: 80px;
+                min-height: 70px !important;
+                padding: 5px 3px !important;
             }
             
-            /* ===== MODIFICATION : RÉCAPITULATIF DES DATES PAR PAYS POUR MOBILE ===== */
+            .calendar-day .day-number {
+                font-size: 0.8rem !important;
+            }
+            
+            .calendar-day-flag {
+                width: 18px;
+                height: 12px;
+                margin: 1px auto;
+            }
+            
+            .calendar-day-info {
+                font-size: 0.6rem !important;
+            }
+            
+            .program-count {
+                width: 12px !important;
+                height: 12px !important;
+                font-size: 0.5rem !important;
+            }
+            
+            /* Modal mobile */
+            .date-modal-content {
+                max-width: 95% !important;
+                padding: 15px !important;
+            }
+            
+            .modal-date-title {
+                font-size: 0.9rem !important;
+            }
+            
+            .modal-location-info {
+                font-size: 0.8rem;
+            }
+            
+            .date-info-modal-compact {
+                padding: 8px;
+                font-size: 0.75rem;
+            }
+            
+            .date-details-compact {
+                padding: 10px;
+                font-size: 0.7rem;
+            }
+            
+            .date-details-title-compact {
+                font-size: 0.8rem !important;
+            }
+            
+            /* Récapitulatif mobile */
             .recap-section {
                 padding: 15px;
                 width: 100%;
                 overflow-x: hidden;
             }
             
-            .recap-container {
-                grid-template-columns: 1fr;
-                gap: 15px;
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            .country-card {
-                padding: 15px;
-                min-width: 0;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            
-            .country-header {
-                flex-direction: column;
+            .recap-container-compact {
                 gap: 10px;
             }
             
-            .country-info {
-                width: 100%;
-                gap: 10px;
+            .country-card-compact {
+                padding: 10px;
             }
             
-            .country-stats {
-                font-size: 0.8rem;
-                padding: 4px 8px;
+            .country-header-compact {
+                min-height: 35px;
             }
             
-            .toggle-dates-btn {
-                align-self: stretch;
-                width: 100%;
+            .country-name-compact {
+                font-size: 0.9rem;
             }
             
-            .country-dates {
-                max-width: 100%;
-                overflow-x: hidden;
+            .country-stats-compact {
+                font-size: 0.65rem;
             }
             
-            .date-item {
-                flex-direction: column;
-                gap: 5px;
-                align-items: flex-start;
+            .toggle-dates-btn-compact {
+                font-size: 0.65rem;
+                padding: 3px 6px;
+                height: 22px;
             }
             
-            .date-location,
-            .date-value {
-                width: 100%;
-                text-align: left;
+            .country-period-compact {
+                font-size: 0.7rem;
+                padding: 5px 8px;
             }
             
-            .header-info-section,
-            .header-contrib-section,
-            .header-access-section {
-                padding: 15px;
+            .date-item-compact {
+                padding: 6px;
+                font-size: 0.7rem;
             }
             
-            .header-btn-compact {
-                height: 70px;
-                padding: 8px 4px;
+            .date-value-compact {
+                font-size: 0.75rem;
             }
             
-            .sections-container {
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
-                width: 100%;
+            .date-location-compact {
+                font-size: 0.75rem;
             }
             
-            .mobile-only {
-                display: block !important;
-            }
-            
-            .calendar-recap-container {
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
-                width: 100%;
-                max-width: 100%;
-                overflow: hidden;
+            .date-details-line-compact {
+                font-size: 0.65rem;
             }
         }
         
@@ -1122,7 +1494,6 @@
                 max-width: 100%;
             }
             
-            /* ===== AJUSTEMENTS PHA PHOTO SUR TRÈS PETITS ÉCRANS ===== */
             .polaroid-frame-extra-large {
                 padding: 12px 12px 45px 12px;
                 max-width: 380px;
@@ -1140,7 +1511,6 @@
                 font-size: 0.9rem;
             }
             
-            /* ===== AJUSTEMENTS SUPPLÉMENTAIRES POUR TRÈS PETITS ÉCRANS ===== */
             .calendar-container {
                 min-width: 600px;
             }
@@ -1154,26 +1524,27 @@
             }
             
             .calendar-day {
-                min-height: 70px;
-                font-size: 0.8rem;
+                min-height: 65px !important;
+                font-size: 0.7rem !important;
             }
             
-            .holiday-name, .malagasy-holiday-name {
-                font-size: 0.5rem;
+            .calendar-day .day-number {
+                font-size: 0.75rem !important;
+            }
+            
+            .calendar-day-flag {
+                width: 16px;
+                height: 11px;
+            }
+            
+            .calendar-day-info {
+                font-size: 0.55rem !important;
             }
             
             .program-count {
-                width: 12px;
-                height: 12px;
-                font-size: 0.5rem;
-            }
-            
-            .recap-section {
-                padding: 12px;
-            }
-            
-            .country-card {
-                padding: 12px;
+                width: 11px !important;
+                height: 11px !important;
+                font-size: 0.45rem !important;
             }
         }
         
@@ -1197,7 +1568,6 @@
             position: relative;
         }
         
-        /* FOND DU CALENDRIER - l'image avec les numéros 1,2,3... */
         .calendar-section::before {
             content: '';
             position: absolute;
@@ -1266,33 +1636,33 @@
             }
             
             .calendar-day {
-                min-height: 65px;
-                font-size: 0.8rem;
-                padding: 8px 4px;
+                min-height: 60px !important;
+                font-size: 0.7rem !important;
+                padding: 5px 3px !important;
             }
             
             .day-number {
-                font-size: 0.9rem;
+                font-size: 0.8rem !important;
+            }
+            
+            .calendar-day-flag {
+                width: 18px;
+                height: 12px;
+            }
+            
+            .calendar-day-info {
+                font-size: 0.6rem !important;
             }
             
             .holiday-name, .malagasy-holiday-name {
-                font-size: 0.55rem;
-                padding: 0 2px;
-                line-height: 1;
+                font-size: 0.45rem !important;
+                padding: 0 1px !important;
             }
             
             .program-count {
-                width: 14px;
-                height: 14px;
-                font-size: 0.55rem;
-            }
-            
-            .date-info {
-                font-size: 0.6rem;
-            }
-            
-            .localite, .pays {
-                font-size: 0.6rem;
+                width: 12px !important;
+                height: 12px !important;
+                font-size: 0.5rem !important;
             }
             
             /* RÉCAPITULATIF DES DATES PAR PAYS POUR 768px */
@@ -1301,23 +1671,16 @@
                 width: 100%;
             }
             
-            .recap-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
+            .recap-container-compact {
+                gap: 15px;
             }
             
-            .country-card {
-                padding: 18px;
+            .country-card-compact {
+                padding: 15px;
             }
             
-            .country-header {
-                flex-direction: row;
-                align-items: center;
-            }
-            
-            .toggle-dates-btn {
-                align-self: center;
-                width: auto;
+            .country-header-compact {
+                min-height: 35px;
             }
         }
         
@@ -1519,12 +1882,10 @@
             border-radius: 4px;
             transition: background-color 0.2s;
             position: relative;
-            min-height: 85px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             border: 1px solid rgba(0, 0, 0, 0.05);
-            font-size: 0.9rem;
         }
         
         .calendar-day:hover {
@@ -1556,45 +1917,31 @@
         }
         
         .holiday-name {
-            font-size: 0.6rem;
             color: #000;
             font-style: italic;
-            margin-top: 2px;
             font-weight: normal;
-            line-height: 1.1;
             background: rgba(255, 255, 255, 0.7);
-            padding: 1px 3px;
             border-radius: 2px;
         }
         
         .malagasy-holiday-name {
-            font-size: 0.6rem;
             color: #000;
             font-style: italic;
-            margin-top: 2px;
             font-weight: normal;
-            line-height: 1.1;
             background: rgba(255, 255, 255, 0.7);
-            padding: 1px 3px;
             border-radius: 2px;
             color: #006400;
         }
         
         .day-number {
             font-weight: bold;
-            font-size: 1rem;
             margin-bottom: 2px;
         }
         
         .program-count {
             position: absolute;
-            top: 3px;
-            right: 3px;
             background: rgba(66, 153, 225, 0.7);
             color: white;
-            font-size: 0.6rem;
-            width: 16px;
-            height: 16px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -1603,7 +1950,6 @@
         }
         
         .date-info {
-            font-size: 0.7em;
             line-height: 1.2;
             margin-top: auto;
         }
@@ -1904,9 +2250,8 @@
         .date-modal-content {
             background: white;
             border-radius: 20px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 700px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -1929,21 +2274,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
             border-bottom: 2px solid #e2e8f0;
             position: sticky;
             top: 0;
             background: white;
             z-index: 10;
-        }
-        
-        .date-modal-title {
-            font-size: 1.4rem;
-            color: #2d3748;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
         
         .close-modal {
@@ -1968,87 +2305,11 @@
             color: #e53e3e;
         }
         
-        .date-info-modal {
-            background: #f7fafc;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border-left: 4px solid #4299e1;
-        }
-        
-        .date-location {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 5px;
-        }
-        
-        .date-country {
-            color: #718096;
-            font-size: 0.95rem;
-        }
-        
-        .date-details {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .date-details-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #2d3748;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 10px;
-        }
-        
-        .date-details-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-        }
-        
-        .date-detail-item {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        
-        .date-detail-label {
-            font-weight: 600;
-            color: #4a5568;
-            font-size: 0.9rem;
-        }
-        
-        .date-detail-value {
-            color: #2d3748;
-            padding: 8px 12px;
-            background: #f7fafc;
-            border-radius: 8px;
-            border-left: 3px solid #4299e1;
-        }
-        
-        .date-detail-value a {
-            color: #4299e1;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        .date-detail-value a:hover {
-            text-decoration: underline;
-        }
-        
         .date-actions {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
         
         .date-action-btn {
@@ -2056,17 +2317,17 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 15px 8px;
+            gap: 6px;
+            padding: 12px 8px;
             background: rgba(255, 255, 255, 0.8);
             border: 2px solid #e2e8f0;
             border-radius: 12px;
             color: #718096;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             text-align: center;
             cursor: not-allowed;
             transition: all 0.3s;
-            height: 95px;
+            height: 75px;
             position: relative;
         }
         
@@ -2084,7 +2345,7 @@
         }
         
         .date-action-emoji {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
         }
         
         .date-action-text {
@@ -2100,60 +2361,22 @@
             font-size: 0.7rem;
         }
         
-        /* ===== MODIFICATION : NAVIGATION DÉPLACÉE SOUS LE TITRE ===== */
-        .date-navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 15px 0;
-            padding: 15px;
-            background: #f7fafc;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .nav-arrow {
-            background: #4299e1;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-        }
-        
-        .nav-arrow:hover:not(:disabled) {
-            background: #3182ce;
-            transform: scale(1.1);
-        }
-        
-        .nav-arrow:disabled {
-            background: #cbd5e0;
-            cursor: not-allowed;
-            opacity: 0.5;
-        }
-        
         .program-counter {
             font-weight: 600;
             color: #2d3748;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
         
         .program-indicator {
             display: flex;
-            gap: 5px;
+            gap: 4px;
             justify-content: center;
-            margin-top: 10px;
+            margin-top: 5px;
         }
         
         .program-dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: #cbd5e0;
             transition: all 0.3s;
@@ -2164,32 +2387,32 @@
             transform: scale(1.2);
         }
         
-        /* ===== NOUVEAU : LISTE DES PROGRAMMES DU JOUR ===== */
         .programmes-list {
             background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 15px 0;
-            border-left: 4px solid #4299e1;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 3px solid #4299e1;
+            font-size: 0.8rem;
         }
         
         .programmes-list-title {
             font-weight: 600;
             color: #2d3748;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 1.1rem;
+            gap: 6px;
+            font-size: 0.9rem;
         }
         
         .programme-item {
-            padding: 10px;
+            padding: 6px;
             background: white;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            border-left: 3px solid #4299e1;
-            font-size: 0.95rem;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            border-left: 2px solid #4299e1;
+            font-size: 0.75rem;
         }
         
         .programme-item:last-child {
@@ -2198,34 +2421,34 @@
         
         .secretariat-access-section {
             background: #edf2f7;
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
             border: 2px dashed #cbd5e0;
         }
         
         .secretariat-access-title {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             color: #2d3748;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         
         .modal-password-input {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 15px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
         
         .modal-password-input input {
-            padding: 12px 15px;
+            padding: 10px 12px;
             border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
             transition: border 0.3s;
             width: 100%;
         }
@@ -2233,17 +2456,17 @@
         .modal-password-input input:focus {
             border-color: #4299e1;
             outline: none;
-            box-shadow: 0 0 8px rgba(66, 153, 225, 0.5);
+            box-shadow: 0 0 6px rgba(66, 153, 225, 0.5);
         }
         
         .modal-password-input button {
-            padding: 12px 20px;
+            padding: 10px 15px;
             background: #4299e1;
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             transition: background 0.3s;
             width: 100%;
@@ -2255,13 +2478,13 @@
         
         .secretariat-access-note {
             background: #fffaf0;
-            padding: 12px;
-            border-radius: 8px;
-            border-left: 4px solid #f6ad55;
-            font-size: 0.85rem;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border-left: 3px solid #f6ad55;
+            font-size: 0.75rem;
             color: #744210;
             text-align: center;
-            margin-top: 15px;
+            margin-top: 10px;
         }
         
         @keyframes spin {
@@ -2278,139 +2501,6 @@
             border-bottom: 3px solid rgba(102, 51, 153, 0.4);
             padding-bottom: 12px;
             color: #2d3748;
-        }
-        
-        .recap-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .country-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            border-left: 5px solid;
-            transition: transform 0.3s;
-        }
-        
-        .country-card:hover {
-            transform: translateY(-3px);
-        }
-        
-        .country-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        .country-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex: 1;
-        }
-        
-        .country-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #2d3748;
-        }
-        
-        .country-stats {
-            font-size: 0.9rem;
-            color: #718096;
-            background: #f7fafc;
-            padding: 5px 10px;
-            border-radius: 8px;
-            font-weight: 500;
-        }
-        
-        .toggle-dates-btn {
-            background: #4299e1;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 6px 12px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: background 0.3s;
-        }
-        
-        .toggle-dates-btn:hover {
-            background: #3182ce;
-        }
-        
-        .country-period {
-            background: #f0f9ff;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border-left: 4px solid #0ea5e9;
-            font-size: 0.95rem;
-            color: #0369a1;
-            font-weight: 500;
-        }
-        
-        .country-dates {
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .country-dates.show {
-            display: flex;
-        }
-        
-        /* ===== MODIFICATION : STYLE DES DATES DANS LE RÉCAPITULATIF ===== */
-        .date-item {
-            display: flex;
-            flex-direction: column;
-            padding: 12px;
-            background: #f7fafc;
-            border-radius: 8px;
-            transition: background 0.2s;
-            cursor: pointer;
-            border-left: 4px solid #4299e1;
-            margin-bottom: 8px;
-        }
-        
-        .date-item:hover {
-            background: #edf2f7;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .date-value {
-            font-weight: 700;
-            color: #2d3748;
-            font-size: 1rem;
-            margin-bottom: 8px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        .date-location {
-            font-weight: 600;
-            color: #2d3748;
-            font-size: 0.95rem;
-            margin-bottom: 5px;
-        }
-        
-        .date-lieu {
-            color: #4a5568;
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-        }
-        
-        .date-programme {
-            color: #718096;
-            font-size: 0.85rem;
-            font-style: italic;
         }
         
         .no-dates {
@@ -2638,7 +2728,7 @@
         .recap-date-modal-content {
             background: white;
             border-radius: 20px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             max-width: 500px;
             width: 100%;
@@ -2663,8 +2753,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
             border-bottom: 2px solid #e2e8f0;
             position: sticky;
             top: 0;
@@ -2673,77 +2763,78 @@
         }
         
         .recap-date-modal-title {
-            font-size: 1.3rem;
-            color: #2d3748;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .recap-date-info-modal {
-            background: #f7fafc;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border-left: 4px solid #4299e1;
-        }
-        
-        .recap-date-location {
             font-size: 1.1rem;
-            font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 5px;
-        }
-        
-        .recap-date-country {
-            color: #718096;
-            font-size: 0.95rem;
-        }
-        
-        .recap-date-details {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .recap-date-details-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 15px;
             color: #2d3748;
             display: flex;
             align-items: center;
             gap: 8px;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 10px;
+        }
+        
+        .recap-date-info-modal {
+            background: #f7fafc;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 3px solid #4299e1;
+        }
+        
+        .recap-date-location {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 3px;
+        }
+        
+        .recap-date-country {
+            color: #718096;
+            font-size: 0.8rem;
+        }
+        
+        .recap-date-details {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .recap-date-details-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
         }
         
         .recap-date-details-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 12px;
+            gap: 8px;
         }
         
         .recap-date-detail-item {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 3px;
         }
         
         .recap-date-detail-label {
             font-weight: 600;
             color: #4a5568;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
         
         .recap-date-detail-value {
             color: #2d3748;
-            padding: 8px 12px;
+            padding: 6px 8px;
             background: #f7fafc;
-            border-radius: 8px;
-            border-left: 3px solid #4299e1;
+            border-radius: 6px;
+            border-left: 2px solid #4299e1;
+            font-size: 0.8rem;
         }
         
         .recap-date-detail-value a {
@@ -2809,12 +2900,12 @@
             
             .date-actions {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
+                gap: 8px;
             }
             
             .date-action-btn {
-                height: 85px;
-                padding: 12px 8px;
+                height: 70px;
+                padding: 10px 6px;
             }
             
             .date-modal {
@@ -2822,30 +2913,8 @@
             }
             
             .date-modal-content {
-                padding: 20px;
+                padding: 15px;
                 max-height: 85vh;
-            }
-            
-            .date-modal-title {
-                font-size: 1.2rem;
-            }
-            
-            .recap-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .country-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            
-            .country-info {
-                width: 100%;
-            }
-            
-            .toggle-dates-btn {
-                align-self: flex-end;
             }
             
             .calendar-stats-grid {
@@ -2896,64 +2965,6 @@
                 height: 30px;
             }
             
-            .flag-switzerland::before {
-                width: 28px;
-                height: 7px;
-                top: 11px;
-                left: 8px;
-            }
-            
-            .flag-switzerland::after {
-                width: 7px;
-                height: 30px;
-                left: 19px;
-            }
-            
-            .flag-uk::before {
-                width: 45px;
-                height: 6px;
-                top: 12px;
-            }
-            
-            .flag-uk::after {
-                width: 6px;
-                height: 30px;
-                left: 19px;
-            }
-            
-            .flag-wales::after {
-                width: 16px;
-                height: 16px;
-            }
-            
-            .calendar-day {
-                min-height: 70px;
-                font-size: 0.8rem;
-            }
-            
-            .holiday-name, .malagasy-holiday-name {
-                font-size: 0.5rem;
-            }
-            
-            .program-count {
-                width: 14px;
-                height: 14px;
-                font-size: 0.55rem;
-            }
-            
-            .date-action-btn {
-                height: 80px;
-                padding: 10px 6px;
-            }
-            
-            .date-action-emoji {
-                font-size: 1.2rem;
-            }
-            
-            .date-action-text {
-                font-size: 0.8rem;
-            }
-            
             .calendar-stats-grid {
                 grid-template-columns: 1fr;
             }
@@ -2973,7 +2984,7 @@
             }
             
             .date-modal-content {
-                padding: 15px;
+                padding: 12px;
             }
             
             .theme-text {
@@ -3369,9 +3380,9 @@
                         <i class="fas fa-list-alt"></i>
                         Récapitulatif des dates par pays
                     </h2>
-                    <div class="recap-container" id="recapContainer">
+                    <div class="recap-container-compact" id="recapContainer">
                         <!-- Le contenu sera généré dynamiquement -->
-                        <div class="no-dates" id="noDatesMessage">
+                        <div class="no-dates-compact" id="noDatesMessage">
                             Aucune donnée de tournée disponible. Veuillez charger les données du calendrier.
                         </div>
                     </div>
@@ -3428,31 +3439,31 @@
     <div class="date-modal" id="dateModal">
         <div class="date-modal-content" id="dateModalContent">
             <div class="date-modal-header">
-                <h3 class="date-modal-title">
-                    <i class="fas fa-calendar-day"></i>
-                    <span id="modalDateTitle">Détails de la date</span>
-                </h3>
-                <button class="close-modal" id="closeModal">
-                    <i class="fas fa-times"></i>
-                </button>
+                <div class="modal-compact-title">
+                    <div class="modal-compact-title-left">
+                        <h3 class="modal-date-title" id="modalDateTitle">Dim 19-Avr-26 (2)</h3>
+                    </div>
+                    <button class="close-modal" id="closeModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-location-info" id="modalLocationInfo">
+                    <div class="modal-flag-small" id="modalFlag"></div>
+                    <span id="modalLocationText">Puidoux / Suisse</span>
+                </div>
             </div>
             
-            <!-- ===== MODIFICATION : NAVIGATION DÉPLACÉE SOUS LE TITRE ===== -->
-            <div class="date-navigation" id="dateNavigation" style="display: none;">
-                <button class="nav-arrow prev" id="prevProgram" onclick="navigateProgram(-1)" disabled>←</button>
+            <!-- Navigation entre programmes -->
+            <div class="date-navigation-slim" id="dateNavigation" style="display: none;">
+                <button class="nav-arrow-slim prev" id="prevProgram" onclick="navigateProgram(-1)" disabled>←</button>
                 <div class="program-info">
-                    <div class="program-counter" id="programCounter">Programme 1/1</div>
+                    <div class="program-counter-slim" id="programCounter">Programme 1/1</div>
                     <div class="program-indicator" id="programIndicator"></div>
                 </div>
-                <button class="nav-arrow next" id="nextProgram" onclick="navigateProgram(1)" disabled>→</button>
+                <button class="nav-arrow-slim next" id="nextProgram" onclick="navigateProgram(1)" disabled>→</button>
             </div>
             
-            <div class="date-info-modal">
-                <div class="date-location" id="modalLocation"></div>
-                <div class="date-country" id="modalCountry"></div>
-            </div>
-            
-            <!-- ===== NOUVEAU : LISTE DES PROGRAMMES DU JOUR ===== -->
+            <!-- Liste des programmes du jour -->
             <div class="programmes-list" id="programmesList" style="display: none;">
                 <div class="programmes-list-title">
                     <i class="fas fa-list"></i>
@@ -3463,16 +3474,23 @@
                 </div>
             </div>
             
-            <div class="date-details" id="dateDetails">
-                <div class="date-details-title">
+            <!-- Détails du programme -->
+            <div class="date-info-modal-compact" id="dateInfoModal">
+                <!-- Contenu dynamique -->
+            </div>
+            
+            <!-- Détails infos jour -->
+            <div class="date-details-compact" id="dateDetails">
+                <div class="date-details-title-compact">
                     <i class="fas fa-info-circle"></i>
                     Détails infos jour
                 </div>
-                <div class="date-details-grid" id="dateDetailsGrid">
+                <div class="date-details-grid-compact" id="dateDetailsGrid">
                     <!-- Les détails seront ajoutés dynamiquement ici -->
                 </div>
             </div>
             
+            <!-- Actions secrétariat -->
             <div class="date-actions" id="dateActions">
                 <div class="date-action-btn" id="pvBtn">
                     <span class="date-action-emoji">📄</span>
@@ -3517,30 +3535,34 @@
         </div>
     </div>
 
-    <!-- NOUVELLE MODAL pour les détails d'une date dans le récapitulatif -->
+    <!-- Modal pour les détails d'une date dans le récapitulatif -->
     <div class="recap-date-modal" id="recapDateModal">
         <div class="recap-date-modal-content" id="recapDateModalContent">
             <div class="recap-date-modal-header">
-                <h3 class="recap-date-modal-title">
-                    <i class="fas fa-info-circle"></i>
-                    <span id="recapModalDateTitle">Détails du concert</span>
-                </h3>
-                <button class="close-modal" id="closeRecapModal">
-                    <i class="fas fa-times"></i>
-                </button>
+                <div class="modal-compact-title">
+                    <div class="modal-compact-title-left">
+                        <h3 class="modal-date-title" id="recapModalDateTitle">Dim 19-Avr-26</h3>
+                    </div>
+                    <button class="close-modal" id="closeRecapModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-location-info" id="recapModalLocationInfo">
+                    <div class="modal-flag-small" id="recapModalFlag"></div>
+                    <span id="recapModalLocationText">Puidoux / Suisse</span>
+                </div>
             </div>
             
-            <div class="recap-date-info-modal">
-                <div class="recap-date-location" id="recapModalLocation"></div>
-                <div class="recap-date-country" id="recapModalCountry"></div>
+            <div class="date-info-modal-compact" id="recapDateInfoModal">
+                <!-- Contenu dynamique -->
             </div>
             
-            <div class="recap-date-details" id="recapDateDetails">
-                <div class="recap-date-details-title">
+            <div class="date-details-compact" id="recapDateDetails">
+                <div class="date-details-title-compact">
                     <i class="fas fa-info-circle"></i>
                     Détails infos jour
                 </div>
-                <div class="recap-date-details-grid" id="recapDateDetailsGrid">
+                <div class="date-details-grid-compact" id="recapDateDetailsGrid">
                     <!-- Les détails seront ajoutés dynamiquement ici -->
                 </div>
             </div>
@@ -3908,16 +3930,121 @@
 
         function showProgramData(programIndex) {
             const programData = allProgramsForDate[programIndex];
-            const modalLocation = document.getElementById('modalLocation');
-            const modalCountry = document.getElementById('modalCountry');
+            const modalLocationText = document.getElementById('modalLocationText');
+            const dateInfoModal = document.getElementById('dateInfoModal');
             const dateDetailsGrid = document.getElementById('dateDetailsGrid');
             
             // Mettre à jour les informations de base
-            modalLocation.textContent = programData.localite || 'Localité non spécifiée';
-            modalCountry.textContent = programData.pays || 'Pays non spécifié';
+            const localite = programData.localite || 'Localité non spécifiée';
+            const pays = programData.pays || 'Pays non spécifié';
+            modalLocationText.textContent = `${localite} / ${pays}`;
+            
+            // Mettre à jour le drapeau
+            const flagDiv = document.getElementById('modalFlag');
+            const flagClass = countryFlags[pays.toUpperCase()] || 'flag-france';
+            flagDiv.className = 'modal-flag-small';
+            flagDiv.classList.add(flagClass);
             
             // Mettre à jour les détails
-            displayDateDetails(dateDetailsGrid, programData);
+            displayDateInfoCompact(dateInfoModal, programData);
+            displayDateDetailsCompact(dateDetailsGrid, programData);
+        }
+
+        // ===== NOUVELLE FONCTION : AFFICHAGE COMPACT DES INFOS DU PROGRAMME =====
+        function displayDateInfoCompact(container, programData) {
+            container.innerHTML = '';
+            
+            const infoLines = [];
+            
+            // Lieu
+            if (programData.lieu && programData.lieu.trim() !== '') {
+                infoLines.push(`🏛️ ${programData.lieu}`);
+            }
+            
+            // Heures
+            if (programData.heures && programData.heures.trim() !== '') {
+                infoLines.push(`🕒 ${programData.heures}`);
+            }
+            
+            // Programme (avec "Concert" par défaut)
+            const programme = programData.programme && programData.programme.trim() !== '' 
+                ? programData.programme 
+                : 'Concert';
+            infoLines.push(`🎵 ${programme}`);
+            
+            if (infoLines.length > 0) {
+                infoLines.forEach(line => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.style.marginBottom = '4px';
+                    lineDiv.style.fontSize = '0.8rem';
+                    lineDiv.style.lineHeight = '1.2';
+                    lineDiv.innerHTML = line;
+                    container.appendChild(lineDiv);
+                });
+            } else {
+                const noInfo = document.createElement('div');
+                noInfo.style.fontSize = '0.8rem';
+                noInfo.style.color = '#718096';
+                noInfo.style.fontStyle = 'italic';
+                noInfo.textContent = 'Aucune information supplémentaire';
+                container.appendChild(noInfo);
+            }
+        }
+
+        // ===== NOUVELLE FONCTION : AFFICHAGE COMPACT DES DÉTAILS =====
+        function displayDateDetailsCompact(container, programData) {
+            container.innerHTML = '';
+            
+            const detailsToShow = [
+                { label: 'Adresse', key: 'adresse', emoji: '📍' },
+                { label: 'Hébergement', key: 'hebergement', emoji: '🏠' },
+                { label: 'Localisation', key: 'localisation', emoji: '🗺️' },
+                { label: 'Site', key: 'site', emoji: '🌐' }
+            ];
+            
+            let hasAnyData = false;
+            
+            detailsToShow.forEach(detail => {
+                let value = programData[detail.key] || '';
+                value = cleanMonetaryUnits(value);
+                
+                if (value.trim() !== '') {
+                    hasAnyData = true;
+                    const detailItem = document.createElement('div');
+                    detailItem.className = 'date-detail-item-compact';
+                    
+                    const emojiSpan = document.createElement('span');
+                    emojiSpan.className = 'detail-emoji';
+                    emojiSpan.textContent = detail.emoji;
+                    
+                    const label = document.createElement('span');
+                    label.className = 'date-detail-label-compact';
+                    label.textContent = detail.label + ':';
+                    
+                    const valueDiv = document.createElement('span');
+                    valueDiv.className = 'date-detail-value-compact';
+                    
+                    // Rendre les liens cliquables
+                    if ((detail.key === 'hebergement' || detail.key === 'localisation' || detail.key === 'site') && 
+                        (value.includes('http') || value.includes('www.'))) {
+                        valueDiv.innerHTML = `<a href="${value}" target="_blank" style="color: #4299e1; text-decoration: none;">${value} <i class="fas fa-external-link-alt" style="font-size: 0.7em;"></i></a>`;
+                    } else {
+                        valueDiv.textContent = value;
+                    }
+                    
+                    detailItem.appendChild(emojiSpan);
+                    detailItem.appendChild(label);
+                    detailItem.appendChild(valueDiv);
+                    container.appendChild(detailItem);
+                }
+            });
+            
+            if (!hasAnyData) {
+                const noDetails = document.createElement('div');
+                noDetails.className = 'date-detail-item-compact';
+                noDetails.innerHTML = '<div class="date-detail-value-compact" style="text-align: center; font-style: italic; color: #718096; font-size: 0.7rem;">Aucun détail supplémentaire disponible</div>';
+                container.appendChild(noDetails);
+            }
         }
 
         // ===== MODIFICATION : FONCTION AFFICHANT LA MODAL AVEC LE NOMBRE DE PROGRAMMES =====
@@ -3925,9 +4052,12 @@
             const modal = document.getElementById('dateModal');
             const modalContent = document.getElementById('dateModalContent');
             const modalTitle = document.getElementById('modalDateTitle');
+            const modalLocationText = document.getElementById('modalLocationText');
+            const modalFlag = document.getElementById('modalFlag');
             const dateNavigation = document.getElementById('dateNavigation');
             const programmesList = document.getElementById('programmesList');
             const programmesListContent = document.getElementById('programmesListContent');
+            const dateInfoModal = document.getElementById('dateInfoModal');
             
             // Obtenir toutes les entrées pour cette date
             allProgramsForDate = getMatchingDates(date);
@@ -3936,6 +4066,17 @@
             // Mettre à jour le titre avec le nombre de programmes
             const programCount = allProgramsForDate.length;
             modalTitle.textContent = `${formatDateForDisplay(date)} (${programCount})`;
+            
+            // Mettre à jour la localisation et le drapeau
+            const firstProgram = allProgramsForDate.length > 0 ? allProgramsForDate[0] : null;
+            const localite = firstProgram ? firstProgram.localite || location : location;
+            const pays = firstProgram ? firstProgram.pays || country : country;
+            modalLocationText.textContent = `${localite} / ${pays}`;
+            
+            // Mettre à jour le drapeau
+            const flagClass = countryFlags[pays.toUpperCase()] || 'flag-france';
+            modalFlag.className = 'modal-flag-small';
+            modalFlag.classList.add(flagClass);
             
             // Afficher la liste des programmes
             if (programCount > 0) {
@@ -3946,12 +4087,11 @@
                     const programmeItem = document.createElement('div');
                     programmeItem.className = 'programme-item';
                     
-                    // Utiliser "Concert" par défaut si pas de programme spécifié
                     const programmeText = program.programme && program.programme.trim() !== '' 
                         ? program.programme 
                         : 'Concert';
                     
-                    programmeItem.textContent = programmeText;
+                    programmeItem.textContent = `${index + 1}. ${programmeText}`;
                     programmesListContent.appendChild(programmeItem);
                 });
             } else {
@@ -3969,16 +4109,13 @@
                 dateNavigation.style.display = 'none';
                 
                 // Afficher les données du programme unique
-                const modalLocation = document.getElementById('modalLocation');
-                const modalCountry = document.getElementById('modalCountry');
-                const dateDetailsGrid = document.getElementById('dateDetailsGrid');
-                
-                modalLocation.textContent = location || 'Localité non spécifiée';
-                modalCountry.textContent = country || 'Pays non spécifié';
-                
-                const dateData = allProgramsForDate.length > 0 ? allProgramsForDate[0] : null;
-                if (dateData && hasDetailedData(dateData)) {
-                    displayDateDetails(dateDetailsGrid, dateData);
+                if (allProgramsForDate.length > 0) {
+                    showProgramData(0);
+                } else {
+                    // Aucun programme pour cette date
+                    dateInfoModal.innerHTML = '<div style="font-size: 0.8rem; color: #718096; font-style: italic;">Aucun concert prévu pour cette date</div>';
+                    const dateDetailsGrid = document.getElementById('dateDetailsGrid');
+                    dateDetailsGrid.innerHTML = '<div class="date-detail-item-compact"><div class="date-detail-value-compact" style="text-align: center; font-style: italic; color: #718096; font-size: 0.7rem;">Aucun détail disponible</div></div>';
                 }
             }
             
@@ -4020,99 +4157,10 @@
                 heures: row[columnMapping['HEURES']] || '',
                 adresse: row[columnMapping['ADRESSE ET/OU CONTACT']] || '',
                 hebergement: row[columnMapping['HEBERGEMENT']] || '',
-                programme: row[columnMapping['PROGRAMME']] || 'Concert', // Par défaut "Concert"
+                programme: row[columnMapping['PROGRAMME']] || 'Concert',
                 localisation: row[columnMapping['LOCALISATION']] || '',
                 site: row[columnMapping['SITE']] || ''
             };
-        }
-        
-        function hasDetailedData(dateData) {
-            const columnsToCheck = ['LIEU', 'HEURES', 'ADRESSE ET/OU CONTACT', 'HEBERGEMENT', 'PROGRAMME', 'LOCALISATION', 'SITE'];
-            
-            for (let key of columnsToCheck) {
-                const value = dateData[key.toLowerCase()] || '';
-                if (value && value.trim() !== '') {
-                    return true;
-                }
-            }
-            return false;
-        }
-        
-        function displayDateDetails(container, dateData) {
-            container.innerHTML = '';
-            
-            const detailsToShow = [
-                { label: 'LIEU', key: 'lieu' },
-                { label: 'HEURES', key: 'heures' },
-                { label: 'ADRESSE ET/OU CONTACT', key: 'adresse' },
-                { label: 'HEBERGEMENT', key: 'hebergement' },
-                { label: 'PROGRAMME', key: 'programme' },
-                { label: 'LOCALISATION', key: 'localisation' },
-                { label: 'SITE', key: 'site' }
-            ];
-            
-            let hasAnyData = false;
-            
-            detailsToShow.forEach(detail => {
-                let value = dateData[detail.key] || '';
-                value = cleanMonetaryUnits(value);
-                
-                if (value.trim() !== '') {
-                    hasAnyData = true;
-                    const detailItem = document.createElement('div');
-                    detailItem.className = 'date-detail-item';
-                    
-                    const label = document.createElement('div');
-                    label.className = 'date-detail-label';
-                    label.textContent = detail.label;
-                    
-                    const valueDiv = document.createElement('div');
-                    valueDiv.className = 'date-detail-value';
-                    
-                    // Rendre les liens cliquables pour HEBERGEMENT
-                    if (detail.key === 'hebergement' && isGoogleMapsLink(value)) {
-                        valueDiv.innerHTML = createGoogleMapsLink(value);
-                    } else {
-                        valueDiv.textContent = value;
-                    }
-                    
-                    detailItem.appendChild(label);
-                    detailItem.appendChild(valueDiv);
-                    container.appendChild(detailItem);
-                }
-            });
-            
-            if (!hasAnyData) {
-                const noDetails = document.createElement('div');
-                noDetails.className = 'date-detail-item';
-                noDetails.innerHTML = '<div class="date-detail-value" style="text-align: center; font-style: italic; color: #718096;">Aucun détail supplémentaire disponible pour cette date</div>';
-                container.appendChild(noDetails);
-            }
-        }
-        
-        function isGoogleMapsLink(text) {
-            // Vérifie si le texte ressemble à une adresse ou contient des mots-clés de Google Maps
-            const addressPatterns = [
-                /\d+\s+[A-Za-z\s]+,?\s+[A-Za-z\s]+/i, // Numéro + rue + ville
-                /https?:\/\/.*google.*maps/i, // Lien Google Maps
-                /maps\.google/i,
-                /goo\.gl\/maps/i,
-                /maps\.app\.goo\.gl/i
-            ];
-            
-            return addressPatterns.some(pattern => pattern.test(text));
-        }
-        
-        function createGoogleMapsLink(text) {
-            // Si c'est déjà une URL complète
-            if (text.startsWith('http')) {
-                return `<a href="${text}" target="_blank" style="color: #4299e1; text-decoration: none;">${text} <i class="fas fa-external-link-alt" style="font-size: 0.8em;"></i></a>`;
-            }
-            
-            // Sinon, créer un lien de recherche Google Maps
-            const encodedAddress = encodeURIComponent(text);
-            const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
-            return `<a href="${mapsUrl}" target="_blank" style="color: #4299e1; text-decoration: none;">${text} <i class="fas fa-map-marker-alt" style="font-size: 0.8em;"></i></a>`;
         }
         
         function closeDateModal() {
@@ -4133,22 +4181,27 @@
             const modal = document.getElementById('recapDateModal');
             const modalContent = document.getElementById('recapDateModalContent');
             const modalTitle = document.getElementById('recapModalDateTitle');
-            const modalLocation = document.getElementById('recapModalLocation');
-            const modalCountry = document.getElementById('recapModalCountry');
-            const dateDetails = document.getElementById('recapDateDetails');
+            const modalLocationText = document.getElementById('recapModalLocationText');
+            const modalFlag = document.getElementById('recapModalFlag');
+            const dateInfoModal = document.getElementById('recapDateInfoModal');
             const dateDetailsGrid = document.getElementById('recapDateDetailsGrid');
             
             modalTitle.textContent = formatDateForDisplay(dateInfo.date);
-            modalLocation.textContent = dateInfo.localite || 'Localité non spécifiée';
-            modalCountry.textContent = dateInfo.pays || 'Pays non spécifié';
+            modalLocationText.textContent = `${dateInfo.localite || 'Localité non spécifiée'} / ${dateInfo.pays || 'Pays non spécifié'}`;
+            
+            // Mettre à jour le drapeau
+            const flagClass = countryFlags[dateInfo.pays.toUpperCase()] || 'flag-france';
+            modalFlag.className = 'modal-flag-small';
+            modalFlag.classList.add(flagClass);
             
             const dateData = getDetailedDateData(dateInfo.date, dateInfo.localite);
             
-            if (dateData && hasDetailedData(dateData)) {
-                dateDetails.style.display = 'block';
-                displayRecapDateDetails(dateDetailsGrid, dateData);
+            if (dateData) {
+                displayDateInfoCompact(dateInfoModal, dateData);
+                displayDateDetailsCompact(dateDetailsGrid, dateData);
             } else {
-                dateDetails.style.display = 'none';
+                dateInfoModal.innerHTML = '<div style="font-size: 0.8rem; color: #718096; font-style: italic;">Aucune information disponible</div>';
+                dateDetailsGrid.innerHTML = '<div class="date-detail-item-compact"><div class="date-detail-value-compact" style="text-align: center; font-style: italic; color: #718096; font-size: 0.7rem;">Aucun détail disponible</div></div>';
             }
             
             modal.classList.add('show');
@@ -4173,58 +4226,6 @@
                 }
             }
             return null;
-        }
-        
-        function displayRecapDateDetails(container, dateData) {
-            container.innerHTML = '';
-            
-            const detailsToShow = [
-                { label: 'LIEU', key: 'lieu' },
-                { label: 'HEURES', key: 'heures' },
-                { label: 'ADRESSE ET/OU CONTACT', key: 'adresse' },
-                { label: 'HEBERGEMENT', key: 'hebergement' },
-                { label: 'PROGRAMME', key: 'programme' },
-                { label: 'LOCALISATION', key: 'localisation' },
-                { label: 'SITE', key: 'site' }
-            ];
-            
-            let hasAnyData = false;
-            
-            detailsToShow.forEach(detail => {
-                let value = dateData[detail.key] || '';
-                value = cleanMonetaryUnits(value);
-                
-                if (value.trim() !== '') {
-                    hasAnyData = true;
-                    const detailItem = document.createElement('div');
-                    detailItem.className = 'recap-date-detail-item';
-                    
-                    const label = document.createElement('div');
-                    label.className = 'recap-date-detail-label';
-                    label.textContent = detail.label;
-                    
-                    const valueDiv = document.createElement('div');
-                    valueDiv.className = 'recap-date-detail-value';
-                    
-                    // Rendre les liens cliquables pour HEBERGEMENT
-                    if (detail.key === 'hebergement' && isGoogleMapsLink(value)) {
-                        valueDiv.innerHTML = createGoogleMapsLink(value);
-                    } else {
-                        valueDiv.textContent = value;
-                    }
-                    
-                    detailItem.appendChild(label);
-                    detailItem.appendChild(valueDiv);
-                    container.appendChild(detailItem);
-                }
-            });
-            
-            if (!hasAnyData) {
-                const noDetails = document.createElement('div');
-                noDetails.className = 'recap-date-detail-item';
-                noDetails.innerHTML = '<div class="recap-date-detail-value" style="text-align: center; font-style: italic; color: #718096;">Aucun détail supplémentaire disponible pour cette date</div>';
-                container.appendChild(noDetails);
-            }
         }
         
         function closeRecapDateModal() {
@@ -4337,7 +4338,7 @@
             if (statsPaysPlusConcerts) statsPaysPlusConcerts.textContent = paysPlusConcerts;
         }
 
-        // ===== MODIFICATION : GÉNÉRATION DU RÉCAPITULATIF PAR PAYS =====
+        // ===== MODIFICATION : GÉNÉRATION DU RÉCAPITULATIF PAR PAYS COMPACT =====
         function generateRecapByCountry() {
             const recapContainer = document.getElementById('recapContainer');
             const noDatesMessage = document.getElementById('noDatesMessage');
@@ -4377,7 +4378,7 @@
             recapContainer.innerHTML = '';
             sortedCountries.forEach(country => {
                 const countryCard = document.createElement('div');
-                countryCard.className = 'country-card';
+                countryCard.className = 'country-card-compact';
                 countryCard.id = `country-${country.toLowerCase()}`;
                 
                 const borderColor = countryColors[country] || '#718096';
@@ -4404,23 +4405,23 @@
                 const uniqueDays = new Set(countryDates.map(item => item.date.getTime())).size;
                 
                 const countryHeader = document.createElement('div');
-                countryHeader.className = 'country-header';
+                countryHeader.className = 'country-header-compact';
                 
                 const countryInfo = document.createElement('div');
-                countryInfo.className = 'country-info';
+                countryInfo.className = 'country-info-compact';
                 
                 // Créer le drapeau
                 const flagDiv = document.createElement('div');
-                flagDiv.className = 'country-flag';
+                flagDiv.className = 'country-flag-compact';
                 const flagClass = countryFlags[country] || 'flag-france';
                 flagDiv.classList.add(flagClass);
                 
                 const countryName = document.createElement('div');
-                countryName.className = 'country-name';
+                countryName.className = 'country-name-compact';
                 countryName.textContent = formatCountryName(country);
                 
                 const countryStats = document.createElement('div');
-                countryStats.className = 'country-stats';
+                countryStats.className = 'country-stats-compact';
                 countryStats.textContent = `${concertCount} concert${concertCount > 1 ? 's' : ''} - ${uniqueDays} jour${uniqueDays > 1 ? 's' : ''}`;
                 
                 countryInfo.appendChild(flagDiv);
@@ -4428,7 +4429,7 @@
                 countryInfo.appendChild(countryStats);
                 
                 const toggleBtn = document.createElement('button');
-                toggleBtn.className = 'toggle-dates-btn';
+                toggleBtn.className = 'toggle-dates-btn-compact';
                 toggleBtn.innerHTML = '<i class="fas fa-list"></i> Afficher';
                 toggleBtn.onclick = () => toggleCountryDates(country);
                 
@@ -4436,7 +4437,7 @@
                 countryHeader.appendChild(toggleBtn);
                 
                 const periodDiv = document.createElement('div');
-                periodDiv.className = 'country-period';
+                periodDiv.className = 'country-period-compact';
                 
                 if (countryDates.length > 0) {
                     const firstDate = countryDates[0].date;
@@ -4451,55 +4452,69 @@
                 }
                 
                 const datesList = document.createElement('div');
-                datesList.className = 'country-dates';
+                datesList.className = 'country-dates-compact';
                 datesList.id = `dates-${country.toLowerCase()}`;
                 
                 if (datesWithLocation.length > 0) {
                     datesWithLocation.forEach(dateItem => {
                         const dateElement = document.createElement('div');
-                        dateElement.className = 'date-item';
+                        dateElement.className = 'date-item-compact';
                         dateElement.onclick = () => showRecapDateModal(dateItem);
                         
-                        // Date en haut
+                        // En-tête avec date et drapeau
+                        const dateHeader = document.createElement('div');
+                        dateHeader.className = 'date-header-compact';
+                        
                         const dateValue = document.createElement('div');
-                        dateValue.className = 'date-value';
+                        dateValue.className = 'date-value-compact';
                         dateValue.textContent = formatDateForDisplay(dateItem.date);
+                        
+                        const dateFlag = document.createElement('div');
+                        dateFlag.className = 'date-flag-compact';
+                        const dateFlagClass = countryFlags[dateItem.pays.toUpperCase()] || 'flag-france';
+                        dateFlag.classList.add(dateFlagClass);
+                        
+                        dateHeader.appendChild(dateValue);
+                        dateHeader.appendChild(dateFlag);
                         
                         // Localité
                         const dateLocation = document.createElement('div');
-                        dateLocation.className = 'date-location';
-                        dateLocation.textContent = dateItem.localite || 'Localité non spécifiée';
+                        dateLocation.className = 'date-location-compact';
+                        dateLocation.innerHTML = `<span class="detail-emoji-small">📍</span> ${dateItem.localite || 'Localité non spécifiée'}`;
+                        
+                        // Ligne de détails avec emojis
+                        const detailsLine = document.createElement('div');
+                        detailsLine.className = 'date-details-line-compact';
+                        
+                        const details = [];
                         
                         // Lieu
                         if (dateItem.lieu && dateItem.lieu.trim() !== '') {
-                            const dateLieu = document.createElement('div');
-                            dateLieu.className = 'date-lieu';
-                            dateLieu.textContent = dateItem.lieu;
-                            dateElement.appendChild(dateLieu);
+                            details.push(`<span class="detail-emoji-small">🏛️</span> ${dateItem.lieu}`);
+                        }
+                        
+                        // Heures
+                        if (dateItem.heures && dateItem.heures.trim() !== '') {
+                            details.push(`<span class="detail-emoji-small">🕒</span> ${dateItem.heures}`);
                         }
                         
                         // Programme (avec "Concert" par défaut)
-                        const dateProgramme = document.createElement('div');
-                        dateProgramme.className = 'date-programme';
-                        dateProgramme.textContent = dateItem.programme && dateItem.programme.trim() !== '' 
+                        const programme = dateItem.programme && dateItem.programme.trim() !== '' 
                             ? dateItem.programme 
                             : 'Concert';
+                        details.push(`<span class="detail-emoji-small">🎵</span> ${programme}`);
                         
-                        dateElement.appendChild(dateValue);
+                        detailsLine.innerHTML = details.join(' • ');
+                        
+                        dateElement.appendChild(dateHeader);
                         dateElement.appendChild(dateLocation);
-                        if (dateItem.lieu && dateItem.lieu.trim() !== '') {
-                            const dateLieu = document.createElement('div');
-                            dateLieu.className = 'date-lieu';
-                            dateLieu.textContent = dateItem.lieu;
-                            dateElement.appendChild(dateLieu);
-                        }
-                        dateElement.appendChild(dateProgramme);
+                        dateElement.appendChild(detailsLine);
                         
                         datesList.appendChild(dateElement);
                     });
                 } else {
                     const noLocationMessage = document.createElement('div');
-                    noLocationMessage.className = 'no-dates';
+                    noLocationMessage.className = 'no-dates-compact';
                     noLocationMessage.textContent = 'Aucune localité spécifiée pour ce pays';
                     datesList.appendChild(noLocationMessage);
                 }
@@ -4516,7 +4531,7 @@
         
         // Fonction pour forcer l'application des styles CSS
         function applyFlagStyles() {
-            document.querySelectorAll('.country-flag').forEach(flag => {
+            document.querySelectorAll('.country-flag-compact, .date-flag-compact, .modal-flag-small, .calendar-day-flag').forEach(flag => {
                 // Forcer le recalcul des styles
                 flag.style.display = 'none';
                 flag.offsetHeight; // Déclenche un reflow
@@ -4526,7 +4541,7 @@
         
         function toggleCountryDates(country) {
             const datesList = document.getElementById(`dates-${country.toLowerCase()}`);
-            const toggleBtn = document.querySelector(`#country-${country.toLowerCase()} .toggle-dates-btn`);
+            const toggleBtn = document.querySelector(`#country-${country.toLowerCase()} .toggle-dates-btn-compact`);
             
             if (datesList.classList.contains('show')) {
                 datesList.classList.remove('show');
@@ -4559,6 +4574,140 @@
             const year = date.getFullYear();
             
             return `${day} ${month} ${year}`;
+        }
+
+        // ===== MODIFICATION : AJOUT DU DRAPEAU DANS LE CALENDRIER =====
+        function renderCalendar() {
+            const calendarGrid = document.getElementById('calendarGrid');
+            const currentMonthElement = document.getElementById('currentMonth');
+            
+            currentMonthElement.textContent = currentDate.toLocaleDateString('fr-FR', {
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            calendarGrid.innerHTML = '';
+            
+            const daysOfWeek = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+            daysOfWeek.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = day;
+                calendarGrid.appendChild(dayHeader);
+            });
+            
+            const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+            
+            let firstDayOfWeek = firstDayOfMonth.getDay();
+            firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+            
+            const prevMonthLastDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+            for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.innerHTML = `<div class="day-number">${prevMonthLastDay - i}</div>`;
+                
+                const prevMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, prevMonthLastDay - i);
+                const holidayName = getMalagasyHolidayName(prevMonthDate);
+                if (holidayName) {
+                    day.classList.add('malagasy-holiday');
+                    const holidayElement = document.createElement('div');
+                    holidayElement.className = 'malagasy-holiday-name';
+                    holidayElement.textContent = holidayName;
+                    day.appendChild(holidayElement);
+                }
+                
+                calendarGrid.appendChild(day);
+            }
+            
+            for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day';
+                day.innerHTML = `<div class="day-number">${i}</div>`;
+                
+                const dateToCheck = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
+                const dateData = datesWithData.find(item => 
+                    item.date.getDate() === dateToCheck.getDate() &&
+                    item.date.getMonth() === dateToCheck.getMonth() &&
+                    item.date.getFullYear() === dateToCheck.getFullYear()
+                );
+                
+                // Ajouter le drapeau si des données existent
+                if (dateData) {
+                    const flagDiv = document.createElement('div');
+                    flagDiv.className = 'calendar-day-flag';
+                    const flagClass = countryFlags[dateData.pays.toUpperCase()] || 'flag-france';
+                    flagDiv.classList.add(flagClass);
+                    day.appendChild(flagDiv);
+                }
+                
+                const programCount = countProgramsForDate(dateToCheck);
+                if (programCount > 0) {
+                    const programCountElement = document.createElement('div');
+                    programCountElement.className = 'program-count';
+                    programCountElement.textContent = programCount;
+                    programCountElement.title = `${programCount} programme${programCount > 1 ? 's' : ''}`;
+                    day.appendChild(programCountElement);
+                }
+                
+                const holidayName = getMalagasyHolidayName(dateToCheck);
+                if (holidayName) {
+                    day.classList.add('malagasy-holiday');
+                    const holidayElement = document.createElement('div');
+                    holidayElement.className = 'malagasy-holiday-name';
+                    holidayElement.textContent = holidayName;
+                    day.appendChild(holidayElement);
+                }
+                
+                if (dateData) {
+                    day.classList.add('has-data');
+                    const dateInfo = document.createElement('div');
+                    dateInfo.className = 'calendar-day-info';
+                    if (dateData.localite) {
+                        dateInfo.innerHTML += `<div class="localite">${dateData.localite}</div>`;
+                    }
+                    if (dateData.pays) {
+                        dateInfo.innerHTML += `<div class="pays">${dateData.pays}</div>`;
+                    }
+                    day.appendChild(dateInfo);
+                }
+                
+                if (selectedDate && 
+                    selectedDate.getDate() === i &&
+                    selectedDate.getMonth() === currentDate.getMonth() &&
+                    selectedDate.getFullYear() === currentDate.getFullYear()) {
+                    day.classList.add('selected');
+                }
+                
+                day.addEventListener('click', () => {
+                    selectDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), i));
+                });
+                
+                calendarGrid.appendChild(day);
+            }
+            
+            const totalCells = 42;
+            const daysInCalendar = firstDayOfWeek + lastDayOfMonth.getDate();
+            const nextMonthDays = totalCells - daysInCalendar;
+            
+            for (let i = 1; i <= nextMonthDays; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.innerHTML = `<div class="day-number">${i}</div>`;
+                
+                const nextMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, i);
+                const holidayName = getMalagasyHolidayName(nextMonthDate);
+                if (holidayName) {
+                    day.classList.add('malagasy-holiday');
+                    const holidayElement = document.createElement('div');
+                    holidayElement.className = 'malagasy-holiday-name';
+                    holidayElement.textContent = holidayName;
+                    day.appendChild(holidayElement);
+                }
+                
+                calendarGrid.appendChild(day);
+            }
         }
 
         async function loadDataFromGoogleSheets(method = 'direct') {
@@ -4767,130 +4916,6 @@
             }
             
             return null;
-        }
-        
-        function renderCalendar() {
-            const calendarGrid = document.getElementById('calendarGrid');
-            const currentMonthElement = document.getElementById('currentMonth');
-            
-            currentMonthElement.textContent = currentDate.toLocaleDateString('fr-FR', {
-                month: 'long',
-                year: 'numeric'
-            });
-            
-            calendarGrid.innerHTML = '';
-            
-            const daysOfWeek = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
-            daysOfWeek.forEach(day => {
-                const dayHeader = document.createElement('div');
-                dayHeader.className = 'calendar-day-header';
-                dayHeader.textContent = day;
-                calendarGrid.appendChild(dayHeader);
-            });
-            
-            const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-            const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-            
-            let firstDayOfWeek = firstDayOfMonth.getDay();
-            firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
-            
-            const prevMonthLastDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
-            for (let i = firstDayOfWeek - 1; i >= 0; i--) {
-                const day = document.createElement('div');
-                day.className = 'calendar-day other-month';
-                day.innerHTML = `<div class="day-number">${prevMonthLastDay - i}</div>`;
-                
-                const prevMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, prevMonthLastDay - i);
-                const holidayName = getMalagasyHolidayName(prevMonthDate);
-                if (holidayName) {
-                    day.classList.add('malagasy-holiday');
-                    const holidayElement = document.createElement('div');
-                    holidayElement.className = 'malagasy-holiday-name';
-                    holidayElement.textContent = holidayName;
-                    day.appendChild(holidayElement);
-                }
-                
-                calendarGrid.appendChild(day);
-            }
-            
-            for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
-                const day = document.createElement('div');
-                day.className = 'calendar-day';
-                day.innerHTML = `<div class="day-number">${i}</div>`;
-                
-                const dateToCheck = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
-                const dateData = datesWithData.find(item => 
-                    item.date.getDate() === dateToCheck.getDate() &&
-                    item.date.getMonth() === dateToCheck.getMonth() &&
-                    item.date.getFullYear() === dateToCheck.getFullYear()
-                );
-                
-                const programCount = countProgramsForDate(dateToCheck);
-                if (programCount > 0) {
-                    const programCountElement = document.createElement('div');
-                    programCountElement.className = 'program-count';
-                    programCountElement.textContent = programCount;
-                    programCountElement.title = `${programCount} programme${programCount > 1 ? 's' : ''}`;
-                    day.appendChild(programCountElement);
-                }
-                
-                const holidayName = getMalagasyHolidayName(dateToCheck);
-                if (holidayName) {
-                    day.classList.add('malagasy-holiday');
-                    const holidayElement = document.createElement('div');
-                    holidayElement.className = 'malagasy-holiday-name';
-                    holidayElement.textContent = holidayName;
-                    day.appendChild(holidayElement);
-                }
-                
-                if (dateData) {
-                    day.classList.add('has-data');
-                    const dateInfo = document.createElement('div');
-                    dateInfo.className = 'date-info';
-                    if (dateData.localite) {
-                        dateInfo.innerHTML += `<div class="localite">${dateData.localite}</div>`;
-                    }
-                    if (dateData.pays) {
-                        dateInfo.innerHTML += `<div class="pays">${dateData.pays}</div>`;
-                    }
-                    day.appendChild(dateInfo);
-                }
-                
-                if (selectedDate && 
-                    selectedDate.getDate() === i &&
-                    selectedDate.getMonth() === currentDate.getMonth() &&
-                    selectedDate.getFullYear() === currentDate.getFullYear()) {
-                    day.classList.add('selected');
-                }
-                
-                day.addEventListener('click', () => {
-                    selectDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), i));
-                });
-                
-                calendarGrid.appendChild(day);
-            }
-            
-            const totalCells = 42;
-            const daysInCalendar = firstDayOfWeek + lastDayOfMonth.getDate();
-            const nextMonthDays = totalCells - daysInCalendar;
-            
-            for (let i = 1; i <= nextMonthDays; i++) {
-                const day = document.createElement('div');
-                day.className = 'calendar-day other-month';
-                day.innerHTML = `<div class="day-number">${i}</div>`;
-                
-                const nextMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, i);
-                const holidayName = getMalagasyHolidayName(nextMonthDate);
-                if (holidayName) {
-                    day.classList.add('malagasy-holiday');
-                    const holidayElement = document.createElement('div');
-                    holidayElement.className = 'malagasy-holiday-name';
-                    holidayElement.textContent = holidayName;
-                    day.appendChild(holidayElement);
-                }
-                
-                calendarGrid.appendChild(day);
-            }
         }
         
         function selectDate(date) {
