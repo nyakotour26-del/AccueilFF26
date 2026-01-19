@@ -1822,7 +1822,7 @@
             border-radius: 20px;
             padding: 25px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -1950,6 +1950,16 @@
             border-left: 3px solid #4299e1;
         }
         
+        .date-detail-value a {
+            color: #4299e1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .date-detail-value a:hover {
+            text-decoration: underline;
+        }
+        
         .date-actions {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -2004,6 +2014,68 @@
             right: 5px;
             color: #cbd5e0;
             font-size: 0.7rem;
+        }
+        
+        /* NOUVEAU: Navigation entre programmes pour une même date */
+        .date-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+        }
+        
+        .nav-arrow {
+            background: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .nav-arrow:hover:not(:disabled) {
+            background: #3182ce;
+            transform: scale(1.1);
+        }
+        
+        .nav-arrow:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        
+        .program-counter {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 0.9rem;
+        }
+        
+        .program-indicator {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        
+        .program-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #cbd5e0;
+            transition: all 0.3s;
+        }
+        
+        .program-dot.active {
+            background: #4299e1;
+            transform: scale(1.2);
         }
         
         .secretariat-access-section {
@@ -2534,6 +2606,16 @@
             background: #f7fafc;
             border-radius: 8px;
             border-left: 3px solid #4299e1;
+        }
+        
+        .recap-date-detail-value a {
+            color: #4299e1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .recap-date-detail-value a:hover {
+            text-decoration: underline;
         }
         
         /* Media Queries supplémentaires */
@@ -3192,6 +3274,16 @@
                 </div>
             </div>
             
+            <!-- NOUVELLE SECTION: Navigation entre programmes pour une même date -->
+            <div class="date-navigation" id="dateNavigation" style="display: none;">
+                <button class="nav-arrow prev" id="prevProgram" onclick="navigateProgram(-1)" disabled>←</button>
+                <div class="program-info">
+                    <div class="program-counter" id="programCounter">Programme 1/1</div>
+                    <div class="program-indicator" id="programIndicator"></div>
+                </div>
+                <button class="nav-arrow next" id="nextProgram" onclick="navigateProgram(1)" disabled>→</button>
+            </div>
+            
             <div class="date-actions" id="dateActions">
                 <div class="date-action-btn" id="pvBtn">
                     <span class="date-action-emoji">📄</span>
@@ -3294,14 +3386,19 @@
     </div>
 
     <script>
-        // URL du Google Sheets
-        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrF0hs00W-QvR3v5wxZA1ceGEx4xWR0dJv5kF3zgab6YVV00OehcwxYg-EJfOrMqj4IJnDl649SIkg/pub?gid=106676164&single=true&output=csv';
+        // URL du Google Sheets (NOUVELLE FEUILLE)
+        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrF0hs00W-QvR3v5wxZA1ceGEx4xWR0dJv5kF3zgab6YVV00OehcwxYg-EJfOrMqj4IJnDl649SIkg/pub?gid=951917006&single=true&output=csv';
         
         let sheetData = [];
         let datesWithData = [];
         let currentDate = new Date(2026, 3, 1); // Avril 2026
         let selectedDate = null;
         let secretariatAccess = false;
+        
+        // Variables pour la navigation entre programmes
+        let currentProgramIndex = 0;
+        let allProgramsForDate = [];
+        let currentDateForNavigation = null;
 
         // Objet pour mapper les noms de pays aux drapeaux
         const countryFlags = {
@@ -3325,13 +3422,18 @@
             'MADAGASCAR': '#FC3D32'
         };
 
-        // Mapping des colonnes pour les détails du programme selon vos spécifications
+        // Mapping des colonnes basé sur les titres des colonnes à la 4ème ligne
         const columnMapping = {
-            'LIEU': 23,
-            'HEURES': 24,
-            'ADRESSE ET/OU CONTACT': 25,
-            'HEBERGEMENT': 26,
-            'SITE': 27
+            'DATES': 0,
+            'LOCALITE': 1,
+            'LIEU': 2,
+            'HEURES': 3,
+            'ADRESSE ET/OU CONTACT': 4,
+            'HEBERGEMENT': 5,
+            'PROGRAMME': 6,
+            'LOCALISATION': 7,
+            'SITE': 8,
+            'PAYS': 9
         };
 
         // Jours fériés malgaches pour 2026
@@ -3531,26 +3633,96 @@
                 .trim();
         }
 
+        // NOUVELLE FONCTION: Naviguer entre les programmes
+        function navigateProgram(direction) {
+            if (allProgramsForDate.length <= 1) return;
+            
+            currentProgramIndex += direction;
+            
+            // Limiter l'index aux bornes
+            if (currentProgramIndex < 0) currentProgramIndex = 0;
+            if (currentProgramIndex >= allProgramsForDate.length) currentProgramIndex = allProgramsForDate.length - 1;
+            
+            // Mettre à jour la navigation
+            updateProgramNavigation();
+            
+            // Mettre à jour l'affichage avec le programme actuel
+            showProgramData(currentProgramIndex);
+        }
+
+        function updateProgramNavigation() {
+            const prevBtn = document.getElementById('prevProgram');
+            const nextBtn = document.getElementById('nextProgram');
+            const counter = document.getElementById('programCounter');
+            const indicator = document.getElementById('programIndicator');
+            
+            // Mettre à jour les boutons
+            prevBtn.disabled = currentProgramIndex === 0;
+            nextBtn.disabled = currentProgramIndex === allProgramsForDate.length - 1;
+            
+            // Mettre à jour le compteur
+            counter.textContent = `Programme ${currentProgramIndex + 1}/${allProgramsForDate.length}`;
+            
+            // Mettre à jour les indicateurs de points
+            indicator.innerHTML = '';
+            for (let i = 0; i < allProgramsForDate.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'program-dot';
+                if (i === currentProgramIndex) {
+                    dot.classList.add('active');
+                }
+                indicator.appendChild(dot);
+            }
+        }
+
+        function showProgramData(programIndex) {
+            const programData = allProgramsForDate[programIndex];
+            const modalLocation = document.getElementById('modalLocation');
+            const modalCountry = document.getElementById('modalCountry');
+            const dateDetailsGrid = document.getElementById('dateDetailsGrid');
+            
+            // Mettre à jour les informations de base
+            modalLocation.textContent = programData.localite || 'Localité non spécifiée';
+            modalCountry.textContent = programData.pays || 'Pays non spécifié';
+            
+            // Mettre à jour les détails
+            displayDateDetails(dateDetailsGrid, programData);
+        }
+
         function showDateModal(date, location, country) {
             const modal = document.getElementById('dateModal');
             const modalContent = document.getElementById('dateModalContent');
             const modalTitle = document.getElementById('modalDateTitle');
-            const modalLocation = document.getElementById('modalLocation');
-            const modalCountry = document.getElementById('modalCountry');
-            const dateDetails = document.getElementById('dateDetails');
-            const dateDetailsGrid = document.getElementById('dateDetailsGrid');
+            const dateNavigation = document.getElementById('dateNavigation');
             
             modalTitle.textContent = formatDateForDisplay(date);
-            modalLocation.textContent = location || 'Localité non spécifiée';
-            modalCountry.textContent = country || 'Pays non spécifié';
             
-            const dateData = getDetailedDateData(date);
+            // Obtenir toutes les entrées pour cette date
+            allProgramsForDate = getMatchingDates(date);
+            currentDateForNavigation = date;
             
-            if (dateData && hasDetailedData(dateData)) {
-                dateDetails.style.display = 'block';
-                displayDateDetails(dateDetailsGrid, dateData);
+            if (allProgramsForDate.length > 1) {
+                // Afficher la navigation
+                dateNavigation.style.display = 'flex';
+                currentProgramIndex = 0;
+                updateProgramNavigation();
+                showProgramData(0);
             } else {
-                dateDetails.style.display = 'none';
+                // Cacher la navigation s'il n'y a qu'un seul programme
+                dateNavigation.style.display = 'none';
+                
+                // Afficher les données du programme unique
+                const modalLocation = document.getElementById('modalLocation');
+                const modalCountry = document.getElementById('modalCountry');
+                const dateDetailsGrid = document.getElementById('dateDetailsGrid');
+                
+                modalLocation.textContent = location || 'Localité non spécifiée';
+                modalCountry.textContent = country || 'Pays non spécifié';
+                
+                const dateData = allProgramsForDate.length > 0 ? allProgramsForDate[0] : null;
+                if (dateData && hasDetailedData(dateData)) {
+                    displayDateDetails(dateDetailsGrid, dateData);
+                }
             }
             
             if (secretariatAccess) {
@@ -3563,28 +3735,46 @@
             }, 10);
         }
         
-        function getDetailedDateData(date) {
+        function getMatchingDates(date) {
             const matchingDates = datesWithData.filter(item => 
                 item.date.getDate() === date.getDate() &&
                 item.date.getMonth() === date.getMonth() &&
                 item.date.getFullYear() === date.getFullYear()
             );
             
-            if (matchingDates.length > 0) {
-                const rowIndex = matchingDates[0].rowIndex;
+            return matchingDates.map(match => {
+                const rowIndex = match.rowIndex;
                 if (sheetData[rowIndex]) {
-                    return sheetData[rowIndex];
+                    return {
+                        ...match,
+                        ...getRowData(rowIndex)
+                    };
                 }
-            }
-            return null;
+                return match;
+            });
+        }
+        
+        function getRowData(rowIndex) {
+            const row = sheetData[rowIndex];
+            return {
+                localite: row[columnMapping['LOCALITE']] || '',
+                pays: row[columnMapping['PAYS']] || '',
+                lieu: row[columnMapping['LIEU']] || '',
+                heures: row[columnMapping['HEURES']] || '',
+                adresse: row[columnMapping['ADRESSE ET/OU CONTACT']] || '',
+                hebergement: row[columnMapping['HEBERGEMENT']] || '',
+                programme: row[columnMapping['PROGRAMME']] || '',
+                localisation: row[columnMapping['LOCALISATION']] || '',
+                site: row[columnMapping['SITE']] || ''
+            };
         }
         
         function hasDetailedData(dateData) {
-            const columnsToCheck = ['LIEU', 'HEURES', 'ADRESSE ET/OU CONTACT', 'HEBERGEMENT', 'SITE'];
+            const columnsToCheck = ['LIEU', 'HEURES', 'ADRESSE ET/OU CONTACT', 'HEBERGEMENT', 'PROGRAMME', 'LOCALISATION', 'SITE'];
             
             for (let key of columnsToCheck) {
-                const colIndex = columnMapping[key];
-                if (dateData[colIndex] && dateData[colIndex].trim() !== '') {
+                const value = dateData[key.toLowerCase()] || '';
+                if (value && value.trim() !== '') {
                     return true;
                 }
             }
@@ -3595,18 +3785,19 @@
             container.innerHTML = '';
             
             const detailsToShow = [
-                { label: 'LIEU', key: 'LIEU' },
-                { label: 'HEURES', key: 'HEURES' },
-                { label: 'ADRESSE ET/OU CONTACT', key: 'ADRESSE ET/OU CONTACT' },
-                { label: 'HEBERGEMENT', key: 'HEBERGEMENT' },
-                { label: 'SITE', key: 'SITE' }
+                { label: 'LIEU', key: 'lieu' },
+                { label: 'HEURES', key: 'heures' },
+                { label: 'ADRESSE ET/OU CONTACT', key: 'adresse' },
+                { label: 'HEBERGEMENT', key: 'hebergement' },
+                { label: 'PROGRAMME', key: 'programme' },
+                { label: 'LOCALISATION', key: 'localisation' },
+                { label: 'SITE', key: 'site' }
             ];
             
             let hasAnyData = false;
             
             detailsToShow.forEach(detail => {
-                const colIndex = columnMapping[detail.key];
-                let value = dateData[colIndex] || '';
+                let value = dateData[detail.key] || '';
                 value = cleanMonetaryUnits(value);
                 
                 if (value.trim() !== '') {
@@ -3620,7 +3811,13 @@
                     
                     const valueDiv = document.createElement('div');
                     valueDiv.className = 'date-detail-value';
-                    valueDiv.textContent = value;
+                    
+                    // Rendre les liens cliquables pour HEBERGEMENT
+                    if (detail.key === 'hebergement' && isGoogleMapsLink(value)) {
+                        valueDiv.innerHTML = createGoogleMapsLink(value);
+                    } else {
+                        valueDiv.textContent = value;
+                    }
                     
                     detailItem.appendChild(label);
                     detailItem.appendChild(valueDiv);
@@ -3636,6 +3833,31 @@
             }
         }
         
+        function isGoogleMapsLink(text) {
+            // Vérifie si le texte ressemble à une adresse ou contient des mots-clés de Google Maps
+            const addressPatterns = [
+                /\d+\s+[A-Za-z\s]+,?\s+[A-Za-z\s]+/i, // Numéro + rue + ville
+                /https?:\/\/.*google.*maps/i, // Lien Google Maps
+                /maps\.google/i,
+                /goo\.gl\/maps/i,
+                /maps\.app\.goo\.gl/i
+            ];
+            
+            return addressPatterns.some(pattern => pattern.test(text));
+        }
+        
+        function createGoogleMapsLink(text) {
+            // Si c'est déjà une URL complète
+            if (text.startsWith('http')) {
+                return `<a href="${text}" target="_blank" style="color: #4299e1; text-decoration: none;">${text} <i class="fas fa-external-link-alt" style="font-size: 0.8em;"></i></a>`;
+            }
+            
+            // Sinon, créer un lien de recherche Google Maps
+            const encodedAddress = encodeURIComponent(text);
+            const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+            return `<a href="${mapsUrl}" target="_blank" style="color: #4299e1; text-decoration: none;">${text} <i class="fas fa-map-marker-alt" style="font-size: 0.8em;"></i></a>`;
+        }
+        
         function closeDateModal() {
             const modal = document.getElementById('dateModal');
             const modalContent = document.getElementById('dateModalContent');
@@ -3643,6 +3865,9 @@
             modalContent.classList.remove('show');
             setTimeout(() => {
                 modal.classList.remove('show');
+                // Réinitialiser la navigation
+                currentProgramIndex = 0;
+                allProgramsForDate = [];
             }, 300);
         }
 
@@ -3678,18 +3903,19 @@
             container.innerHTML = '';
             
             const detailsToShow = [
-                { label: 'LIEU', key: 'LIEU' },
-                { label: 'HEURES', key: 'HEURES' },
-                { label: 'ADRESSE ET/OU CONTACT', key: 'ADRESSE ET/OU CONTACT' },
-                { label: 'HEBERGEMENT', key: 'HEBERGEMENT' },
-                { label: 'SITE', key: 'SITE' }
+                { label: 'LIEU', key: 'lieu' },
+                { label: 'HEURES', key: 'heures' },
+                { label: 'ADRESSE ET/OU CONTACT', key: 'adresse' },
+                { label: 'HEBERGEMENT', key: 'hebergement' },
+                { label: 'PROGRAMME', key: 'programme' },
+                { label: 'LOCALISATION', key: 'localisation' },
+                { label: 'SITE', key: 'site' }
             ];
             
             let hasAnyData = false;
             
             detailsToShow.forEach(detail => {
-                const colIndex = columnMapping[detail.key];
-                let value = dateData[colIndex] || '';
+                let value = dateData[detail.key] || '';
                 value = cleanMonetaryUnits(value);
                 
                 if (value.trim() !== '') {
@@ -3703,7 +3929,13 @@
                     
                     const valueDiv = document.createElement('div');
                     valueDiv.className = 'recap-date-detail-value';
-                    valueDiv.textContent = value;
+                    
+                    // Rendre les liens cliquables pour HEBERGEMENT
+                    if (detail.key === 'hebergement' && isGoogleMapsLink(value)) {
+                        valueDiv.innerHTML = createGoogleMapsLink(value);
+                    } else {
+                        valueDiv.textContent = value;
+                    }
                     
                     detailItem.appendChild(label);
                     detailItem.appendChild(valueDiv);
@@ -3744,25 +3976,7 @@
                 item.date.getFullYear() === date.getFullYear()
             );
             
-            if (matchingDates.length === 0) return 0;
-            
-            let programCount = 0;
-            matchingDates.forEach(match => {
-                const rowIndex = match.rowIndex;
-                if (sheetData[rowIndex]) {
-                    const columnsToCheck = ['LIEU', 'HEURES', 'ADRESSE ET/OU CONTACT', 'HEBERGEMENT', 'SITE'];
-                    
-                    for (let key of columnsToCheck) {
-                        const colIndex = columnMapping[key];
-                        if (sheetData[rowIndex][colIndex] && sheetData[rowIndex][colIndex].trim() !== '') {
-                            programCount++;
-                            break;
-                        }
-                    }
-                }
-            });
-            
-            return programCount;
+            return matchingDates.length;
         }
 
         function calculateConcertsProgrammes() {
@@ -3912,10 +4126,9 @@
                 const countryInfo = document.createElement('div');
                 countryInfo.className = 'country-info';
                 
-                // CORRECTION ICI : Créer correctement le drapeau
+                // Créer le drapeau
                 const flagDiv = document.createElement('div');
                 flagDiv.className = 'country-flag';
-                // Ajouter la classe spécifique au drapeau
                 const flagClass = countryFlags[country] || 'flag-france';
                 flagDiv.classList.add(flagClass);
                 
@@ -4120,6 +4333,12 @@
                     throw new Error('Format de données invalide');
                 }
                 
+                // Les titres des colonnes sont à la 4ème ligne (index 3)
+                const headerRow = lines[3];
+                
+                // Vérifier que les colonnes attendues sont présentes
+                const expectedColumns = ['DATES', 'LOCALITE', 'LIEU', 'HEURES', 'ADRESSE ET/OU CONTACT', 'HEBERGEMENT', 'PROGRAMME', 'LOCALISATION', 'SITE', 'PAYS'];
+                
                 sheetData = lines.slice(4).filter(row => 
                     row && row.some(cell => cell && cell.trim() !== '')
                 );
@@ -4179,15 +4398,15 @@
             datesWithData = [];
             
             sheetData.forEach((row, index) => {
-                const dateStr = row[0] || '';
+                const dateStr = row[columnMapping['DATES']] || '';
                 if (dateStr && dateStr.trim() !== '') {
                     const date = parseDate(dateStr);
                     if (date) {
                         datesWithData.push({
                             date: date,
                             dateStr: dateStr,
-                            localite: row[1] || '',
-                            pays: row[2] || '',
+                            localite: row[columnMapping['LOCALITE']] || '',
+                            pays: row[columnMapping['PAYS']] || '',
                             rowIndex: index
                         });
                     }
