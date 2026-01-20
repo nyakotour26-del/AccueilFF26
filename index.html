@@ -2950,7 +2950,76 @@
             background: transparent !important;
             border: none !important;
         }
-        
+        /* ===== STYLES AMÉLIORÉS POUR LES BULLES GROUPÉES ===== */
+.grouped-popup .leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    border: 3px solid white;
+    overflow: hidden;
+}
+
+.grouped-popup .leaflet-popup-content {
+    margin: 0;
+    padding: 10px;
+    max-height: 500px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #4299e1 #f1f1f1;
+}
+
+.grouped-popup .leaflet-popup-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.grouped-popup .leaflet-popup-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.grouped-popup .leaflet-popup-content::-webkit-scrollbar-thumb {
+    background: #4299e1;
+    border-radius: 4px;
+}
+
+.grouped-popup .leaflet-popup-content::-webkit-scrollbar-thumb:hover {
+    background: #3182ce;
+}
+
+.grouped-popup .leaflet-popup-tip {
+    background: linear-gradient(135deg, #4299e1, #3182ce);
+}
+
+/* Animation pour les items de programme */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.program-item {
+    animation: fadeIn 0.3s ease-out;
+}
+/* ===== STYLES COMPACTS POUR LES BULLES ===== */
+.grouped-popup .leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    padding: 2px;
+    max-height: 350px;
+}
+
+.grouped-popup .leaflet-popup-content {
+    margin: 0;
+    padding: 8px;
+    line-height: 1.3;
+}
+
+/* Style compact pour les items de programme */
+.program-item-compact {
+    transition: all 0.2s ease;
+}
+
+.program-item-compact:hover {
+    transform: translateX(2px);
+}
+
         /* ===== NOUVEAUX STYLES POUR LA SECTION LOCALISATION ===== */
         .map-preview-container {
             margin: 8px 0;
@@ -3975,248 +4044,420 @@
             };
         }
 
-        // ===== MODIFICATION COMPLÈTE DE LA MISE À JOUR DE LA CARTE =====
-        async function updateMapWithTourData() {
-            // Supprimer les marqueurs existants
-            mapMarkers.forEach(marker => marker.remove());
-            mapMarkers = [];
-            
-            // Supprimer toutes les routes existantes
-            if (mapRoute) {
-                mapRoute.remove();
-            }
-            countryRoutes.forEach(route => route.remove());
-            countryRoutes = [];
-            interCountryRoutes.forEach(route => route.remove());
-            interCountryRoutes = [];
-            
-            const locations = [];
-            const sortedDates = [...datesWithData].sort((a, b) => a.date - b.date);
-            
-            // Stocker les lieux par pays pour créer les routes par pays
-            const locationsByCountry = {};
-            let countrySequence = [];
-            let currentCountry = null;
-            
-            let programNumber = 1;
-            let countryTransitionNumber = 1;
-            let previousLocation = null;
-            let previousCountry = null;
-            
-            // Traiter chaque date dans l'ordre chronologique
-            for (let i = 0; i < sortedDates.length; i++) {
-                const item = sortedDates[i];
-                const rowIndex = item.rowIndex;
-                
-               if (sheetData[rowIndex]) {
-    const rowData = getRowData(rowIndex);
-    const localite = rowData.localite || '';
-    const pays = rowData.pays.toUpperCase() || '';
+// ===== MODIFICATION COMPLÈTE DE LA MISE À JOUR DE LA CARTE =====
+async function updateMapWithTourData() {
+    // Supprimer les marqueurs existants
+    mapMarkers.forEach(marker => marker.remove());
+    mapMarkers = [];
     
-    // ===== NOUVELLE CONDITION : NE PAS AFFICHER SI PAS DE COORDONNÉES =====
-    // Quand la colonne COORDONNÉES est sans chiffre de latitude/longitude, 
-    // on ne marque pas les données de cette date dans la carte
-    if (!rowData.coordonnees || rowData.coordonnees.trim() === '') {
-        console.log(`❌ ${localite} n'est pas affiché sur la carte - colonne COORDONNÉES vide`);
-        continue; // Passe à la date suivante sans créer de marqueur
+    // Supprimer toutes les routes existantes
+    if (mapRoute) {
+        mapRoute.remove();
     }
-    // ===== FIN DE LA CONDITION =====
+    countryRoutes.forEach(route => route.remove());
+    countryRoutes = [];
+    interCountryRoutes.forEach(route => route.remove());
+    interCountryRoutes = [];
     
-    // Vérifier si c'est un retour à Madagascar
-    const isRetourMadagascar = localite.toUpperCase().includes('RETOUR MADAGASCAR') || 
-                                localite.toUpperCase().includes('MADAGASCAR') ||
-                                pays.toUpperCase() === 'MADAGASCAR';
-                    
-                    let coords = null;
-                    
-                    // PRIORITÉ 1: Utiliser les coordonnées exactes de la colonne COORDONNÉES
-                    if (rowData.coordonnees && rowData.coordonnees.trim() !== '') {
-                        console.log(`Recherche de coordonnées pour ${localite}:`, rowData.coordonnees);
-                        coords = extractCoordinatesFromCell(rowData.coordonnees);
-                        if (coords) {
-                            console.log(`Coordonnées trouvées pour ${localite}:`, coords);
-                        } else {
-                            console.log(`Aucune coordonnée valide trouvée pour ${localite}`);
-                        }
-                    }
-                    
-                    // PRIORITÉ 2: Utiliser les liens de localisation Google Maps
-                    if (!coords && rowData.localisation) {
-                        coords = extractCoordinatesFromGoogleMaps(rowData.localisation);
-                    }
-                    
-                    // PRIORITÉ 3: Utiliser le géocodage approximatif par pays
-                    if (!coords) {
-                        coords = await geocodeLocation(localite, pays);
-                    }
-                    
-                    if (coords) {
-                        const markerColor = getCountryColor(pays);
-                        
-                        // Créer un marqueur personnalisé avec numéro
-                        const markerIcon = L.divIcon({
-                            className: 'custom-marker',
-                            html: `<div style="
-                                width: 24px; 
-                                height: 24px; 
-                                background: ${markerColor};
-                                border-radius: 50%;
-                                border: 3px solid white;
-                                box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                color: white;
-                                font-weight: bold;
-                                font-size: 12px;
-                            ">${programNumber}</div>`,
-                            iconSize: [24, 24],
-                            iconAnchor: [12, 12]
-                        });
-                        
-                        const marker = L.marker(coords, { icon: markerIcon }).addTo(tourMap);
-                        
-                        // Contenu de la bulle d'info avec couleurs personnalisées
-                        const popupContent = `
-                            <div style="max-width: 280px; font-family: 'Segoe UI', sans-serif;">
-                                <div style="font-size: 1rem; font-weight: 800; color: #2d3748; margin-bottom: 6px; border-bottom: 2px solid ${markerColor}; padding-bottom: 4px;">
-                                    📅 ${formatDateForDisplay(item.date)}
-                                </div>
-                                <div style="margin-bottom: 6px;">
-                                    <div style="font-weight: 700; color: #059669; display: flex; align-items: center; gap: 4px; margin-bottom: 2px; font-size: 0.9rem;">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        ${localite}
-                                    </div>
-                                    <div style="font-weight: 600; color: #4a5568; display: flex; align-items: center; gap: 4px; margin-bottom: 2px; font-size: 0.85rem;">
-                                        <i class="fas fa-flag"></i>
-                                        ${formatCountryName(pays)}
-                                    </div>
-                                    ${rowData.lieu ? `<div style="font-weight: 600; color: #f97316; display: flex; align-items: center; gap: 4px; margin-bottom: 2px; font-size: 0.85rem;">
-                                        <i class="fas fa-landmark"></i>
-                                        ${rowData.lieu}
-                                    </div>` : ''}
-                                    ${rowData.programme ? `<div style="font-weight: 600; color: #10b981; display: flex; align-items: center; gap: 4px; margin-bottom: 2px; font-size: 0.85rem;">
-                                        <i class="fas fa-music"></i>
-                                        ${rowData.programme}
-                                    </div>` : ''}
-                                    ${rowData.heures ? `<div style="font-weight: 600; color: #2563eb; display: flex; align-items: center; gap: 4px; margin-bottom: 2px; font-size: 0.85rem;">
-                                        <i class="fas fa-clock"></i>
-                                        ${rowData.heures}
-                                    </div>` : ''}
-                                </div>
-                                ${rowData.localisation ? `
-                                <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e2e8f0;">
-                                    <a href="${rowData.localisation}" target="_blank" style="
-                                        display: inline-flex;
-                                        align-items: center;
-                                        gap: 5px;
-                                        background: linear-gradient(135deg, #4299e1, #3182ce);
-                                        color: white;
-                                        padding: 6px 10px;
-                                        border-radius: 5px;
-                                        text-decoration: none;
-                                        font-weight: 600;
-                                        font-size: 0.85rem;
-                                    ">
-                                        <i class="fas fa-map-marked-alt"></i>
-                                        Voir sur Google Maps
-                                    </a>
-                                </div>
-                                ` : ''}
-                                ${rowData.coordonnees && rowData.coordonnees.trim() !== '' ? `
-                                <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e2e8f0;">
-                                    <div style="font-size: 0.75rem; color: #4a5568; margin-bottom: 4px;">
-                                        <i class="fas fa-map-pin"></i> Coordonnées exactes:
-                                    </div>
-                                    <div style="font-size: 0.7rem; color: #059669; font-weight: 600;">
-                                        ${rowData.coordonnees}
-                                    </div>
-                                </div>
-                                ` : ''}
-                            </div>
-                        `;
-                        
-                        marker.bindPopup(popupContent);
-                        
-                        // Stocker le marqueur
-                        mapMarkers.push(marker);
-                        locations.push(coords);
-                        
-                        // Ajouter à la liste des lieux par pays
-                        if (!locationsByCountry[pays]) {
-                            locationsByCountry[pays] = [];
-                        }
-                        locationsByCountry[pays].push(coords);
-                        
-                        // Gérer les transitions entre pays
-                        if (previousCountry && previousCountry !== pays) {
-                            // Créer une flèche de transition entre pays
-                            createCountryTransitionArrow(previousLocation, coords, countryTransitionNumber, previousCountry, pays);
-                            countryTransitionNumber++;
-                        }
-                        
-                        // Mettre à jour pour la prochaine itération
-                        previousLocation = coords;
-                        previousCountry = pays;
-                        programNumber++;
-                        
-                        // Ajouter un événement click pour montrer la date dans le modal
-                        marker.on('click', function() {
-                            showDateModal(item.date, localite, pays);
-                        });
-                    }
-                }
+    const locations = [];
+    const sortedDates = [...datesWithData].sort((a, b) => a.date - b.date);
+    
+    // Stocker les lieux par pays pour créer les routes par pays
+    const locationsByCountry = {};
+    
+    // ===== NOUVEAU : Grouper les programmes par coordonnées =====
+    const programsByCoordinates = {};
+    let locationCounter = 0;
+    
+    // Phase 1 : Collecter et grouper les programmes
+    for (let i = 0; i < sortedDates.length; i++) {
+        const item = sortedDates[i];
+        const rowIndex = item.rowIndex;
+        
+        if (sheetData[rowIndex]) {
+            const rowData = getRowData(rowIndex);
+            const localite = rowData.localite || '';
+            const pays = rowData.pays.toUpperCase() || '';
+            
+            // Condition : ne pas afficher si pas de coordonnées
+            if (!rowData.coordonnees || rowData.coordonnees.trim() === '') {
+                console.log(`❌ ${localite} n'est pas affiché sur la carte - colonne COORDONNÉES vide`);
+                continue;
             }
             
-            // Créer des routes par pays (couleurs différentes)
-            Object.keys(locationsByCountry).forEach(country => {
-                const countryLocations = locationsByCountry[country];
-                if (countryLocations.length > 1) {
-                    const routeColor = getCountryColor(country);
-                    const countryRoute = L.polyline(countryLocations, {
-                        color: routeColor,
-                        weight: 3,
-                        opacity: 0.7,
-                        lineCap: 'round'
-                    }).addTo(tourMap);
-                    countryRoutes.push(countryRoute);
-                    
-                    // Ajouter des flèches pour la route du pays
-                    for (let j = 0; j < countryLocations.length - 1; j++) {
-                        const start = countryLocations[j];
-                        const end = countryLocations[j + 1];
-                        
-                        // Calculer le point milieu
-                        const midLat = (start[0] + end[0]) / 2;
-                        const midLng = (start[1] + end[1]) / 2;
-                        
-                        // Créer un marqueur flèche directionnelle
-                        const arrowIcon = L.divIcon({
-                            className: 'arrow-icon',
-                            html: `<div style="
-                                width: 0; 
-                                height: 0; 
-                                border-left: 6px solid transparent;
-                                border-right: 6px solid transparent;
-                                border-bottom: 8px solid ${routeColor};
-                                opacity: 0.8;
-                                transform: rotate(${calculateBearing(start, end)}deg);
-                            "></div>`,
-                            iconSize: [12, 12],
-                            iconAnchor: [6, 6]
-                        });
-                        
-                        L.marker([midLat, midLng], { icon: arrowIcon, interactive: false }).addTo(tourMap);
-                    }
-                }
-            });
+            // Extraire les coordonnées
+            let coords = extractCoordinatesFromCell(rowData.coordonnees);
             
-            // Ajuster la vue pour montrer tous les marqueurs
-            if (locations.length > 0) {
-                const bounds = L.latLngBounds(locations);
-                tourMap.fitBounds(bounds, { padding: [40, 40] });
+            // Si pas de coordonnées extraites, essayer avec la localisation
+            if (!coords && rowData.localisation) {
+                coords = extractCoordinatesFromGoogleMaps(rowData.localisation);
+            }
+            
+            // Si toujours pas, géocoder approximativement
+            if (!coords) {
+                coords = await geocodeLocation(localite, pays);
+            }
+            
+            if (coords) {
+                // Créer une clé unique pour ces coordonnées (arrondies à 6 décimales)
+                const coordKey = coords[0].toFixed(6) + ',' + coords[1].toFixed(6);
+                
+                if (!programsByCoordinates[coordKey]) {
+                    // Nouvel emplacement
+                    locationCounter++;
+                    programsByCoordinates[coordKey] = {
+                        coords: coords,
+                        programs: [],
+                        localite: localite,
+                        pays: pays,
+                        locationNumber: locationCounter // Numéro d'ordre de visite
+                    };
+                }
+                
+                // Ajouter ce programme au groupe existant
+                programsByCoordinates[coordKey].programs.push({
+                    date: item.date,
+                    localite: localite,
+                    pays: pays,
+                    lieu: rowData.lieu || '',
+                    heures: rowData.heures || '',
+                    programme: rowData.programme || 'Concert',
+                    localisation: rowData.localisation || '',
+                    coordonnees: rowData.coordonnees || '',
+                    dateInfo: item,
+                    rowData: rowData
+                });
             }
         }
+    }
+    
+    // Trier les groupes par date de premier programme (ordre chronologique de visite)
+    const sortedGroups = Object.values(programsByCoordinates).sort((a, b) => {
+        return a.programs[0].date - b.programs[0].date;
+    });
+    
+    // Réassigner les numéros d'ordre après tri
+    sortedGroups.forEach((group, index) => {
+        group.locationNumber = index + 1;
+    });
+    
+    // ===== PHASE 2 : Créer les marqueurs groupés =====
+    let previousLocation = null;
+    let previousCountry = null;
+    let countryTransitionNumber = 1;
+    
+    sortedGroups.forEach((group, index) => {
+        const coords = group.coords;
+        const numPrograms = group.programs.length;
+        const locationNumber = group.locationNumber;
+        
+        // Trier les programmes par date à cet endroit
+        group.programs.sort((a, b) => a.date - b.date);
+        
+        // Couleur par pays
+        const markerColor = getCountryColor(group.pays);
+        
+       // Formater la date au format dd-mm (jour-mois)
+const firstDate = group.programs[0].date;
+const day = firstDate.getDate().toString().padStart(2, '0');
+const month = (firstDate.getMonth() + 1).toString().padStart(2, '0');
+const dateText = `${day}-${month}`;
+
+// Créer un marqueur avec la date au format dd-mm
+const markerIcon = L.divIcon({
+    className: 'custom-marker',
+    html: `<div style="
+        width: ${numPrograms > 1 ? '28px' : '25px'}; 
+        height: ${numPrograms > 1 ? '28px' : '25px'}; 
+        background: ${markerColor};
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        font-weight: bold;
+        font-size: ${numPrograms > 1 ? '9px' : '10px'};
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s;
+        line-height: 1;
+        text-align: center;
+        text-shadow: 0px 0px 2px white;
+    " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        ${dateText}
+        ${numPrograms > 1 ? `<div style="
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #f59e0b;
+            color: white;
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            font-size: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid white;
+            font-weight: 800;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        ">${numPrograms}</div>` : ''}
+    </div>`,
+    iconSize: numPrograms > 1 ? [28, 28] : [25, 25],
+    iconAnchor: numPrograms > 1 ? [14, 14] : [12.5, 12.5]
+});        const marker = L.marker(coords, { 
+            icon: markerIcon,
+            title: `${group.localite} - ${numPrograms} programme${numPrograms > 1 ? 's' : ''}`
+        }).addTo(tourMap);
+        
+        // Créer le contenu de la bulle groupée
+        const popupContent = createGroupedPopupContent(group);
+       marker.bindPopup(popupContent, { 
+    maxWidth: 340,      // Réduit de 450 à 340
+    minWidth: 300,      // Réduit de 350 à 300
+    maxHeight: 350,     // Réduit de 500 à 350
+    className: 'grouped-popup'
+});
+        
+        // Stocker le marqueur
+        mapMarkers.push(marker);
+        locations.push(coords);
+        
+        // Ajouter aux routes par pays
+        if (!locationsByCountry[group.pays]) {
+            locationsByCountry[group.pays] = [];
+        }
+        locationsByCountry[group.pays].push(coords);
+        
+        // Gérer les transitions entre pays
+        if (previousCountry && previousCountry !== group.pays) {
+            createCountryTransitionArrow(previousLocation, coords, countryTransitionNumber, previousCountry, group.pays);
+            countryTransitionNumber++;
+        }
+        
+        // Mettre à jour pour la prochaine itération
+        previousLocation = coords;
+        previousCountry = group.pays;
+        
+        // Ajouter un événement click pour ouvrir la bulle
+        marker.on('click', function() {
+            marker.openPopup();
+        });
+    });
+    
+    // ===== PHASE 3 : Créer les routes =====
+    // Créer des routes par pays (couleurs différentes)
+    Object.keys(locationsByCountry).forEach(country => {
+        const countryLocations = locationsByCountry[country];
+        if (countryLocations.length > 1) {
+            const routeColor = getCountryColor(country);
+            const countryRoute = L.polyline(countryLocations, {
+                color: routeColor,
+                weight: 4,
+                opacity: 0.7,
+                lineCap: 'round',
+                dashArray: country === 'MADAGASCAR' ? '10, 10' : null
+            }).addTo(tourMap);
+            countryRoutes.push(countryRoute);
+            
+            // Ajouter des flèches pour la route du pays
+            for (let j = 0; j < countryLocations.length - 1; j++) {
+                const start = countryLocations[j];
+                const end = countryLocations[j + 1];
+                
+                // Calculer le point milieu
+                const midLat = (start[0] + end[0]) / 2;
+                const midLng = (start[1] + end[1]) / 2;
+                
+                // Créer un marqueur flèche directionnelle
+                const arrowIcon = L.divIcon({
+                    className: 'arrow-icon',
+                    html: `<div style="
+                        width: 0; 
+                        height: 0; 
+                        border-left: 8px solid transparent;
+                        border-right: 8px solid transparent;
+                        border-bottom: 12px solid ${routeColor};
+                        opacity: 0.8;
+                        transform: rotate(${calculateBearing(start, end)}deg);
+                    "></div>`,
+                    iconSize: [16, 16],
+                    iconAnchor: [8, 8]
+                });
+                
+                L.marker([midLat, midLng], { 
+                    icon: arrowIcon, 
+                    interactive: false,
+                    title: `Trajet de ${j+1} à ${j+2}`
+                }).addTo(tourMap);
+            }
+        }
+    });
+    
+    // Ajuster la vue pour montrer tous les marqueurs
+    if (locations.length > 0) {
+        const bounds = L.latLngBounds(locations);
+        tourMap.fitBounds(bounds, { padding: [50, 50] });
+    }
+    
+    console.log(`🎯 ${sortedGroups.length} lieux différents sur la carte`);
+    console.log(`📊 ${sortedDates.length} programmes au total, groupés par coordonnées`);
+}
+// ===== NOUVELLE FONCTION : CRÉER LE CONTENU DE BULLE GROUPÉE (COMPACT) =====
+function createGroupedPopupContent(group) {
+    const { coords, programs, localite, pays } = group;
+    const numPrograms = programs.length;
+    const firstDate = programs[0].date;
+    
+    // Formater la date dd-mm
+    const day = firstDate.getDate().toString().padStart(2, '0');
+    const month = (firstDate.getMonth() + 1).toString().padStart(2, '0');
+    const dateText = `${day}-${month}`;
+    
+    let html = `
+        <div style="
+            max-width: 320px; 
+            font-family: 'Segoe UI', sans-serif; 
+            padding: 0;
+            font-size: 0.9rem;
+        ">
+            <!-- En-tête compacte -->
+            <div style="
+                background: ${getCountryColor(pays)};
+                color: white;
+                padding: 8px 10px;
+                border-radius: 6px 6px 0 0;
+                margin: -8px -8px 8px -8px;
+            ">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-weight: 700; font-size: 1rem;">
+                        <i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i>${localite}
+                    </div>
+                    <div style="
+                        background: rgba(255,255,255,0.25);
+                        padding: 2px 8px;
+                        border-radius: 12px;
+                        font-size: 0.75rem;
+                        font-weight: 600;
+                    ">
+                        ${formatCountryName(pays)}
+                    </div>
+                </div>
+                <div style="font-size: 0.8rem; opacity: 0.9; margin-top: 3px; display: flex; justify-content: space-between;">
+                    <span><i class="fas fa-calendar-day"></i> ${dateText}</span>
+                    <span><i class="fas fa-music"></i> ${numPrograms} prog.</span>
+                </div>
+            </div>
+            
+            <!-- Liste compacte des programmes -->
+            <div style="max-height: 250px; overflow-y: auto; padding-right: 5px;">
+    `;
+    
+    // Ajouter chaque programme de façon compacte
+    programs.forEach((program, index) => {
+        const programDate = formatDateShort(program.date);
+        const isFirst = index === 0;
+        
+        html += `
+            <div class="program-item-compact" style="
+                margin-bottom: ${index === programs.length - 1 ? '0' : '6px'};
+                padding: 8px;
+                background: ${isFirst ? '#f0fdf4' : '#f8fafc'};
+                border-radius: 5px;
+                border-left: 3px solid ${getCountryColor(pays)};
+                cursor: pointer;
+                transition: all 0.2s;
+            " onclick="showSpecificProgramModal(${program.date.getTime()}, '${localite.replace(/'/g, "\\'")}')"
+             onmouseover="this.style.background='#e0f2fe';"
+             onmouseout="this.style.background='${isFirst ? '#f0fdf4' : '#f8fafc'}';">
+                
+                <!-- Ligne 1 : Date et Heure -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <div style="font-weight: 700; color: #059669; font-size: 0.85rem;">
+                        <i class="fas fa-calendar" style="margin-right: 4px;"></i>${programDate}
+                    </div>
+                    ${program.heures ? `
+                    <div style="
+                        background: #dbeafe;
+                        color: #1e40af;
+                        padding: 2px 6px;
+                        border-radius: 10px;
+                        font-size: 0.75rem;
+                        font-weight: 600;
+                    ">
+                        <i class="fas fa-clock"></i> ${program.heures}
+                    </div>` : ''}
+                </div>
+                
+                <!-- Ligne 2 : Lieu -->
+                ${program.lieu ? `
+                <div style="font-weight: 600; color: #f97316; margin-bottom: 3px; font-size: 0.85rem; display: flex; align-items: center; gap: 4px;">
+                    <i class="fas fa-landmark" style="font-size: 0.8rem;"></i>
+                    ${program.lieu.length > 30 ? program.lieu.substring(0, 30) + '...' : program.lieu}
+                </div>` : ''}
+                
+                <!-- Ligne 3 : Programme -->
+                <div style="font-weight: 700; color: #7c3aed; font-size: 0.85rem; display: flex; align-items: center; gap: 4px;">
+                    <i class="fas fa-music" style="font-size: 0.8rem;"></i>
+                    ${program.programme.length > 35 ? program.programme.substring(0, 35) + '...' : program.programme}
+                </div>
+                
+                <!-- Indicateur cliquable -->
+                <div style="
+                    text-align: right;
+                    margin-top: 4px;
+                    font-size: 0.7rem;
+                    color: #4299e1;
+                    font-weight: 600;
+                ">
+                    <i class="fas fa-chevron-right" style="font-size: 0.6rem;"></i> Cliquer pour détails
+                </div>
+            </div>
+        `;
+    });
+    
+    html += `
+            </div>
+            
+            <!-- Pied de page compact -->
+            <div style="
+                margin-top: 8px;
+                padding-top: 6px;
+                border-top: 1px solid #e2e8f0;
+                font-size: 0.7rem;
+                color: #718096;
+                text-align: center;
+            ">
+                <i class="fas fa-info-circle"></i> ${programs.length} programme${programs.length > 1 ? 's' : ''} groupé${programs.length > 1 ? 's' : ''}
+            </div>
+        </div>
+    `;
+    
+    return html;
+}
+// ===== NOUVELLE FONCTION : OUVRIRE LE MODAL POUR UN PROGRAMME SPÉCIFIQUE =====
+function showSpecificProgramModal(timestamp, localite) {
+    const date = new Date(timestamp);
+    
+    // Trouver le programme correspondant
+    const matchingDates = datesWithData.filter(item => {
+        const itemDate = item.date;
+        const itemLocalite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
+        
+        return itemDate.getTime() === date.getTime() && 
+               itemLocalite === localite;
+    });
+    
+    if (matchingDates.length > 0) {
+        const dateInfo = matchingDates[0];
+        showDateModal(dateInfo.date, localite, dateInfo.pays || '');
+        
+        // Fermer la bulle de la carte
+        tourMap.closePopup();
+    }
+}
         
         // Fonction pour extraire les coordonnées depuis Google Maps (conservée pour compatibilité)
         function extractCoordinatesFromGoogleMaps(link) {
@@ -6462,7 +6703,14 @@
                     recapSection.style.boxShadow = '';
                 }, 2000);
             }
+// ===== NOUVELLE FONCTION : FORMATER LA DATE COURTE dd-mm =====
+function formatDateShort(date) {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    return `${day}-${month}`;
+}
         }
+
     </script>
 </body>
 </html>
