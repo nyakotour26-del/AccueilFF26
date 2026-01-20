@@ -50,6 +50,103 @@
             -webkit-text-fill-color: transparent;
         }
         
+        /* ===== NOUVEAU : BOUTONS DE NAVIGATION RAPIDE ===== */
+        .quick-nav-buttons-desktop {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .quick-nav-btn-desktop {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(66, 153, 225, 0.2);
+            color: #2d3748;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        
+        .quick-nav-btn-desktop:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-color: rgba(66, 153, 225, 0.4);
+            background: rgba(66, 153, 225, 0.1);
+        }
+        
+        .quick-nav-btn-desktop.calendar-btn {
+            border-color: rgba(66, 153, 225, 0.3);
+            background: rgba(66, 153, 225, 0.08);
+        }
+        
+        .quick-nav-btn-desktop.dates-btn {
+            border-color: rgba(72, 187, 120, 0.3);
+            background: rgba(72, 187, 120, 0.08);
+        }
+        
+        .quick-nav-btn-desktop.stats-btn {
+            border-color: rgba(159, 122, 234, 0.3);
+            background: rgba(159, 122, 234, 0.08);
+        }
+        
+        .quick-nav-buttons-mobile {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .quick-nav-btn-mobile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 6px;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(66, 153, 225, 0.2);
+            color: #2d3748;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+            text-decoration: none;
+            text-align: center;
+            height: 70px;
+        }
+        
+        .quick-nav-btn-mobile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            border-color: rgba(66, 153, 225, 0.4);
+            background: rgba(66, 153, 225, 0.1);
+        }
+        
+        .quick-nav-btn-mobile.calendar-btn {
+            border-color: rgba(66, 153, 225, 0.3);
+            background: rgba(66, 153, 225, 0.08);
+        }
+        
+        .quick-nav-btn-mobile.dates-btn {
+            border-color: rgba(72, 187, 120, 0.3);
+            background: rgba(72, 187, 120, 0.08);
+        }
+        
+        .quick-nav-btn-mobile.stats-btn {
+            border-color: rgba(159, 122, 234, 0.3);
+            background: rgba(159, 122, 234, 0.08);
+        }
+        
         .header-desktop-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -953,6 +1050,7 @@
             gap: 10px;
         }
         
+        /* ===== MODIFICATION : COULEURS DIFFÉRENTES POUR CHAQUE CARTE DE PAYS ===== */
         .country-card-compact {
             background: linear-gradient(135deg, #ffffff, #f8f9fa);
             border-radius: 12px;
@@ -964,6 +1062,42 @@
             overflow: hidden;
         }
         
+        /* Appliquer différentes couleurs pour chaque pays */
+        .country-card-compact[data-country="suisse"] {
+            border-left-color: #D52B1E;
+            background: linear-gradient(135deg, #ffffff, #ffeaea);
+        }
+        
+        .country-card-compact[data-country="france"] {
+            border-left-color: #002395;
+            background: linear-gradient(135deg, #ffffff, #e8edff);
+        }
+        
+        .country-card-compact[data-country="allemagne"] {
+            border-left-color: #000000;
+            background: linear-gradient(135deg, #ffffff, #f0f0f0);
+        }
+        
+        .country-card-compact[data-country="belgique"] {
+            border-left-color: #000000;
+            background: linear-gradient(135deg, #ffffff, #fff9e6);
+        }
+        
+        .country-card-compact[data-country="wales"] {
+            border-left-color: #D21034;
+            background: linear-gradient(135deg, #ffffff, #ffeaea);
+        }
+        
+        .country-card-compact[data-country="angleterre"] {
+            border-left-color: #012169;
+            background: linear-gradient(135deg, #ffffff, #e6f0ff);
+        }
+        
+        .country-card-compact[data-country="madagascar"] {
+            border-left-color: #FC3D32;
+            background: linear-gradient(135deg, #ffffff, #ffeaea);
+        }
+        
         .country-card-compact:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
@@ -972,14 +1106,14 @@
         .country-header-compact {
             display: flex;
             flex-direction: column;
-            margin-bottom: 6px;
-            padding-bottom: 4px;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
             border-bottom: 1px solid #e2e8f0;
-            min-height: 40px;
+            min-height: 60px;
             background-color: #f1f5f9;
             border-radius: 8px;
-            padding: 8px 12px;
-            margin: -10px -10px 8px -10px;
+            padding: 10px 12px;
+            margin: -10px -10px 12px -10px;
         }
         
         .country-info-compact {
@@ -1055,15 +1189,18 @@
             border-radius: 8px;
             margin-bottom: 10px;
             border-left: 3px solid #0ea5e9;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #0369a1;
             font-weight: 700;
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
             text-align: center;
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            line-height: 1.4;
+            word-break: break-word;
         }
         
         .country-dates-compact {
@@ -1076,19 +1213,19 @@
             display: flex;
         }
         
-        /* ===== MODIFICATION : DATES DES PROGRAMMES EN VERT ===== */
+        /* ===== MODIFICATION : DATES DES PROGRAMMES AVEC EMOJIS ===== */
         .date-item-compact {
             display: flex;
             flex-direction: column;
-            padding: 8px;
+            padding: 10px;
             background: white;
             border-radius: 8px;
             transition: all 0.2s;
             cursor: pointer;
             border-left: 3px solid #10b981;
-            margin-bottom: 4px;
-            font-size: 0.75rem;
-            line-height: 1.2;
+            margin-bottom: 5px;
+            font-size: 0.8rem;
+            line-height: 1.3;
             border: 1px solid #e5e7eb;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
@@ -1104,7 +1241,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             padding-bottom: 4px;
             border-bottom: 1px solid #e5e7eb;
         }
@@ -1114,6 +1251,14 @@
             font-weight: 800 !important;
             color: #059669 !important;
             font-size: 0.85rem !important;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .date-value-compact::before {
+            content: "📅";
+            font-size: 0.9rem;
         }
         
         .date-flag-compact {
@@ -1126,25 +1271,30 @@
         .date-location-compact {
             font-weight: 600;
             color: #2d3748;
-            font-size: 0.8rem;
-            margin-bottom: 2px;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
+        }
+        
+        .date-location-compact::before {
+            content: "📍";
+            font-size: 0.8rem;
         }
         
         .date-details-line-compact {
             display: flex;
             align-items: center;
-            gap: 6px;
-            margin-top: 2px;
+            gap: 8px;
+            margin-top: 4px;
             color: #4a5568;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
         }
         
         .detail-emoji-small {
-            font-size: 0.7rem;
-            width: 14px;
+            font-size: 0.8rem;
+            width: 16px;
             text-align: center;
         }
         
@@ -1307,7 +1457,7 @@
             font-size: 0.7rem;
         }
         
-        /* ===== NOUVEAU : STATISTIQUES AMÉLIORÉES AVEC EMOJIS ===== */
+        /* ===== MODIFICATION : STATISTIQUES AMÉLIORÉES AVEC COULEURS DIFFÉRENTES ===== */
         .calendar-stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -1323,6 +1473,27 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             transition: transform 0.3s;
             cursor: pointer;
+        }
+        
+        /* ===== MODIFICATION : COULEURS DIFFÉRENTES POUR CHAQUE CARTE DE STATISTIQUES ===== */
+        .calendar-stat-item:nth-child(1) {
+            border-left-color: #4299e1;
+            background: linear-gradient(135deg, #ffffff, #e0f2fe);
+        }
+        
+        .calendar-stat-item:nth-child(2) {
+            border-left-color: #10b981;
+            background: linear-gradient(135deg, #ffffff, #d1fae5);
+        }
+        
+        .calendar-stat-item:nth-child(3) {
+            border-left-color: #f59e0b;
+            background: linear-gradient(135deg, #ffffff, #fef3c7);
+        }
+        
+        .calendar-stat-item:nth-child(4) {
+            border-left-color: #8b5cf6;
+            background: linear-gradient(135deg, #ffffff, #ede9fe);
         }
         
         .calendar-stat-item:hover {
@@ -1357,12 +1528,13 @@
             border-top: 1px dashed #e2e8f0;
         }
         
-        /* ===== NOUVEAU : BOUTONS DE TYPE DE PROGRAMME CLIQUABLES ===== */
+        /* ===== MODIFICATION : BOUTONS DE TYPE DE PROGRAMME EN HORIZONTAL ===== */
         .program-type-buttons {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
             margin-top: 4px;
+            justify-content: center;
         }
         
         .program-type-btn {
@@ -1370,12 +1542,15 @@
             color: #0369a1;
             border: 1px solid #bae6fd;
             border-radius: 12px;
-            padding: 2px 6px;
-            font-size: 0.65rem;
+            padding: 4px 8px;
+            font-size: 0.7rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
         
         .program-type-btn:hover {
@@ -1384,7 +1559,7 @@
             box-shadow: 0 2px 4px rgba(3, 105, 161, 0.2);
         }
         
-        /* ===== NOUVEAU : STATISTIQUES PAR PAYS ===== */
+        /* ===== MODIFICATION : STATISTIQUES PAR PAYS AVEC DRAPEAUX ===== */
         .country-stats-section {
             background: white;
             border-radius: 10px;
@@ -1519,13 +1694,15 @@
             text-decoration: none !important;
         }
         
-        /* ===== NOUVEAU : STYLE POUR CALENDRIER SUR MOBILE ===== */
+        /* ===== MODIFICATION : CALENDRIER SUR MOBILE AVEC BARRE DE DÉFILEMENT ===== */
         .calendar-scroll-container {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             margin: 0 -15px;
             padding: 15px;
             position: relative;
+            scrollbar-width: thin;
+            scrollbar-color: #4299e1 #f1f1f1;
         }
         
         .calendar-scroll-container::-webkit-scrollbar {
@@ -1542,22 +1719,13 @@
             border-radius: 4px;
         }
         
+        .calendar-scroll-container::-webkit-scrollbar-thumb:hover {
+            background: #3182ce;
+        }
+        
+        /* ===== SUPPRESSION : BARRE DE DÉFILEMENT FLOATING ===== */
         .scroll-hint {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(66, 153, 225, 0.9);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            animation: bounce 2s infinite;
-            z-index: 10;
+            display: none !important;
         }
         
         @keyframes bounce {
@@ -1585,10 +1753,15 @@
         .flag-madagascar::before { content: ''; position: absolute; top: 0; left: 0; width: 33.33%; height: 100%; background: #FC3D32; }
         .flag-madagascar::after { content: ''; position: absolute; bottom: 0; left: 0; width: 33.33%; height: 50%; background: #007E3A; }
         
-        /* Styles responsifs */
+        /* ===== MODIFICATIONS RESPONSIVES POUR 768px ===== */
         @media (max-width: 768px) {
             body { padding: 15px; overflow-x: hidden; }
             .container { max-width: 100%; padding: 0 5px; }
+            
+            /* ===== MODIFICATION : BOUTONS DE NAVIGATION RAPIDE MOBILE ===== */
+            .quick-nav-buttons-desktop { display: none; }
+            .quick-nav-buttons-mobile { display: grid; }
+            
             .header-desktop-layout { display: flex; flex-direction: column; gap: 12px; }
             .header-left-column, .header-right-column { width: 100%; }
             .header-info-section, .header-contrib-section, .header-access-section { display: none; }
@@ -1603,9 +1776,22 @@
             .polaroid-title-extra-large { font-size: 1.3rem; }
             .polaroid-date-extra-large { font-size: 0.95rem; }
             .header-right-column { gap: 10px; }
-            .calendar-section { width: 100%; }
-            .calendar-scroll-container { margin: 0 -10px; padding: 10px; }
-            .calendar-container { min-width: 750px; width: auto; padding: 10px; }
+            
+            /* ===== MODIFICATION : CALENDRIER RÉDUIT AVEC DÉFILEMENT HORIZONTAL ===== */
+            .calendar-section { width: 100%; overflow: hidden; }
+            .calendar-scroll-container { 
+                margin: 0 -10px; 
+                padding: 10px;
+                overflow-x: auto;
+                max-width: 100vw;
+                position: relative;
+            }
+            .calendar-container { 
+                min-width: 750px; 
+                width: auto; 
+                padding: 10px;
+                margin-right: 20px;
+            }
             .calendar { min-width: 700px; width: 100%; }
             .calendar-grid { min-width: 700px; width: 100%; }
             .calendar-day { min-height: 70px !important; padding: 5px 3px !important; }
@@ -1613,30 +1799,77 @@
             .calendar-day-flag { width: 18px; height: 12px; margin: 1px auto; }
             .calendar-day-info { font-size: 0.6rem !important; }
             .program-count { width: 12px !important; height: 12px !important; font-size: 0.5rem !important; }
-            .date-modal-content { max-width: 95% !important; padding: 12px !important; }
-            .modal-date-title { font-size: 0.9rem !important; }
-            .modal-location-info { font-size: 0.8rem; }
-            .date-info-modal-compact { padding: 6px; font-size: 0.75rem; }
-            .date-details-compact { padding: 8px; font-size: 0.7rem; }
-            .date-details-title-compact { font-size: 0.8rem !important; }
-            .recap-section { padding: 15px; width: 100%; overflow-x: hidden; }
+            
+            /* ===== MODIFICATION : STATISTIQUES RÉDUITES ===== */
+            .calendar-stats-grid { 
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                width: 100%;
+                max-width: 100%;
+            }
+            .calendar-stat-item { 
+                padding: 10px;
+                min-width: 0;
+                overflow: hidden;
+            }
+            .calendar-stat-value { font-size: 1.2rem; }
+            .calendar-stat-label { font-size: 0.75rem; }
+            .program-type-buttons { 
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .program-type-btn { 
+                font-size: 0.65rem;
+                padding: 3px 6px;
+            }
+            
+            /* ===== MODIFICATION : RÉCAPITULATIF RÉDUIT ===== */
+            .recap-section { 
+                padding: 15px; 
+                width: 100%; 
+                overflow-x: hidden;
+                max-width: 100%;
+            }
             .recap-container-compact { gap: 8px; }
-            .country-card-compact { padding: 8px; }
+            .country-card-compact { 
+                padding: 8px;
+                max-width: 100%;
+                overflow: hidden;
+            }
             .country-header-compact { min-height: 35px; }
             .country-name-compact { font-size: 0.95rem !important; }
             .country-stats-compact { font-size: 0.65rem; }
             .toggle-dates-btn-compact { font-size: 0.65rem; padding: 3px 6px; height: 22px; }
-            .country-period-compact { font-size: 0.85rem; padding: 8px 10px; text-align: center; }
+            .country-period-compact { 
+                font-size: 0.85rem; 
+                padding: 8px 10px; 
+                text-align: center;
+                word-break: break-word;
+            }
             .date-item-compact { padding: 5px; font-size: 0.7rem; }
             .date-value-compact { font-size: 0.75rem; }
             .date-location-compact { font-size: 0.75rem; }
             .date-details-line-compact { font-size: 0.65rem; }
             .free-dates-section { padding: 6px; font-size: 0.7rem; }
             .free-date-item { font-size: 0.65rem; padding: 2px 6px; }
-            .calendar-stats-grid { grid-template-columns: repeat(2, 1fr); }
+            
+            .date-modal-content { max-width: 95% !important; padding: 12px !important; }
+            .modal-date-title { font-size: 0.9rem !important; }
+            .modal-location-info { font-size: 0.8rem; }
+            .date-info-modal-compact { padding: 6px; font-size: 0.75rem; }
+            .date-details-compact { padding: 8px; font-size: 0.7rem; }
+            .date-details-title-compact { font-size: 0.8rem !important; }
+            
             .program-cards-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-            .calendar-stat-item { padding: 8px; }
-            .calendar-stat-value { font-size: 1.2rem; }
+            
+            .country-stats-section {
+                max-width: 100%;
+                overflow: hidden;
+            }
+            .country-stats-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 6px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -1648,6 +1881,8 @@
             .polaroid-photo-extra-large { height: 280px; }
             .polaroid-title-extra-large { font-size: 1.2rem; }
             .polaroid-date-extra-large { font-size: 0.9rem; }
+            
+            /* ===== MODIFICATION : CALENDRIER ENCORE PLUS PETIT ===== */
             .calendar-container { min-width: 600px; }
             .calendar { min-width: 550px; }
             .calendar-grid { min-width: 550px; }
@@ -1656,9 +1891,27 @@
             .calendar-day-flag { width: 16px; height: 11px; }
             .calendar-day-info { font-size: 0.55rem !important; }
             .program-count { width: 11px !important; height: 11px !important; font-size: 0.45rem !important; }
+            
             .calendar-stats-grid { grid-template-columns: 1fr; }
             .program-cards-grid { grid-template-columns: 1fr; }
             .country-period-compact { font-size: 0.8rem; padding: 6px 8px; }
+            
+            .quick-nav-buttons-mobile {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            .quick-nav-btn-mobile {
+                height: 60px;
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: 10px;
+                text-align: left;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .quick-nav-buttons-mobile { display: none; }
+            .quick-nav-buttons-desktop { display: flex; }
         }
         
         .calendar-recap-container {
@@ -1719,8 +1972,17 @@
         }
         
         @media (max-width: 768px) and (min-width: 481px) {
-            .calendar-section { padding: 15px; width: 95%; margin: 0 auto; overflow-x: visible; }
-            .calendar-container { min-width: 100%; width: 100%; overflow-x: visible; }
+            .calendar-section { 
+                padding: 15px; 
+                width: 95%; 
+                margin: 0 auto; 
+                overflow-x: visible; 
+            }
+            .calendar-container { 
+                min-width: 100%; 
+                width: 100%; 
+                overflow-x: auto;
+            }
             .calendar { min-width: 100%; width: 100%; max-width: 700px; margin: 0 auto; }
             .calendar-grid { min-width: 100%; width: 100%; gap: 4px; }
             .calendar-day { min-height: 60px !important; font-size: 0.7rem !important; padding: 5px 3px !important; }
@@ -1734,6 +1996,10 @@
             .country-card-compact { padding: 12px; }
             .country-header-compact { min-height: 35px; }
             .country-period-compact { font-size: 0.8rem; padding: 8px; }
+            
+            .quick-nav-buttons-mobile {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
         
         @media (max-width: 992px) {
@@ -1898,7 +2164,6 @@
             .date-action-btn { height: 70px; padding: 10px 6px; }
             .date-modal { padding: 15px; }
             .date-modal-content { padding: 15px; max-height: 85vh; }
-            .calendar-stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 600px) {
             .btn, .secretariat-btn { height: 100px; font-size: 0.8rem; }
@@ -1911,7 +2176,6 @@
             .flower { font-size: 1.2rem; }
             .flags-container { gap: 10px; }
             .flag { width: 45px; height: 30px; }
-            .calendar-stats-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 350px) {
             .btn-grid, .secretariat-btn-grid { grid-template-columns: 1fr; }
@@ -1995,6 +2259,38 @@
     <div class="container">
         <header>
             <h1>Tournée Europe 2026</h1>
+            
+            <!-- BOUTONS DE NAVIGATION RAPIDE POUR DESKTOP -->
+            <div class="quick-nav-buttons-desktop">
+                <button class="quick-nav-btn-desktop calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-calendar-alt"></i>
+                    Calendrier
+                </button>
+                <button class="quick-nav-btn-desktop dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-list-alt"></i>
+                    Dates par pays
+                </button>
+                <button class="quick-nav-btn-desktop stats-btn" onclick="scrollToStats()">
+                    <i class="fas fa-chart-bar"></i>
+                    Statistiques
+                </button>
+            </div>
+            
+            <!-- BOUTONS DE NAVIGATION RAPIDE POUR MOBILE -->
+            <div class="quick-nav-buttons-mobile">
+                <button class="quick-nav-btn-mobile calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-calendar-alt"></i>
+                    Calendrier
+                </button>
+                <button class="quick-nav-btn-mobile dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-list-alt"></i>
+                    Dates par pays
+                </button>
+                <button class="quick-nav-btn-mobile stats-btn" onclick="scrollToStats()">
+                    <i class="fas fa-chart-bar"></i>
+                    Statistiques
+                </button>
+            </div>
             
             <!-- DISPOSITION POUR DESKTOP -->
             <div class="header-desktop-layout">
@@ -2278,9 +2574,6 @@
                         </div>
                     </div>
                     <div class="calendar-scroll-container">
-                        <div class="scroll-hint">
-                            <i class="fas fa-arrow-right"></i> Faites défiler
-                        </div>
                         <div class="calendar-container">
                             <div class="calendar">
                                 <div class="calendar-header">
@@ -2742,7 +3035,32 @@
             // Ajouter l'événement pour afficher les programmes par type
             document.getElementById('programmesStatItem').addEventListener('click', showProgramsByType);
             document.getElementById('paysPlusProgrammesItem').addEventListener('click', scrollToRecapSection);
+            
+            // Initialiser les boutons de navigation rapide
+            initQuickNavButtons();
         });
+
+        function initQuickNavButtons() {
+            // Les boutons sont déjà définis dans le HTML avec des onclick
+            // Cette fonction est pour des actions supplémentaires si nécessaire
+        }
+
+        function scrollToStats() {
+            const calendarStats = document.getElementById('calendarStats');
+            if (calendarStats) {
+                calendarStats.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                calendarStats.style.boxShadow = '0 0 0 3px rgba(66, 153, 225, 0.5)';
+                calendarStats.style.transition = 'box-shadow 0.5s ease';
+                
+                setTimeout(() => {
+                    calendarStats.style.boxShadow = '';
+                }, 2000);
+            }
+        }
 
         function adjustSectionsForViewport() {
             const isDesktop = window.innerWidth >= 769;
@@ -2787,7 +3105,14 @@
             
             listContainer.innerHTML = '';
             
-            Object.keys(programsByType).forEach(type => {
+            // ===== MODIFICATION : METTRE LE TYPE CONCERT EN DERNIER =====
+            const sortedTypes = Object.keys(programsByType).sort((a, b) => {
+                if (a === 'concert' || a.includes('concert')) return 1;
+                if (b === 'concert' || b.includes('concert')) return -1;
+                return a.localeCompare(b);
+            });
+            
+            sortedTypes.forEach(type => {
                 const programs = programsByType[type];
                 const typeCard = document.createElement('div');
                 typeCard.className = 'program-type-card';
@@ -2809,9 +3134,9 @@
                     
                     const dateStr = formatDateForDisplay(program.date);
                     programItem.innerHTML = `
-                        <div style="font-weight: 600; color: #059669;">${dateStr}</div>
-                        <div style="color: #2d3748;">${program.localite || 'Localité non spécifiée'}</div>
-                        <div style="color: #718096; font-size: 0.7rem;">${program.lieu || 'Lieu non spécifié'}</div>
+                        <div style="font-weight: 600; color: #059669;">📅 ${dateStr}</div>
+                        <div style="color: #2d3748;">📍 ${program.localite || 'Localité non spécifiée'}</div>
+                        <div style="color: #718096; font-size: 0.7rem;">🎵 ${program.lieu || 'Lieu non spécifié'}</div>
                     `;
                     
                     programItem.addEventListener('click', () => {
@@ -3381,7 +3706,7 @@
             updateProgrammeStatsDisplay();
         }
 
-        // ===== NOUVELLE FONCTION : METTRE À JOUR L'AFFICHAGE DES STATISTIQUES =====
+        // ===== MODIFICATION : METTRE À JOUR L'AFFICHAGE DES STATISTIQUES =====
         function updateProgrammeStatsDisplay() {
             const statsProgrammesTotal = document.getElementById('statsProgrammesTotal');
             const statsProgrammesDetails = document.getElementById('statsProgrammesDetails');
@@ -3394,13 +3719,19 @@
                 statsProgrammesTotal.textContent = programmeStats.total;
             }
             
-            // Afficher les détails des types de programmes avec boutons cliquables
+            // ===== MODIFICATION : AFFICHAGE EN HORIZONTAL DES TYPES DE PROGRAMMES =====
             if (statsProgrammesDetails) {
-                let detailsHTML = '';
+                // Trier les types pour mettre "concert" en dernier
+                const sortedTypes = Object.keys(programmeStats.byType).sort((a, b) => {
+                    if (a === 'concert' || a.includes('concert')) return 1;
+                    if (b === 'concert' || b.includes('concert')) return -1;
+                    return a.localeCompare(b);
+                });
+                
                 const typeButtonsContainer = document.createElement('div');
                 typeButtonsContainer.className = 'program-type-buttons';
                 
-                Object.keys(programmeStats.byType).forEach(type => {
+                sortedTypes.forEach(type => {
                     const count = programmeStats.byType[type];
                     const typeName = type.charAt(0).toUpperCase() + type.slice(1);
                     
@@ -3420,41 +3751,49 @@
                 statsProgrammesDetails.appendChild(typeButtonsContainer);
             }
             
-            // Trouver le pays avec le plus de programmes
+            // ===== MODIFICATION : COMPTER LES JOURS DE SÉJOUR PAR PAYS =====
+            // Calculer les jours de séjour par pays
+            const daysByCountry = {};
+            datesWithData.forEach(item => {
+                if (item.pays && item.pays.trim() !== '') {
+                    const country = item.pays.toUpperCase();
+                    if (!daysByCountry[country]) {
+                        daysByCountry[country] = new Set();
+                    }
+                    daysByCountry[country].add(item.date.getTime());
+                }
+            });
+            
+            // Trouver le pays avec le plus de programmes et de jours
             let maxCountry = '';
-            let maxCount = 0;
+            let maxProgramCount = 0;
+            let maxDayCount = 0;
+            
             Object.keys(programmeStats.byCountry).forEach(country => {
-                if (programmeStats.byCountry[country].total > maxCount) {
-                    maxCount = programmeStats.byCountry[country].total;
+                const programCount = programmeStats.byCountry[country].total;
+                const dayCount = daysByCountry[country] ? daysByCountry[country].size : 0;
+                
+                if (programCount > maxProgramCount) {
+                    maxProgramCount = programCount;
+                    maxDayCount = dayCount;
                     maxCountry = country;
                 }
             });
             
             if (statsPaysPlusProgrammes) {
-                statsPaysPlusProgrammes.textContent = formatCountryName(maxCountry) || '-';
+                const countryName = formatCountryName(maxCountry);
+                statsPaysPlusProgrammes.textContent = countryName || '-';
             }
             
-            // Afficher les détails par pays avec jours de séjour
+            // ===== MODIFICATION : AFFICHER LES JOURS DE SÉJOUR AU LIEU DES PROGRAMMES =====
             if (statsPaysDetails) {
-                let detailsHTML = '';
+                statsPaysDetails.innerHTML = '';
                 const allCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE', 'MADAGASCAR'];
                 
                 allCountries.forEach(country => {
                     const countryData = programmeStats.byCountry[country];
                     const countryName = formatCountryName(country);
-                    let daysCount = 0;
-                    
-                    if (countryData) {
-                        daysCount = countryData.days.size;
-                    } else {
-                        // Compter les jours pour les pays sans programmes
-                        const countryDates = datesWithData.filter(item => 
-                            item.pays.toUpperCase() === country
-                        );
-                        const uniqueDays = new Set(countryDates.map(item => item.date.getTime()));
-                        daysCount = uniqueDays.size;
-                    }
-                    
+                    const dayCount = daysByCountry[country] ? daysByCountry[country].size : 0;
                     const programCount = countryData ? countryData.total : 0;
                     
                     const countryItem = document.createElement('div');
@@ -3472,17 +3811,23 @@
                         }
                     };
                     
+                    // ===== MODIFICATION : AJOUTER LES DRAPEAUX =====
+                    const flagClass = countryFlags[country] || 'flag-france';
+                    
                     countryItem.innerHTML = `
-                        <span style="font-weight: 600;">${countryName}:</span>
+                        <span style="font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                            <div class="country-flag-compact ${flagClass}" style="display: inline-block; width: 16px; height: 11px; border-radius: 2px;"></div>
+                            ${countryName}:
+                        </span>
                         <span style="color: #059669;"> ${programCount} prog.</span>
-                        <span style="color: #4a5568;"> (${daysCount} jour${daysCount > 1 ? 's' : ''})</span>
+                        <span style="color: #4a5568;"> (${dayCount} jour${dayCount > 1 ? 's' : ''})</span>
                     `;
                     
                     statsPaysDetails.appendChild(countryItem);
                 });
             }
             
-            // Afficher les statistiques détaillées par pays
+            // ===== MODIFICATION : STATISTIQUES DÉTAILLÉES PAR PAYS AVEC DRAPEAUX =====
             if (countryStatsSection && countryStatsGrid) {
                 const allCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE', 'MADAGASCAR'];
                 
@@ -3493,6 +3838,7 @@
                     allCountries.forEach(country => {
                         const countryData = programmeStats.byCountry[country];
                         const countryName = formatCountryName(country);
+                        const dayCount = daysByCountry[country] ? daysByCountry[country].size : 0;
                         
                         const statItem = document.createElement('div');
                         statItem.className = 'country-stat-item';
@@ -3510,24 +3856,23 @@
                         
                         const countryNameDiv = document.createElement('div');
                         countryNameDiv.className = 'country-stat-name';
-                        countryNameDiv.innerHTML = `<i class="fas fa-flag"></i> ${countryName}`;
+                        
+                        // ===== MODIFICATION : AJOUTER LES DRAPEAUX DANS LES STATISTIQUES =====
+                        const flagClass = countryFlags[country] || 'flag-france';
+                        const flagDiv = document.createElement('div');
+                        flagDiv.className = `country-flag-compact ${flagClass}`;
+                        flagDiv.style.width = '16px';
+                        flagDiv.style.height = '11px';
+                        flagDiv.style.display = 'inline-block';
+                        flagDiv.style.marginRight = '5px';
+                        
+                        countryNameDiv.appendChild(flagDiv);
+                        countryNameDiv.appendChild(document.createTextNode(` ${countryName}`));
                         
                         const valuesDiv = document.createElement('div');
                         valuesDiv.className = 'country-stat-values';
                         
                         const programCount = countryData ? countryData.total : 0;
-                        let daysCount = 0;
-                        
-                        if (countryData) {
-                            daysCount = countryData.days.size;
-                        } else {
-                            // Compter les jours pour les pays sans programmes
-                            const countryDates = datesWithData.filter(item => 
-                                item.pays.toUpperCase() === country
-                            );
-                            const uniqueDays = new Set(countryDates.map(item => item.date.getTime()));
-                            daysCount = uniqueDays.size;
-                        }
                         
                         const valueDiv = document.createElement('div');
                         valueDiv.className = 'country-stat-value';
@@ -3535,7 +3880,7 @@
                         
                         const daysDiv = document.createElement('div');
                         daysDiv.className = 'country-stat-days';
-                        daysDiv.innerHTML = `<i class="fas fa-calendar-day"></i> ${daysCount}`;
+                        daysDiv.innerHTML = `<i class="fas fa-calendar-day"></i> ${dayCount}`;
                         
                         valuesDiv.appendChild(valueDiv);
                         valuesDiv.appendChild(daysDiv);
@@ -3634,6 +3979,7 @@
                 const countryCard = document.createElement('div');
                 countryCard.className = 'country-card-compact';
                 countryCard.id = `country-${country.toLowerCase()}`;
+                countryCard.setAttribute('data-country', country.toLowerCase());
                 
                 const borderColor = countryColors[country] || '#718096';
                 countryCard.style.borderLeftColor = borderColor;
@@ -3668,7 +4014,7 @@
                 const totalProgrammes = datesWithLocation.length;
                 const uniqueDays = new Set(countryDates.map(item => item.date.getTime())).size;
                 
-                // Créer le texte des statistiques avec les types de programmes
+                // ===== MODIFICATION : AFFICHER LES JOURS DE SÉJOUR AU LIEU DES PROGRAMMES =====
                 let statsText = `${totalProgrammes} programme${totalProgrammes > 1 ? 's' : ''}`;
                 if (Object.keys(programmeCounts).length > 0) {
                     const typeDetails = Object.keys(programmeCounts).map(type => {
@@ -3710,6 +4056,7 @@
                 countryHeader.appendChild(countryInfo);
                 countryHeader.appendChild(toggleBtn);
                 
+                // ===== MODIFICATION : PERIODE DE SÉJOUR EN PLUS GRAND ET CENTRÉ =====
                 const periodDiv = document.createElement('div');
                 periodDiv.className = 'country-period-compact';
                 
