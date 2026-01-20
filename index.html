@@ -1501,6 +1501,39 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.12);
         }
         
+        /* ===== MODIFICATION : AJOUT DES DRAPEAUX DANS LA STATISTIQUE "PAYS VISITÉS" ===== */
+        .flags-container-stat {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 8px;
+        }
+        
+        .stat-flag {
+            width: 22px;
+            height: 15px;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .stat-flag:hover {
+            transform: scale(1.2);
+        }
+        
+        /* ===== MODIFICATION : AJOUT DU DRAPEAU DANS LA STATISTIQUE "PAYS AVEC LE PLUS DE PROGRAMMES" ===== */
+        .top-country-flag {
+            width: 24px;
+            height: 16px;
+            border-radius: 3px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        
         .calendar-stat-value {
             font-size: 1.5rem;
             font-weight: 800;
@@ -1528,7 +1561,7 @@
             border-top: 1px dashed #e2e8f0;
         }
         
-        /* ===== MODIFICATION : BOUTONS DE TYPE DE PROGRAMME EN HORIZONTAL ===== */
+        /* ===== MODIFICATION : BOUTONS DE TYPE DE PROGRAMME EN HORIZONTAL ET COLORÉS ===== */
         .program-type-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -1538,9 +1571,6 @@
         }
         
         .program-type-btn {
-            background: #e0f2fe;
-            color: #0369a1;
-            border: 1px solid #bae6fd;
             border-radius: 12px;
             padding: 4px 8px;
             font-size: 0.7rem;
@@ -1551,12 +1581,42 @@
             display: flex;
             align-items: center;
             gap: 4px;
+            border: 1px solid;
+        }
+        
+        .program-type-btn:nth-child(1) {
+            background: #e0f2fe;
+            color: #0369a1;
+            border-color: #bae6fd;
+        }
+        
+        .program-type-btn:nth-child(2) {
+            background: #d1fae5;
+            color: #065f46;
+            border-color: #a7f3d0;
+        }
+        
+        .program-type-btn:nth-child(3) {
+            background: #fef3c7;
+            color: #92400e;
+            border-color: #fde68a;
+        }
+        
+        .program-type-btn:nth-child(4) {
+            background: #ede9fe;
+            color: #5b21b6;
+            border-color: #ddd6fe;
+        }
+        
+        .program-type-btn:nth-child(5) {
+            background: #fce7f3;
+            color: #9d174d;
+            border-color: #fbcfe8;
         }
         
         .program-type-btn:hover {
-            background: #bae6fd;
             transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(3, 105, 161, 0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         /* ===== MODIFICATION : STATISTIQUES PAR PAYS AVEC DRAPEAUX ===== */
@@ -1777,6 +1837,12 @@
             .polaroid-date-extra-large { font-size: 0.95rem; }
             .header-right-column { gap: 10px; }
             
+            /* ===== MODIFICATION : DÉPLACER LES BOUTONS SOUS LA PHOTO ===== */
+            .quick-nav-buttons-mobile {
+                order: 3;
+                margin-top: 15px;
+            }
+            
             /* ===== MODIFICATION : CALENDRIER RÉDUIT AVEC DÉFILEMENT HORIZONTAL ===== */
             .calendar-section { width: 100%; overflow: hidden; }
             .calendar-scroll-container { 
@@ -1787,20 +1853,20 @@
                 position: relative;
             }
             .calendar-container { 
-                min-width: 750px; 
+                min-width: 650px; /* Réduit de 750px à 650px */
                 width: auto; 
                 padding: 10px;
                 margin-right: 20px;
             }
-            .calendar { min-width: 700px; width: 100%; }
-            .calendar-grid { min-width: 700px; width: 100%; }
+            .calendar { min-width: 600px; /* Réduit de 700px à 600px */ }
+            .calendar-grid { min-width: 600px; /* Réduit de 700px à 600px */ }
             .calendar-day { min-height: 70px !important; padding: 5px 3px !important; }
             .calendar-day .day-number { font-size: 0.8rem !important; }
             .calendar-day-flag { width: 18px; height: 12px; margin: 1px auto; }
             .calendar-day-info { font-size: 0.6rem !important; }
             .program-count { width: 12px !important; height: 12px !important; font-size: 0.5rem !important; }
             
-            /* ===== MODIFICATION : STATISTIQUES RÉDUITES ===== */
+            /* ===== MODIFICATION : STATISTIQUES RÉDUITES - 2 PAR LIGNE ===== */
             .calendar-stats-grid { 
                 grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
@@ -1862,13 +1928,51 @@
             
             .program-cards-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
             
+            /* ===== MODIFICATION : STATISTIQUES DÉTAILLÉES PAR PAYS - 2 PAR LIGNE ===== */
             .country-stats-section {
                 max-width: 100%;
                 overflow: hidden;
             }
             .country-stats-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
                 gap: 6px;
+            }
+            
+            /* ===== MODIFICATION : LISTE DES PROGRAMMES SUR MÊME LIGNE ===== */
+            .program-cards-grid {
+                display: flex;
+                overflow-x: auto;
+                gap: 8px;
+                padding-bottom: 10px;
+            }
+            
+            .program-card {
+                min-width: 200px;
+                flex-shrink: 0;
+            }
+            
+            .date-details-line-compact {
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+            
+            .date-details-line-compact .detail-emoji-small {
+                flex-shrink: 0;
+            }
+            
+            /* ===== MODIFICATION : DRAPEAUX DANS LES STATISTIQUES ===== */
+            .flags-container-stat {
+                gap: 3px;
+            }
+            
+            .stat-flag {
+                width: 18px;
+                height: 12px;
+            }
+            
+            .top-country-flag {
+                width: 20px;
+                height: 14px;
             }
         }
         
@@ -1883,9 +1987,9 @@
             .polaroid-date-extra-large { font-size: 0.9rem; }
             
             /* ===== MODIFICATION : CALENDRIER ENCORE PLUS PETIT ===== */
-            .calendar-container { min-width: 600px; }
-            .calendar { min-width: 550px; }
-            .calendar-grid { min-width: 550px; }
+            .calendar-container { min-width: 550px; /* Réduit de 600px à 550px */ }
+            .calendar { min-width: 500px; /* Réduit de 550px à 500px */ }
+            .calendar-grid { min-width: 500px; /* Réduit de 550px à 500px */ }
             .calendar-day { min-height: 65px !important; font-size: 0.7rem !important; }
             .calendar-day .day-number { font-size: 0.75rem !important; }
             .calendar-day-flag { width: 16px; height: 11px; }
@@ -1983,7 +2087,7 @@
                 width: 100%; 
                 overflow-x: auto;
             }
-            .calendar { min-width: 100%; width: 100%; max-width: 700px; margin: 0 auto; }
+            .calendar { min-width: 100%; width: 100%; max-width: 650px; margin: 0 auto; }
             .calendar-grid { min-width: 100%; width: 100%; gap: 4px; }
             .calendar-day { min-height: 60px !important; font-size: 0.7rem !important; padding: 5px 3px !important; }
             .day-number { font-size: 0.8rem !important; }
@@ -2276,22 +2380,6 @@
                 </button>
             </div>
             
-            <!-- BOUTONS DE NAVIGATION RAPIDE POUR MOBILE -->
-            <div class="quick-nav-buttons-mobile">
-                <button class="quick-nav-btn-mobile calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fas fa-calendar-alt"></i>
-                    Calendrier
-                </button>
-                <button class="quick-nav-btn-mobile dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fas fa-list-alt"></i>
-                    Dates par pays
-                </button>
-                <button class="quick-nav-btn-mobile stats-btn" onclick="scrollToStats()">
-                    <i class="fas fa-chart-bar"></i>
-                    Statistiques
-                </button>
-            </div>
-            
             <!-- DISPOSITION POUR DESKTOP -->
             <div class="header-desktop-layout">
                 <!-- Colonne gauche : thème, drapeaux et photo -->
@@ -2442,6 +2530,22 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <!-- BOUTONS DE NAVIGATION RAPIDE POUR MOBILE - DÉPLACÉS SOUS LA PHOTO -->
+            <div class="quick-nav-buttons-mobile">
+                <button class="quick-nav-btn-mobile calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-calendar-alt"></i>
+                    Calendrier
+                </button>
+                <button class="quick-nav-btn-mobile dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-list-alt"></i>
+                    Dates par pays
+                </button>
+                <button class="quick-nav-btn-mobile stats-btn" onclick="scrollToStats()">
+                    <i class="fas fa-chart-bar"></i>
+                    Statistiques
+                </button>
             </div>
         </header>
         
@@ -2597,6 +2701,9 @@
                                     <span id="statsPaysVisites">0</span>
                                 </div>
                                 <div class="calendar-stat-label">Pays visités</div>
+                                <div class="flags-container-stat" id="flagsContainerStat">
+                                    <!-- Les drapeaux seront ajoutés ici -->
+                                </div>
                             </div>
                             <div class="calendar-stat-item" id="programmesStatItem">
                                 <div class="calendar-stat-value">
@@ -2616,13 +2723,13 @@
                                 <div class="calendar-stat-label">Jours de tournée</div>
                             </div>
                             <div class="calendar-stat-item" id="paysPlusProgrammesItem">
-                                <div class="calendar-stat-value">
+                                <div class="calendar-stat-value" id="topCountryValue">
                                     <i class="fas fa-flag"></i>
                                     <span id="statsPaysPlusProgrammes">-</span>
                                 </div>
                                 <div class="calendar-stat-label">Pays avec le plus de programmes</div>
                                 <div class="calendar-stat-details" id="statsPaysDetails">
-                                    <!-- Détails par pays -->
+                                    <!-- Détails par pays seront ajoutés ici -->
                                 </div>
                             </div>
                         </div>
@@ -3631,14 +3738,33 @@
             return malagasyHolidays2026[dateStr] || null;
         }
 
-        function countProgramsForDate(date) {
+        // ===== MODIFICATION : COMPTER LE NOMBRE DE LOCALITÉS POUR UNE DATE =====
+        function countLocalitesForDate(date) {
             const matchingDates = datesWithData.filter(item => 
                 item.date.getDate() === date.getDate() &&
                 item.date.getMonth() === date.getMonth() &&
                 item.date.getFullYear() === date.getFullYear()
             );
             
-            return matchingDates.length;
+            // Compter uniquement les localités avec données (non vides)
+            let localiteCount = 0;
+            matchingDates.forEach(item => {
+                const rowIndex = item.rowIndex;
+                if (sheetData[rowIndex]) {
+                    const localite = sheetData[rowIndex][columnMapping['LOCALITE']] || '';
+                    const pays = sheetData[rowIndex][columnMapping['PAYS']] || '';
+                    
+                    // Ne pas compter les retours à Madagascar ou localités vides
+                    if (localite.trim() !== '' && 
+                        !localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
+                        !localite.toUpperCase().includes('MADAGASCAR') &&
+                        pays.toUpperCase() !== 'MADAGASCAR') {
+                        localiteCount++;
+                    }
+                }
+            });
+            
+            return localiteCount;
         }
 
         // ===== NOUVELLE FONCTION : CALCULER LES STATISTIQUES DES PROGRAMMES =====
@@ -3712,6 +3838,8 @@
             const statsProgrammesDetails = document.getElementById('statsProgrammesDetails');
             const statsPaysPlusProgrammes = document.getElementById('statsPaysPlusProgrammes');
             const statsPaysDetails = document.getElementById('statsPaysDetails');
+            const flagsContainerStat = document.getElementById('flagsContainerStat');
+            const topCountryValue = document.getElementById('topCountryValue');
             const countryStatsSection = document.getElementById('countryStatsSection');
             const countryStatsGrid = document.getElementById('countryStatsGrid');
             
@@ -3719,7 +3847,7 @@
                 statsProgrammesTotal.textContent = programmeStats.total;
             }
             
-            // ===== MODIFICATION : AFFICHAGE EN HORIZONTAL DES TYPES DE PROGRAMMES =====
+            // ===== MODIFICATION : AFFICHAGE EN HORIZONTAL DES TYPES DE PROGRAMMES COLORÉS =====
             if (statsProgrammesDetails) {
                 // Trier les types pour mettre "concert" en dernier
                 const sortedTypes = Object.keys(programmeStats.byType).sort((a, b) => {
@@ -3731,7 +3859,7 @@
                 const typeButtonsContainer = document.createElement('div');
                 typeButtonsContainer.className = 'program-type-buttons';
                 
-                sortedTypes.forEach(type => {
+                sortedTypes.forEach((type, index) => {
                     const count = programmeStats.byType[type];
                     const typeName = type.charAt(0).toUpperCase() + type.slice(1);
                     
@@ -3751,16 +3879,66 @@
                 statsProgrammesDetails.appendChild(typeButtonsContainer);
             }
             
+            // ===== MODIFICATION : AJOUTER LES DRAPEAUX DANS "PAYS VISITÉS" =====
+            if (flagsContainerStat) {
+                flagsContainerStat.innerHTML = '';
+                const uniqueCountries = new Set();
+                
+                datesWithData.forEach(item => {
+                    if (item.pays && item.pays.trim() !== '') {
+                        const country = item.pays.toUpperCase();
+                        const localite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
+                        
+                        // Ne pas inclure les retours à Madagascar
+                        if (!localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
+                            !localite.toUpperCase().includes('MADAGASCAR') &&
+                            country !== 'MADAGASCAR') {
+                            uniqueCountries.add(country);
+                        }
+                    }
+                });
+                
+                // Ajouter les drapeaux
+                const allCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
+                allCountries.forEach(country => {
+                    if (uniqueCountries.has(country)) {
+                        const flagDiv = document.createElement('div');
+                        flagDiv.className = `stat-flag ${countryFlags[country] || 'flag-france'}`;
+                        flagDiv.title = formatCountryName(country);
+                        flagDiv.onclick = () => {
+                            const countryElement = document.getElementById(`country-${country.toLowerCase()}`);
+                            if (countryElement) {
+                                countryElement.scrollIntoView({behavior: 'smooth'});
+                                countryElement.style.boxShadow = '0 0 0 3px rgba(66, 153, 225, 0.5)';
+                                countryElement.style.transition = 'box-shadow 0.5s ease';
+                                setTimeout(() => {
+                                    countryElement.style.boxShadow = '';
+                                }, 2000);
+                            }
+                        };
+                        flagsContainerStat.appendChild(flagDiv);
+                    }
+                });
+            }
+            
             // ===== MODIFICATION : COMPTER LES JOURS DE SÉJOUR PAR PAYS =====
             // Calculer les jours de séjour par pays
             const daysByCountry = {};
             datesWithData.forEach(item => {
                 if (item.pays && item.pays.trim() !== '') {
                     const country = item.pays.toUpperCase();
-                    if (!daysByCountry[country]) {
-                        daysByCountry[country] = new Set();
+                    const localite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
+                    
+                    // Ne pas inclure les retours à Madagascar
+                    if (!localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
+                        !localite.toUpperCase().includes('MADAGASCAR') &&
+                        country !== 'MADAGASCAR') {
+                        
+                        if (!daysByCountry[country]) {
+                            daysByCountry[country] = new Set();
+                        }
+                        daysByCountry[country].add(item.date.getTime());
                     }
-                    daysByCountry[country].add(item.date.getTime());
                 }
             });
             
@@ -3780,12 +3958,27 @@
                 }
             });
             
-            if (statsPaysPlusProgrammes) {
+            // ===== MODIFICATION : AJOUTER LE DRAPEAU DU PAYS AVEC LE PLUS DE PROGRAMMES =====
+            if (topCountryValue && maxCountry) {
                 const countryName = formatCountryName(maxCountry);
-                statsPaysPlusProgrammes.textContent = countryName || '-';
+                const flagClass = countryFlags[maxCountry] || 'flag-france';
+                
+                // Créer l'élément drapeau
+                const flagDiv = document.createElement('div');
+                flagDiv.className = `top-country-flag ${flagClass}`;
+                flagDiv.style.display = 'inline-block';
+                flagDiv.style.marginRight = '8px';
+                flagDiv.style.verticalAlign = 'middle';
+                
+                // Mettre à jour le contenu
+                topCountryValue.innerHTML = '';
+                topCountryValue.appendChild(flagDiv);
+                topCountryValue.appendChild(document.createTextNode(countryName));
+            } else if (topCountryValue) {
+                topCountryValue.textContent = '-';
             }
             
-            // ===== MODIFICATION : AFFICHER LES JOURS DE SÉJOUR AU LIEU DES PROGRAMMES =====
+            // ===== MODIFICATION : AFFICHER LA LISTE DES PAYS AVEC LEURS STATISTIQUES =====
             if (statsPaysDetails) {
                 statsPaysDetails.innerHTML = '';
                 const allCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE', 'MADAGASCAR'];
@@ -3799,6 +3992,7 @@
                     const countryItem = document.createElement('div');
                     countryItem.style.cursor = 'pointer';
                     countryItem.style.padding = '2px 0';
+                    countryItem.style.fontSize = '0.7rem';
                     countryItem.onclick = () => {
                         const countryElement = document.getElementById(`country-${country.toLowerCase()}`);
                         if (countryElement) {
@@ -3811,12 +4005,9 @@
                         }
                     };
                     
-                    // ===== MODIFICATION : AJOUTER LES DRAPEAUX =====
-                    const flagClass = countryFlags[country] || 'flag-france';
-                    
                     countryItem.innerHTML = `
                         <span style="font-weight: 600; display: flex; align-items: center; gap: 5px;">
-                            <div class="country-flag-compact ${flagClass}" style="display: inline-block; width: 16px; height: 11px; border-radius: 2px;"></div>
+                            <div class="country-flag-compact ${countryFlags[country] || 'flag-france'}" style="display: inline-block; width: 16px; height: 11px; border-radius: 2px;"></div>
                             ${countryName}:
                         </span>
                         <span style="color: #059669;"> ${programCount} prog.</span>
@@ -3915,15 +4106,31 @@
         function updateCalendarStats() {
             if (datesWithData.length === 0) return;
             
-            const uniqueCountries = new Set(datesWithData
-                .filter(item => item.pays && item.pays.trim() !== '')
-                .map(item => item.pays.toUpperCase())
-            );
+            const uniqueCountries = new Set();
+            datesWithData.forEach(item => {
+                if (item.pays && item.pays.trim() !== '') {
+                    const localite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
+                    
+                    // Ne pas inclure les retours à Madagascar
+                    if (!localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
+                        !localite.toUpperCase().includes('MADAGASCAR') &&
+                        item.pays.toUpperCase() !== 'MADAGASCAR') {
+                        uniqueCountries.add(item.pays.toUpperCase());
+                    }
+                }
+            });
             
             const joursTourneeSet = new Set();
             datesWithData.forEach(item => {
                 if (item.pays && item.pays.trim() !== '') {
-                    joursTourneeSet.add(item.date.getTime());
+                    const localite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
+                    
+                    // Ne pas inclure les retours à Madagascar
+                    if (!localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
+                        !localite.toUpperCase().includes('MADAGASCAR') &&
+                        item.pays.toUpperCase() !== 'MADAGASCAR') {
+                        joursTourneeSet.add(item.date.getTime());
+                    }
                 }
             });
             const joursTournee = joursTourneeSet.size;
@@ -4168,7 +4375,7 @@
                 freeDatesSection.appendChild(freeDatesList);
                 freeDatesSection.appendChild(freeDatesSummary);
                 
-                // Liste des dates avec programmes (affichage en grille de cartes)
+                // Liste des dates avec programmes (affichage en grille de cartes avec émojis)
                 const datesContainer = document.createElement('div');
                 datesContainer.className = 'country-dates-compact';
                 datesContainer.id = `dates-${country.toLowerCase()}`;
@@ -4205,20 +4412,20 @@
                         
                         const cardLocation = document.createElement('div');
                         cardLocation.className = 'program-card-location';
-                        cardLocation.textContent = dateItem.localite || 'Localité non spécifiée';
+                        cardLocation.innerHTML = `<span style="margin-right: 5px;">📍</span>${dateItem.localite || 'Localité non spécifiée'}`;
                         
                         const cardDetails = document.createElement('div');
                         cardDetails.className = 'program-card-details';
                         
                         const details = [];
                         if (dateItem.lieu && dateItem.lieu.trim() !== '') {
-                            details.push(dateItem.lieu);
+                            details.push(`🏛️ ${dateItem.lieu}`);
                         }
                         if (dateItem.heures && dateItem.heures.trim() !== '') {
-                            details.push(dateItem.heures);
+                            details.push(`🕒 ${dateItem.heures}`);
                         }
                         
-                        cardDetails.textContent = details.join(' • ') || 'Aucun détail';
+                        cardDetails.innerHTML = details.join('<br>') || '<span style="color: #718096; font-style: italic;">Aucun détail</span>';
                         
                         cardContent.appendChild(cardLocation);
                         cardContent.appendChild(cardDetails);
@@ -4260,6 +4467,7 @@
             }
         }
         
+        // ===== MODIFICATION : CALCULER LES INTERVALLES DE PASSAGE PAR PAYS =====
         function calculateDateRanges(datesArray) {
             if (datesArray.length === 0) return [];
             
@@ -4304,7 +4512,7 @@
         }
         
         function applyFlagStyles() {
-            document.querySelectorAll('.country-flag-compact, .date-flag-compact, .modal-flag-small, .calendar-day-flag').forEach(flag => {
+            document.querySelectorAll('.country-flag-compact, .date-flag-compact, .modal-flag-small, .calendar-day-flag, .stat-flag, .top-country-flag').forEach(flag => {
                 flag.style.display = 'none';
                 flag.offsetHeight;
                 flag.style.display = '';
@@ -4348,7 +4556,7 @@
             return `${day} ${month} ${year}`;
         }
 
-        // ===== MODIFICATION : AJOUT DU DRAPEAU DANS LE CALENDRIER =====
+        // ===== MODIFICATION : AJOUT DU DRAPEAU ET COMPTAGE DES LOCALITÉS DANS LE CALENDRIER =====
         function renderCalendar() {
             const calendarGrid = document.getElementById('calendarGrid');
             const currentMonthElement = document.getElementById('currentMonth');
@@ -4413,13 +4621,13 @@
                     day.appendChild(flagDiv);
                 }
                 
-                // ===== MODIFICATION : COMPTER LE NOMBRE DE LOCALITÉS =====
-                const programCount = countProgramsForDate(dateToCheck);
-                if (programCount > 0) {
+                // ===== MODIFICATION : COMPTER LE NOMBRE DE LOCALITÉS (pas de programme si 0) =====
+                const localiteCount = countLocalitesForDate(dateToCheck);
+                if (localiteCount > 0) {
                     const programCountElement = document.createElement('div');
                     programCountElement.className = 'program-count';
-                    programCountElement.textContent = programCount;
-                    programCountElement.title = `${programCount} localité${programCount > 1 ? 's' : ''}`;
+                    programCountElement.textContent = localiteCount;
+                    programCountElement.title = `${localiteCount} localité${localiteCount > 1 ? 's' : ''}`;
                     day.appendChild(programCountElement);
                 }
                 
