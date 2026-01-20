@@ -4008,15 +4008,24 @@
                 const item = sortedDates[i];
                 const rowIndex = item.rowIndex;
                 
-                if (sheetData[rowIndex]) {
-                    const rowData = getRowData(rowIndex);
-                    const localite = rowData.localite || '';
-                    const pays = rowData.pays.toUpperCase() || '';
-                    
-                    // Vérifier si c'est un retour à Madagascar
-                    const isRetourMadagascar = localite.toUpperCase().includes('RETOUR MADAGASCAR') || 
-                                                localite.toUpperCase().includes('MADAGASCAR') ||
-                                                pays.toUpperCase() === 'MADAGASCAR';
+               if (sheetData[rowIndex]) {
+    const rowData = getRowData(rowIndex);
+    const localite = rowData.localite || '';
+    const pays = rowData.pays.toUpperCase() || '';
+    
+    // ===== NOUVELLE CONDITION : NE PAS AFFICHER SI PAS DE COORDONNÉES =====
+    // Quand la colonne COORDONNÉES est sans chiffre de latitude/longitude, 
+    // on ne marque pas les données de cette date dans la carte
+    if (!rowData.coordonnees || rowData.coordonnees.trim() === '') {
+        console.log(`❌ ${localite} n'est pas affiché sur la carte - colonne COORDONNÉES vide`);
+        continue; // Passe à la date suivante sans créer de marqueur
+    }
+    // ===== FIN DE LA CONDITION =====
+    
+    // Vérifier si c'est un retour à Madagascar
+    const isRetourMadagascar = localite.toUpperCase().includes('RETOUR MADAGASCAR') || 
+                                localite.toUpperCase().includes('MADAGASCAR') ||
+                                pays.toUpperCase() === 'MADAGASCAR';
                     
                     let coords = null;
                     
@@ -6275,21 +6284,31 @@
         function extractDatesWithData() {
             datesWithData = [];
             
-            sheetData.forEach((row, index) => {
-                const dateStr = row[columnMapping['DATES']] || '';
-                if (dateStr && dateStr.trim() !== '') {
-                    const date = parseDate(dateStr);
-                    if (date) {
-                        datesWithData.push({
-                            date: date,
-                            dateStr: dateStr,
-                            localite: row[columnMapping['LOCALITE']] || '',
-                            pays: row[columnMapping['PAYS']] || '',
-                            rowIndex: index
-                        });
-                    }
-                }
-            });
+           sheetData.forEach((row, index) => {
+    const dateStr = row[columnMapping['DATES']] || '';
+    if (dateStr && dateStr.trim() !== '') {
+        const date = parseDate(dateStr);
+        if (date) {
+            // ===== OPTIONNEL : Vérifier si on a des coordonnées =====
+            // Récupérer les données de la ligne pour vérifier les coordonnées
+            const rowData = {
+                coordonnees: row[columnMapping['COORDONNÉES']] || ''
+            };
+            
+            // Si vous voulez exclure aussi du calendrier : décommentez la ligne suivante
+            // if (rowData.coordonnees && rowData.coordonnees.trim() !== '') {
+                datesWithData.push({
+                    date: date,
+                    dateStr: dateStr,
+                    localite: row[columnMapping['LOCALITE']] || '',
+                    pays: row[columnMapping['PAYS']] || '',
+                    rowIndex: index
+                });
+            // }
+            // ===== FIN DE L'OPTION =====
+        }
+    }
+});
             
             datesWithData.sort((a, b) => a.date - b.date);
             
