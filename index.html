@@ -3163,6 +3163,97 @@
 .grouped-popup {
     z-index: 1000 !important;
 }
+/* ===== CORRECTIONS POUR LES POPUPS SUR MOBILE ===== */
+.leaflet-popup {
+    z-index: 10000 !important; /* Au-dessus de tout */
+    margin-bottom: 40px !important; /* Espace en bas */
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 6px !important;
+    padding: 0 !important;
+    max-height: 220px !important;
+    overflow: hidden !important;
+}
+
+.leaflet-popup-content {
+    margin: 8px !important;
+    padding: 0 !important;
+    line-height: 1.1 !important;
+    font-size: 0.75rem !important;
+}
+
+.leaflet-popup-tip-container {
+    margin-top: -1px !important;
+}
+
+.leaflet-popup-close-button {
+    position: absolute !important;
+    top: 2px !important;
+    right: 2px !important;
+    padding: 2px 4px !important;
+    font-size: 0.9rem !important;
+    z-index: 10001 !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-radius: 50% !important;
+    width: 18px !important;
+    height: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Ajustements pour mobile */
+@media (max-width: 768px) {
+    .leaflet-popup-content-wrapper {
+        max-width: 220px !important;
+        max-height: 200px !important;
+    }
+    
+    .leaflet-popup-content {
+        font-size: 0.7rem !important;
+        margin: 6px !important;
+        max-height: 180px !important;
+    }
+    
+    .leaflet-popup {
+        margin-bottom: 50px !important; /* Encore plus d'espace en bas */
+    }
+}
+
+@media (max-width: 480px) {
+    .leaflet-popup-content-wrapper {
+        max-width: 200px !important;
+        max-height: 180px !important;
+    }
+    
+    .leaflet-popup-content {
+        font-size: 0.65rem !important;
+        margin: 4px !important;
+        max-height: 160px !important;
+    }
+}
+
+/* Garantir que le contenu défile si nécessaire */
+.grouped-popup .leaflet-popup-content {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+/* Style pour le scrollbar */
+.grouped-popup .leaflet-popup-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.grouped-popup .leaflet-popup-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+}
+
+.grouped-popup .leaflet-popup-content::-webkit-scrollbar-thumb {
+    background: #4299e1;
+    border-radius: 2px;
+}
     </style>
 </head>
 <body>
@@ -4300,11 +4391,16 @@ const markerIcon = L.divIcon({
         
         // Créer le contenu de la bulle groupée
         const popupContent = createGroupedPopupContent(group);
-      marker.bindPopup(popupContent, { 
-    maxWidth: 340,
-    minWidth: 300,
-    maxHeight: 350,
-    className: 'grouped-popup'
+    marker.bindPopup(popupContent, { 
+    maxWidth: 250,       // Réduit à 250px
+    minWidth: 220,       // Réduit à 220px
+    maxHeight: 220,      // Réduit à 220px
+    className: 'grouped-popup',
+    autoPanPaddingTopLeft: [30, 30],  // Plus de marge en haut à gauche
+    autoPanPaddingBottomRight: [30, 30], // Plus de marge en bas à droite
+    keepInView: true,    // Garde la popup dans la vue
+    closeButton: true,   // Bouton de fermeture visible
+    autoClose: false     // Ne pas fermer automatiquement les autres popups
 });
         
         // Stocker le marqueur
@@ -4328,9 +4424,9 @@ const markerIcon = L.divIcon({
         previousCountry = group.pays;
         
         // Ajouter un événement click pour ouvrir la bulle
-        marker.on('click', function() {
-            marker.openPopup();
-        });
+       marker.on('click', function() {
+    openPopupWithBetterPosition(marker);
+});
     });
     
     // ===== PHASE 3 : Créer les routes =====
@@ -4420,7 +4516,7 @@ const arrowIcon = L.divIcon({
 // Ajouter la légende d'itinéraire
 addItineraryLegend();
 }
-// ===== FONCTION : CRÉER LE CONTENU DE BULLE GROUPÉE COMPACT =====
+// ===== FONCTION : CRÉER LE CONTENU DE BULLE ULTRA COMPACT =====
 function createGroupedPopupContent(group) {
     const { coords, programs, localite, pays } = group;
     const numPrograms = programs.length;
@@ -4433,104 +4529,112 @@ function createGroupedPopupContent(group) {
     
     let html = `
         <div style="
-            max-width: 280px; 
+            max-width: 250px; 
             font-family: 'Segoe UI', sans-serif; 
             padding: 0;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
+            line-height: 1.1;
         ">
-            <!-- En-tête ultra compacte -->
+            <!-- En-tête MINI -->
             <div style="
                 background: ${getCountryColor(pays)};
                 color: white;
-                padding: 6px 8px;
-                border-radius: 5px 5px 0 0;
-                margin: -8px -8px 6px -8px;
+                padding: 4px 6px;
+                border-radius: 4px 4px 0 0;
+                margin: -6px -6px 4px -6px;
             ">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div style="font-weight: 700; font-size: 0.9rem;">
-                        <i class="fas fa-map-marker-alt" style="margin-right: 4px; font-size: 0.8rem;"></i>${localite}
+                    <div style="font-weight: 700; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        <i class="fas fa-map-marker-alt" style="margin-right: 3px; font-size: 0.7rem;"></i>${localite}
                     </div>
                     <div style="
                         background: rgba(255,255,255,0.25);
-                        padding: 2px 6px;
-                        border-radius: 10px;
-                        font-size: 0.7rem;
+                        padding: 1px 4px;
+                        border-radius: 8px;
+                        font-size: 0.6rem;
                         font-weight: 600;
+                        flex-shrink: 0;
+                        margin-left: 4px;
                     ">
                         ${formatCountryName(pays)}
                     </div>
                 </div>
-                <div style="font-size: 0.75rem; opacity: 0.9; margin-top: 3px; display: flex; justify-content: space-between;">
-                    <span><i class="fas fa-calendar-day" style="font-size: 0.7rem;"></i> ${dateText}</span>
-                    <span><i class="fas fa-music" style="font-size: 0.7rem;"></i> ${numPrograms} prog.</span>
+                <div style="font-size: 0.65rem; opacity: 0.9; margin-top: 2px; display: flex; justify-content: space-between;">
+                    <span style="display: flex; align-items: center; gap: 2px;">
+                        <i class="fas fa-calendar-day" style="font-size: 0.6rem;"></i> ${dateText}
+                    </span>
+                    <span style="display: flex; align-items: center; gap: 2px;">
+                        <i class="fas fa-music" style="font-size: 0.6rem;"></i> ${numPrograms}
+                    </span>
                 </div>
             </div>
             
-            <!-- Liste compacte des programmes -->
-            <div style="max-height: 200px; overflow-y: auto; padding-right: 3px;">
+            <!-- Liste ULTRA compacte des programmes -->
+            <div style="max-height: 180px; overflow-y: auto; padding-right: 2px;">
     `;
     
-    // Ajouter chaque programme de façon ultra compacte
+    // Ajouter chaque programme de façon MINI
     programs.forEach((program, index) => {
         const programDate = formatDateShort(program.date);
         const isFirst = index === 0;
         
         html += `
             <div class="program-item-compact" style="
-                margin-bottom: ${index === programs.length - 1 ? '0' : '4px'};
-                padding: 6px;
+                margin-bottom: ${index === programs.length - 1 ? '0' : '3px'};
+                padding: 4px;
                 background: ${isFirst ? '#f0fdf4' : '#f8fafc'};
-                border-radius: 4px;
-                border-left: 3px solid ${getCountryColor(pays)};
+                border-radius: 3px;
+                border-left: 2px solid ${getCountryColor(pays)};
                 cursor: pointer;
                 transition: all 0.2s;
             " onclick="showSpecificProgramModal(${program.date.getTime()}, '${localite.replace(/'/g, "\\'")}')"
              onmouseover="this.style.background='#e0f2fe';"
              onmouseout="this.style.background='${isFirst ? '#f0fdf4' : '#f8fafc'}';">
                 
-                <!-- Ligne 1 : Date et Heure sur une ligne -->
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
-                    <div style="font-weight: 700; color: #059669; font-size: 0.8rem; display: flex; align-items: center; gap: 3px;">
-                        <i class="fas fa-calendar" style="font-size: 0.7rem;"></i>${programDate}
+                <!-- Ligne 1 : Date et Heure sur une ligne TINY -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                    <div style="font-weight: 700; color: #059669; font-size: 0.7rem; display: flex; align-items: center; gap: 2px;">
+                        <i class="fas fa-calendar" style="font-size: 0.6rem;"></i>${programDate}
                     </div>
                     ${program.heures ? `
                     <div style="
                         background: #dbeafe;
                         color: #1e40af;
-                        padding: 1px 4px;
-                        border-radius: 8px;
-                        font-size: 0.7rem;
+                        padding: 1px 3px;
+                        border-radius: 6px;
+                        font-size: 0.65rem;
                         font-weight: 600;
                         display: flex;
                         align-items: center;
-                        gap: 2px;
+                        gap: 1px;
+                        white-space: nowrap;
                     ">
-                        <i class="fas fa-clock" style="font-size: 0.6rem;"></i> ${program.heures}
+                        <i class="fas fa-clock" style="font-size: 0.55rem;"></i> ${program.heures.length > 8 ? program.heures.substring(0, 8) + '...' : program.heures}
                     </div>` : ''}
                 </div>
                 
-                <!-- Ligne 2 : Lieu (très court) -->
+                <!-- Ligne 2 : Lieu (MINI) -->
                 ${program.lieu ? `
-                <div style="font-weight: 600; color: #f97316; margin-bottom: 2px; font-size: 0.8rem; display: flex; align-items: center; gap: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    <i class="fas fa-landmark" style="font-size: 0.7rem;"></i>
-                    ${program.lieu.length > 20 ? program.lieu.substring(0, 20) + '...' : program.lieu}
+                <div style="font-weight: 600; color: #f97316; margin-bottom: 1px; font-size: 0.7rem; display: flex; align-items: center; gap: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    <i class="fas fa-landmark" style="font-size: 0.6rem; flex-shrink: 0;"></i>
+                    ${program.lieu.length > 18 ? program.lieu.substring(0, 18) + '...' : program.lieu}
                 </div>` : ''}
                 
-                <!-- Ligne 3 : Programme (très court) -->
-                <div style="font-weight: 700; color: #7c3aed; font-size: 0.8rem; display: flex; align-items: center; gap: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    <i class="fas fa-music" style="font-size: 0.7rem;"></i>
-                    ${program.programme.length > 25 ? program.programme.substring(0, 25) + '...' : program.programme}
+                <!-- Ligne 3 : Programme (MINI) -->
+                <div style="font-weight: 700; color: #7c3aed; font-size: 0.7rem; display: flex; align-items: center; gap: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    <i class="fas fa-music" style="font-size: 0.6rem; flex-shrink: 0;"></i>
+                    ${program.programme.length > 20 ? program.programme.substring(0, 20) + '...' : program.programme}
                 </div>
                 
-                <!-- Indicateur cliquable (petit) -->
+                <!-- Indicateur cliquable (MICRO) -->
                 <div style="
                     text-align: right;
-                    margin-top: 3px;
-                    font-size: 0.65rem;
+                    margin-top: 2px;
+                    font-size: 0.6rem;
                     color: #4299e1;
                     font-weight: 600;
                 ">
-                    <i class="fas fa-chevron-right" style="font-size: 0.5rem;"></i> Voir détails
+                    <i class="fas fa-chevron-right" style="font-size: 0.5rem;"></i> Détails
                 </div>
             </div>
         `;
@@ -4539,22 +4643,23 @@ function createGroupedPopupContent(group) {
     html += `
             </div>
             
-            <!-- Pied de page ultra compact -->
+            <!-- Pied de page MICRO -->
             <div style="
-                margin-top: 6px;
-                padding-top: 4px;
+                margin-top: 4px;
+                padding-top: 3px;
                 border-top: 1px solid #e2e8f0;
-                font-size: 0.65rem;
+                font-size: 0.6rem;
                 color: #718096;
                 text-align: center;
             ">
-                <i class="fas fa-info-circle" style="font-size: 0.6rem;"></i> ${programs.length} programme${programs.length > 1 ? 's' : ''}
+                <i class="fas fa-info-circle" style="font-size: 0.55rem;"></i> Cliquez sur un programme pour plus de détails
             </div>
         </div>
     `;
     
     return html;
-}// ===== NOUVELLE FONCTION : OUVRIRE LE MODAL POUR UN PROGRAMME SPÉCIFIQUE =====
+}
+// ===== NOUVELLE FONCTION : OUVRIRE LE MODAL POUR UN PROGRAMME SPÉCIFIQUE =====
 function showSpecificProgramModal(timestamp, localite) {
     const date = new Date(timestamp);
     
@@ -7232,6 +7337,51 @@ function setupPopupCloseOnClickOutside() {
             });
         }
     });
+}
+// ===== FONCTION : OUVRIRE LA POPUP AVEC MEILLEUR POSITIONNEMENT =====
+function openPopupWithBetterPosition(marker) {
+    if (!marker || !tourMap) return;
+    
+    const popup = marker.getPopup();
+    if (!popup) return;
+    
+    // Ouvrir la popup
+    marker.openPopup();
+    
+    // Attendre que la popup soit rendue
+    setTimeout(() => {
+        const popupElement = popup.getElement();
+        if (!popupElement) return;
+        
+        // Calculer la position optimale
+        const mapBounds = tourMap.getBounds();
+        const markerPos = marker.getLatLng();
+        const pixelPos = tourMap.latLngToContainerPoint(markerPos);
+        
+        // Vérifier si la popup dépasse en bas
+        const popupRect = popupElement.getBoundingClientRect();
+        const mapRect = tourMap.getContainer().getBoundingClientRect();
+        
+        // Si la popup dépasse en bas, ajuster la vue
+        if (popupRect.bottom > mapRect.bottom - 10) {
+            const offset = popupRect.bottom - mapRect.bottom + 20;
+            const newCenter = tourMap.containerPointToLatLng([
+                pixelPos.x,
+                pixelPos.y - offset
+            ]);
+            tourMap.panTo(newCenter, { animate: true, duration: 0.5 });
+        }
+        
+        // Si la popup dépasse à droite
+        if (popupRect.right > mapRect.right - 10) {
+            const offset = popupRect.right - mapRect.right + 20;
+            const newCenter = tourMap.containerPointToLatLng([
+                pixelPos.x - offset,
+                pixelPos.y
+            ]);
+            tourMap.panTo(newCenter, { animate: true, duration: 0.5 });
+        }
+    }, 100);
 }
     </script>
 </body>
