@@ -3107,6 +3107,62 @@
         .map-action-btn.copy:hover {
             background: #4a5568;
         }
+/* ===== STYLES RESPONSIFS POUR LES BULLES DE CARTE ===== */
+@media (max-width: 768px) {
+    .grouped-popup .leaflet-popup-content-wrapper {
+        max-width: 240px !important;
+        padding: 2px !important;
+    }
+    
+    .grouped-popup .leaflet-popup-content {
+        margin: 8px !important;
+        padding: 6px !important;
+        max-height: 220px !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .leaflet-popup {
+        margin-bottom: 30px !important; /* Évite que la bulle ne touche le bord */
+    }
+}
+
+@media (max-width: 480px) {
+    .grouped-popup .leaflet-popup-content-wrapper {
+        max-width: 200px !important;
+    }
+    
+    .grouped-popup .leaflet-popup-content {
+        max-height: 180px !important;
+        font-size: 0.75rem !important;
+        padding: 4px !important;
+    }
+    
+    /* Réduire la taille de la flèche de la bulle */
+    .leaflet-popup-tip {
+        width: 12px !important;
+        height: 12px !important;
+    }
+}
+
+/* Styles pour tablette */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .grouped-popup .leaflet-popup-content-wrapper {
+        max-width: 260px !important;
+    }
+    
+    .grouped-popup .leaflet-popup-content {
+        max-height: 250px !important;
+    }
+}
+
+/* Empêcher la bulle de dépasser de l'écran */
+.leaflet-container {
+    overflow: visible !important;
+}
+
+.grouped-popup {
+    z-index: 1000 !important;
+}
     </style>
 </head>
 <body>
@@ -3910,6 +3966,8 @@
                 tourMap.fitBounds(bbox);
             })
             .addTo(tourMap);
+  // Configurer la fermeture des popups au clic extérieur
+    setupPopupCloseOnClickOutside();
         }
         
         // ===== MODIFICATION AMÉLIORÉE : EXTRACTION DES COORDONNÉES DEPUIS LA COLONNE COORDONNÉES =====
@@ -4242,10 +4300,10 @@ const markerIcon = L.divIcon({
         
         // Créer le contenu de la bulle groupée
         const popupContent = createGroupedPopupContent(group);
-       marker.bindPopup(popupContent, { 
-    maxWidth: 340,      // Réduit de 450 à 340
-    minWidth: 300,      // Réduit de 350 à 300
-    maxHeight: 350,     // Réduit de 500 à 350
+      marker.bindPopup(popupContent, { 
+    maxWidth: 340,
+    minWidth: 300,
+    maxHeight: 350,
     className: 'grouped-popup'
 });
         
@@ -4362,7 +4420,7 @@ const arrowIcon = L.divIcon({
 // Ajouter la légende d'itinéraire
 addItineraryLegend();
 }
-// ===== NOUVELLE FONCTION : CRÉER LE CONTENU DE BULLE GROUPÉE (COMPACT) =====
+// ===== FONCTION : CRÉER LE CONTENU DE BULLE GROUPÉE COMPACT =====
 function createGroupedPopupContent(group) {
     const { coords, programs, localite, pays } = group;
     const numPrograms = programs.length;
@@ -4375,54 +4433,54 @@ function createGroupedPopupContent(group) {
     
     let html = `
         <div style="
-            max-width: 320px; 
+            max-width: 280px; 
             font-family: 'Segoe UI', sans-serif; 
             padding: 0;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         ">
-            <!-- En-tête compacte -->
+            <!-- En-tête ultra compacte -->
             <div style="
                 background: ${getCountryColor(pays)};
                 color: white;
-                padding: 8px 10px;
-                border-radius: 6px 6px 0 0;
-                margin: -8px -8px 8px -8px;
+                padding: 6px 8px;
+                border-radius: 5px 5px 0 0;
+                margin: -8px -8px 6px -8px;
             ">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div style="font-weight: 700; font-size: 1rem;">
-                        <i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i>${localite}
+                    <div style="font-weight: 700; font-size: 0.9rem;">
+                        <i class="fas fa-map-marker-alt" style="margin-right: 4px; font-size: 0.8rem;"></i>${localite}
                     </div>
                     <div style="
                         background: rgba(255,255,255,0.25);
-                        padding: 2px 8px;
-                        border-radius: 12px;
-                        font-size: 0.75rem;
+                        padding: 2px 6px;
+                        border-radius: 10px;
+                        font-size: 0.7rem;
                         font-weight: 600;
                     ">
                         ${formatCountryName(pays)}
                     </div>
                 </div>
-                <div style="font-size: 0.8rem; opacity: 0.9; margin-top: 3px; display: flex; justify-content: space-between;">
-                    <span><i class="fas fa-calendar-day"></i> ${dateText}</span>
-                    <span><i class="fas fa-music"></i> ${numPrograms} prog.</span>
+                <div style="font-size: 0.75rem; opacity: 0.9; margin-top: 3px; display: flex; justify-content: space-between;">
+                    <span><i class="fas fa-calendar-day" style="font-size: 0.7rem;"></i> ${dateText}</span>
+                    <span><i class="fas fa-music" style="font-size: 0.7rem;"></i> ${numPrograms} prog.</span>
                 </div>
             </div>
             
             <!-- Liste compacte des programmes -->
-            <div style="max-height: 250px; overflow-y: auto; padding-right: 5px;">
+            <div style="max-height: 200px; overflow-y: auto; padding-right: 3px;">
     `;
     
-    // Ajouter chaque programme de façon compacte
+    // Ajouter chaque programme de façon ultra compacte
     programs.forEach((program, index) => {
         const programDate = formatDateShort(program.date);
         const isFirst = index === 0;
         
         html += `
             <div class="program-item-compact" style="
-                margin-bottom: ${index === programs.length - 1 ? '0' : '6px'};
-                padding: 8px;
+                margin-bottom: ${index === programs.length - 1 ? '0' : '4px'};
+                padding: 6px;
                 background: ${isFirst ? '#f0fdf4' : '#f8fafc'};
-                border-radius: 5px;
+                border-radius: 4px;
                 border-left: 3px solid ${getCountryColor(pays)};
                 cursor: pointer;
                 transition: all 0.2s;
@@ -4430,46 +4488,49 @@ function createGroupedPopupContent(group) {
              onmouseover="this.style.background='#e0f2fe';"
              onmouseout="this.style.background='${isFirst ? '#f0fdf4' : '#f8fafc'}';">
                 
-                <!-- Ligne 1 : Date et Heure -->
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                    <div style="font-weight: 700; color: #059669; font-size: 0.85rem;">
-                        <i class="fas fa-calendar" style="margin-right: 4px;"></i>${programDate}
+                <!-- Ligne 1 : Date et Heure sur une ligne -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                    <div style="font-weight: 700; color: #059669; font-size: 0.8rem; display: flex; align-items: center; gap: 3px;">
+                        <i class="fas fa-calendar" style="font-size: 0.7rem;"></i>${programDate}
                     </div>
                     ${program.heures ? `
                     <div style="
                         background: #dbeafe;
                         color: #1e40af;
-                        padding: 2px 6px;
-                        border-radius: 10px;
-                        font-size: 0.75rem;
+                        padding: 1px 4px;
+                        border-radius: 8px;
+                        font-size: 0.7rem;
                         font-weight: 600;
+                        display: flex;
+                        align-items: center;
+                        gap: 2px;
                     ">
-                        <i class="fas fa-clock"></i> ${program.heures}
+                        <i class="fas fa-clock" style="font-size: 0.6rem;"></i> ${program.heures}
                     </div>` : ''}
                 </div>
                 
-                <!-- Ligne 2 : Lieu -->
+                <!-- Ligne 2 : Lieu (très court) -->
                 ${program.lieu ? `
-                <div style="font-weight: 600; color: #f97316; margin-bottom: 3px; font-size: 0.85rem; display: flex; align-items: center; gap: 4px;">
-                    <i class="fas fa-landmark" style="font-size: 0.8rem;"></i>
-                    ${program.lieu.length > 30 ? program.lieu.substring(0, 30) + '...' : program.lieu}
+                <div style="font-weight: 600; color: #f97316; margin-bottom: 2px; font-size: 0.8rem; display: flex; align-items: center; gap: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    <i class="fas fa-landmark" style="font-size: 0.7rem;"></i>
+                    ${program.lieu.length > 20 ? program.lieu.substring(0, 20) + '...' : program.lieu}
                 </div>` : ''}
                 
-                <!-- Ligne 3 : Programme -->
-                <div style="font-weight: 700; color: #7c3aed; font-size: 0.85rem; display: flex; align-items: center; gap: 4px;">
-                    <i class="fas fa-music" style="font-size: 0.8rem;"></i>
-                    ${program.programme.length > 35 ? program.programme.substring(0, 35) + '...' : program.programme}
+                <!-- Ligne 3 : Programme (très court) -->
+                <div style="font-weight: 700; color: #7c3aed; font-size: 0.8rem; display: flex; align-items: center; gap: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    <i class="fas fa-music" style="font-size: 0.7rem;"></i>
+                    ${program.programme.length > 25 ? program.programme.substring(0, 25) + '...' : program.programme}
                 </div>
                 
-                <!-- Indicateur cliquable -->
+                <!-- Indicateur cliquable (petit) -->
                 <div style="
                     text-align: right;
-                    margin-top: 4px;
-                    font-size: 0.7rem;
+                    margin-top: 3px;
+                    font-size: 0.65rem;
                     color: #4299e1;
                     font-weight: 600;
                 ">
-                    <i class="fas fa-chevron-right" style="font-size: 0.6rem;"></i> Cliquer pour détails
+                    <i class="fas fa-chevron-right" style="font-size: 0.5rem;"></i> Voir détails
                 </div>
             </div>
         `;
@@ -4478,23 +4539,22 @@ function createGroupedPopupContent(group) {
     html += `
             </div>
             
-            <!-- Pied de page compact -->
+            <!-- Pied de page ultra compact -->
             <div style="
-                margin-top: 8px;
-                padding-top: 6px;
+                margin-top: 6px;
+                padding-top: 4px;
                 border-top: 1px solid #e2e8f0;
-                font-size: 0.7rem;
+                font-size: 0.65rem;
                 color: #718096;
                 text-align: center;
             ">
-                <i class="fas fa-info-circle"></i> ${programs.length} programme${programs.length > 1 ? 's' : ''} groupé${programs.length > 1 ? 's' : ''}
+                <i class="fas fa-info-circle" style="font-size: 0.6rem;"></i> ${programs.length} programme${programs.length > 1 ? 's' : ''}
             </div>
         </div>
     `;
     
     return html;
-}
-// ===== NOUVELLE FONCTION : OUVRIRE LE MODAL POUR UN PROGRAMME SPÉCIFIQUE =====
+}// ===== NOUVELLE FONCTION : OUVRIRE LE MODAL POUR UN PROGRAMME SPÉCIFIQUE =====
 function showSpecificProgramModal(timestamp, localite) {
     const date = new Date(timestamp);
     
@@ -7148,7 +7208,31 @@ function formatDateShort(date) {
     return `${day}-${month}`;
 }
         }
-
+// ===== FONCTION : FERMER LES POPUPS AU CLIC EXTÉRIEUR =====
+function setupPopupCloseOnClickOutside() {
+    if (!tourMap) return;
+    
+    tourMap.on('click', function(e) {
+        // Fermer toutes les popups ouvertes
+        tourMap.eachLayer(function(layer) {
+            if (layer instanceof L.Marker && layer.getPopup()) {
+                layer.closePopup();
+            }
+        });
+    });
+    
+    // Empêcher la fermeture quand on clique dans la popup
+    tourMap.on('popupopen', function(e) {
+        const popup = e.popup;
+        const popupContainer = popup.getElement();
+        
+        if (popupContainer) {
+            L.DomEvent.on(popupContainer, 'click', function(ev) {
+                L.DomEvent.stopPropagation(ev);
+            });
+        }
+    });
+}
     </script>
 </body>
 </html>
