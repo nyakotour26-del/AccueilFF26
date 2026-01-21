@@ -4742,23 +4742,89 @@ function addItineraryLegend() {
     
     addLegendStyles();
     
-    // Ajouter à la carte
+      // Ajouter à la carte
     const mapContainer = document.getElementById('tourMap');
     if (mapContainer && tourMap) {
-        const legendControl = L.control({ position: 'bottomleft' });
+        // Vérifier si on est sur mobile
+        const isMobile = window.innerWidth <= 768;
         
-        legendControl.onAdd = function(map) {
-            const div = L.DomUtil.create('div', 'itinerary-legend-container');
-            div.appendChild(legendDiv);
-            L.DomEvent.disableClickPropagation(div);
-            L.DomEvent.on(div, 'mousewheel', L.DomEvent.stopPropagation);
-            return div;
-        };
-        
-        legendControl.addTo(tourMap);
+        if (isMobile) {
+            // Sur mobile: ajouter directement au conteneur avec position absolue
+            const mobileContainer = document.createElement('div');
+            mobileContainer.className = 'mobile-legend-container';
+            mobileContainer.style.position = 'absolute';
+            mobileContainer.style.bottom = '5px';
+            mobileContainer.style.left = '5px';
+            mobileContainer.style.zIndex = '1000';
+            mobileContainer.appendChild(legendDiv);
+            
+            mapContainer.appendChild(mobileContainer);
+            
+            // Empêcher les interactions avec la carte
+            L.DomEvent.disableClickPropagation(mobileContainer);
+            L.DomEvent.disableScrollPropagation(mobileContainer);
+        } else {
+            // Sur desktop: utiliser le contrôle Leaflet normal
+            const legendControl = L.control({ position: 'bottomleft' });
+            
+            legendControl.onAdd = function(map) {
+                const div = L.DomUtil.create('div', 'itinerary-legend-container');
+                div.appendChild(legendDiv);
+                L.DomEvent.disableClickPropagation(div);
+                L.DomEvent.on(div, 'mousewheel', L.DomEvent.stopPropagation);
+                return div;
+            };
+            
+            legendControl.addTo(tourMap);
+        }
     }
     
     console.log(`Légende: ${countriesToShow.length} pays (${countriesToShow.filter(c => (daysByCountry[c] || 0) > 0).length} avec programmes)`);
+
+    // Ajouter un bouton de toggle sur mobile
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'legend-toggle-btn';
+        toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+        toggleBtn.title = 'Masquer la légende';
+        toggleBtn.style.cssText = `
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(255,255,255,0.7);
+            border: none;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #4a5568;
+            z-index: 1001;
+        `;
+        
+        toggleBtn.onclick = function(e) {
+            e.stopPropagation();
+            const legend = document.querySelector('.itinerary-legend');
+            if (legend) {
+                if (legend.style.display === 'none') {
+                    legend.style.display = 'block';
+                    toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                    toggleBtn.title = 'Masquer la légende';
+                } else {
+                    legend.style.display = 'none';
+                    toggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
+                    toggleBtn.title = 'Afficher la légende';
+                }
+            }
+        };
+        
+        legendDiv.style.position = 'relative';
+        legendDiv.appendChild(toggleBtn);
+    }
 }// ===== NOUVELLE FONCTION : CENTRER LA CARTE SUR LE PREMIER MARQUEUR D'UN PAYS =====
 function centerMapOnFirstMarker(countryCode) {
     if (!tourMap || !mapMarkers || mapMarkers.length === 0) return;
@@ -4890,17 +4956,26 @@ function addLegendStyles() {
     const styleElement = document.createElement('style');
     styleElement.id = 'itinerary-legend-styles';
     styleElement.textContent = `
-        .itinerary-legend {
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 8px;
-            padding: 8px 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(66, 153, 225, 0.2);
-            max-width: 280px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            backdrop-filter: blur(3px);
-            font-size: 0.8rem;
-        }
+       .itinerary-legend {
+    background: rgba(255, 255, 255, 0.92); /* Déjà transparent */
+    border-radius: 8px;
+    padding: 8px 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(66, 153, 225, 0.2);
+    max-width: 280px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    backdrop-filter: blur(3px); /* Effet flou d'arrière-plan */
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+/* Desktop: un peu moins transparent */
+@media (min-width: 769px) {
+    .itinerary-legend {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(1px);
+    }
+}
         
         .legend-header {
             font-size: 0.8rem;
@@ -5013,6 +5088,117 @@ function addLegendStyles() {
     border-radius: 8px;
     border: 1px solid rgba(203, 213, 224, 0.5);
     white-space: nowrap;
+}
+/* Bouton toggle pour mobile */
+.legend-toggle-btn {
+    position: absolute !important;
+    top: 2px !important;
+    right: 2px !important;
+    background: rgba(255,255,255,0.7) !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 16px !important;
+    height: 16px !important;
+    font-size: 0.6rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    color: #4a5568 !important;
+    z-index: 1001 !important;
+    transition: all 0.2s !important;
+}
+
+.legend-toggle-btn:hover {
+    background: rgba(255,255,255,0.9) !important;
+    transform: scale(1.1) !important;
+}
+
+@media (max-width: 768px) {
+    .legend-toggle-btn {
+        width: 14px !important;
+        height: 14px !important;
+        font-size: 0.55rem !important;
+    }
+}
+/* ===== STYLES SPÉCIFIQUES POUR MOBILE ===== */
+@media (max-width: 768px) {
+    .itinerary-legend {
+        max-width: 180px !important;
+        padding: 6px 8px !important;
+        font-size: 0.7rem !important;
+        background: rgba(255, 255, 255, 0.85) !important; /* Plus transparent */
+        backdrop-filter: blur(2px) !important;
+        border: 1px solid rgba(66, 153, 225, 0.15) !important;
+        position: absolute !important;
+        bottom: 5px !important;
+        left: 5px !important;
+        z-index: 1000 !important;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .legend-header {
+        font-size: 0.75rem !important;
+        padding-bottom: 3px !important;
+        margin-bottom: 4px !important;
+    }
+    
+    .itinerary-path {
+        gap: 3px !important;
+        margin-bottom: 4px !important;
+    }
+    
+    .country-leg {
+        padding: 2px 4px !important;
+        border-radius: 3px !important;
+    }
+    
+    .country-flag-mini {
+        width: 12px !important;
+        height: 8px !important;
+    }
+    
+    .country-name {
+        font-size: 0.65rem !important;
+        max-width: 40px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+    
+    .days-count, .days-count-zero {
+        font-size: 0.6rem !important;
+        padding: 0 3px !important;
+        border-radius: 6px !important;
+    }
+    
+    .arrow {
+        font-size: 0.7rem !important;
+        margin-left: 1px !important;
+    }
+    
+    .legend-footer {
+        font-size: 0.55rem !important;
+        padding-top: 3px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .itinerary-legend {
+        max-width: 160px !important;
+        padding: 5px 6px !important;
+        bottom: 3px !important;
+        left: 3px !important;
+    }
+    
+    .country-name {
+        max-width: 35px !important;
+        font-size: 0.6rem !important;
+    }
+    
+    .country-leg {
+        padding: 1px 3px !important;
+    }
 }
         /* Responsive */
         @media (max-width: 768px) {
@@ -5391,6 +5577,24 @@ function addLegendStyles() {
             
             // Initialiser la carte
             initMap();
+// Gérer le redimensionnement de la fenêtre
+let resizeTimer;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+        if (typeof addItineraryLegend === 'function') {
+            // Supprimer l'ancienne légende
+            const oldLegend = document.querySelector('.itinerary-legend');
+            const oldContainer = document.querySelector('.mobile-legend-container, .leaflet-control');
+            if (oldLegend || oldContainer) {
+                if (oldContainer) oldContainer.remove();
+                if (oldLegend) oldLegend.remove();
+            }
+            // Recréer la légende
+            addItineraryLegend();
+        }
+    }, 250);
+});
         });
 
         function initQuickNavButtons() {
