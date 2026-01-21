@@ -4066,7 +4066,9 @@ async function updateMapWithTourData() {
     const locationsByCountry = {};
     
     // ===== NOUVEAU : Grouper les programmes par coordonnées =====
-    const programsByCoordinates = {};
+    // Déclarer en variable globale si ce n'est pas déjà fait
+window.programsByCoordinates = window.programsByCoordinates || {};
+const programsByCoordinates = window.programsByCoordinates;
     let locationCounter = 0;
     
     // Phase 1 : Collecter et grouper les programmes
@@ -4157,40 +4159,65 @@ async function updateMapWithTourData() {
         // Couleur par pays
         const markerColor = getCountryColor(group.pays);
         
-       // Formater la date au format dd-mm (jour-mois)
+      // Formater la date en jjmmm (jour + mois abrégé)
 const firstDate = group.programs[0].date;
 const day = firstDate.getDate().toString().padStart(2, '0');
-const month = (firstDate.getMonth() + 1).toString().padStart(2, '0');
-const dateText = `${day}-${month}`;
+const monthNames = ['jan', 'fév', 'mar', 'avr', 'mai', 'jui', 'jui', 'aoû', 'sep', 'oct', 'nov', 'déc'];
+const monthAbbr = monthNames[firstDate.getMonth()];
+const dateText = `${day}${monthAbbr}`;
+const orderNumber = group.locationNumber.toString().padStart(2, '0');
 
 // Créer un marqueur avec la date au format dd-mm
 const markerIcon = L.divIcon({
     className: 'custom-marker',
     html: `<div style="
-        width: ${numPrograms > 1 ? '28px' : '25px'}; 
-        height: ${numPrograms > 1 ? '28px' : '25px'}; 
+        width: 25px; 
+        height: 25px; 
         background: ${markerColor};
         border-radius: 50%;
         border: 2px solid white;
         box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        color: black;
-        font-weight: bold;
-        font-size: ${numPrograms > 1 ? '9px' : '10px'};
         position: relative;
         cursor: pointer;
         transition: all 0.3s;
-        line-height: 1;
-        text-align: center;
-        text-shadow: 0px 0px 2px white;
+        padding: 2px;
     " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-        ${dateText}
+        <!-- Date en haut (dd-mmm) -->
+        <div style="
+            color: yellow;
+            font-weight: bold;
+            font-size: 8px;
+            line-height: 1;
+            text-align: center;
+            text-shadow: 1px 1px 2px black, -1px -1px 1px black, 1px -1px 1px black, -1px 1px 1px black;
+            font-family: Arial, sans-serif;
+            margin-bottom: 1px;
+        ">
+            ${dateText}
+        </div>
+        
+        <!-- Nombre de programmes en bas (seulement si > 1) - BLANC -->
         ${numPrograms > 1 ? `<div style="
+            color: white; /* Blanc pur */
+            font-weight: bold;
+            font-size: 9px;
+            line-height: 1;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7); /* Ombre noire pour contraste */
+            font-family: Arial, sans-serif;
+        ">
+            ${numPrograms}
+        </div>` : ''}
+        
+        <!-- Numéro d'ordre dans le rond orange en bas -->
+        <div style="
             position: absolute;
-            top: -4px;
-            right: -4px;
+            bottom: -6px;
+            right: -6px;
             background: #f59e0b;
             color: white;
             border-radius: 50%;
@@ -4203,11 +4230,12 @@ const markerIcon = L.divIcon({
             border: 1px solid white;
             font-weight: 800;
             box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-        ">${numPrograms}</div>` : ''}
-    </div>`,
-    iconSize: numPrograms > 1 ? [28, 28] : [25, 25],
-    iconAnchor: numPrograms > 1 ? [14, 14] : [12.5, 12.5]
-});        const marker = L.marker(coords, { 
+        ">${orderNumber}</div>
+</div>`,
+    iconSize: [25, 25],
+    iconAnchor: [12.5, 12.5]
+});   
+     const marker = L.marker(coords, { 
             icon: markerIcon,
             title: `${group.localite} - ${numPrograms} programme${numPrograms > 1 ? 's' : ''}`
         }).addTo(tourMap);
@@ -4271,21 +4299,46 @@ const markerIcon = L.divIcon({
                 const midLat = (start[0] + end[0]) / 2;
                 const midLng = (start[1] + end[1]) / 2;
                 
-                // Créer un marqueur flèche directionnelle
-                const arrowIcon = L.divIcon({
-                    className: 'arrow-icon',
-                    html: `<div style="
-                        width: 0; 
-                        height: 0; 
-                        border-left: 8px solid transparent;
-                        border-right: 8px solid transparent;
-                        border-bottom: 12px solid ${routeColor};
-                        opacity: 0.8;
-                        transform: rotate(${calculateBearing(start, end)}deg);
-                    "></div>`,
-                    iconSize: [16, 16],
-                    iconAnchor: [8, 8]
-                });
+               // Créer un marqueur flèche directionnelle avec numéro de trajet
+const arrowIcon = L.divIcon({
+    className: 'arrow-icon',
+    html: `<div style="
+        position: relative;
+        width: 24px; 
+        height: 24px; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    ">
+        <!-- Flèche de base -->
+        <div style="
+            position: absolute;
+            width: 0; 
+            height: 0; 
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 16px solid ${routeColor};
+            opacity: 0.9;
+            transform: rotate(${calculateBearing(start, end)}deg);
+        "></div>
+        
+        <!-- Numéro de trajet (ex: 1→2) - JAUNE avec ombre noire -->
+        <div style="
+            position: absolute;
+            color: yellow; /* Jaune */
+            font-weight: 900;
+            font-size: 9px; /* Légèrement plus grand */
+            text-shadow: 1px 1px 3px black, -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black; /* Ombre noire sur 4 côtés */
+            transform: rotate(${calculateBearing(start, end)}deg);
+            z-index: 10;
+            pointer-events: none;
+        ">
+            ${j+1}→${j+2}
+        </div>
+    </div>`,
+    iconSize: [24, 24],
+    iconAnchor: [12, 12]
+});
                 
                 L.marker([midLat, midLng], { 
                     icon: arrowIcon, 
@@ -4304,6 +4357,10 @@ const markerIcon = L.divIcon({
     
     console.log(`🎯 ${sortedGroups.length} lieux différents sur la carte`);
     console.log(`📊 ${sortedDates.length} programmes au total, groupés par coordonnées`);
+  // Stocker globalement pour l'utiliser dans centerMapOnFirstMarker
+    window.programsByCoordinates = programsByCoordinates;
+// Ajouter la légende d'itinéraire
+addItineraryLegend();
 }
 // ===== NOUVELLE FONCTION : CRÉER LE CONTENU DE BULLE GROUPÉE (COMPACT) =====
 function createGroupedPopupContent(group) {
@@ -4458,7 +4515,377 @@ function showSpecificProgramModal(timestamp, localite) {
         tourMap.closePopup();
     }
 }
+// ===== FONCTION : AJOUTER UNE LÉGENDE D'ITINÉRAIRE =====
+function addItineraryLegend() {
+    // Supprimer la légende existante
+    const existingLegend = document.querySelector('.itinerary-legend');
+    if (existingLegend) existingLegend.remove();
+    
+    const oldContainer = document.querySelector('.leaflet-bottom.leaflet-left');
+    if (oldContainer && oldContainer.querySelector('.itinerary-legend')) {
+        oldContainer.remove();
+    }
+    
+    // Calculer les jours totaux par pays
+    const daysByCountry = calculateDaysByCountry();
+    
+    // Récupérer TOUS les pays du calendrier
+    const allCountries = getCountriesFromCalendar();
+    
+    if (allCountries.length === 0) return;
+    
+    // Inclure tous les pays (même avec 0 jour)
+    const countriesToShow = allCountries.filter(country => 
+        daysByCountry[country] !== undefined
+    );
+    
+    if (countriesToShow.length === 0) return;
+    
+    // Créer l'itinéraire
+    const itineraryString = countriesToShow.map((country, index) => {
+        const countryName = formatCountryName(country);
+        const days = daysByCountry[country] || 0; // Peut être 0
+        const flagClass = countryFlags[country] || 'flag-france';
+        const safeCountryName = countryName.replace(/'/g, "\\'");
         
+        // Classes différentes selon le nombre de jours
+        const daysClass = days > 0 ? 'days-count' : 'days-count-zero';
+        const daysText = days > 0 ? `${days}j` : '0j';
+        
+        return `<span class="country-leg" data-country="${country}" onclick="centerMapOnFirstMarker('${country}')" title="${safeCountryName}: ${days} jour${days !== 1 ? 's' : ''} de séjour">
+            <span class="country-flag-mini ${flagClass}"></span>
+            <span class="country-name">${countryName}</span>
+            <span class="${daysClass}">${daysText}</span>
+            ${index < countriesToShow.length - 1 ? '<span class="arrow">→</span>' : ''}
+        </span>`;
+    }).join('');
+    
+    // Créer et ajouter la légende
+    const legendDiv = document.createElement('div');
+    legendDiv.className = 'itinerary-legend leaflet-control';
+    legendDiv.innerHTML = `
+        <div class="legend-header">
+            <i class="fas fa-route"></i> Itinéraire (jours totaux)
+        </div>
+        <div class="itinerary-path">
+            ${itineraryString}
+        </div>
+        <div class="legend-footer">
+            <i class="fas fa-info-circle"></i> 0j = pays visité mais sans programme
+        </div>
+    `;
+    
+    addLegendStyles();
+    
+    // Ajouter à la carte
+    const mapContainer = document.getElementById('tourMap');
+    if (mapContainer && tourMap) {
+        const legendControl = L.control({ position: 'bottomleft' });
+        
+        legendControl.onAdd = function(map) {
+            const div = L.DomUtil.create('div', 'itinerary-legend-container');
+            div.appendChild(legendDiv);
+            L.DomEvent.disableClickPropagation(div);
+            L.DomEvent.on(div, 'mousewheel', L.DomEvent.stopPropagation);
+            return div;
+        };
+        
+        legendControl.addTo(tourMap);
+    }
+    
+    console.log(`Légende: ${countriesToShow.length} pays (${countriesToShow.filter(c => (daysByCountry[c] || 0) > 0).length} avec programmes)`);
+}// ===== NOUVELLE FONCTION : CENTRER LA CARTE SUR LE PREMIER MARQUEUR D'UN PAYS =====
+function centerMapOnFirstMarker(countryCode) {
+    if (!tourMap || !mapMarkers || mapMarkers.length === 0) return;
+    
+    // Trouver tous les marqueurs de ce pays
+    const countryMarkers = [];
+    
+    // Parcourir tous les marqueurs groupés
+    Object.values(programsByCoordinates || {}).forEach((group, index) => {
+        if (group.pays === countryCode) {
+            countryMarkers.push({
+                coords: group.coords,
+                locationNumber: group.locationNumber,
+                date: group.programs[0]?.date
+            });
+        }
+    });
+    
+    // Trier par numéro d'ordre (premier séjour)
+    countryMarkers.sort((a, b) => a.locationNumber - b.locationNumber);
+    
+    if (countryMarkers.length > 0) {
+        // Prendre le premier marqueur (premier séjour dans le pays)
+        const firstMarker = countryMarkers[0];
+        
+        // Centrer la carte sur ce marqueur avec un zoom approprié
+        tourMap.setView(firstMarker.coords, 9); // Zoom niveau 9 pour voir la zone
+        
+        // Ouvrir la popup du marqueur s'il existe
+        const marker = mapMarkers.find(m => {
+            const latLng = m.getLatLng();
+            return latLng.lat === firstMarker.coords[0] && 
+                   latLng.lng === firstMarker.coords[1];
+        });
+        
+        if (marker && marker.getPopup()) {
+            marker.openPopup();
+        }
+        
+        // Animation pour indiquer le marqueur
+        highlightMarker(firstMarker.coords);
+    }
+}
+
+// ===== FONCTION : METTRE EN ÉVIDENCE UN MARQUEUR =====
+function highlightMarker(coords) {
+    // Créer un cercle pulsant temporaire
+    const highlightCircle = L.circle(coords, {
+        color: '#f59e0b',
+        fillColor: '#f59e0b',
+        fillOpacity: 0.3,
+        radius: 500 // 500 mètres
+    }).addTo(tourMap);
+    
+    // Animer le cercle
+    highlightCircle.setStyle({
+        fillOpacity: 0.1,
+        opacity: 0.7
+    });
+    
+    // Supprimer après 3 secondes
+    setTimeout(() => {
+        if (tourMap.hasLayer(highlightCircle)) {
+            tourMap.removeLayer(highlightCircle);
+        }
+    }, 3000);
+}
+// ===== FONCTION : CALCULER LES JOURS TOTAUX PAR PAYS =====
+function calculateDaysByCountry() {
+    const daysByCountry = {};
+    
+    if (!datesWithData || datesWithData.length === 0) return daysByCountry;
+    
+    // Premier passage : compter tous les jours par pays
+    datesWithData.forEach(item => {
+        const country = item.pays ? item.pays.toUpperCase() : '';
+        const localite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
+        
+        // Ignorer uniquement Madagascar pour le retour final
+        if (country !== '' && country !== 'MADAGASCAR') {
+            if (!daysByCountry[country]) {
+                daysByCountry[country] = new Set();
+            }
+            daysByCountry[country].add(item.date.getTime());
+        }
+    });
+    
+    // Convertir les Sets en nombres
+    const result = {};
+    Object.keys(daysByCountry).forEach(country => {
+        result[country] = daysByCountry[country].size;
+    });
+    
+    return result;
+}
+// ===== FONCTION : RÉCUPÉRER TOUS LES PAYS DU CALENDRIER =====
+function getCountriesFromCalendar() {
+    const allCountries = new Set();
+    
+    if (!datesWithData || datesWithData.length === 0) return [];
+    
+    datesWithData.forEach(item => {
+        const country = item.pays ? item.pays.toUpperCase() : '';
+        if (country && country !== 'MADAGASCAR') {
+            allCountries.add(country);
+        }
+    });
+    
+    // Ordre prédéfini pour l'affichage
+    const preferredOrder = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
+    
+    // Trier selon l'ordre préféré, puis alphabétiquement pour les autres
+    return Array.from(allCountries).sort((a, b) => {
+        const indexA = preferredOrder.indexOf(a);
+        const indexB = preferredOrder.indexOf(b);
+        
+        if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+        if (indexA !== -1) return -1;
+        if (indexB !== -1) return 1;
+        
+        return a.localeCompare(b);
+    });
+}
+// ===== FONCTION : AJOUTER LES STYLES CSS POUR LA LÉGENDE =====
+function addLegendStyles() {
+    // Vérifier si les styles sont déjà ajoutés
+    if (document.getElementById('itinerary-legend-styles')) return;
+    
+    const styleElement = document.createElement('style');
+    styleElement.id = 'itinerary-legend-styles';
+    styleElement.textContent = `
+        .itinerary-legend {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 8px;
+            padding: 8px 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(66, 153, 225, 0.2);
+            max-width: 280px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            backdrop-filter: blur(3px);
+            font-size: 0.8rem;
+        }
+        
+        .legend-header {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #2d3748;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .itinerary-path {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+        
+        .country-leg {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 6px;
+            background: rgba(248, 250, 252, 0.9);
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .country-leg:hover {
+            background: rgba(66, 153, 225, 0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        
+        .country-flag-mini {
+            width: 14px;
+            height: 10px;
+            border-radius: 1px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        
+        .country-name {
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: #2d3748;
+            white-space: nowrap;
+        }
+        
+        .days-count {
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: #059669;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 1px 4px;
+            border-radius: 8px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            white-space: nowrap;
+        }
+        
+        .arrow {
+            font-weight: 900;
+            color: #f59e0b;
+            font-size: 0.8rem;
+            margin-left: 2px;
+            flex-shrink: 0;
+        }
+        
+        .legend-footer {
+            font-size: 0.65rem;
+            color: #718096;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding-top: 4px;
+            border-top: 1px dashed #e2e8f0;
+        }
+        
+        /* Bouton pour réduire/agrandir la légende */
+        .legend-toggle {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: none;
+            border: none;
+            color: #718096;
+            font-size: 0.7rem;
+            cursor: pointer;
+            padding: 2px;
+            border-radius: 3px;
+        }
+        
+        .legend-toggle:hover {
+            background: rgba(0,0,0,0.05);
+            color: #4299e1;
+        }
+        .days-count-zero {
+    font-weight: 700;
+    font-size: 0.7rem;
+    color: #718096; /* Gris pour 0 jour */
+    background: rgba(226, 232, 240, 0.5); /* Fond gris clair */
+    padding: 1px 4px;
+    border-radius: 8px;
+    border: 1px solid rgba(203, 213, 224, 0.5);
+    white-space: nowrap;
+}
+        /* Responsive */
+        @media (max-width: 768px) {
+            .itinerary-legend {
+                max-width: 220px;
+                padding: 6px 8px;
+                font-size: 0.75rem;
+            }
+            
+            .country-leg {
+                padding: 2px 4px;
+            }
+            
+            .country-name {
+                font-size: 0.7rem;
+            }
+            
+            .days-count {
+                font-size: 0.65rem;
+                padding: 1px 3px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .itinerary-legend {
+                max-width: 200px;
+                padding: 5px;
+            }
+            
+            .legend-header {
+                font-size: 0.75rem;
+            }
+        }
+    `;
+    
+    document.head.appendChild(styleElement);
+}
+
         // Fonction pour extraire les coordonnées depuis Google Maps (conservée pour compatibilité)
         function extractCoordinatesFromGoogleMaps(link) {
             if (!link) return null;
@@ -6149,6 +6576,10 @@ function showSpecificProgramModal(timestamp, localite) {
             });
             
             setTimeout(applyFlagStyles, 100);
+// Mettre à jour la légende de la carte si elle existe
+    if (typeof addItineraryLegend === 'function') {
+        addItineraryLegend();
+    }
         }
         
         // Fonction pour basculer l'affichage des dates libres
@@ -6474,6 +6905,13 @@ function showSpecificProgramModal(timestamp, localite) {
                 renderCalendar();
                 updateCalendarStats();
                 updateMapWithTourData();
+
+// Ajouter la légende initiale
+setTimeout(() => {
+    if (typeof addItineraryLegend === 'function') {
+        addItineraryLegend();
+    }
+}, 1000); // 1 seconde de délai pour être sûr que la carte est chargée
             } catch (error) {
                 showError(`Erreur de traitement des données: ${error.message}`);
                 showRetryOptions();
