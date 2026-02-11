@@ -3360,7 +3360,61 @@
         padding: 6px 8px !important;
     }
 }
+/* ===== STYLE POUR BOUTON PROGRAMME LE PLUS PROCHE ===== */
+.quick-nav-btn-desktop.next-program-btn {
+    border-color: rgba(245, 158, 11, 0.4);
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.2));
+    border-width: 2px;
+    position: relative;
+    overflow: hidden;
+}
 
+.quick-nav-btn-desktop.next-program-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(255, 215, 0, 0.2), transparent 70%);
+    animation: pulse 2s infinite;
+}
+
+.quick-nav-btn-desktop.next-program-btn:hover {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.3));
+    border-color: rgba(245, 158, 11, 0.6);
+}
+
+.quick-nav-btn-mobile.next-program-btn {
+    border-color: rgba(245, 158, 11, 0.4);
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.2));
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+#nextProgramText, #nextProgramTextMobile {
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* Responsive pour le texte du bouton */
+@media (max-width: 768px) {
+    #nextProgramTextMobile {
+        font-size: 0.65rem;
+        white-space: normal;
+        line-height: 1.2;
+    }
+    
+    .quick-nav-btn-mobile.next-program-btn {
+        height: auto;
+        min-height: 60px;
+        padding: 6px 3px;
+    }
+}
     </style>
 </head>
 <body>
@@ -3368,25 +3422,31 @@
         <header>
             <h1>Tournée Europe 2026</h1>
             
-            <!-- BOUTONS DE NAVIGATION RAPIDE POUR DESKTOP -->
-            <div class="quick-nav-buttons-desktop">
-                <button class="quick-nav-btn-desktop calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fas fa-calendar-alt"></i>
-                    Calendrier
-                </button>
-                <button class="quick-nav-btn-desktop dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fas fa-list-alt"></i>
-                    Dates par pays
-                </button>
-                <button class="quick-nav-btn-desktop stats-btn" onclick="scrollToStats()">
-                    <i class="fas fa-chart-bar"></i>
-                    Statistiques
-                </button>
-                <button class="quick-nav-btn-desktop map-btn" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fas fa-map-marked-alt"></i>
-                    Carte itinéraire
-                </button>
-            </div>
+           <!-- BOUTONS DE NAVIGATION RAPIDE POUR DESKTOP -->
+<div class="quick-nav-buttons-desktop">
+    <!-- 🔥 NOUVEAU : Bouton programme le plus proche -->
+    <button class="quick-nav-btn-desktop next-program-btn" onclick="showNextProgram()" id="nextProgramButton">
+        <i class="fas fa-clock"></i>
+        <span id="nextProgramText">Chargement...</span>
+    </button>
+    
+    <button class="quick-nav-btn-desktop calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-calendar-alt"></i>
+        Calendrier
+    </button>
+    <button class="quick-nav-btn-desktop dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-list-alt"></i>
+        Dates par pays
+    </button>
+    <button class="quick-nav-btn-desktop stats-btn" onclick="scrollToStats()">
+        <i class="fas fa-chart-bar"></i>
+        Statistiques
+    </button>
+    <button class="quick-nav-btn-desktop map-btn" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-map-marked-alt"></i>
+        Carte itinéraire
+    </button>
+</div>
             
             <!-- DISPOSITION POUR DESKTOP -->
             <div class="header-desktop-layout">
@@ -3540,25 +3600,31 @@
                 </div>
             </div>
             
-            <!-- BOUTONS DE NAVIGATION RAPIDE POUR MOBILE - DÉPLACÉS SOUS LA PHOTO -->
-            <div class="quick-nav-buttons-mobile">
-                <button class="quick-nav-btn-mobile calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fas fa-calendar-alt"></i>
-                    Calendrier
-                </button>
-                <button class="quick-nav-btn-mobile dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fas fa-list-alt"></i>
-                    Dates par pays
-                </button>
-                <button class="quick-nav-btn-mobile stats-btn" onclick="scrollToStats()">
-                    <i class="fas fa-chart-bar"></i>
-                    Statistiques
-                </button>
-                <button class="quick-nav-btn-mobile map-btn" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fas fa-map-marked-alt"></i>
-                    Carte
-                </button>
-            </div>
+           <!-- BOUTONS DE NAVIGATION RAPIDE POUR MOBILE -->
+<div class="quick-nav-buttons-mobile">
+    <!-- 🔥 NOUVEAU : Bouton programme le plus proche (MOBILE) -->
+    <button class="quick-nav-btn-mobile next-program-btn" onclick="showNextProgram()" id="nextProgramButtonMobile">
+        <i class="fas fa-clock"></i>
+        <span id="nextProgramTextMobile">Chargement...</span>
+    </button>
+    
+    <button class="quick-nav-btn-mobile calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-calendar-alt"></i>
+        Calendrier
+    </button>
+    <button class="quick-nav-btn-mobile dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-list-alt"></i>
+        Dates par pays
+    </button>
+    <button class="quick-nav-btn-mobile stats-btn" onclick="scrollToStats()">
+        <i class="fas fa-chart-bar"></i>
+        Stats
+    </button>
+    <button class="quick-nav-btn-mobile map-btn" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-map-marked-alt"></i>
+        Carte
+    </button>
+</div>
         </header>
         
         <!-- CONTENU PRINCIPAL POUR MOBILE -->
@@ -4061,8 +4127,15 @@
         
         let sheetData = [];
         let datesWithData = [];
-        let currentDate = new Date(2026, 3, 1); // Avril 2026
-        let selectedDate = null;
+// ===== MODIFICATION : SI ON EST AVANT AVRIL 2026, AFFICHER AVRIL 2026, SINON MOIS COURANT =====
+let currentDate = new Date();
+const april2026 = new Date(2026, 3, 1); // 1er avril 2026
+
+if (currentDate < april2026) {
+    currentDate = april2026; // Toujours commencer en avril si on est avant
+} else {
+    currentDate.setDate(1); // Premier jour du mois courant
+}        let selectedDate = null;
         let secretariatAccess = false;
         
         // Variables pour la navigation entre programmes
@@ -5484,7 +5557,7 @@ function addLegendStyles() {
             });
         }
 
-      // ===== NOUVELLE FONCTION : FORMATER LA LOCALISATION AVEC APERÇU DE CARTE =====
+// ===== NOUVELLE FONCTION : FORMATER LA LOCALISATION AVEC APERÇU DE CARTE =====
 function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
     if (!text) return '';
     
@@ -5500,10 +5573,12 @@ function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
         const coords = extractCoordinatesFromCell(coordText);
         if (coords) {
             const [lat, lng] = coords;
-            const mapInfo = createStaticMapPreview(lat, lng, locationName);
+            
+            // 🔥 NOUVEAU : Créer le lien Google Maps
+            const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
             
             mapPreviewHtml = `
-                <div class="map-preview-container" id="${mapInfo.mapId}">
+                <div class="map-preview-container" id="${'map-' + Math.random().toString(36).substr(2, 9)}">
                     <div style="margin-bottom: 8px; font-size: 0.75rem; color: #4a5568; font-weight: 600;">
                         <i class="fas fa-map-pin"></i> Localisation exacte:
                     </div>
@@ -5519,16 +5594,34 @@ function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
                             style="border: 0; display: block;">
                         </iframe>
                     </div>
-                    <div style="display: flex; gap: 8px; margin-top: 8px;">
-                        <a href="${mapInfo.interactiveUrl}" target="_blank" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 10px; background: #4299e1; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 600; text-decoration: none;">
-                            <i class="fas fa-external-link-alt"></i>
-                            Ouvrir dans OpenStreetMap
-                        </a>
-                        <button onclick="copyToClipboard('${coordText}')" style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 12px; background: #718096; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 600;">
-                            <i class="fas fa-copy"></i>
-                            Copier
-                        </button>
-                    </div>
+                    
+                  <!-- 🔥 4 BOUTONS MAINTENANT -->
+<div style="display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap;">
+    <!-- Bouton 1 : OpenStreetMap -->
+    <a href="https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=15/${lat}/${lng}" target="_blank" style="flex: 1; min-width: 100px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 6px; background: #4299e1; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600; text-decoration: none;">
+        <i class="fas fa-map"></i>
+        OSM
+    </a>
+    
+    <!-- Bouton 2 : Google Maps -->
+    <a href="${googleMapsUrl}" target="_blank" style="flex: 1; min-width: 100px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 6px; background: #ea4335; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600; text-decoration: none;">
+        <i class="fab fa-google"></i>
+        Google
+    </a>
+    
+    <!-- 🔥 NOUVEAU BOUTON 3 : Waze -->
+    <a href="https://waze.com/ul?ll=${lat},${lng}&navigate=yes" target="_blank" style="flex: 1; min-width: 100px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 6px; background: #33CCFF; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600; text-decoration: none;">
+        <i class="fas fa-car"></i>
+        Waze
+    </a>
+    
+    <!-- Bouton 4 : Copier -->
+    <button onclick="copyToClipboard('${coordText}')" style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 10px; background: #718096; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600;">
+        <i class="fas fa-copy"></i>
+        📋
+    </button>
+</div>
+                    
                     <div style="margin-top: 6px; font-size: 0.65rem; color: #718096; text-align: center;">
                         <i class="fas fa-info-circle"></i> Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}
                     </div>
@@ -5551,10 +5644,25 @@ function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
                         <a href="${url}" class="link-blue" target="_blank" style="flex: 1; word-break: break-all;">${url}</a>
                         <button class="copy-link-btn" onclick="copyToClipboard('${url}')" title="Copier le lien">📋</button>
                     </div>
-                    <a href="${url}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 10px; background: #4299e1; color: white; border: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600; text-decoration: none;">
-                        <i class="fas fa-external-link-alt"></i>
-                        Ouvrir Google Maps
-                    </a>
+                    
+                    <!-- 🔥 3 BOUTONS AVEC WAZE -->
+<div style="display: flex; gap: 6px; flex-wrap: wrap;">
+    <a href="${url}" target="_blank" style="flex: 1; min-width: 100px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 6px; background: #ea4335; color: white; border: none; border-radius: 6px; font-size: 0.7rem; font-weight: 600; text-decoration: none;">
+        <i class="fab fa-google"></i>
+        Google
+    </a>
+    
+    <!-- 🔥 BOUTON WAZE (ouvre l'app si installée) -->
+    <a href="https://waze.com/ul?q=${encodeURIComponent(url)}" target="_blank" style="flex: 1; min-width: 100px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 6px; background: #33CCFF; color: white; border: none; border-radius: 6px; font-size: 0.7rem; font-weight: 600; text-decoration: none;">
+        <i class="fas fa-car"></i>
+        Waze
+    </a>
+    
+    <button onclick="copyToClipboard('${url}')" style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 10px; background: #718096; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600;">
+        <i class="fas fa-copy"></i>
+        📋
+    </button>
+</div>
                 </div>
             </div>
         `;
@@ -5603,7 +5711,6 @@ function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
     
     return resultHtml || text;
 }
-
 
 
         function copyToClipboard(text) {
@@ -7384,6 +7491,7 @@ window.addEventListener('resize', function() {
                 renderCalendar();
                 updateCalendarStats();
                 updateMapWithTourData();
+ 		updateNextProgramButton();
 
 // Ajouter la légende initiale
 setTimeout(() => {
@@ -7697,6 +7805,220 @@ function openPopupWithBetterPosition(marker) {
         }
     }, 100);
 }
+// ===== NOUVELLE FONCTION : TROUVER LE PROCHAIN PROGRAMME =====
+function findNextProgram() {
+    if (!datesWithData || datesWithData.length === 0) {
+        return null;
+    }
+    
+    const now = new Date();
+    now.setHours(0, 0, 0, 0); // Minuit aujourd'hui
+    
+    // Filtrer les programmes à venir (date >= aujourd'hui)
+    const upcomingPrograms = datesWithData.filter(item => {
+        const itemDate = new Date(item.date);
+        itemDate.setHours(0, 0, 0, 0);
+        
+        // Ignorer Madagascar et les retours
+        const localite = sheetData[item.rowIndex] ? 
+            sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
+        
+        if (localite.toUpperCase().includes('RETOUR MADAGASCAR') || 
+            localite.toUpperCase().includes('MADAGASCAR')) {
+            return false;
+        }
+        
+        return itemDate >= now;
+    });
+    
+    if (upcomingPrograms.length === 0) {
+        return null;
+    }
+    
+    // Trier par date
+    upcomingPrograms.sort((a, b) => a.date - b.date);
+    
+    // Prendre le premier (le plus proche)
+    const nextProgram = upcomingPrograms[0];
+    
+    // Récupérer les détails
+    const rowData = getRowData(nextProgram.rowIndex);
+    
+    return {
+        ...nextProgram,
+        ...rowData
+    };
+}
+
+// ===== NOUVELLE FONCTION : METTRE À JOUR LE TEXTE DU BOUTON =====
+function updateNextProgramButton() {
+    const nextProgram = findNextProgram();
+    const nextProgramText = document.getElementById('nextProgramText');
+    const nextProgramTextMobile = document.getElementById('nextProgramTextMobile');
+    const nextProgramBtn = document.querySelector('.quick-nav-btn-desktop.next-program-btn');
+    const nextProgramBtnMobile = document.querySelector('.quick-nav-btn-mobile.next-program-btn');
+    
+    if (!nextProgram) {
+        // Aucun programme à venir
+        const textDesktop = '🎵 Aucun programme';
+        const textMobile = '🎵 Aucun';
+        
+        if (nextProgramText) nextProgramText.textContent = textDesktop;
+        if (nextProgramTextMobile) nextProgramTextMobile.textContent = textMobile;
+        
+        if (nextProgramBtn) nextProgramBtn.title = 'Aucun programme à venir';
+        if (nextProgramBtnMobile) nextProgramBtnMobile.title = 'Aucun programme à venir';
+        
+        return;
+    }
+    
+    // Calculer le nombre de jours restants
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const programDate = new Date(nextProgram.date);
+    programDate.setHours(0, 0, 0, 0);
+    
+    const diffTime = programDate - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    // Formater la date
+    const dateStr = formatDateShort(nextProgram.date);
+    
+    // Déterminer le texte selon le délai
+    let textDesktop = '';
+    let textMobile = '';
+    
+    if (diffDays === 0) {
+        textDesktop = `🔴 AUJOURD'HUI - ${nextProgram.localite}`;
+        textMobile = `🔴 Aujourd'hui`;
+    } else if (diffDays === 1) {
+        textDesktop = `⏰ DEMAIN - ${nextProgram.localite}`;
+        textMobile = `⏰ Demain`;
+    } else if (diffDays <= 7) {
+        textDesktop = `📅 Dans ${diffDays} jours - ${nextProgram.localite}`;
+        textMobile = `📅 J+${diffDays}`;
+    } else {
+        textDesktop = `📆 ${dateStr} - ${nextProgram.localite}`;
+        textMobile = `📆 ${dateStr}`;
+    }
+    
+    // Tronquer pour mobile si trop long
+    if (nextProgram.localite && nextProgram.localite.length > 15) {
+        const shortLocation = nextProgram.localite.substring(0, 12) + '…';
+        textMobile = `📆 ${dateStr} ${shortLocation}`;
+    }
+    
+    if (nextProgramText) nextProgramText.textContent = textDesktop;
+    if (nextProgramTextMobile) nextProgramTextMobile.textContent = textMobile;
+    
+    const title = `${nextProgram.localite} - ${nextProgram.pays}\n${formatDateForDisplay(nextProgram.date)}\n${nextProgram.programme || 'Concert'}`;
+    
+    if (nextProgramBtn) {
+        nextProgramBtn.title = title;
+        // Ajouter un effet d'urgence si c'est aujourd'hui ou demain
+        if (diffDays <= 1) {
+            nextProgramBtn.style.animation = 'pulse 1.5s infinite';
+        } else {
+            nextProgramBtn.style.animation = '';
+        }
+    }
+    
+    if (nextProgramBtnMobile) {
+        nextProgramBtnMobile.title = title;
+        if (diffDays <= 1) {
+            nextProgramBtnMobile.style.animation = 'pulse 1.5s infinite';
+        } else {
+            nextProgramBtnMobile.style.animation = '';
+        }
+    }
+}
+
+// ===== NOUVELLE FONCTION : AFFICHER LE PROCHAIN PROGRAMME =====
+function showNextProgram() {
+    const nextProgram = findNextProgram();
+    
+    if (!nextProgram) {
+        alert('🎵 Aucun programme à venir pour le moment.');
+        return;
+    }
+    
+    // Ouvrir le modal avec les détails du programme
+    showDateModal(nextProgram.date, nextProgram.localite, nextProgram.pays);
+    
+    // Faire défiler jusqu'au calendrier
+    document.querySelector('.calendar-section').scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
+    
+    // Mettre en surbrillance la date dans le calendrier
+    selectDate(nextProgram.date);
+}
+
+// ===== MINUTEUR AUTOMATIQUE - RAFRAÎCHIR LE BOUTON PROGRAMME =====
+// Met à jour automatiquement le bouton "Programme le plus proche"
+
+function initAutoRefresh() {
+    // 1. Mise à jour immédiate au chargement
+    if (typeof updateNextProgramButton === 'function') {
+        updateNextProgramButton();
+        console.log('🕒 Bouton programme - Mise à jour initiale');
+    }
+    
+    // 2. Mise à jour toutes les 30 minutes (1800000 ms)
+    //    Changement toutes les heures si tu préfères : 3600000
+    setInterval(function() {
+        if (typeof updateNextProgramButton === 'function') {
+            updateNextProgramButton();
+            console.log('🕒 Bouton programme - Mise à jour automatique');
+        }
+    }, 1800000); // 30 minutes
+    
+    // 3. Mise à jour automatique à minuit (changement de jour)
+    const now = new Date();
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+    
+    const timeUntilMidnight = tomorrow - now;
+    
+    setTimeout(function() {
+        if (typeof updateNextProgramButton === 'function') {
+            updateNextProgramButton();
+            console.log('🌙 Bouton programme - Nouveau jour détecté');
+        }
+        
+        // Continue les mises à jour toutes les 30 minutes
+        setInterval(function() {
+            if (typeof updateNextProgramButton === 'function') {
+                updateNextProgramButton();
+            }
+        }, 1800000);
+        
+    }, timeUntilMidnight);
+    
+    // 4. Mise à jour quand l'utilisateur revient sur l'onglet
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden && typeof updateNextProgramButton === 'function') {
+            updateNextProgramButton();
+            console.log('👁️ Bouton programme - Onglet réactivé');
+        }
+    });
+    
+    // 5. Mise à jour quand la page reçoit le focus
+    window.addEventListener('focus', function() {
+        if (typeof updateNextProgramButton === 'function') {
+            updateNextProgramButton();
+            console.log('✨ Bouton programme - Page réactivée');
+        }
+    });
+}
+
+// ===== DÉMARRER LE MINUTEUR AU CHARGEMENT =====
+// Cette ligne ACTIVE tout le système
+initAutoRefresh();
+
     </script>
 </body>
 </html>
