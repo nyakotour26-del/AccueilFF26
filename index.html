@@ -3286,6 +3286,81 @@
     width: 100% !important;
     max-width: 100% !important;
 }
+
+/* ===== STYLES POUR L'APERÇU DE CARTE AVEC IFRAME ===== */
+.map-preview-container {
+    background: white;
+    border-radius: 10px;
+    padding: 12px;
+    margin: 12px 0;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.map-preview-container iframe {
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.map-preview-container iframe:hover {
+    box-shadow: 0 6px 16px rgba(66, 153, 225, 0.15);
+}
+
+.link-with-copy {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8fafc;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.link-blue {
+    color: #2563eb !important;
+    text-decoration: underline !important;
+    font-size: 0.8rem;
+    word-break: break-all;
+}
+
+.link-blue:hover {
+    color: #1d4ed8 !important;
+    text-decoration: none !important;
+}
+
+.copy-link-btn {
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 6px;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.copy-link-btn:hover {
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+/* Responsive pour mobile */
+@media (max-width: 768px) {
+    .map-preview-container {
+        padding: 8px;
+    }
+    
+    .map-preview-container iframe {
+        height: 160px !important;
+    }
+    
+    .map-preview-container button,
+    .map-preview-container a {
+        font-size: 0.7rem !important;
+        padding: 6px 8px !important;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -4205,27 +4280,21 @@ minZoom: 4,
             
             return [offsetLat, offsetLng];
         }
-
-        // ===== NOUVELLE FONCTION : CRÉER UN APERÇU DE CARTE STATIQUE =====
-        function createStaticMapPreview(lat, lng, locationName) {
-            // Utiliser un service de carte statique (OpenStreetMap)
-            const zoom = 13;
-            const width = 600;
-            const height = 300;
-            
-            // Créer une URL d'aperçu de carte statique
-            const staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${width}x${height}&maptype=roadmap&markers=color:red%7C${lat},${lng}&key=AIzaSyCQ3v8hR_ZoW8YQjLb5Q2J7KQ7wQ9Xq9Xw`;
-            
-            // Fallback vers OpenStreetMap si Google Maps échoue
-            const fallbackMapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lng-0.05},${lat-0.05},${lng+0.05},${lat+0.05}&layer=mapnik&marker=${lat},${lng}`;
-            
-            return {
-                staticUrl: staticMapUrl,
-                interactiveUrl: fallbackMapUrl,
-                coordinates: [lat, lng]
-            };
-        }
-
+// ===== NOUVELLE FONCTION : CRÉER UN APERÇU DE CARTE INTERACTIF MINIATURE =====
+function createStaticMapPreview(lat, lng, locationName) {
+    // Créer un ID unique pour cette carte
+    const mapId = 'mini-map-' + Math.random().toString(36).substr(2, 9);
+    
+    // URL interactive OpenStreetMap
+    const interactiveUrl = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=15/${lat}/${lng}`;
+    
+    return {
+        staticUrl: '', // Plus utilisé
+        interactiveUrl: interactiveUrl,
+        coordinates: [lat, lng],
+        mapId: mapId
+    };
+}
 // ===== MODIFICATION COMPLÈTE DE LA MISE À JOUR DE LA CARTE =====
 async function updateMapWithTourData() {
     // Supprimer les marqueurs existants
@@ -5415,119 +5484,127 @@ function addLegendStyles() {
             });
         }
 
-        // ===== NOUVELLE FONCTION : FORMATER LA LOCALISATION AVEC APERÇU DE CARTE =====
-        function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
-            if (!text) return '';
+      // ===== NOUVELLE FONCTION : FORMATER LA LOCALISATION AVEC APERÇU DE CARTE =====
+function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
+    if (!text) return '';
+    
+    // Détecter les URLs Google Maps
+    const urlRegex = /(https?:\/\/[^\s<]+)/g;
+    const urls = text.match(urlRegex);
+    
+    let hasMapPreview = false;
+    let mapPreviewHtml = '';
+    
+    // Si on a des coordonnées exactes, créer un aperçu de carte
+    if (coordText && coordText.trim() !== '') {
+        const coords = extractCoordinatesFromCell(coordText);
+        if (coords) {
+            const [lat, lng] = coords;
+            const mapInfo = createStaticMapPreview(lat, lng, locationName);
             
-            // Détecter les URLs Google Maps
-            const urlRegex = /(https?:\/\/[^\s<]+)/g;
-            const urls = text.match(urlRegex);
-            
-            let hasMapPreview = false;
-            let mapPreviewHtml = '';
-            
-            // Si on a des coordonnées exactes, créer un aperçu de carte
-            if (coordText && coordText.trim() !== '') {
-                const coords = extractCoordinatesFromCell(coordText);
-                if (coords) {
-                    const [lat, lng] = coords;
-                    const mapInfo = createStaticMapPreview(lat, lng, locationName);
-                    
-                    mapPreviewHtml = `
-                        <div class="map-preview-container">
-                            <div style="margin-bottom: 8px; font-size: 0.75rem; color: #4a5568; font-weight: 600;">
-                                <i class="fas fa-map-pin"></i> Localisation exacte:
-                            </div>
-                            <a href="${mapInfo.interactiveUrl}" target="_blank" class="map-preview-image">
-                                <div class="map-preview-overlay">
-                                    <i class="fas fa-map-marked-alt"></i>
-                                    <span>${locationName || 'Localisation'}</span>
-                                    <span style="font-size: 0.65rem; opacity: 0.9;">Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}</span>
-                                </div>
-                            </a>
-                            <div class="map-action-buttons">
-                                <a href="${mapInfo.interactiveUrl}" target="_blank" class="map-action-btn">
-                                    <i class="fas fa-external-link-alt"></i>
-                                    Ouvrir la carte
-                                </a>
-                                <button class="map-action-btn copy" onclick="copyToClipboard('${coordText}')">
-                                    <i class="fas fa-copy"></i>
-                                    Copier les coordonnées
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    hasMapPreview = true;
-                }
-            }
-            
-            // Si on a une URL Google Maps mais pas de coordonnées exactes
-            if (urls && urls.length > 0 && !hasMapPreview) {
-                const url = urls[0];
-                mapPreviewHtml = `
-                    <div class="map-preview-container">
-                        <a href="${url}" target="_blank" class="map-preview-image">
-                            <div class="map-preview-overlay">
-                                <i class="fas fa-map-marked-alt"></i>
-                                <span>Voir sur Google Maps</span>
-                            </div>
+            mapPreviewHtml = `
+                <div class="map-preview-container" id="${mapInfo.mapId}">
+                    <div style="margin-bottom: 8px; font-size: 0.75rem; color: #4a5568; font-weight: 600;">
+                        <i class="fas fa-map-pin"></i> Localisation exacte:
+                    </div>
+                    <div style="position: relative; width: 100%; height: 200px; background: #f0f9ff; border-radius: 8px; overflow: hidden; border: 2px solid #e2e8f0; margin-bottom: 8px;">
+                        <iframe 
+                            width="100%" 
+                            height="100%" 
+                            frameborder="0" 
+                            scrolling="no" 
+                            marginheight="0" 
+                            marginwidth="0"
+                            src="https://www.openstreetmap.org/export/embed.html?bbox=${lng-0.02},${lat-0.02},${lng+0.02},${lat+0.02}&layer=mapnik&marker=${lat},${lng}"
+                            style="border: 0; display: block;">
+                        </iframe>
+                    </div>
+                    <div style="display: flex; gap: 8px; margin-top: 8px;">
+                        <a href="${mapInfo.interactiveUrl}" target="_blank" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 10px; background: #4299e1; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 600; text-decoration: none;">
+                            <i class="fas fa-external-link-alt"></i>
+                            Ouvrir dans OpenStreetMap
                         </a>
-                        <div class="map-action-buttons">
-                            <a href="${url}" target="_blank" class="map-action-btn">
-                                <i class="fas fa-external-link-alt"></i>
-                                Ouvrir la carte
-                            </a>
-                            <button class="map-action-btn copy" onclick="copyToClipboard('${url}')">
-                                <i class="fas fa-copy"></i>
-                                Copier le lien
-                            </button>
-                        </div>
+                        <button onclick="copyToClipboard('${coordText}')" style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 12px; background: #718096; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 600;">
+                            <i class="fas fa-copy"></i>
+                            Copier
+                        </button>
                     </div>
-                `;
-                hasMapPreview = true;
-            }
-            
-            let resultHtml = '';
-            
-            // Ajouter le lien au-dessus de l'aperçu
-            if (urls && urls.length > 0) {
-                const url = urls[0];
-                resultHtml += `
-                    <div style="margin-bottom: 8px;">
-                        <div style="font-size: 0.75rem; color: #4a5568; font-weight: 600; margin-bottom: 4px;">
-                            <i class="fas fa-link"></i> Lien de localisation:
-                        </div>
-                        <div class="link-with-copy">
-                            <a href="${url}" class="link-blue" target="_blank">${url} <i class="fas fa-external-link-alt" style="font-size: 0.6em;"></i></a>
-                            <button class="copy-link-btn" onclick="copyToClipboard('${url}')" title="Copier le lien">
-                                📋
-                            </button>
-                        </div>
+                    <div style="margin-top: 6px; font-size: 0.65rem; color: #718096; text-align: center;">
+                        <i class="fas fa-info-circle"></i> Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}
                     </div>
-                `;
-            }
-            
-            // Ajouter les coordonnées si disponibles
-            if (coordText && coordText.trim() !== '') {
-                resultHtml += `
-                    <div style="margin-bottom: 8px;">
-                        <div style="font-size: 0.75rem; color: #4a5568; font-weight: 600; margin-bottom: 4px;">
-                            <i class="fas fa-map-pin"></i> Coordonnées:
-                        </div>
-                        <div style="font-size: 0.7rem; color: #059669; font-weight: 600; background: #f0fdf4; padding: 6px 8px; border-radius: 4px; border-left: 3px solid #10b981;">
-                            ${coordText}
-                        </div>
-                    </div>
-                `;
-            }
-            
-            // Ajouter l'aperçu de carte
-            if (hasMapPreview) {
-                resultHtml += mapPreviewHtml;
-            }
-            
-            return resultHtml || text;
+                </div>
+            `;
+            hasMapPreview = true;
         }
+    }
+    
+    // Si on a une URL Google Maps mais pas de coordonnées exactes
+    if (urls && urls.length > 0 && !hasMapPreview) {
+        const url = urls[0];
+        mapPreviewHtml = `
+            <div class="map-preview-container">
+                <div style="margin-bottom: 8px; font-size: 0.75rem; color: #4a5568; font-weight: 600;">
+                    <i class="fas fa-link"></i> Lien de localisation:
+                </div>
+                <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <div class="link-with-copy" style="display: flex; align-items: center; gap: 4px; margin-bottom: 8px;">
+                        <a href="${url}" class="link-blue" target="_blank" style="flex: 1; word-break: break-all;">${url}</a>
+                        <button class="copy-link-btn" onclick="copyToClipboard('${url}')" title="Copier le lien">📋</button>
+                    </div>
+                    <a href="${url}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 10px; background: #4299e1; color: white; border: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600; text-decoration: none;">
+                        <i class="fas fa-external-link-alt"></i>
+                        Ouvrir Google Maps
+                    </a>
+                </div>
+            </div>
+        `;
+        hasMapPreview = true;
+    }
+    
+    let resultHtml = '';
+    
+    // Ajouter le lien si présent
+    if (urls && urls.length > 0) {
+        const url = urls[0];
+        resultHtml += `
+            <div style="margin-bottom: 8px;">
+                <div style="font-size: 0.75rem; color: #4a5568; font-weight: 600; margin-bottom: 4px;">
+                    <i class="fas fa-link"></i> Lien:
+                </div>
+                <div class="link-with-copy">
+                    <a href="${url}" class="link-blue" target="_blank">${url.length > 50 ? url.substring(0, 50) + '...' : url}</a>
+                    <button class="copy-link-btn" onclick="copyToClipboard('${url}')" title="Copier le lien">📋</button>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Ajouter les coordonnées si disponibles
+    if (coordText && coordText.trim() !== '' && !hasMapPreview) {
+        resultHtml += `
+            <div style="margin-bottom: 8px;">
+                <div style="font-size: 0.75rem; color: #4a5568; font-weight: 600; margin-bottom: 4px;">
+                    <i class="fas fa-map-pin"></i> Coordonnées:
+                </div>
+                <div style="font-size: 0.7rem; color: #059669; font-weight: 600; background: #f0fdf4; padding: 8px; border-radius: 6px; border-left: 3px solid #10b981;">
+                    ${coordText}
+                    <button onclick="copyToClipboard('${coordText}')" style="margin-left: 8px; background: none; border: none; color: #059669; cursor: pointer;" title="Copier">
+                        📋
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Ajouter l'aperçu de carte
+    if (hasMapPreview) {
+        resultHtml += mapPreviewHtml;
+    }
+    
+    return resultHtml || text;
+}
+
+
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
