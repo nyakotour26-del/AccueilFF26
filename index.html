@@ -3268,6 +3268,513 @@
     background: #4299e1;
     border-radius: 2px;
 }
+
+       
+          /* ===== SECTION PROCHAIN PROGRAMME - ULTRA COMPACT ===== */
+        .next-program-section {
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin: 0 0 16px 0;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+            border-left: 6px solid #f59e0b;
+            border-right: 1px solid rgba(66, 153, 225, 0.1);
+            border-top: 1px solid rgba(66, 153, 225, 0.1);
+            border-bottom: 1px solid rgba(66, 153, 225, 0.1);
+            transition: all 0.25s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .next-program-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+            border-left-color: #4299e1;
+        }
+        
+        .next-program-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .next-program-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1rem;
+            font-weight: 800;
+            color: #2d3748;
+        }
+        
+        .next-program-title i {
+            color: #f59e0b;
+            font-size: 1.1rem;
+        }
+        
+        .next-program-badge {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+        
+        .next-program-card-compact {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            border-radius: 10px;
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .next-program-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1 1 auto;
+            min-width: 200px;
+        }
+        
+        .next-program-icon-box {
+            background: linear-gradient(145deg, #4299e1, #3182ce);
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .next-program-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .next-program-date-text {
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .next-program-location-line {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: #475569;
+            flex-wrap: wrap;
+        }
+        
+        .next-program-flag-mini {
+            width: 18px;
+            height: 12px;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .next-program-localite {
+            font-weight: 700;
+            color: #0f172a;
+        }
+        
+        .next-program-lieu-mini {
+            background: rgba(249, 115, 22, 0.1);
+            color: #f97316;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .next-program-details-compact {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .next-program-time {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        
+        .next-program-type {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: #dcfce7;
+            color: #166534;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        
+        .next-program-action-btns {
+            display: flex;
+            gap: 6px;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+        
+        .next-program-map-icon {
+            background: #f1f5f9;
+            color: #334155;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+            text-decoration: none;
+        }
+        
+        .next-program-map-icon:hover {
+            background: #4299e1;
+            color: white;
+            border-color: #4299e1;
+            transform: translateY(-1px);
+        }
+        
+        .next-program-coords {
+            font-size: 0.65rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f8fafc;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px dashed #cbd5e1;
+            margin-top: 6px;
+            width: 100%;
+        }
+        
+        .coordinates-text {
+            font-family: monospace;
+            font-weight: 600;
+            color: #059669;
+        }
+        
+        .next-program-empty {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 2px dashed #e2e8f0;
+            text-align: center;
+        }
+        
+        .next-program-empty-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        
+        /* ===== BOUTONS DE NAVIGATION PRÉCÉDENT/SUIVANT ===== */
+        .next-program-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #e2e8f0;
+        }
+        
+        .next-program-nav-btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .next-program-nav-btn:hover:not(:disabled) {
+            background: #4299e1;
+            color: white;
+            border-color: #4299e1;
+        }
+        
+        .next-program-nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .next-program-counter {
+            font-size: 0.7rem;
+            color: #718096;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        /* ===== STYLE POUR RENDRE LA CARD CLICKABLE ===== */
+        .next-program-card-clickable {
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .next-program-card-clickable:hover {
+            background: #f7fafc;
+        }
+        
+        .next-program-card-clickable:hover .next-program-icon-box {
+            transform: scale(1.05);
+        }
+        
+        /* Indicateur visuel que c'est clickable */
+        .next-program-click-hint {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 0.65rem;
+            color: #a0aec0;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            background: rgba(255,255,255,0.8);
+            padding: 2px 6px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        /* ===== MODIFICATION : BOUTONS SUR UNE SEULE LIGNE EN MOBILE ===== */
+        @media (max-width: 768px) {
+            .next-program-section {
+                padding: 10px 12px;
+            }
+            
+            .next-program-card-compact {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .next-program-left {
+                width: 100%;
+            }
+            
+            .next-program-details-compact {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .next-program-action-btns {
+                margin-left: 0;
+                width: 100%;
+                justify-content: flex-end;
+            }
+            
+            .next-program-title {
+                font-size: 0.9rem;
+            }
+            
+            .next-program-badge {
+                font-size: 0.7rem;
+                padding: 3px 10px;
+            }
+            
+            /* ===== BOUTONS SUR UNE SEULE LIGNE ===== */
+            .next-program-navigation {
+                display: flex !important;
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                gap: 4px !important;
+                width: 100% !important;
+            }
+            
+            .next-program-nav-btn {
+                flex: 0 1 auto !important;
+                padding: 6px 10px !important;
+                font-size: 0.7rem !important;
+                white-space: nowrap !important;
+                min-width: 80px !important;
+                justify-content: center !important;
+            }
+            
+            .next-program-nav-btn i {
+                font-size: 0.65rem !important;
+            }
+            
+            .next-program-counter {
+                flex: 0 1 auto !important;
+                font-size: 0.65rem !important;
+                padding: 0 2px !important;
+                white-space: nowrap !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .next-program-location-line {
+                flex-wrap: wrap;
+            }
+            
+            .next-program-lieu-mini {
+                white-space: normal;
+            }
+            
+            .next-program-details-compact {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            
+            .next-program-action-btns {
+                justify-content: flex-start;
+            }
+            
+            .next-program-nav-btn {
+                min-width: 70px !important;
+                padding: 5px 6px !important;
+                font-size: 0.65rem !important;
+            }
+            
+            .next-program-nav-btn i {
+                display: inline-block !important;
+            }
+            
+            .next-program-counter {
+                font-size: 0.6rem !important;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .next-program-nav-btn {
+                min-width: 60px !important;
+                padding: 4px 4px !important;
+                font-size: 0.6rem !important;
+            }
+            
+            .next-program-nav-btn i {
+                margin-right: 2px !important;
+            }
+        }
+
+/* ===== BOUTONS DE NAVIGATION PRÉCÉDENT/SUIVANT ===== */
+.next-program-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.next-program-nav-btn {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.next-program-nav-btn:hover:not(:disabled) {
+    background: #4299e1;
+    color: white;
+    border-color: #4299e1;
+}
+
+.next-program-nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.next-program-counter {
+    font-size: 0.7rem;
+    color: #718096;
+    font-weight: 600;
+}
+
+/* ===== STYLE POUR RENDRE LA CARD CLICKABLE ===== */
+.next-program-card-clickable {
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.next-program-card-clickable:hover {
+    background: #f7fafc;
+}
+
+.next-program-card-clickable:hover .next-program-icon-box {
+    transform: scale(1.05);
+}
+
+/* Indicateur visuel que c'est clickable */
+.next-program-click-hint {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 0.65rem;
+    color: #a0aec0;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background: rgba(255,255,255,0.8);
+    padding: 2px 6px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .next-program-navigation {
+        flex-direction: column;
+        gap: 6px;
+        align-items: stretch;
+    }
+    
+    .next-program-nav-btn {
+        justify-content: center;
+    }
+}  
 /* ===== EMPÊCHER LA CARTE DE DÉBORDER ===== */
 .leaflet-container {
     width: 100% !important;
@@ -3360,61 +3867,7 @@
         padding: 6px 8px !important;
     }
 }
-/* ===== STYLE POUR BOUTON PROGRAMME LE PLUS PROCHE ===== */
-.quick-nav-btn-desktop.next-program-btn {
-    border-color: rgba(245, 158, 11, 0.4);
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.2));
-    border-width: 2px;
-    position: relative;
-    overflow: hidden;
-}
 
-.quick-nav-btn-desktop.next-program-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 30% 50%, rgba(255, 215, 0, 0.2), transparent 70%);
-    animation: pulse 2s infinite;
-}
-
-.quick-nav-btn-desktop.next-program-btn:hover {
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.3));
-    border-color: rgba(245, 158, 11, 0.6);
-}
-
-.quick-nav-btn-mobile.next-program-btn {
-    border-color: rgba(245, 158, 11, 0.4);
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.2));
-}
-
-@keyframes pulse {
-    0% { opacity: 0.6; }
-    50% { opacity: 1; }
-    100% { opacity: 0.6; }
-}
-
-#nextProgramText, #nextProgramTextMobile {
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-/* Responsive pour le texte du bouton */
-@media (max-width: 768px) {
-    #nextProgramTextMobile {
-        font-size: 0.65rem;
-        white-space: normal;
-        line-height: 1.2;
-    }
-    
-    .quick-nav-btn-mobile.next-program-btn {
-        height: auto;
-        min-height: 60px;
-        padding: 6px 3px;
-    }
-}
     </style>
 </head>
 <body>
@@ -3422,31 +3875,25 @@
         <header>
             <h1>Tournée Europe 2026</h1>
             
-           <!-- BOUTONS DE NAVIGATION RAPIDE POUR DESKTOP -->
-<div class="quick-nav-buttons-desktop">
-    <!-- 🔥 NOUVEAU : Bouton programme le plus proche -->
-    <button class="quick-nav-btn-desktop next-program-btn" onclick="showNextProgram()" id="nextProgramButton">
-        <i class="fas fa-clock"></i>
-        <span id="nextProgramText">Chargement...</span>
-    </button>
-    
-    <button class="quick-nav-btn-desktop calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
-        <i class="fas fa-calendar-alt"></i>
-        Calendrier
-    </button>
-    <button class="quick-nav-btn-desktop dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
-        <i class="fas fa-list-alt"></i>
-        Dates par pays
-    </button>
-    <button class="quick-nav-btn-desktop stats-btn" onclick="scrollToStats()">
-        <i class="fas fa-chart-bar"></i>
-        Statistiques
-    </button>
-    <button class="quick-nav-btn-desktop map-btn" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})">
-        <i class="fas fa-map-marked-alt"></i>
-        Carte itinéraire
-    </button>
-</div>
+            <!-- BOUTONS DE NAVIGATION RAPIDE POUR DESKTOP -->
+            <div class="quick-nav-buttons-desktop">
+                <button class="quick-nav-btn-desktop calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-calendar-alt"></i>
+                    Calendrier
+                </button>
+                <button class="quick-nav-btn-desktop dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-list-alt"></i>
+                    Dates par pays
+                </button>
+                <button class="quick-nav-btn-desktop stats-btn" onclick="scrollToStats()">
+                    <i class="fas fa-chart-bar"></i>
+                    Statistiques
+                </button>
+                <button class="quick-nav-btn-desktop map-btn" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-map-marked-alt"></i>
+                    Carte itinéraire
+                </button>
+            </div>
             
             <!-- DISPOSITION POUR DESKTOP -->
             <div class="header-desktop-layout">
@@ -3600,33 +4047,51 @@
                 </div>
             </div>
             
-           <!-- BOUTONS DE NAVIGATION RAPIDE POUR MOBILE -->
-<div class="quick-nav-buttons-mobile">
-    <!-- 🔥 NOUVEAU : Bouton programme le plus proche (MOBILE) -->
-    <button class="quick-nav-btn-mobile next-program-btn" onclick="showNextProgram()" id="nextProgramButtonMobile">
-        <i class="fas fa-clock"></i>
-        <span id="nextProgramTextMobile">Chargement...</span>
-    </button>
-    
-    <button class="quick-nav-btn-mobile calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
-        <i class="fas fa-calendar-alt"></i>
-        Calendrier
-    </button>
-    <button class="quick-nav-btn-mobile dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
-        <i class="fas fa-list-alt"></i>
-        Dates par pays
-    </button>
-    <button class="quick-nav-btn-mobile stats-btn" onclick="scrollToStats()">
-        <i class="fas fa-chart-bar"></i>
-        Stats
-    </button>
-    <button class="quick-nav-btn-mobile map-btn" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})">
-        <i class="fas fa-map-marked-alt"></i>
-        Carte
-    </button>
-</div>
+            <!-- BOUTONS DE NAVIGATION RAPIDE POUR MOBILE - DÉPLACÉS SOUS LA PHOTO -->
+            <div class="quick-nav-buttons-mobile">
+                <button class="quick-nav-btn-mobile calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-calendar-alt"></i>
+                    Calendrier
+                </button>
+                <button class="quick-nav-btn-mobile dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-list-alt"></i>
+                    Dates par pays
+                </button>
+                <button class="quick-nav-btn-mobile stats-btn" onclick="scrollToStats()">
+                    <i class="fas fa-chart-bar"></i>
+                    Statistiques
+                </button>
+                <button class="quick-nav-btn-mobile map-btn" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-map-marked-alt"></i>
+                    Carte
+                </button>
+            </div>
         </header>
-        
+              
+       
+      <!-- ===== SECTION PROCHAIN PROGRAMME - ULTRA COMPACT ===== -->
+<div class="next-program-section" id="nextProgramSection" style="display: none;">
+    <div class="next-program-header">
+        <div class="next-program-title">
+            <i class="fas fa-hourglass-half"></i>
+            <span id="nextProgramLabel">Prochain programme</span>
+        </div>
+        <div class="next-program-badge" id="nextProgramBadge">
+            <span id="nextProgramCountdown"></span>
+        </div>
+    </div>
+    
+    <div id="nextProgramCard"></div>
+</div>
+
+<div class="next-program-empty" id="nextProgramEmpty" style="display: none;">
+    <div class="next-program-empty-content">
+        <i class="fas fa-calendar-times" style="font-size: 1.8rem;"></i>
+        <span>Aucun programme à venir</span>
+    </div>
+</div>
+<!-- ===== FIN SECTION PROCHAIN PROGRAMME ===== -->  
+      
         <!-- CONTENU PRINCIPAL POUR MOBILE -->
         <div class="main-content">
             <div class="sections-container">
@@ -4127,15 +4592,8 @@
         
         let sheetData = [];
         let datesWithData = [];
-// ===== MODIFICATION : SI ON EST AVANT AVRIL 2026, AFFICHER AVRIL 2026, SINON MOIS COURANT =====
-let currentDate = new Date();
-const april2026 = new Date(2026, 3, 1); // 1er avril 2026
-
-if (currentDate < april2026) {
-    currentDate = april2026; // Toujours commencer en avril si on est avant
-} else {
-    currentDate.setDate(1); // Premier jour du mois courant
-}        let selectedDate = null;
+        let currentDate = new Date(2026, 3, 1); // Avril 2026
+        let selectedDate = null;
         let secretariatAccess = false;
         
         // Variables pour la navigation entre programmes
@@ -4149,6 +4607,7 @@ if (currentDate < april2026) {
         let mapRoute = null;
         let countryRoutes = []; // Stocke les routes par pays
         let interCountryRoutes = []; // Stocke les routes entre pays
+
 
         // Objet pour mapper les noms de pays aux drapeaux
         const countryFlags = {
@@ -4171,8 +4630,7 @@ if (currentDate < april2026) {
             'WALES': '#D21034',
             'MADAGASCAR': '#FC3D32'
         };
-
-        // Mapping des colonnes - AJOUT DE LA COLONNE COORDONNÉES
+        // Mapping des colonnes - AJOUT DE LA COLONNE TRAJETS
         const columnMapping = {
             'DATES': 0,
             'LOCALITE': 1,
@@ -4184,9 +4642,9 @@ if (currentDate < april2026) {
             'LOCALISATION': 7,
             'SITE': 8,
             'PAYS': 9,
-            'COORDONNÉES': 10 // NOUVELLE COLONNE POUR LES COORDONNÉES
+            'COORDONNÉES': 10,
+            'TRAJETS': 11 // NOUVELLE COLONNE POUR DISTANCE ET DURÉE
         };
-
         // Jours fériés malgaches pour 2026
         const malagasyHolidays2026 = {
             '01-01': 'Taom-baovao / Nouvel An',
@@ -5736,7 +6194,310 @@ function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
                 console.error('Erreur lors de la copie: ', err);
             });
         }
+        // ===== FONCTIONS POUR LE PROCHAIN PROGRAMME - AJOUTER ICI =====
+       function findNextProgram() {
+    if (!datesWithData || datesWithData.length === 0) {
+        showNoNextProgram();
+        return null;
+    }
 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const sortedDates = [...datesWithData].sort((a, b) => a.date - b.date);
+    let nextProgram = null;
+    let isToday = false;
+
+    for (let i = 0; i < sortedDates.length; i++) {
+        const progDate = new Date(sortedDates[i].date);
+        progDate.setHours(0, 0, 0, 0);
+        if (progDate >= today) {
+            nextProgram = sortedDates[i];
+            isToday = progDate.getTime() === today.getTime();
+            break;
+        }
+    }
+
+    if (nextProgram) {
+        const rowData = getRowData(nextProgram.rowIndex);
+        showNextProgram({ ...nextProgram, ...rowData }, isToday);
+        return nextProgram;
+    } else {
+        showNoNextProgram();
+        return null;
+    }
+}
+
+       function showNextProgram(program, isToday) {
+    const section = document.getElementById('nextProgramSection');
+    const emptySection = document.getElementById('nextProgramEmpty');
+    const card = document.getElementById('nextProgramCard');
+    const label = document.getElementById('nextProgramLabel');
+    const badge = document.getElementById('nextProgramBadge');
+    const countdown = document.getElementById('nextProgramCountdown');
+
+    if (!section || !card) return;
+
+    // ===== INITIALISER LA LISTE DE TOUS LES PROGRAMMES =====
+    if (allProgramsList.length === 0) {
+        // Créer la liste complète des programmes triés
+        const allPrograms = [];
+        datesWithData.forEach(item => {
+            const rowData = getRowData(item.rowIndex);
+            const localite = rowData.localite || '';
+            // Exclure les retours Madagascar
+            if (!localite.toUpperCase().includes('RETOUR') && 
+                !localite.toUpperCase().includes('MADAGASCAR')) {
+                allPrograms.push({
+                    ...item,
+                    ...rowData
+            });
+            }
+        });
+        
+        // Trier par date
+        allProgramsList = allPrograms.sort((a, b) => a.date - b.date);
+    }
+    
+    // Trouver l'index du programme actuel dans la liste complète
+    currentProgramIndex = allProgramsList.findIndex(p => 
+        p.date.getTime() === program.date.getTime() && 
+        p.localite === program.localite &&
+        p.lieu === program.lieu
+    );
+    
+    // Si pas trouvé, prendre le premier
+    if (currentProgramIndex === -1) currentProgramIndex = 0;
+
+    section.style.display = 'block';
+    emptySection.style.display = 'none';
+
+    // 🎯 Badge dynamique
+    if (isToday) {
+        label.innerHTML = '<i class="fas fa-sun"></i> Aujourd\'hui';
+        badge.style.background = 'linear-gradient(135deg, #48bb78, #38a169)';
+        badge.style.boxShadow = '0 2px 6px rgba(72, 187, 120, 0.4)';
+        countdown.textContent = '🔴 Maintenant';
+    } else {
+        label.innerHTML = '<i class="fas fa-hourglass-half"></i> Prochain';
+        badge.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+        const today = new Date(); today.setHours(0,0,0,0);
+        const progDate = new Date(program.date); progDate.setHours(0,0,0,0);
+        const diff = Math.ceil((progDate - today) / (1000*3600*24));
+        countdown.textContent = diff === 1 ? 'Demain' : `J-${diff}`;
+    }
+
+    // 📦 Données
+    const flagClass = countryFlags[program.pays.toUpperCase()] || 'flag-france';
+    const dateFormatted = formatDateForDisplay(program.date);
+    const localite = program.localite || '—';
+    const lieu = program.lieu || 'Lieu non spécifié';
+    const heures = program.heures || 'Horaire non spécifié';
+    const programmeType = program.programme || 'Concert';
+
+    // 📍 Coordonnées
+    let lat = null, lng = null, coordText = '', googleUrl = '#', wazeUrl = '#', osmUrl = '#';
+    if (program.coordonnees?.trim()) {
+        const coords = extractCoordinatesFromCell(program.coordonnees);
+        if (coords) {
+            [lat, lng] = coords;
+            googleUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+            osmUrl = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=15/${lat}/${lng}`;
+            wazeUrl = `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`;
+            coordText = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+        }
+    }
+
+    // 🧱 Construction HTML ultra compact + CLICKABLE
+    let html = `
+        <div class="next-program-card-compact next-program-card-clickable" onclick="showProgramDetails(${currentProgramIndex})">
+            <div class="next-program-click-hint">
+                <i class="fas fa-info-circle"></i> Détails
+            </div>
+            
+            <div class="next-program-left">
+                <div class="next-program-icon-box">
+                    <i class="fas ${isToday ? 'fa-music' : 'fa-hourglass-half'}"></i>
+                </div>
+                <div class="next-program-info">
+                    <div class="next-program-date-text">
+                        📅 ${dateFormatted}
+                    </div>
+                    <div class="next-program-location-line">
+                        <div class="next-program-flag-mini ${flagClass}"></div>
+                        <span class="next-program-localite">${localite}</span>
+                        <span class="next-program-lieu-mini">📍 ${lieu.substring(0, 22)}${lieu.length > 22 ? '…' : ''}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="next-program-details-compact">
+                <div class="next-program-time">
+                    <i class="fas fa-clock"></i> ${heures}
+                </div>
+                <div class="next-program-type">
+                    <i class="fas fa-music"></i> ${programmeType.substring(0, 15)}${programmeType.length > 15 ? '…' : ''}
+                </div>
+            </div>
+            
+            <div class="next-program-action-btns" onclick="event.stopPropagation();">
+    `;
+
+    if (lat && lng) {
+        html += `
+                <a href="${googleUrl}" target="_blank" class="next-program-map-icon" title="Google Maps" onclick="event.stopPropagation();">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="${wazeUrl}" target="_blank" class="next-program-map-icon" title="Waze" onclick="event.stopPropagation();">
+                    <i class="fas fa-car"></i>
+                </a>
+                <a href="${osmUrl}" target="_blank" class="next-program-map-icon" title="OpenStreetMap" onclick="event.stopPropagation();">
+                    <i class="fas fa-map"></i>
+                </a>
+        `;
+    } else if (program.localisation) {
+        const urlMatch = program.localisation.match(/(https?:\/\/[^\s<]+)/);
+        const firstUrl = urlMatch ? urlMatch[0] : '#';
+        html += `
+                <a href="${firstUrl}" target="_blank" class="next-program-map-icon" title="Ouvrir le lien" onclick="event.stopPropagation();">
+                    <i class="fas fa-link"></i>
+                </a>
+        `;
+    }
+
+    html += `
+                <button class="next-program-map-icon" onclick="event.stopPropagation(); copyToClipboard('${coordText || program.localisation || ''}')" title="Copier">
+                    📋
+                </button>
+            </div>
+    `;
+
+    if (coordText) {
+        html += `
+            <div class="next-program-coords" onclick="event.stopPropagation();">
+                <i class="fas fa-map-pin" style="color: #f59e0b;"></i>
+                <span class="coordinates-text">${coordText}</span>
+                <span style="margin-left: auto; color: #64748b; font-size: 0.6rem;">⬤ précis</span>
+            </div>
+        `;
+    }
+
+    html += `</div>`; // fermeture card
+    
+    // ===== AJOUT DES BOUTONS PRÉCÉDENT/SUIVANT =====
+    html += `
+        <div class="next-program-navigation">
+            <button class="next-program-nav-btn" onclick="navigateNextProgram(-1)" ${currentProgramIndex === 0 ? 'disabled' : ''}>
+    <i class="fas fa-chevron-left"></i> Précédent
+</button>
+<span class="next-program-counter">
+    ${currentProgramIndex + 1} / ${allProgramsList.length}
+</span>
+<button class="next-program-nav-btn" onclick="navigateNextProgram(1)" ${currentProgramIndex === allProgramsList.length - 1 ? 'disabled' : ''}>
+    Suivant <i class="fas fa-chevron-right"></i>
+</button>
+        </div>
+    `;
+    
+    card.innerHTML = html;
+}
+// ===== FONCTION DE NAVIGATION PRÉCÉDENT/SUIVANT POUR LA SECTION PROCHAIN PROGRAMME =====
+function navigateNextProgram(direction) {
+    if (allProgramsList.length === 0) return;
+    
+    const newIndex = currentProgramIndex + direction;
+    
+    // Vérifier les limites
+    if (newIndex < 0 || newIndex >= allProgramsList.length) return;
+    
+    // Mettre à jour l'index
+    currentProgramIndex = newIndex;
+    
+    // Afficher le programme à cet index
+    const program = allProgramsList[currentProgramIndex];
+    
+    // Vérifier si c'est aujourd'hui
+    const today = new Date(); today.setHours(0,0,0,0);
+    const progDate = new Date(program.date); progDate.setHours(0,0,0,0);
+    const isToday = progDate.getTime() === today.getTime();
+    
+    showNextProgram(program, isToday);
+}
+// ===== FONCTION POUR AFFICHER LES DÉTAILS DU PROGRAMME =====
+function showProgramDetails(index) {
+    if (!allProgramsList || allProgramsList.length === 0 || index === undefined) return;
+    
+    const program = allProgramsList[index];
+    if (!program) return;
+    
+    // Ouvrir le modal de détail de date
+    showDateModal(program.date, program.localite, program.pays);
+}
+
+// ===== FONCTION POUR METTRE À JOUR LA LISTE DES PROGRAMMES =====
+function updateProgramsList() {
+    allProgramsList = [];
+    
+    datesWithData.forEach(item => {
+        const rowData = getRowData(item.rowIndex);
+        const localite = rowData.localite || '';
+        // Exclure les retours Madagascar
+        if (!localite.toUpperCase().includes('RETOUR') && 
+            !localite.toUpperCase().includes('MADAGASCAR')) {
+            allProgramsList.push({
+                ...item,
+                ...rowData
+            });
+        }
+    });
+    
+    // Trier par date
+    allProgramsList.sort((a, b) => a.date - b.date);
+}
+
+// ===== MODIFIER LA FONCTION findNextProgram =====
+function findNextProgram() {
+    if (!datesWithData || datesWithData.length === 0) {
+        showNoNextProgram();
+        return null;
+    }
+
+    // Mettre à jour la liste complète des programmes
+    updateProgramsList();
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    let nextProgram = null;
+    let isToday = false;
+
+    for (let i = 0; i < allProgramsList.length; i++) {
+        const progDate = new Date(allProgramsList[i].date);
+        progDate.setHours(0, 0, 0, 0);
+        if (progDate >= today) {
+            nextProgram = allProgramsList[i];
+            isToday = progDate.getTime() === today.getTime();
+            break;
+        }
+    }
+
+    if (nextProgram) {
+        showNextProgram(nextProgram, isToday);
+        return nextProgram;
+    } else {
+        showNoNextProgram();
+        return null;
+    }
+}
+        function showNoNextProgram() {
+            const section = document.getElementById('nextProgramSection');
+            const emptySection = document.getElementById('nextProgramEmpty');
+            
+            if (section) section.style.display = 'none';
+            if (emptySection) emptySection.style.display = 'block';
+        }
+
+      
         // Initialisation et autres fonctions existantes...
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('prevMonth').addEventListener('click', prevMonth);
@@ -6147,12 +6908,13 @@ window.addEventListener('resize', function() {
             }
         }
 
-        function displayDateDetailsCompact(container, programData) {
+                function displayDateDetailsCompact(container, programData) {
             container.innerHTML = '';
             
             const detailsToShow = [
                 { label: 'Responsable', key: 'adresse', emoji: '👤' },
                 { label: 'Hébergement', key: 'hebergement', emoji: '🏠' },
+                { label: 'Trajet', key: 'trajets', emoji: '🚗', icon: '⏱️' }, // NOUVEAU
                 { label: 'Localisation', key: 'localisation', emoji: '🗺️' },
                 { label: 'Site', key: 'site', emoji: '🌐' }
             ];
@@ -6182,22 +6944,42 @@ window.addEventListener('resize', function() {
                     const valueDiv = document.createElement('span');
                     valueDiv.className = 'date-detail-value-compact green-text';
                     
-                    // ===== MODIFICATION AMÉLIORÉE : APPLIQUER L'AFFICHAGE AVEC APERÇU DE CARTE =====
-                    if (detail.key === 'localisation') {
-                        // Passer également les coordonnées si disponibles
+                    // ===== TRAITEMENT SPÉCIAL POUR LA COLONNE TRAJETS =====
+                    if (detail.key === 'trajets') {
+                        if (value && value.trim() !== '') {
+                            let displayValue = value;
+                            
+                            // Ajouter des emojis selon le contenu
+                            if (value.toLowerCase().includes('km')) {
+                                displayValue = '🛣️ ' + value;
+                            }
+                            if (value.toLowerCase().includes('h') || value.toLowerCase().includes('min')) {
+                                displayValue = displayValue.replace(/h|min/, match => 
+                                    match === 'h' ? 'h ⏱️' : 'min ⏱️'
+                                );
+                            }
+                            
+                            valueDiv.innerHTML = displayValue;
+                        }
+                    }
+                    // ===== TRAITEMENT SPÉCIAL POUR LA COLONNE LOCALISATION =====
+                    else if (detail.key === 'localisation') {
                         const coordText = programData.coordonnees || '';
                         const locationName = programData.localite || programData.lieu || 'Localisation';
                         valueDiv.innerHTML = formatLocationWithMapPreview(value, coordText, locationName);
-                    } else if (detail.key === 'site') {
+                    } 
+                    else if (detail.key === 'site') {
                         valueDiv.innerHTML = formatLinkWithCopy(value);
-                    } else if (detail.key === 'hebergement') {
+                    } 
+                    else if (detail.key === 'hebergement') {
                         const urlRegex = /(https?:\/\/[^\s<]+)/g;
                         if (urlRegex.test(value)) {
                             valueDiv.innerHTML = formatLinkWithCopy(value);
                         } else {
                             valueDiv.textContent = value;
                         }
-                    } else {
+                    } 
+                    else {
                         valueDiv.textContent = value;
                     }
                     
@@ -6353,10 +7135,10 @@ window.addEventListener('resize', function() {
                 programme: row[columnMapping['PROGRAMME']] || 'Concert',
                 localisation: row[columnMapping['LOCALISATION']] || '',
                 site: row[columnMapping['SITE']] || '',
-                coordonnees: row[columnMapping['COORDONNÉES']] || '' // NOUVELLE COLONNE
+                coordonnees: row[columnMapping['COORDONNÉES']] || '',
+                trajets: row[columnMapping['TRAJETS']] || '' // NOUVELLE COLONNE TRAJETS
             };
-        }
-        
+        }        
         function closeDateModal() {
             const modal = document.getElementById('dateModal');
             const modalContent = document.getElementById('dateModalContent');
@@ -7140,9 +7922,26 @@ window.addEventListener('resize', function() {
                             programmeLine.appendChild(programmeDiv);
                         }
                         
-                        programCard.appendChild(cardHeader);
+                                               programCard.appendChild(cardHeader);
                         programCard.appendChild(locationLine);
                         programCard.appendChild(programmeLine);
+                        
+                        // Ajouter les infos trajet si disponibles
+                        if (dateItem.trajets && dateItem.trajets.trim() !== '') {
+                            const trajetLine = document.createElement('div');
+                            trajetLine.className = 'date-details-line-compact';
+                            trajetLine.style.marginTop = '4px';
+                            trajetLine.style.fontSize = '0.65rem';
+                            trajetLine.style.color = '#7c3aed';
+                            
+                            let trajetText = dateItem.trajets;
+                            // Ajouter l'emoji voiture
+                            trajetText = '🚗 ' + trajetText;
+                            
+                            trajetLine.innerHTML = `<span class="detail-emoji-small">🚗</span> ${trajetText}`;
+                            programCard.appendChild(trajetLine);
+                        }
+                        
                         programCardsGrid.appendChild(programCard);
                     });
                     
@@ -7491,7 +8290,8 @@ window.addEventListener('resize', function() {
                 renderCalendar();
                 updateCalendarStats();
                 updateMapWithTourData();
- 		updateNextProgramButton();
+ findNextProgram();
+updateProgramsList();
 
 // Ajouter la légende initiale
 setTimeout(() => {
@@ -7548,21 +8348,14 @@ setTimeout(() => {
         }
         
         function extractDatesWithData() {
-            datesWithData = [];
-            
-           sheetData.forEach((row, index) => {
-    const dateStr = row[columnMapping['DATES']] || '';
-    if (dateStr && dateStr.trim() !== '') {
-        const date = parseDate(dateStr);
-        if (date) {
-            // ===== OPTIONNEL : Vérifier si on a des coordonnées =====
-            // Récupérer les données de la ligne pour vérifier les coordonnées
-            const rowData = {
-                coordonnees: row[columnMapping['COORDONNÉES']] || ''
-            };
-            
-            // Si vous voulez exclure aussi du calendrier : décommentez la ligne suivante
-            // if (rowData.coordonnees && rowData.coordonnees.trim() !== '') {
+    datesWithData = [];
+    
+    sheetData.forEach((row, index) => {
+        const dateStr = row[columnMapping['DATES']] || '';
+        if (dateStr && dateStr.trim() !== '') {
+            const date = parseDate(dateStr);
+            if (date) {
+                // ===== TOUS LES PROGRAMMES SONT INCLUS =====
                 datesWithData.push({
                     date: date,
                     dateStr: dateStr,
@@ -7570,16 +8363,13 @@ setTimeout(() => {
                     pays: row[columnMapping['PAYS']] || '',
                     rowIndex: index
                 });
-            // }
-            // ===== FIN DE L'OPTION =====
+            }
         }
-    }
-});
-            
-            datesWithData.sort((a, b) => a.date - b.date);
-            
-            generateRecapByCountry();
-        }
+    });
+    
+    datesWithData.sort((a, b) => a.date - b.date);
+    generateRecapByCountry();
+}
         
         function parseDate(dateStr) {
             const formats = [
@@ -7805,220 +8595,6 @@ function openPopupWithBetterPosition(marker) {
         }
     }, 100);
 }
-// ===== NOUVELLE FONCTION : TROUVER LE PROCHAIN PROGRAMME =====
-function findNextProgram() {
-    if (!datesWithData || datesWithData.length === 0) {
-        return null;
-    }
-    
-    const now = new Date();
-    now.setHours(0, 0, 0, 0); // Minuit aujourd'hui
-    
-    // Filtrer les programmes à venir (date >= aujourd'hui)
-    const upcomingPrograms = datesWithData.filter(item => {
-        const itemDate = new Date(item.date);
-        itemDate.setHours(0, 0, 0, 0);
-        
-        // Ignorer Madagascar et les retours
-        const localite = sheetData[item.rowIndex] ? 
-            sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
-        
-        if (localite.toUpperCase().includes('RETOUR MADAGASCAR') || 
-            localite.toUpperCase().includes('MADAGASCAR')) {
-            return false;
-        }
-        
-        return itemDate >= now;
-    });
-    
-    if (upcomingPrograms.length === 0) {
-        return null;
-    }
-    
-    // Trier par date
-    upcomingPrograms.sort((a, b) => a.date - b.date);
-    
-    // Prendre le premier (le plus proche)
-    const nextProgram = upcomingPrograms[0];
-    
-    // Récupérer les détails
-    const rowData = getRowData(nextProgram.rowIndex);
-    
-    return {
-        ...nextProgram,
-        ...rowData
-    };
-}
-
-// ===== NOUVELLE FONCTION : METTRE À JOUR LE TEXTE DU BOUTON =====
-function updateNextProgramButton() {
-    const nextProgram = findNextProgram();
-    const nextProgramText = document.getElementById('nextProgramText');
-    const nextProgramTextMobile = document.getElementById('nextProgramTextMobile');
-    const nextProgramBtn = document.querySelector('.quick-nav-btn-desktop.next-program-btn');
-    const nextProgramBtnMobile = document.querySelector('.quick-nav-btn-mobile.next-program-btn');
-    
-    if (!nextProgram) {
-        // Aucun programme à venir
-        const textDesktop = '🎵 Aucun programme';
-        const textMobile = '🎵 Aucun';
-        
-        if (nextProgramText) nextProgramText.textContent = textDesktop;
-        if (nextProgramTextMobile) nextProgramTextMobile.textContent = textMobile;
-        
-        if (nextProgramBtn) nextProgramBtn.title = 'Aucun programme à venir';
-        if (nextProgramBtnMobile) nextProgramBtnMobile.title = 'Aucun programme à venir';
-        
-        return;
-    }
-    
-    // Calculer le nombre de jours restants
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    const programDate = new Date(nextProgram.date);
-    programDate.setHours(0, 0, 0, 0);
-    
-    const diffTime = programDate - today;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    // Formater la date
-    const dateStr = formatDateShort(nextProgram.date);
-    
-    // Déterminer le texte selon le délai
-    let textDesktop = '';
-    let textMobile = '';
-    
-    if (diffDays === 0) {
-        textDesktop = `🔴 AUJOURD'HUI - ${nextProgram.localite}`;
-        textMobile = `🔴 Aujourd'hui`;
-    } else if (diffDays === 1) {
-        textDesktop = `⏰ DEMAIN - ${nextProgram.localite}`;
-        textMobile = `⏰ Demain`;
-    } else if (diffDays <= 7) {
-        textDesktop = `📅 Dans ${diffDays} jours - ${nextProgram.localite}`;
-        textMobile = `📅 J+${diffDays}`;
-    } else {
-        textDesktop = `📆 ${dateStr} - ${nextProgram.localite}`;
-        textMobile = `📆 ${dateStr}`;
-    }
-    
-    // Tronquer pour mobile si trop long
-    if (nextProgram.localite && nextProgram.localite.length > 15) {
-        const shortLocation = nextProgram.localite.substring(0, 12) + '…';
-        textMobile = `📆 ${dateStr} ${shortLocation}`;
-    }
-    
-    if (nextProgramText) nextProgramText.textContent = textDesktop;
-    if (nextProgramTextMobile) nextProgramTextMobile.textContent = textMobile;
-    
-    const title = `${nextProgram.localite} - ${nextProgram.pays}\n${formatDateForDisplay(nextProgram.date)}\n${nextProgram.programme || 'Concert'}`;
-    
-    if (nextProgramBtn) {
-        nextProgramBtn.title = title;
-        // Ajouter un effet d'urgence si c'est aujourd'hui ou demain
-        if (diffDays <= 1) {
-            nextProgramBtn.style.animation = 'pulse 1.5s infinite';
-        } else {
-            nextProgramBtn.style.animation = '';
-        }
-    }
-    
-    if (nextProgramBtnMobile) {
-        nextProgramBtnMobile.title = title;
-        if (diffDays <= 1) {
-            nextProgramBtnMobile.style.animation = 'pulse 1.5s infinite';
-        } else {
-            nextProgramBtnMobile.style.animation = '';
-        }
-    }
-}
-
-// ===== NOUVELLE FONCTION : AFFICHER LE PROCHAIN PROGRAMME =====
-function showNextProgram() {
-    const nextProgram = findNextProgram();
-    
-    if (!nextProgram) {
-        alert('🎵 Aucun programme à venir pour le moment.');
-        return;
-    }
-    
-    // Ouvrir le modal avec les détails du programme
-    showDateModal(nextProgram.date, nextProgram.localite, nextProgram.pays);
-    
-    // Faire défiler jusqu'au calendrier
-    document.querySelector('.calendar-section').scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-    });
-    
-    // Mettre en surbrillance la date dans le calendrier
-    selectDate(nextProgram.date);
-}
-
-// ===== MINUTEUR AUTOMATIQUE - RAFRAÎCHIR LE BOUTON PROGRAMME =====
-// Met à jour automatiquement le bouton "Programme le plus proche"
-
-function initAutoRefresh() {
-    // 1. Mise à jour immédiate au chargement
-    if (typeof updateNextProgramButton === 'function') {
-        updateNextProgramButton();
-        console.log('🕒 Bouton programme - Mise à jour initiale');
-    }
-    
-    // 2. Mise à jour toutes les 30 minutes (1800000 ms)
-    //    Changement toutes les heures si tu préfères : 3600000
-    setInterval(function() {
-        if (typeof updateNextProgramButton === 'function') {
-            updateNextProgramButton();
-            console.log('🕒 Bouton programme - Mise à jour automatique');
-        }
-    }, 1800000); // 30 minutes
-    
-    // 3. Mise à jour automatique à minuit (changement de jour)
-    const now = new Date();
-    const tomorrow = new Date(now);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    tomorrow.setHours(0, 0, 0, 0);
-    
-    const timeUntilMidnight = tomorrow - now;
-    
-    setTimeout(function() {
-        if (typeof updateNextProgramButton === 'function') {
-            updateNextProgramButton();
-            console.log('🌙 Bouton programme - Nouveau jour détecté');
-        }
-        
-        // Continue les mises à jour toutes les 30 minutes
-        setInterval(function() {
-            if (typeof updateNextProgramButton === 'function') {
-                updateNextProgramButton();
-            }
-        }, 1800000);
-        
-    }, timeUntilMidnight);
-    
-    // 4. Mise à jour quand l'utilisateur revient sur l'onglet
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden && typeof updateNextProgramButton === 'function') {
-            updateNextProgramButton();
-            console.log('👁️ Bouton programme - Onglet réactivé');
-        }
-    });
-    
-    // 5. Mise à jour quand la page reçoit le focus
-    window.addEventListener('focus', function() {
-        if (typeof updateNextProgramButton === 'function') {
-            updateNextProgramButton();
-            console.log('✨ Bouton programme - Page réactivée');
-        }
-    });
-}
-
-// ===== DÉMARRER LE MINUTEUR AU CHARGEMENT =====
-// Cette ligne ACTIVE tout le système
-initAutoRefresh();
-
     </script>
 </body>
 </html>
