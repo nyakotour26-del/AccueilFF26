@@ -3884,6 +3884,114 @@
         padding: 6px 8px !important;
     }
 }
+/* ===== BULLE ULTRA COMPACTE - RÉDUCTION GLOBALE ===== */
+.date-modal-content {
+    font-size: 0.75rem !important;
+}
+
+.date-modal-content .modal-date-title {
+    font-size: 0.9rem !important;
+}
+
+.date-modal-content .modal-location-info {
+    font-size: 0.8rem !important;
+    padding: 4px 6px !important;
+    margin-bottom: 2px !important;
+}
+
+.date-modal-content .modal-flag-small {
+    width: 18px !important;
+    height: 12px !important;
+}
+
+/* Réduire les détails */
+.date-details-compact {
+    padding: 6px !important;
+    margin-top: 4px !important;
+}
+
+.date-details-title-compact {
+    font-size: 0.75rem !important;
+    padding: 4px 6px !important;
+    margin: -6px -6px 4px -6px !important;
+}
+
+.date-detail-item-compact {
+    gap: 4px !important;
+    padding: 2px 0 !important;
+}
+
+.date-detail-label-compact {
+    font-size: 0.65rem !important;
+    min-width: 70px !important;
+}
+
+.date-detail-value-compact {
+    font-size: 0.65rem !important;
+}
+
+/* Réduire la navigation */
+.date-navigation-slim {
+    padding: 4px 6px !important;
+    margin: 0 0 6px 0 !important;
+}
+
+.program-counter-slim {
+    font-size: 0.7rem !important;
+}
+
+.nav-arrow-slim {
+    width: 22px !important;
+    height: 22px !important;
+    font-size: 0.75rem !important;
+}
+
+/* Réduire les cartes de détails */
+.program-card, .trajet-card, .responsable-card, .hebergement-card {
+    padding: 6px 8px !important;
+    margin-bottom: 6px !important;
+}
+
+.program-card .program-value {
+    font-size: 0.85rem !important;
+    padding-left: 16px !important;
+}
+
+.trajet-card .trajet-value {
+    font-size: 0.8rem !important;
+    padding-left: 16px !important;
+}
+
+/* Boutons d'action */
+.date-action-btn {
+    padding: 6px 4px !important;
+    height: 50px !important;
+    font-size: 0.65rem !important;
+}
+
+.date-action-emoji {
+    font-size: 0.9rem !important;
+}
+
+/* Section secrétariat */
+.secretariat-access-section {
+    padding: 8px !important;
+    margin-top: 8px !important;
+}
+
+.secretariat-access-title {
+    font-size: 0.7rem !important;
+}
+
+.modal-password-input input {
+    padding: 4px 8px !important;
+    font-size: 0.7rem !important;
+}
+
+.modal-password-input button {
+    padding: 4px 8px !important;
+    font-size: 0.7rem !important;
+}
 
     </style>
 </head>
@@ -6032,7 +6140,7 @@ function addLegendStyles() {
             });
         }
 
-// ===== NOUVELLE FONCTION : FORMATER LA LOCALISATION AVEC APERÇU DE CARTE =====
+// ===== FONCTION : FORMATER LA LOCALISATION AVEC APERÇU DE CARTE =====
 function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
     if (!text) return '';
     
@@ -6043,21 +6151,37 @@ function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
     let hasMapPreview = false;
     let mapPreviewHtml = '';
     
-    // Si on a des coordonnées exactes, créer un aperçu de carte
+    // ===== CAS 1 : COORDONNÉES EXACTES =====
     if (coordText && coordText.trim() !== '') {
         const coords = extractCoordinatesFromCell(coordText);
         if (coords) {
             const [lat, lng] = coords;
-            
-            // 🔥 NOUVEAU : Créer le lien Google Maps
             const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
             
             mapPreviewHtml = `
                 <div class="map-preview-container" id="${'map-' + Math.random().toString(36).substr(2, 9)}">
-                    <div style="margin-bottom: 8px; font-size: 0.75rem; color: #4a5568; font-weight: 600;">
+                    <div style="margin-bottom: 6px; font-size: 0.7rem; color: #4a5568; font-weight: 600;">
                         <i class="fas fa-map-pin"></i> Localisation exacte:
                     </div>
-                    <div style="position: relative; width: 100%; height: 200px; background: #f0f9ff; border-radius: 8px; overflow: hidden; border: 2px solid #e2e8f0; margin-bottom: 8px;">
+                    
+                    <!-- 🔥 BOUTONS AU-DESSUS DE LA CARTE -->
+                    <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
+                        <a href="https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=15/${lat}/${lng}" target="_blank" style="flex: 1; min-width: 70px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 5px; background: #4299e1; color: white; border: none; border-radius: 5px; font-size: 0.65rem; font-weight: 600; text-decoration: none;">
+                            <i class="fas fa-map"></i> OSM
+                        </a>
+                        <a href="${googleMapsUrl}" target="_blank" style="flex: 1; min-width: 70px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 5px; background: #ea4335; color: white; border: none; border-radius: 5px; font-size: 0.65rem; font-weight: 600; text-decoration: none;">
+                            <i class="fab fa-google"></i> Google
+                        </a>
+                        <a href="https://waze.com/ul?ll=${lat},${lng}&navigate=yes" target="_blank" style="flex: 1; min-width: 70px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 5px; background: #33CCFF; color: white; border: none; border-radius: 5px; font-size: 0.65rem; font-weight: 600; text-decoration: none;">
+                            <i class="fas fa-car"></i> Waze
+                        </a>
+                        <button onclick="copyToClipboard('${coordText}')" style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 8px; background: #718096; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 0.65rem; font-weight: 600;">
+                            <i class="fas fa-copy"></i> 📋
+                        </button>
+                    </div>
+                    
+                    <!-- APERÇU CARTE -->
+                    <div style="position: relative; width: 100%; height: 160px; background: #f0f9ff; border-radius: 6px; overflow: hidden; border: 1px solid #e2e8f0; margin-bottom: 5px;">
                         <iframe 
                             width="100%" 
                             height="100%" 
@@ -6070,35 +6194,8 @@ function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
                         </iframe>
                     </div>
                     
-                  <!-- 🔥 4 BOUTONS MAINTENANT -->
-<div style="display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap;">
-    <!-- Bouton 1 : OpenStreetMap -->
-    <a href="https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=15/${lat}/${lng}" target="_blank" style="flex: 1; min-width: 100px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 6px; background: #4299e1; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600; text-decoration: none;">
-        <i class="fas fa-map"></i>
-        OSM
-    </a>
-    
-    <!-- Bouton 2 : Google Maps -->
-    <a href="${googleMapsUrl}" target="_blank" style="flex: 1; min-width: 100px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 6px; background: #ea4335; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600; text-decoration: none;">
-        <i class="fab fa-google"></i>
-        Google
-    </a>
-    
-    <!-- 🔥 NOUVEAU BOUTON 3 : Waze -->
-    <a href="https://waze.com/ul?ll=${lat},${lng}&navigate=yes" target="_blank" style="flex: 1; min-width: 100px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 6px; background: #33CCFF; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600; text-decoration: none;">
-        <i class="fas fa-car"></i>
-        Waze
-    </a>
-    
-    <!-- Bouton 4 : Copier -->
-    <button onclick="copyToClipboard('${coordText}')" style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 10px; background: #718096; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600;">
-        <i class="fas fa-copy"></i>
-        📋
-    </button>
-</div>
-                    
-                    <div style="margin-top: 6px; font-size: 0.65rem; color: #718096; text-align: center;">
-                        <i class="fas fa-info-circle"></i> Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}
+                    <div style="font-size: 0.6rem; color: #718096; text-align: center;">
+                        <i class="fas fa-info-circle"></i> ${lat.toFixed(5)}, ${lng.toFixed(5)}
                     </div>
                 </div>
             `;
@@ -6106,85 +6203,45 @@ function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
         }
     }
     
-    // Si on a une URL Google Maps mais pas de coordonnées exactes
-    if (urls && urls.length > 0 && !hasMapPreview) {
+    // ===== CAS 2 : URL GOOGLE MAPS SANS COORDONNÉES =====
+    if (!hasMapPreview && urls && urls.length > 0) {
         const url = urls[0];
         mapPreviewHtml = `
             <div class="map-preview-container">
-                <div style="margin-bottom: 8px; font-size: 0.75rem; color: #4a5568; font-weight: 600;">
+                <div style="margin-bottom: 6px; font-size: 0.7rem; color: #4a5568; font-weight: 600;">
                     <i class="fas fa-link"></i> Lien de localisation:
                 </div>
-                <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                    <div class="link-with-copy" style="display: flex; align-items: center; gap: 4px; margin-bottom: 8px;">
-                        <a href="${url}" class="link-blue" target="_blank" style="flex: 1; word-break: break-all;">${url}</a>
-                        <button class="copy-link-btn" onclick="copyToClipboard('${url}')" title="Copier le lien">📋</button>
+                
+                <!-- 🔥 BOUTONS AU-DESSUS -->
+                <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
+                    <a href="${url}" target="_blank" style="flex: 1; min-width: 80px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 5px; background: #ea4335; color: white; border: none; border-radius: 5px; font-size: 0.65rem; font-weight: 600; text-decoration: none;">
+                        <i class="fab fa-google"></i> Google
+                    </a>
+                    <a href="https://waze.com/ul?q=${encodeURIComponent(url)}" target="_blank" style="flex: 1; min-width: 80px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 5px; background: #33CCFF; color: white; border: none; border-radius: 5px; font-size: 0.65rem; font-weight: 600; text-decoration: none;">
+                        <i class="fas fa-car"></i> Waze
+                    </a>
+                    <button onclick="copyToClipboard('${url}')" style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 8px; background: #718096; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 0.65rem; font-weight: 600;">
+                        <i class="fas fa-copy"></i> 📋
+                    </button>
+                </div>
+                
+                <!-- LIEN DIRECT -->
+                <div style="background: #f8fafc; padding: 8px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                    <div class="link-with-copy" style="display: flex; align-items: center; gap: 4px;">
+                        <a href="${url}" class="link-blue" target="_blank" style="flex: 1; word-break: break-all; font-size: 0.65rem;">${url.length > 40 ? url.substring(0, 40) + '...' : url}</a>
                     </div>
-                    
-                    <!-- 🔥 3 BOUTONS AVEC WAZE -->
-<div style="display: flex; gap: 6px; flex-wrap: wrap;">
-    <a href="${url}" target="_blank" style="flex: 1; min-width: 100px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 6px; background: #ea4335; color: white; border: none; border-radius: 6px; font-size: 0.7rem; font-weight: 600; text-decoration: none;">
-        <i class="fab fa-google"></i>
-        Google
-    </a>
-    
-    <!-- 🔥 BOUTON WAZE (ouvre l'app si installée) -->
-    <a href="https://waze.com/ul?q=${encodeURIComponent(url)}" target="_blank" style="flex: 1; min-width: 100px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 6px; background: #33CCFF; color: white; border: none; border-radius: 6px; font-size: 0.7rem; font-weight: 600; text-decoration: none;">
-        <i class="fas fa-car"></i>
-        Waze
-    </a>
-    
-    <button onclick="copyToClipboard('${url}')" style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 8px 10px; background: #718096; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600;">
-        <i class="fas fa-copy"></i>
-        📋
-    </button>
-</div>
                 </div>
             </div>
         `;
         hasMapPreview = true;
     }
     
-    let resultHtml = '';
-    
-    // Ajouter le lien si présent
-    if (urls && urls.length > 0) {
-        const url = urls[0];
-        resultHtml += `
-            <div style="margin-bottom: 8px;">
-                <div style="font-size: 0.75rem; color: #4a5568; font-weight: 600; margin-bottom: 4px;">
-                    <i class="fas fa-link"></i> Lien:
-                </div>
-                <div class="link-with-copy">
-                    <a href="${url}" class="link-blue" target="_blank">${url.length > 50 ? url.substring(0, 50) + '...' : url}</a>
-                    <button class="copy-link-btn" onclick="copyToClipboard('${url}')" title="Copier le lien">📋</button>
-                </div>
-            </div>
-        `;
+    // ===== CAS 3 : TEXTE SEULEMENT =====
+    if (!hasMapPreview) {
+        return `<div style="font-size: 0.75rem; color: #4a5568;">${text}</div>`;
     }
     
-    // Ajouter les coordonnées si disponibles
-    if (coordText && coordText.trim() !== '' && !hasMapPreview) {
-        resultHtml += `
-            <div style="margin-bottom: 8px;">
-                <div style="font-size: 0.75rem; color: #4a5568; font-weight: 600; margin-bottom: 4px;">
-                    <i class="fas fa-map-pin"></i> Coordonnées:
-                </div>
-                <div style="font-size: 0.7rem; color: #059669; font-weight: 600; background: #f0fdf4; padding: 8px; border-radius: 6px; border-left: 3px solid #10b981;">
-                    ${coordText}
-                    <button onclick="copyToClipboard('${coordText}')" style="margin-left: 8px; background: none; border: none; color: #059669; cursor: pointer;" title="Copier">
-                        📋
-                    </button>
-                </div>
-            </div>
-        `;
-    }
-    
-    // Ajouter l'aperçu de carte
-    if (hasMapPreview) {
-        resultHtml += mapPreviewHtml;
-    }
-    
-    return resultHtml || text;
+    return mapPreviewHtml;
 }
 
 
@@ -6879,53 +6936,94 @@ window.addEventListener('resize', function() {
             displayDateDetailsCompact(dateDetailsGrid, programData);
         }
 
-        // ===== NOUVELLE FONCTION : AFFICHAGE DES INFOS PROGRAMME COMPACT =====
-        function displayProgramInfoCompact(container, programData) {
-            container.innerHTML = '';
-            
-            // Créer une ligne pour lieu et heure
-            const lineContainer = document.createElement('div');
-            lineContainer.className = 'program-info-line';
-            
-            if (programData.lieu && programData.lieu.trim() !== '') {
-                const lieuDiv = document.createElement('div');
-                lieuDiv.className = 'program-info-item';
-                lieuDiv.innerHTML = `<i class="fas fa-landmark" style="color: #f97316;"></i> ${programData.lieu.substring(0, 25)}${programData.lieu.length > 25 ? '...' : ''}`;
-                lineContainer.appendChild(lieuDiv);
-            }
-            
-            if (programData.heures && programData.heures.trim() !== '') {
-                const heuresDiv = document.createElement('div');
-                heuresDiv.className = 'program-info-item';
-                heuresDiv.innerHTML = `<i class="fas fa-clock" style="color: #2563eb;"></i> ${programData.heures}`;
-                lineContainer.appendChild(heuresDiv);
-            }
-            
-            if (lineContainer.children.length > 0) {
-                container.appendChild(lineContainer);
-            }
-            
-            // Ligne pour le programme (en vert)
-            const programme = programData.programme && programData.programme.trim() !== '' 
-                ? programData.programme 
-                : 'Concert';
-            
-            const programmeDiv = document.createElement('div');
-            programmeDiv.className = 'program-info-large';
-                        programmeDiv.innerHTML = `<i class="fas fa-music" style="color: #f97316;"></i> <span class="programme-text" style="color: #f97316 !important;">${programme}</span>`;
-            container.appendChild(programmeDiv);
-            
-            if (container.children.length === 0) {
-                const noInfo = document.createElement('div');
-                noInfo.className = 'program-info-large';
-                noInfo.style.color = '#718096';
-                noInfo.style.fontStyle = 'italic';
-                noInfo.textContent = 'Aucune information supplémentaire';
-                container.appendChild(noInfo);
-            }
-        }
-
-                function displayDateDetailsCompact(container, programData) {
+// ===== VERSION ULTRA COMPACTE - Hauteur réduite =====
+function displayProgramInfoCompact(container, programData) {
+    container.innerHTML = '';
+    
+    const mainContainer = document.createElement('div');
+    mainContainer.style.width = '100%';
+    mainContainer.style.display = 'flex';
+    mainContainer.style.flexDirection = 'column';
+    mainContainer.style.gap = '6px'; // ⬅️ Réduit de 10px à 6px
+    
+    // ===== LIGNE 1 : Programme à gauche, Heure/Lieu à droite =====
+    const row1 = document.createElement('div');
+    row1.style.display = 'flex';
+    row1.style.justifyContent = 'space-between';
+    row1.style.alignItems = 'flex-start';
+    row1.style.padding = '6px 8px'; // ⬅️ Réduit de 10px 12px à 6px 8px
+    row1.style.background = '#fff4e6';
+    row1.style.borderRadius = '6px'; // ⬅️ Réduit de 8px à 6px
+    row1.style.borderLeft = '4px solid #f97316';
+    
+    // PARTIE GAUCHE : Programme sur 2 lignes
+    const leftDiv = document.createElement('div');
+    leftDiv.style.display = 'flex';
+    leftDiv.style.flexDirection = 'column';
+    leftDiv.style.gap = '2px'; // ⬅️ Réduit de 4px à 2px
+    leftDiv.style.flex = '1';
+    
+    const programEmoji = document.createElement('div');
+    programEmoji.innerHTML = `<i class="fas fa-music" style="color: #f97316; font-size: 1.1rem;"></i>`; // ⬅️ Réduit de 1.3rem à 1.1rem
+    
+    const programText = document.createElement('div');
+    programText.style.fontWeight = '700';
+    programText.style.color = '#f97316';
+    programText.style.fontSize = '0.85rem'; // ⬅️ Réduit de 0.95rem à 0.85rem
+    programText.style.lineHeight = '1.2';
+    programText.style.paddingLeft = '4px';
+    programText.textContent = programData.programme && programData.programme.trim() !== '' 
+        ? programData.programme 
+        : 'Concert';
+    
+    leftDiv.appendChild(programEmoji);
+    leftDiv.appendChild(programText);
+    
+    // PARTIE DROITE : Heure et Lieu empilés verticalement
+    const rightDiv = document.createElement('div');
+    rightDiv.style.display = 'flex';
+    rightDiv.style.flexDirection = 'column';
+    rightDiv.style.alignItems = 'flex-end';
+    rightDiv.style.gap = '4px'; // ⬅️ Réduit de 6px à 4px
+    rightDiv.style.minWidth = '100px'; // ⬅️ Réduit de 120px à 100px
+    
+    // Heure
+    const timeDiv = document.createElement('div');
+    timeDiv.style.display = 'flex';
+    timeDiv.style.alignItems = 'center';
+    timeDiv.style.gap = '4px'; // ⬅️ Réduit de 6px à 4px
+    timeDiv.style.fontWeight = '600';
+    timeDiv.style.color = '#1e40af';
+    timeDiv.style.fontSize = '0.8rem'; // ⬅️ Réduit de 0.9rem à 0.8rem
+    timeDiv.style.backgroundColor = '#dbeafe';
+    timeDiv.style.padding = '2px 8px'; // ⬅️ Réduit de 4px 10px à 2px 8px
+    timeDiv.style.borderRadius = '16px'; // ⬅️ Réduit de 20px à 16px
+    timeDiv.innerHTML = `<i class="fas fa-clock" style="color: #2563eb; font-size: 0.8rem;"></i> ${programData.heures || 'Horaire'}`;
+    
+    // Lieu - couleur FUSHIA
+    const lieuDiv = document.createElement('div');
+    lieuDiv.style.display = 'flex';
+    lieuDiv.style.alignItems = 'center';
+    lieuDiv.style.gap = '4px'; // ⬅️ Réduit de 6px à 4px
+    lieuDiv.style.fontWeight = '600';
+    lieuDiv.style.color = '#ff69b4';
+    lieuDiv.style.fontSize = '0.75rem'; // ⬅️ Réduit de 0.85rem à 0.75rem
+    lieuDiv.style.backgroundColor = '#ffe4f3';
+    lieuDiv.style.padding = '2px 8px'; // ⬅️ Réduit de 4px 10px à 2px 8px
+    lieuDiv.style.borderRadius = '16px'; // ⬅️ Réduit de 20px à 16px
+    lieuDiv.style.textAlign = 'right';
+    lieuDiv.style.wordBreak = 'break-word';
+    lieuDiv.innerHTML = `<i class="fas fa-map-marker-alt" style="color: #ff69b4; font-size: 0.8rem;"></i> ${programData.lieu || 'Lieu'}`;
+    
+    rightDiv.appendChild(timeDiv);
+    rightDiv.appendChild(lieuDiv);
+    
+    row1.appendChild(leftDiv);
+    row1.appendChild(rightDiv);
+    mainContainer.appendChild(row1);
+    
+    container.appendChild(mainContainer);
+}                function displayDateDetailsCompact(container, programData) {
             container.innerHTML = '';
             
            const detailsToShow = [
@@ -7049,76 +7147,151 @@ window.addEventListener('resize', function() {
         }
 
         function showDateModal(date, location, country) {
-            const modal = document.getElementById('dateModal');
-            const modalContent = document.getElementById('dateModalContent');
-            const modalTitle = document.getElementById('modalDateTitle');
-            const modalLocationText = document.getElementById('modalLocationText');
-            const modalFlag = document.getElementById('modalFlag');
-            const programInfoCentered = document.getElementById('programInfoCentered');
-            const dateNavigation = document.getElementById('dateNavigation');
-            const programmesList = document.getElementById('programmesList');
-            const programmesListContent = document.getElementById('programmesListContent');
-            
-            allProgramsForDate = getMatchingDates(date);
-            currentDateForNavigation = date;
-            
-            const programCount = allProgramsForDate.length;
-            modalTitle.textContent = `${formatDateForDisplay(date)} (${programCount})`;
-            
-            const firstProgram = allProgramsForDate.length > 0 ? allProgramsForDate[0] : null;
-            const localite = firstProgram ? firstProgram.localite || location : location;
-            const pays = firstProgram ? firstProgram.pays || country : country;
-            modalLocationText.textContent = `${localite} / ${pays}`;
-            
-            const flagClass = countryFlags[pays.toUpperCase()] || 'flag-france';
-            modalFlag.className = 'modal-flag-small';
-            modalFlag.classList.add(flagClass);
-            
-            if (programCount > 0) {
-                programmesList.style.display = 'block';
-                programmesListContent.innerHTML = '';
-                
-                allProgramsForDate.forEach((program, index) => {
-                    const programmeItem = document.createElement('div');
-                    programmeItem.className = 'programme-item';
-                    
-                    const programmeText = program.programme && program.programme.trim() !== '' 
-                        ? program.programme 
-                        : 'Concert';
-                    
-                    programmeItem.textContent = `${index + 1}. ${programmeText}`;
-                    programmesListContent.appendChild(programmeItem);
-                });
-            } else {
-                programmesList.style.display = 'none';
-            }
-            
-            if (allProgramsForDate.length > 1) {
-                dateNavigation.style.display = 'flex';
-                currentProgramIndex = 0;
-                updateProgramNavigation();
-                showProgramData(0);
-            } else {
-                dateNavigation.style.display = 'none';
-                
-                if (allProgramsForDate.length > 0) {
-                    showProgramData(0);
-                } else {
-                    programInfoCentered.innerHTML = '<div class="program-info-large" style="color: #718096; font-style: italic;">Aucun concert prévu pour cette date</div>';
-                    const dateDetailsGrid = document.getElementById('dateDetailsGrid');
-                    dateDetailsGrid.innerHTML = '<div class="date-detail-item-compact"><div class="date-detail-value-compact green-text" style="text-align: center; font-style: italic; font-size: 0.65rem;">Aucun détail disponible</div></div>';
-                }
-            }
-            
-            if (secretariatAccess) {
-                unlockSecretariatButtons();
-            }
-            
-            modal.classList.add('show');
-            setTimeout(() => {
-                modalContent.classList.add('show');
-            }, 10);
-        }
+    const modal = document.getElementById('dateModal');
+    const modalContent = document.getElementById('dateModalContent');
+    const modalTitle = document.getElementById('modalDateTitle');
+    const modalLocationText = document.getElementById('modalLocationText');
+    const modalFlag = document.getElementById('modalFlag');
+    const programInfoCentered = document.getElementById('programInfoCentered');
+    const dateNavigation = document.getElementById('dateNavigation');
+    const programmesList = document.getElementById('programmesList');
+    const programmesListContent = document.getElementById('programmesListContent');
+    
+    allProgramsForDate = getMatchingDates(date);
+    currentDateForNavigation = date;
+    
+    const programCount = allProgramsForDate.length;
+    modalTitle.textContent = `${formatDateForDisplay(date)} (${programCount})`;
+    
+    const firstProgram = allProgramsForDate.length > 0 ? allProgramsForDate[0] : null;
+    const localite = firstProgram ? firstProgram.localite || location : location;
+    const pays = firstProgram ? firstProgram.pays || country : country;
+    modalLocationText.textContent = `${localite} / ${pays}`;
+    
+    const flagClass = countryFlags[pays.toUpperCase()] || 'flag-france';
+    modalFlag.className = 'modal-flag-small';
+    modalFlag.classList.add(flagClass);
+
+    // ===== ⭐ NOUVEAU : LISTE DES PROGRAMMES DANS LE TITRE =====
+    // À PLACER EXACTEMENT ICI - APRÈS LE DRAPEAU, AVANT programmesList.style.display
+    
+   // ===== NOUVEAU : LISTE DES PROGRAMMES DANS LE TITRE - VERSION COMPACTE =====
+const modalHeader = document.querySelector('.modal-compact-title');
+const modalLocationInfo = document.getElementById('modalLocationInfo');
+
+// Créer ou trouver le conteneur pour la liste des programmes
+let programListHeader = document.getElementById('programListHeader');
+if (!programListHeader) {
+    programListHeader = document.createElement('div');
+    programListHeader.id = 'programListHeader';
+    programListHeader.style.marginTop = '4px'; // ⬅️ Réduit de 8px à 4px
+    programListHeader.style.marginBottom = '2px'; // ⬅️ AJOUTÉ
+    programListHeader.style.padding = '4px 8px'; // ⬅️ Réduit de 6px 10px à 4px 8px
+    programListHeader.style.background = '#f8f9fa';
+    programListHeader.style.borderRadius = '4px'; // ⬅️ Réduit de 6px à 4px
+    programListHeader.style.borderLeft = '3px solid #8A2BE2'; // ⬅️ Réduit de 4px à 3px
+    programListHeader.style.fontSize = '0.7rem'; // ⬅️ Réduit de 0.8rem à 0.7rem
+    programListHeader.style.lineHeight = '1.2';
+    
+    // Insérer après modalLocationInfo
+    modalLocationInfo.parentNode.insertBefore(programListHeader, modalLocationInfo.nextSibling);
+}
+
+// Remplir la liste des programmes - VERSION PLUS COMPACTE
+let programListHtml = '<div style="display: flex; flex-wrap: wrap; gap: 4px;">'; // ⬅️ Réduit de 6px à 4px
+allProgramsForDate.forEach((program, index) => {
+    const programmeText = program.programme && program.programme.trim() !== '' 
+        ? program.programme 
+        : 'Concert';
+    // Version tronquée pour gagner de la place
+    const shortText = programmeText.length > 20 ? programmeText.substring(0, 18) + '…' : programmeText;
+    programListHtml += `<span style="background: #e9d5ff; padding: 1px 6px; border-radius: 10px; font-weight: 600; color: #6b21a8; font-size: 0.65rem;">${index + 1}. ${shortText}</span>`;
+});
+programListHtml += '</div>';
+programListHeader.innerHTML = programListHtml;
+
+    // CACHER l'ancienne liste de programmes
+    programmesList.style.display = 'none';
+    
+   // ===== CRÉER UN CONTENEUR FIXE POUR HEURE/LIEU/PROGRAMME DANS LE TITRE =====
+const modalHeaderContainer = document.querySelector('.date-modal-header .modal-compact-title');
+const modalHeaderParent = modalHeaderContainer?.parentNode;
+
+// Créer le conteneur fixe pour les infos programme (toujours visible)
+let fixedProgramBar = document.getElementById('fixedProgramBar');
+if (!fixedProgramBar) {
+    fixedProgramBar = document.createElement('div');
+    fixedProgramBar.id = 'fixedProgramBar';
+    fixedProgramBar.style.position = 'sticky';
+    fixedProgramBar.style.top = '0';
+    fixedProgramBar.style.zIndex = '20';
+    fixedProgramBar.style.backgroundColor = 'white';
+    fixedProgramBar.style.padding = '8px 0';
+    fixedProgramBar.style.borderBottom = '2px solid #e2e8f0';
+    fixedProgramBar.style.marginBottom = '10px';
+    
+    // Insérer APRÈS modalLocationInfo et programListHeader
+    const modalLocationInfo = document.getElementById('modalLocationInfo');
+    const programListHeader = document.getElementById('programListHeader');
+    
+    if (programListHeader) {
+        programListHeader.parentNode.insertBefore(fixedProgramBar, programListHeader.nextSibling);
+    } else if (modalLocationInfo) {
+        modalLocationInfo.parentNode.insertBefore(fixedProgramBar, modalLocationInfo.nextSibling);
+    }
+}
+
+// ===== NAVIGATION EN HAUT - MAINTENANT DANS fixedProgramBar =====
+if (allProgramsForDate.length > 1) {
+    dateNavigation.style.display = 'flex';
+    currentProgramIndex = 0;
+    updateProgramNavigation();
+    // DÉPLACER la navigation dans fixedProgramBar
+    fixedProgramBar.innerHTML = '';
+    fixedProgramBar.appendChild(dateNavigation.cloneNode(true));
+} else {
+    dateNavigation.style.display = 'none';
+    fixedProgramBar.innerHTML = '<div style="height: 10px;"></div>'; // Espace vide
+}
+// Réattacher les événements des boutons de navigation après clonage
+const newPrevBtn = fixedProgramBar.querySelector('.nav-arrow-slim.prev');
+const newNextBtn = fixedProgramBar.querySelector('.nav-arrow-slim.next');
+const newCounter = fixedProgramBar.querySelector('.program-counter-slim');
+
+if (newPrevBtn) {
+    newPrevBtn.onclick = function(e) {
+        e.stopPropagation();
+        navigateProgram(-1);
+    };
+}
+if (newNextBtn) {
+    newNextBtn.onclick = function(e) {
+        e.stopPropagation();
+        navigateProgram(1);
+    };
+}
+
+// CACHER l'ancienne navigation
+dateNavigation.style.display = 'none';
+
+    // ===== AFFICHAGE DU PREMIER PROGRAMME =====
+    if (allProgramsForDate.length > 0) {
+        showProgramData(0);
+    } else {
+        programInfoCentered.innerHTML = '<div class="program-info-large" style="color: #718096; font-style: italic;">Aucun concert prévu pour cette date</div>';
+        const dateDetailsGrid = document.getElementById('dateDetailsGrid');
+        dateDetailsGrid.innerHTML = '<div class="date-detail-item-compact"><div class="date-detail-value-compact green-text" style="text-align: center; font-style: italic; font-size: 0.65rem;">Aucun détail disponible</div></div>';
+    }
+    
+    if (secretariatAccess) {
+        unlockSecretariatButtons();
+    }
+    
+    modal.classList.add('show');
+    setTimeout(() => {
+        modalContent.classList.add('show');
+    }, 10);
+}
         
         function getMatchingDates(date) {
             const matchingDates = datesWithData.filter(item => 
