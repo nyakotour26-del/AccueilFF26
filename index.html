@@ -4062,6 +4062,242 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
     font-weight: 500 !important;
 }
+/* ===== CALENDRIER AVEC LOCALITÉ ET EMOJIS ===== */
+.calendar-day {
+    position: relative;
+    min-height: 85px !important;
+    padding: 6px 4px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.calendar-day .day-number {
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+/* Drapeau réduit */
+.calendar-day-flag {
+    width: 18px !important;
+    height: 12px !important;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    margin: 1px auto;
+}
+
+/* Localité */
+.calendar-day .localite {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #2980b9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    padding: 0 2px;
+    line-height: 1.2;
+}
+
+/* Conteneur d'emojis */
+.calendar-day .emoji-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2px;
+    margin-top: 2px;
+    max-width: 100%;
+}
+
+/* Emojis individuels */
+.calendar-day .emoji-item {
+    font-size: 12px;
+    line-height: 1;
+    cursor: help;
+    transition: transform 0.2s;
+}
+
+.calendar-day .emoji-item:hover {
+    transform: scale(1.2);
+    z-index: 5;
+}
+
+/* Indicateur de programmes supplémentaires */
+.calendar-day .more-indicator {
+    font-size: 8px;
+    font-weight: 700;
+    color: #6b21a8;
+    background: #e9d5ff;
+    border-radius: 8px;
+    padding: 1px 4px;
+    margin-left: 2px;
+    line-height: 1.2;
+}
+
+/* Cercle vert (position absolue) */
+.calendar-day .program-count {
+    position: absolute !important;
+    top: 2px !important;
+    right: 2px !important;
+    width: 18px !important;
+    height: 18px !important;
+    border-radius: 50% !important;
+    background-color: #10b981 !important;
+    color: white !important;
+    font-size: 0.65rem !important;
+    font-weight: bold !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 10 !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+    border: 2px solid white !important;
+}
+
+/* Ajustements pour mobile */
+@media (max-width: 768px) {
+    .calendar-day {
+        min-height: 75px !important;
+        padding: 4px 2px !important;
+    }
+    
+    .calendar-day .day-number {
+        font-size: 0.75rem;
+    }
+    
+    .calendar-day-flag {
+        width: 16px !important;
+        height: 10px !important;
+    }
+    
+    .calendar-day .localite {
+        font-size: 0.6rem;
+    }
+    
+    .calendar-day .emoji-item {
+        font-size: 10px;
+    }
+    
+    .calendar-day .program-count {
+        width: 16px !important;
+        height: 16px !important;
+        font-size: 0.6rem !important;
+    }
+}
+
+/* ===== CALENDRIER - DRAPEAU ET EMOJIS ===== */
+.calendar-flag-emoji-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    margin-top: 2px;
+    min-height: 22px;
+}
+
+/* Drapeau */
+.calendar-day-flag {
+    width: 22px !important;
+    height: 15px !important;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Emojis */
+.calendar-emoji {
+    font-size: 14px;
+    line-height: 1;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: help;
+    transition: transform 0.2s;
+}
+
+.calendar-emoji:hover {
+    transform: scale(1.2);
+    z-index: 5;
+}
+
+/* Indicateur +X */
+.calendar-more {
+    font-size: 9px;
+    font-weight: bold;
+    color: #6b21a8;
+    background: #e9d5ff;
+    border-radius: 10px;
+    padding: 1px 5px;
+    margin-left: 2px;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1.3;
+}
+
+/* Localité */
+.calendar-day .localite {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #2980b9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    margin-top: 2px;
+    line-height: 1.2;
+}
+
+/* Ajustement hauteur case */
+.calendar-day {
+    min-height: 85px !important;
+    padding: 6px 2px !important;
+    position: relative;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .calendar-day-flag {
+        width: 18px !important;
+        height: 12px !important;
+    }
+    
+    .calendar-emoji {
+        font-size: 12px;
+    }
+    
+    .calendar-more {
+        font-size: 8px;
+        padding: 1px 3px;
+    }
+    
+    .calendar-day .localite {
+        font-size: 0.6rem;
+    }
+}
+/* ===== STYLE POUR LES TYPES EXCLUS ===== */
+.program-type-card.excluded {
+    background: #f8fafc;
+    border-left: 3px solid #94a3b8;
+    opacity: 0.9;
+}
+
+.excluded-badge {
+    font-size: 0.65rem;
+    background: #e2e8f0;
+    color: #475569;
+    padding: 2px 6px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.excluded-badge::before {
+    content: '⏭️';
+    font-size: 0.7rem;
+}
     </style>
 </head>
 <body>
@@ -4813,12 +5049,28 @@
             'WALES': 'flag-wales',
             'MADAGASCAR': 'flag-madagascar'
         };
+// ===== FONCTION POUR ASSOCIER UN EMOJI AU TYPE DE PROGRAMME =====
 function getProgramEmoji(programText) {
     if (!programText) return '🎵'; // Emoji par défaut
     
     const text = programText.toLowerCase().trim();
     
-    // Regroupement par catégories (comme demandé)
+    // ===== NOUVEAU : VOL / AVION / DÉPART / RETOUR =====
+    if (text.includes('vol') || 
+        text.includes('avion') || 
+        text.includes('depart') || 
+        text.includes('départ') || 
+        text.includes('retour') || 
+        text.includes('arrivée') || 
+        text.includes('arrivee') ||
+        text.includes('airport') ||
+        text.includes('aéroport') ||
+        text.includes('aeroport') ||
+        text.includes('flight') ||
+        text.includes('take off') ||
+        text.includes('landing')) {
+        return '✈️'; // Avion
+    }
     
     // ANIMATION / ENFANTS / JEUX / SPORT
     if (text.includes('animation') || 
@@ -4826,18 +5078,17 @@ function getProgramEmoji(programText) {
         text.includes('jeux') || 
         text.includes('sport') || 
         text.includes('jeu')) {
-        return '🎪'; // Chapiteau / Animation
+        return '🤹';
     }
     
     // ÉGLISE / CULTE / RELIGIEUX
     if (text.includes('eglise') || 
         text.includes('église') || 
         text.includes('culte') || 
-        text.includes('église') ||
         text.includes('mfm') || 
         text.includes('celebration') || 
         text.includes('célébration')) {
-        return '⛪'; // Église
+        return '✝️';
     }
     
     // CONCERT / FESTIVAL / CULTUREL
@@ -4847,35 +5098,35 @@ function getProgramEmoji(programText) {
         text.includes('general') || 
         text.includes('conference') || 
         text.includes('conférence')) {
-        return '🎤'; // Micro
+        return '🎵';
     }
     
     // REPAS / APÉRO / RESTAURANT
     if (text.includes('repas') || 
         text.includes('apéro') || 
-        text.includes('rest') || 
         text.includes('restaurant') || 
         text.includes('marché') || 
         text.includes('marche') || 
         text.includes('shopping')) {
-        return '🍽️'; // Restaurant
+        return '🥗';
     }
     
-    // VOYAGE / TRAVEL / DÉPLACEMENT
+    // VOYAGE / TRAVEL / DÉPLACEMENT (sauf avion)
     if (text.includes('travel') || 
         text.includes('voyage') || 
-        text.includes('retour') || 
         text.includes('travelling') || 
         text.includes('trajet')) {
-        return '🚗'; // Voiture
+        // Exclure ceux qui sont déjà dans la catégorie avion
+        if (!text.includes('vol') && !text.includes('avion')) {
+            return '🚗';
+        }
     }
     
     // VISITE / TOURISME / SORTIE
     if (text.includes('visite') || 
         text.includes('tourisme') || 
-        text.includes('sortie') || 
-        text.includes('visite')) {
-        return '🏛️'; // Monument
+        text.includes('sortie')) {
+        return '🚶‍➡️';
     }
     
     // ÉCOLE / ÉTABLISSEMENT SCOLAIRE
@@ -4885,7 +5136,7 @@ function getProgramEmoji(programText) {
         text.includes('établissement') || 
         text.includes('scolaire') || 
         text.includes('school')) {
-        return '🏫'; // École
+        return '🤹';
     }
     
     // HÔPITAL / HOSPICE / SOCIAL
@@ -4893,35 +5144,33 @@ function getProgramEmoji(programText) {
         text.includes('hôpital') || 
         text.includes('hospice') || 
         text.includes('social')) {
-        return '🏥'; // Hôpital
+        return '🏨';
     }
     
     // RENCONTRE / INVITATION / SOCIAL
     if (text.includes('rencontre') || 
-        text.includes('invitation') || 
-        text.includes('social')) {
-        return '🤝'; // Poignée de main
+        text.includes('invitation')) {
+        return '👥';
     }
     
     // REPOS / DÉTENTE
     if (text.includes('repos') || 
-        text.includes('rest') || 
+	text.includes('rest') || 
         text.includes('détente') || 
         text.includes('relax')) {
-        return '😴'; // Visage qui dort
+        return '😴';
     }
     
     // INSTALLATION / PRÉPARATION
     if (text.includes('installation') || 
         text.includes('preparation') || 
         text.includes('préparation')) {
-        return '🔧'; // Outils
+        return '🔧';
     }
     
     // PAR DÉFAUT
-    return '🎵'; // Note de musique
+    return '🎵';
 }
-
         // Objet pour mapper les noms de pays aux couleurs de bordure
         const countryColors = {
             'FRANCE': '#002395',
@@ -4976,7 +5225,6 @@ function getProgramEmoji(programText) {
         
         // Variables pour les programmes par type
         let programsByType = {};
-// ===== FONCTION POUR ASSOCIER UN EMOJI AU TYPE DE PROGRAMME =====
         // ===== FONCTIONS POUR LA CARTE =====
         function initMap() {
             // Initialiser la carte centrée sur l'Europe
@@ -6737,7 +6985,7 @@ function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
                 <div class="next-program-time">
                     <i class="fas fa-clock"></i> ${heures}
                 </div>
-                <div class="next-program-type" style="
+               <div class="next-program-type" style="
     display: flex; 
     align-items: center; 
     gap: 6px;
@@ -6749,7 +6997,6 @@ function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
     font-weight: 800;
     font-family: 'Montserrat', 'Arial Black', sans-serif;
     letter-spacing: -0.3px;
-    text-transform: uppercase;
 ">
     <span style="font-size: 1.2rem;">${getProgramEmoji(programmeType)}</span>
     <span>${programmeType.substring(0, 12)}${programmeType.length > 12 ? '…' : ''}</span>
@@ -7046,65 +7293,148 @@ window.addEventListener('resize', function() {
         }
 
         // Fonctions pour le modal Programmes par type
-        function showProgramsByType() {
-            const modal = document.getElementById('programTypeModal');
-            const listContainer = document.getElementById('programTypeList');
+        function showProgramsByType(selectedType = null) {
+    const modal = document.getElementById('programTypeModal');
+    const listContainer = document.getElementById('programTypeList');
+    
+    if (Object.keys(programsByType).length === 0) {
+        alert('Aucun programme disponible');
+        return;
+    }
+    
+    listContainer.innerHTML = '';
+    
+    // Si un type spécifique est demandé
+    if (selectedType && programsByType[selectedType]) {
+        const programs = programsByType[selectedType];
+        const typeCard = document.createElement('div');
+        typeCard.className = 'program-type-card';
+        
+        const isExcluded = window.excludedPrograms?.byType[selectedType] > 0;
+        
+        const typeTitle = document.createElement('div');
+        typeTitle.style.fontWeight = 'bold';
+        typeTitle.style.marginBottom = '6px';
+        typeTitle.style.color = isExcluded ? '#64748b' : '#065f46';
+        typeTitle.innerHTML = `${selectedType.charAt(0).toUpperCase() + selectedType.slice(1)} (${programs.length}) ${isExcluded ? '⏭️' : ''}`;
+        
+        const programsList = document.createElement('div');
+        programsList.style.fontSize = '0.75rem';
+        programsList.style.maxHeight = '300px';
+        programsList.style.overflowY = 'auto';
+        
+        programs.forEach(program => {
+            const programItem = document.createElement('div');
+            programItem.style.padding = '4px 0';
+            programItem.style.borderBottom = '1px dashed #e5e7eb';
+            programItem.style.cursor = 'pointer';
+            if (isExcluded) programItem.style.opacity = '0.8';
             
-            if (Object.keys(programsByType).length === 0) {
-                alert('Aucun programme disponible');
-                return;
+            const dateStr = formatDateForDisplay(program.date);
+            programItem.innerHTML = `
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="font-weight: 600; color: #059669;">📅 ${dateStr}</span>
+                    ${isExcluded ? '<span style="color:#94a3b8;">⏭️</span>' : ''}
+                </div>
+                <div style="color: #2d3748;">📍 ${program.localite || 'Localité non spécifiée'}</div>
+                <div style="color: #718096; font-size: 0.65rem;">🎵 ${program.lieu || 'Lieu non spécifié'}</div>
+            `;
+            
+            programItem.addEventListener('click', () => {
+                closeProgramTypeModal();
+                showRecapDateModal(program);
+            });
+            
+            programsList.appendChild(programItem);
+        });
+        
+        typeCard.appendChild(typeTitle);
+        typeCard.appendChild(programsList);
+        listContainer.appendChild(typeCard);
+    } else {
+        // Afficher tous les types (comportement normal)
+        const sortedTypes = Object.keys(programsByType).sort();
+        
+        sortedTypes.forEach(type => {
+            const programs = programsByType[type];
+            const isExcluded = window.excludedPrograms?.byType[type] > 0;
+            const excludedCount = window.excludedPrograms?.byType[type] || 0;
+            const countedCount = programmeStats.byType[type] || 0;
+            
+            const typeCard = document.createElement('div');
+            typeCard.className = 'program-type-card';
+            if (isExcluded) typeCard.style.background = '#f8fafc';
+            
+            const typeTitle = document.createElement('div');
+            typeTitle.style.fontWeight = 'bold';
+            typeTitle.style.marginBottom = '6px';
+            typeTitle.style.display = 'flex';
+            typeTitle.style.justifyContent = 'space-between';
+            typeTitle.style.alignItems = 'center';
+            typeTitle.style.color = isExcluded ? '#64748b' : '#065f46';
+            
+            const titleLeft = document.createElement('span');
+            titleLeft.innerHTML = `${type.charAt(0).toUpperCase() + type.slice(1)} (${programs.length})`;
+            
+            const titleRight = document.createElement('span');
+            titleRight.style.fontSize = '0.7rem';
+            titleRight.style.fontWeight = 'normal';
+            if (isExcluded) {
+                titleRight.innerHTML = '⏭️ non compté';
+                titleRight.style.color = '#94a3b8';
+            } else if (excludedCount > 0) {
+                titleRight.innerHTML = `✅ ${countedCount} activités + ⏭️ ${excludedCount} repos`;
+                titleRight.style.color = '#f97316';
             }
             
-            listContainer.innerHTML = '';
+            typeTitle.appendChild(titleLeft);
+            typeTitle.appendChild(titleRight);
             
-            const sortedTypes = Object.keys(programsByType).sort((a, b) => {
-                if (a === 'concert' || a.includes('concert')) return 1;
-                if (b === 'concert' || b.includes('concert')) return -1;
-                return a.localeCompare(b);
-            });
+            const programsList = document.createElement('div');
+            programsList.style.fontSize = '0.75rem';
+            programsList.style.maxHeight = '200px';
+            programsList.style.overflowY = 'auto';
             
-            sortedTypes.forEach(type => {
-                const programs = programsByType[type];
-                const typeCard = document.createElement('div');
-                typeCard.className = 'program-type-card';
+            // Montrer seulement 5 exemples pour ne pas surcharger
+            const showPrograms = programs.slice(0, 5);
+            showPrograms.forEach(program => {
+                const programItem = document.createElement('div');
+                programItem.style.padding = '3px 0';
+                programItem.style.borderBottom = '1px dashed #e5e7eb';
+                programItem.style.cursor = 'pointer';
                 
-                const typeTitle = document.createElement('div');
-                typeTitle.style.fontWeight = 'bold';
-                typeTitle.style.marginBottom = '6px';
-                typeTitle.style.color = '#065f46';
-                typeTitle.textContent = `${type.charAt(0).toUpperCase() + type.slice(1)} (${programs.length})`;
+                const dateStr = formatDateForDisplay(program.date);
+                programItem.innerHTML = `
+                    <div style="font-weight: 600; color: #059669;">📅 ${dateStr}</div>
+                    <div style="color: #2d3748;">📍 ${program.localite || 'Localité non spécifiée'}</div>
+                `;
                 
-                const programsList = document.createElement('div');
-                programsList.style.fontSize = '0.75rem';
-                
-                programs.forEach(program => {
-                    const programItem = document.createElement('div');
-                    programItem.style.padding = '3px 0';
-                    programItem.style.borderBottom = '1px dashed #e5e7eb';
-                    programItem.style.cursor = 'pointer';
-                    
-                    const dateStr = formatDateForDisplay(program.date);
-                    programItem.innerHTML = `
-                        <div style="font-weight: 600; color: #059669;">📅 ${dateStr}</div>
-                        <div style="color: #2d3748;">📍 ${program.localite || 'Localité non spécifiée'}</div>
-                        <div style="color: #718096; font-size: 0.65rem;">🎵 ${program.lieu || 'Lieu non spécifié'}</div>
-                    `;
-                    
-                    programItem.addEventListener('click', () => {
-                        closeProgramTypeModal();
-                        showRecapDateModal(program);
-                    });
-                    
-                    programsList.appendChild(programItem);
+                programItem.addEventListener('click', () => {
+                    closeProgramTypeModal();
+                    showRecapDateModal(program);
                 });
                 
-                typeCard.appendChild(typeTitle);
-                typeCard.appendChild(programsList);
-                listContainer.appendChild(typeCard);
+                programsList.appendChild(programItem);
             });
             
-            modal.style.display = 'flex';
-        }
+            if (programs.length > 5) {
+                const more = document.createElement('div');
+                more.style.padding = '3px 0';
+                more.style.color = '#718096';
+                more.style.fontStyle = 'italic';
+                more.style.fontSize = '0.7rem';
+                more.textContent = `... et ${programs.length - 5} autres`;
+                programsList.appendChild(more);
+            }
+            
+            typeCard.appendChild(typeTitle);
+            typeCard.appendChild(programsList);
+            listContainer.appendChild(typeCard);
+        });
+    }
+    
+    modal.style.display = 'flex';
+}
 
         function closeProgramTypeModal() {
             document.getElementById('programTypeModal').style.display = 'none';
@@ -7689,22 +8019,25 @@ dateNavigation.style.display = 'none';
         }
         
         // ===== MODIFICATION : AJOUT DE LA COLONNE COORDONNÉES =====
-        function getRowData(rowIndex) {
-            const row = sheetData[rowIndex];
-            return {
-                localite: row[columnMapping['LOCALITE']] || '',
-                pays: row[columnMapping['PAYS']] || '',
-                lieu: row[columnMapping['LIEU']] || '',
-                heures: row[columnMapping['HEURES']] || '',
-                adresse: row[columnMapping['ADRESSE ET/OU CONTACT']] || '',
-                hebergement: row[columnMapping['HEBERGEMENT']] || '',
-                programme: row[columnMapping['PROGRAMME']] || 'Concert',
-                localisation: row[columnMapping['LOCALISATION']] || '',
-                site: row[columnMapping['SITE']] || '',
-                coordonnees: row[columnMapping['COORDONNÉES']] || '',
-                trajets: row[columnMapping['TRAJETS']] || '' // NOUVELLE COLONNE TRAJETS
-            };
-        }        
+       function getRowData(rowIndex) {
+    const row = sheetData[rowIndex];
+    const programme = row[columnMapping['PROGRAMME']] || '';
+    
+    return {
+        localite: row[columnMapping['LOCALITE']] || '',
+        pays: row[columnMapping['PAYS']] || '',
+        lieu: row[columnMapping['LIEU']] || '',
+        heures: row[columnMapping['HEURES']] || '',
+        adresse: row[columnMapping['ADRESSE ET/OU CONTACT']] || '',
+        hebergement: row[columnMapping['HEBERGEMENT']] || '',
+        programme: programme || 'Concert', // Par défaut "Concert"
+        programmeOriginal: programme, // Garder la valeur originale
+        localisation: row[columnMapping['LOCALISATION']] || '',
+        site: row[columnMapping['SITE']] || '',
+        coordonnees: row[columnMapping['COORDONNÉES']] || '',
+        trajets: row[columnMapping['TRAJETS']] || ''
+    };
+}       
         function closeDateModal() {
             const modal = document.getElementById('dateModal');
             const modalContent = document.getElementById('dateModalContent');
@@ -7849,112 +8182,196 @@ dateNavigation.style.display = 'none';
             return localiteCount;
         }
 
-        function calculateProgrammeStats() {
-            programmeStats = {
-                total: 0,
-                byType: {},
-                byCountry: {}
+       function calculateProgrammeStats() {
+    programmeStats = {
+        total: 0,
+        byType: {},
+        byCountry: {}
+    };
+    
+    programsByType = {};
+    
+    // ===== NOUVEAU : STOCKER SÉPARÉMENT LES TYPES EXCLUS =====
+    window.excludedPrograms = {
+        total: 0,
+        byType: {},
+        list: []
+    };
+    
+    // ===== LISTE DES TYPES À NE PAS COMPTER DANS LES STATS =====
+    const excludedTypes = [
+        'repos', 'repos',
+        'départ', 'depart',
+        'retour',
+        'rest', 
+        'relaxe', 'relax',
+        'installation',
+        'trajet',
+        'voyage'
+    ];
+    
+    datesWithData.forEach(item => {
+        const rowIndex = item.rowIndex;
+        if (sheetData[rowIndex]) {
+            const rowData = getRowData(rowIndex);
+            const programme = rowData.programme && rowData.programme.trim() !== '' 
+                ? rowData.programme 
+                : 'Concert';
+            
+            const pays = rowData.pays.toUpperCase() || '';
+            const localite = rowData.localite || '';
+            
+            // Ignorer les retours à Madagascar
+            if (localite.toUpperCase().includes('RETOUR MADAGASCAR') || 
+                localite.toUpperCase().includes('MADAGASCAR')) {
+                return;
+            }
+            
+            if (localite !== '' && localite.toLowerCase() !== 'localité non spécifiée' &&
+                pays !== '' && pays.toLowerCase() !== 'pays non spécifié') {
+                
+                const programmeLower = programme.toLowerCase();
+                const isExcluded = excludedTypes.some(type => programmeLower.includes(type));
+                
+                // ===== TOUJOURS STOCKER DANS programsByType POUR L'AFFICHAGE =====
+                // (même les exclus, pour pouvoir les voir)
+                if (!programsByType[programmeLower]) {
+                    programsByType[programmeLower] = [];
+                }
+                programsByType[programmeLower].push({
+                    ...item,
+                    ...rowData
+                });
+                
+                if (!isExcluded) {
+                    // ===== COMPTER UNIQUEMENT LES ACTIVITÉS NON EXCLUES =====
+                    programmeStats.total++;
+                    
+                    // Statistiques par type de programme (comptage)
+                    programmeStats.byType[programmeLower] = (programmeStats.byType[programmeLower] || 0) + 1;
+                    
+                    // Statistiques par pays (comptage)
+                    if (!programmeStats.byCountry[pays]) {
+                        programmeStats.byCountry[pays] = {
+                            total: 0,
+                            byType: {},
+                            days: new Set()
+                        };
+                    }
+                    programmeStats.byCountry[pays].total++;
+                    programmeStats.byCountry[pays].byType[programmeLower] = (programmeStats.byCountry[pays].byType[programmeLower] || 0) + 1;
+                    programmeStats.byCountry[pays].days.add(item.date.getTime());
+                } else {
+                    // ===== STOCKER LES EXCLUS SÉPARÉMENT =====
+                    window.excludedPrograms.total++;
+                    window.excludedPrograms.byType[programmeLower] = (window.excludedPrograms.byType[programmeLower] || 0) + 1;
+                    window.excludedPrograms.list.push({
+                        ...item,
+                        ...rowData
+                    });
+                }
+            }
+        }
+    });
+    
+    updateProgrammeStatsDisplay();
+}
+
+       function updateProgrammeStatsDisplay() {
+    const statsProgrammesTotal = document.getElementById('statsProgrammesTotal');
+    const statsProgrammesDetails = document.getElementById('statsProgrammesDetails');
+    const statsPaysPlusProgrammes = document.getElementById('statsPaysPlusProgrammes');
+    const statsPaysDetails = document.getElementById('statsPaysDetails');
+    const flagsContainerStat = document.getElementById('flagsContainerStat');
+    const topCountryValue = document.getElementById('topCountryValue');
+    const countryStatsSection = document.getElementById('countryStatsSection');
+    const countryStatsGrid = document.getElementById('countryStatsGrid');
+    
+    if (statsProgrammesTotal) {
+        // Afficher le total des ACTIVITÉS (sans les exclus)
+        statsProgrammesTotal.textContent = programmeStats.total;
+        
+        // AJOUTER UN PETIT INDICATEUR DES EXCLUS
+        if (window.excludedPrograms && window.excludedPrograms.total > 0) {
+            const parent = statsProgrammesTotal.parentNode;
+            let exclIndicator = document.getElementById('excluded-indicator');
+            if (!exclIndicator) {
+                exclIndicator = document.createElement('div');
+                exclIndicator.id = 'excluded-indicator';
+                exclIndicator.style.fontSize = '0.65rem';
+                exclIndicator.style.color = '#718096';
+                exclIndicator.style.marginTop = '2px';
+                exclIndicator.style.fontWeight = 'normal';
+                parent.appendChild(exclIndicator);
+            }
+            exclIndicator.innerHTML = `(+${window.excludedPrograms.total} repos/départs)`;
+            exclIndicator.title = 'Activités non comptées: ' + Object.entries(window.excludedPrograms.byType).map(([k,v]) => `${k}:${v}`).join(', ');
+        }
+    }
+    
+    // Types de programmes en horizontal (TOUS les types, y compris exclus)
+    if (statsProgrammesDetails) {
+        // Combiner les types comptés et exclus pour l'affichage
+        const allTypes = { ...programmeStats.byType };
+        if (window.excludedPrograms) {
+            Object.keys(window.excludedPrograms.byType).forEach(type => {
+                if (!allTypes[type]) {
+                    allTypes[type] = 0;
+                }
+                // Optionnel: les afficher en grisé
+            });
+        }
+        
+        const sortedTypes = Object.keys(allTypes).sort((a, b) => {
+            if (a === 'concert' || a.includes('concert')) return 1;
+            if (b === 'concert' || b.includes('concert')) return -1;
+            return a.localeCompare(b);
+        });
+        
+        const typeButtonsContainer = document.createElement('div');
+        typeButtonsContainer.className = 'program-type-buttons';
+        
+        sortedTypes.forEach(type => {
+            const count = programmeStats.byType[type] || 0;
+            const excludedCount = window.excludedPrograms?.byType[type] || 0;
+            const totalCount = count + excludedCount;
+            
+            const typeName = type.charAt(0).toUpperCase() + type.slice(1);
+            
+            const typeBtn = document.createElement('button');
+            typeBtn.className = 'program-type-btn';
+            
+            if (excludedCount > 0 && count === 0) {
+                // Type exclusivement exclu
+                typeBtn.textContent = `${typeName}: ${totalCount} (repos)`;
+                typeBtn.style.opacity = '0.7';
+                typeBtn.style.background = '#f1f5f9';
+                typeBtn.style.color = '#64748b';
+                typeBtn.style.borderColor = '#cbd5e0';
+            } else if (excludedCount > 0) {
+                // Mix de comptés et exclus
+                typeBtn.textContent = `${typeName}: ${count} (+${excludedCount})`;
+                typeBtn.title = `${excludedCount} non comptés comme activités`;
+            } else {
+                // Normal
+                typeBtn.textContent = `${typeName}: ${count}`;
+            }
+            
+            typeBtn.onclick = (e) => {
+                e.stopPropagation();
+                showProgramsByType(type);
             };
             
-            programsByType = {};
-            
-            datesWithData.forEach(item => {
-                const rowIndex = item.rowIndex;
-                if (sheetData[rowIndex]) {
-                    const rowData = getRowData(rowIndex);
-                    const programme = rowData.programme && rowData.programme.trim() !== '' 
-                        ? rowData.programme 
-                        : 'Concert';
-                    
-                    const pays = rowData.pays.toUpperCase() || '';
-                    const localite = rowData.localite || '';
-                    
-                    // Ignorer les retours à Madagascar
-                    if (localite.toUpperCase().includes('RETOUR MADAGASCAR') || 
-                        localite.toUpperCase().includes('MADAGASCAR')) {
-                        return;
-                    }
-                    
-                    if (localite !== '' && localite.toLowerCase() !== 'localité non spécifiée' &&
-                        pays !== '' && pays.toLowerCase() !== 'pays non spécifié') {
-                        
-                        programmeStats.total++;
-                        
-                        // Statistiques par type de programme
-                        const programmeType = programme.toLowerCase();
-                        programmeStats.byType[programmeType] = (programmeStats.byType[programmeType] || 0) + 1;
-                        
-                        // Stocker les programmes par type
-                        if (!programsByType[programmeType]) {
-                            programsByType[programmeType] = [];
-                        }
-                        programsByType[programmeType].push({
-                            ...item,
-                            ...rowData
-                        });
-                        
-                        // Statistiques par pays
-                        if (!programmeStats.byCountry[pays]) {
-                            programmeStats.byCountry[pays] = {
-                                total: 0,
-                                byType: {},
-                                days: new Set()
-                            };
-                        }
-                        programmeStats.byCountry[pays].total++;
-                        programmeStats.byCountry[pays].byType[programmeType] = (programmeStats.byCountry[pays].byType[programmeType] || 0) + 1;
-                        programmeStats.byCountry[pays].days.add(item.date.getTime());
-                    }
-                }
-            });
-            
-            updateProgrammeStatsDisplay();
-        }
-
-        function updateProgrammeStatsDisplay() {
-            const statsProgrammesTotal = document.getElementById('statsProgrammesTotal');
-            const statsProgrammesDetails = document.getElementById('statsProgrammesDetails');
-            const statsPaysPlusProgrammes = document.getElementById('statsPaysPlusProgrammes');
-            const statsPaysDetails = document.getElementById('statsPaysDetails');
-            const flagsContainerStat = document.getElementById('flagsContainerStat');
-            const topCountryValue = document.getElementById('topCountryValue');
-            const countryStatsSection = document.getElementById('countryStatsSection');
-            const countryStatsGrid = document.getElementById('countryStatsGrid');
-            
-            if (statsProgrammesTotal) {
-                statsProgrammesTotal.textContent = programmeStats.total;
-            }
-            
-            // Types de programmes en horizontal
-            if (statsProgrammesDetails) {
-                const sortedTypes = Object.keys(programmeStats.byType).sort((a, b) => {
-                    if (a === 'concert' || a.includes('concert')) return 1;
-                    if (b === 'concert' || b.includes('concert')) return -1;
-                    return a.localeCompare(b);
-                });
-                
-                const typeButtonsContainer = document.createElement('div');
-                typeButtonsContainer.className = 'program-type-buttons';
-                
-                sortedTypes.forEach((type, index) => {
-                    const count = programmeStats.byType[type];
-                    const typeName = type.charAt(0).toUpperCase() + type.slice(1);
-                    
-                    const typeBtn = document.createElement('button');
-                    typeBtn.className = 'program-type-btn';
-                    typeBtn.textContent = `${typeName}: ${count}`;
-                    typeBtn.title = `Voir les ${count} programmes de type ${typeName}`;
-                    typeBtn.onclick = (e) => {
-                        e.stopPropagation();
-                        showProgramsByType();
-                    };
-                    
-                    typeButtonsContainer.appendChild(typeBtn);
-                });
-                
-                statsProgrammesDetails.innerHTML = '';
-                statsProgrammesDetails.appendChild(typeButtonsContainer);
-            }
+            typeButtonsContainer.appendChild(typeBtn);
+        });
+        
+        statsProgrammesDetails.innerHTML = '';
+        statsProgrammesDetails.appendChild(typeButtonsContainer);
+    }
+    
+   
+    
+    
             
             // Drapeaux dans "Pays visités"
             if (flagsContainerStat) {
@@ -8633,139 +9050,210 @@ dateNavigation.style.display = 'none';
             
             return `${day} ${month} ${year}`;
         }
-
-        function renderCalendar() {
-            const calendarGrid = document.getElementById('calendarGrid');
-            const currentMonthElement = document.getElementById('currentMonth');
-            
-            currentMonthElement.textContent = currentDate.toLocaleDateString('fr-FR', {
-                month: 'long',
-                year: 'numeric'
-            });
-            
-            calendarGrid.innerHTML = '';
-            
-            const daysOfWeek = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
-            daysOfWeek.forEach(day => {
-                const dayHeader = document.createElement('div');
-                dayHeader.className = 'calendar-day-header';
-                dayHeader.textContent = day;
-                calendarGrid.appendChild(dayHeader);
-            });
-            
-            const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-            const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-            
-            let firstDayOfWeek = firstDayOfMonth.getDay();
-            firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
-            
-            const prevMonthLastDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
-            for (let i = firstDayOfWeek - 1; i >= 0; i--) {
-                const day = document.createElement('div');
-                day.className = 'calendar-day other-month';
-                day.innerHTML = `<div class="day-number">${prevMonthLastDay - i}</div>`;
+function renderCalendar() {
+    const calendarGrid = document.getElementById('calendarGrid');
+    const currentMonthElement = document.getElementById('currentMonth');
+    
+    currentMonthElement.textContent = currentDate.toLocaleDateString('fr-FR', {
+        month: 'long',
+        year: 'numeric'
+    });
+    
+    calendarGrid.innerHTML = '';
+    
+    const daysOfWeek = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+    daysOfWeek.forEach(day => {
+        const dayHeader = document.createElement('div');
+        dayHeader.className = 'calendar-day-header';
+        dayHeader.textContent = day;
+        calendarGrid.appendChild(dayHeader);
+    });
+    
+    const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+    
+    let firstDayOfWeek = firstDayOfMonth.getDay();
+    firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+    
+    const prevMonthLastDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+    for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+        const day = document.createElement('div');
+        day.className = 'calendar-day other-month';
+        day.innerHTML = `<div class="day-number">${prevMonthLastDay - i}</div>`;
+        
+        const prevMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, prevMonthLastDay - i);
+        const holidayName = getMalagasyHolidayName(prevMonthDate);
+        if (holidayName) {
+            day.classList.add('malagasy-holiday');
+            const holidayElement = document.createElement('div');
+            holidayElement.className = 'malagasy-holiday-name';
+            holidayElement.textContent = holidayName;
+            day.appendChild(holidayElement);
+        }
+        
+        calendarGrid.appendChild(day);
+    }
+    
+ for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
+    const day = document.createElement('div');
+    day.className = 'calendar-day';
+    
+    const dateToCheck = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
+    
+    // ===== RÉCUPÉRER TOUS LES PROGRAMMES DE CETTE DATE =====
+    const programsForDate = datesWithData.filter(item => 
+        item.date.getDate() === dateToCheck.getDate() &&
+        item.date.getMonth() === dateToCheck.getMonth() &&
+        item.date.getFullYear() === dateToCheck.getFullYear()
+    );
+    
+    // ===== COMPTER LES LOCALITÉS UNIQUES POUR LE ROND VERT =====
+    const localiteCount = countLocalitesForDate(dateToCheck);
+    const hasLocalites = localiteCount > 0;
+    
+    // ===== CONSTRUCTION DU CONTENU DE LA CASE =====
+    let dayContent = `<div class="day-number">${i}</div>`;
+    
+    // ===== TOUJOURS LE DRAPEAU SI PAYS DANS LA SOURCE =====
+    let foundPays = '';
+    
+    // Chercher dans sheetData pour cette date
+    for (let r = 0; r < sheetData.length; r++) {
+        const row = sheetData[r];
+        const rowDateStr = row[columnMapping['DATES']] || '';
+        if (rowDateStr) {
+            const rowDate = parseDate(rowDateStr);
+            if (rowDate && 
+                rowDate.getDate() === dateToCheck.getDate() &&
+                rowDate.getMonth() === dateToCheck.getMonth() &&
+                rowDate.getFullYear() === dateToCheck.getFullYear()) {
                 
-                const prevMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, prevMonthLastDay - i);
-                const holidayName = getMalagasyHolidayName(prevMonthDate);
-                if (holidayName) {
-                    day.classList.add('malagasy-holiday');
-                    const holidayElement = document.createElement('div');
-                    holidayElement.className = 'malagasy-holiday-name';
-                    holidayElement.textContent = holidayName;
-                    day.appendChild(holidayElement);
+                const rowPays = row[columnMapping['PAYS']] || '';
+                if (rowPays) {
+                    foundPays = rowPays.toUpperCase();
+                    break;
                 }
-                
-                calendarGrid.appendChild(day);
-            }
-            
-            for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
-                const day = document.createElement('div');
-                day.className = 'calendar-day';
-                day.innerHTML = `<div class="day-number">${i}</div>`;
-                
-                const dateToCheck = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
-                const dateData = datesWithData.find(item => 
-                    item.date.getDate() === dateToCheck.getDate() &&
-                    item.date.getMonth() === dateToCheck.getMonth() &&
-                    item.date.getFullYear() === dateToCheck.getFullYear()
-                );
-                
-                if (dateData) {
-                    const flagDiv = document.createElement('div');
-                    flagDiv.className = 'calendar-day-flag';
-                    const flagClass = countryFlags[dateData.pays.toUpperCase()] || 'flag-france';
-                    flagDiv.classList.add(flagClass);
-                    day.appendChild(flagDiv);
-                }
-                
-                const localiteCount = countLocalitesForDate(dateToCheck);
-                if (localiteCount > 0) {
-                    const programCountElement = document.createElement('div');
-                    programCountElement.className = 'program-count';
-                    programCountElement.textContent = localiteCount;
-                    programCountElement.title = `${localiteCount} localité${localiteCount > 1 ? 's' : ''}`;
-                    day.appendChild(programCountElement);
-                }
-                
-                const holidayName = getMalagasyHolidayName(dateToCheck);
-                if (holidayName) {
-                    day.classList.add('malagasy-holiday');
-                    const holidayElement = document.createElement('div');
-                    holidayElement.className = 'malagasy-holiday-name';
-                    holidayElement.textContent = holidayName;
-                    day.appendChild(holidayElement);
-                }
-                
-                if (dateData) {
-                    day.classList.add('has-data');
-                    const dateInfo = document.createElement('div');
-                    dateInfo.className = 'calendar-day-info';
-                    if (dateData.localite) {
-                        dateInfo.innerHTML += `<div class="localite">${dateData.localite}</div>`;
-                    }
-                    if (dateData.pays) {
-                        dateInfo.innerHTML += `<div class="pays">${dateData.pays}</div>`;
-                    }
-                    day.appendChild(dateInfo);
-                }
-                
-                if (selectedDate && 
-                    selectedDate.getDate() === i &&
-                    selectedDate.getMonth() === currentDate.getMonth() &&
-                    selectedDate.getFullYear() === currentDate.getFullYear()) {
-                    day.classList.add('selected');
-                }
-                
-                day.addEventListener('click', () => {
-                    selectDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), i));
-                });
-                
-                calendarGrid.appendChild(day);
-            }
-            
-            const totalCells = 42;
-            const daysInCalendar = firstDayOfWeek + lastDayOfMonth.getDate();
-            const nextMonthDays = totalCells - daysInCalendar;
-            
-            for (let i = 1; i <= nextMonthDays; i++) {
-                const day = document.createElement('div');
-                day.className = 'calendar-day other-month';
-                day.innerHTML = `<div class="day-number">${i}</div>`;
-                
-                const nextMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, i);
-                const holidayName = getMalagasyHolidayName(nextMonthDate);
-                if (holidayName) {
-                    day.classList.add('malagasy-holiday');
-                    const holidayElement = document.createElement('div');
-                    holidayElement.className = 'malagasy-holiday-name';
-                    holidayElement.textContent = holidayName;
-                    day.appendChild(holidayElement);
-                }
-                
-                calendarGrid.appendChild(day);
             }
         }
+    }
+    
+    // ===== DRAPEAU (toujours affiché si pays trouvé) =====
+    if (foundPays && countryFlags[foundPays]) {
+        day.classList.add('has-data');
+        dayContent += `<div class="calendar-flag-emoji-line">`;
+        dayContent += `<div class="calendar-day-flag ${countryFlags[foundPays]}" style="width:22px; height:15px; display:inline-block; vertical-align:middle;" title="${foundPays}"></div>`;
+        
+        // ===== EMOJIS - AVEC LOGIQUE CORRIGÉE =====
+        if (programsForDate.length > 0) {
+            const maxEmojis = 3;
+            const emojisToShow = programsForDate.slice(0, maxEmojis);
+            
+            emojisToShow.forEach(program => {
+                const rowData = getRowData(program.rowIndex);
+                const programmeOriginal = rowData.programmeOriginal || '';
+                const localite = rowData.localite || '';
+                
+                // ===== DÉTERMINER L'EMOJI À AFFICHER =====
+                let emoji = '';
+                let title = '';
+                
+                if (programmeOriginal.trim() !== '') {
+                    // CAS 1 : Programme explicitement spécifié
+                    emoji = getProgramEmoji(programmeOriginal);
+                    title = programmeOriginal;
+                } else if (localite.trim() !== '') {
+                    // CAS 2 : Pas de programme mais localité présente
+                    // => Concert par défaut
+                    emoji = '🎵';
+                    title = 'Concert (par défaut)';
+                } else {
+                    // CAS 3 : Ni programme ni localité - PAS D'EMOJI
+                    return;
+                }
+                
+                dayContent += `<span class="calendar-emoji" style="font-size:14px; margin:0 1px; cursor:help; display:inline-block; vertical-align:middle;" title="${title}">${emoji}</span>`;
+            });
+            
+            // Indicateur si plus de 3 programmes
+            if (programsForDate.length > maxEmojis) {
+                dayContent += `<span class="calendar-more" style="font-size:9px; font-weight:bold; color:#6b21a8; background:#e9d5ff; border-radius:10px; padding:1px 5px; margin-left:2px; display:inline-block; vertical-align:middle;">+${programsForDate.length - maxEmojis}</span>`;
+            }
+        }
+        
+        dayContent += `</div>`;
+        
+        // ===== LOCALITÉ (seulement s'il y a des localités) =====
+        if (hasLocalites && programsForDate.length > 0) {
+            // Trouver la première localité non vide
+            for (let p = 0; p < programsForDate.length; p++) {
+                const rowData = getRowData(programsForDate[p].rowIndex);
+                const localite = rowData.localite || '';
+                if (localite.trim() !== '') {
+                    dayContent += `<div class="localite" style="font-size:0.7rem; font-weight:600; color:#2980b9; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; margin-top:2px;">${localite}</div>`;
+                    break;
+                }
+            }
+        }
+        
+        // ===== ROND VERT (nombre de localités) =====
+        if (hasLocalites) {
+            dayContent += `<div class="program-count" style="position:absolute; top:2px; right:2px; width:18px; height:18px; border-radius:50%; background:#10b981; color:white; font-size:0.65rem; font-weight:bold; display:flex; align-items:center; justify-content:center; z-index:10; box-shadow:0 2px 4px rgba(0,0,0,0.2); border:2px solid white;" title="${localiteCount} localité${localiteCount > 1 ? 's' : ''}">${localiteCount}</div>`;
+        }
+    }
+    
+    day.innerHTML = dayContent;
+    
+    // ===== JOURS FÉRIÉS =====
+    const holidayName = getMalagasyHolidayName(dateToCheck);
+    if (holidayName) {
+        day.classList.add('malagasy-holiday');
+        const holidayElement = document.createElement('div');
+        holidayElement.className = 'malagasy-holiday-name';
+        holidayElement.textContent = holidayName;
+        day.appendChild(holidayElement);
+    }
+    
+    if (selectedDate && 
+        selectedDate.getDate() === i &&
+        selectedDate.getMonth() === currentDate.getMonth() &&
+        selectedDate.getFullYear() === currentDate.getFullYear()) {
+        day.classList.add('selected');
+    }
+    
+    day.addEventListener('click', () => {
+        selectDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), i));
+    });
+    
+    calendarGrid.appendChild(day);
+}
+    
+    const totalCells = 42;
+    const daysInCalendar = firstDayOfWeek + lastDayOfMonth.getDate();
+    const nextMonthDays = totalCells - daysInCalendar;
+    
+    for (let i = 1; i <= nextMonthDays; i++) {
+        const day = document.createElement('div');
+        day.className = 'calendar-day other-month';
+        day.innerHTML = `<div class="day-number">${i}</div>`;
+        
+        const nextMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, i);
+        const holidayName = getMalagasyHolidayName(nextMonthDate);
+        if (holidayName) {
+            day.classList.add('malagasy-holiday');
+            const holidayElement = document.createElement('div');
+            holidayElement.className = 'malagasy-holiday-name';
+            holidayElement.textContent = holidayName;
+            day.appendChild(holidayElement);
+        }
+        
+        calendarGrid.appendChild(day);
+    }
+}
 
+// ===== FONCTION UTILITAIRE POUR FORMATER UNE DATE EN STRING COMPARABLE =====
+function formatDateToCompare(date) {
+    return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+}
         async function loadDataFromGoogleSheets(method = 'direct') {
             document.getElementById('loadingIndicator').style.display = 'block';
             document.getElementById('retryOptions').style.display = 'none';
