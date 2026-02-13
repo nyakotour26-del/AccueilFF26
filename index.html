@@ -4770,6 +4770,114 @@
             'WALES': 'flag-wales',
             'MADAGASCAR': 'flag-madagascar'
         };
+function getProgramEmoji(programText) {
+    if (!programText) return '🎵'; // Emoji par défaut
+    
+    const text = programText.toLowerCase().trim();
+    
+    // Regroupement par catégories (comme demandé)
+    
+    // ANIMATION / ENFANTS / JEUX / SPORT
+    if (text.includes('animation') || 
+        text.includes('enfant') || 
+        text.includes('jeux') || 
+        text.includes('sport') || 
+        text.includes('jeu')) {
+        return '🎪'; // Chapiteau / Animation
+    }
+    
+    // ÉGLISE / CULTE / RELIGIEUX
+    if (text.includes('eglise') || 
+        text.includes('église') || 
+        text.includes('culte') || 
+        text.includes('église') ||
+        text.includes('mfm') || 
+        text.includes('celebration') || 
+        text.includes('célébration')) {
+        return '⛪'; // Église
+    }
+    
+    // CONCERT / FESTIVAL / CULTUREL
+    if (text.includes('concert') || 
+        text.includes('festival') || 
+        text.includes('culturel') || 
+        text.includes('general') || 
+        text.includes('conference') || 
+        text.includes('conférence')) {
+        return '🎤'; // Micro
+    }
+    
+    // REPAS / APÉRO / RESTAURANT
+    if (text.includes('repas') || 
+        text.includes('apéro') || 
+        text.includes('rest') || 
+        text.includes('restaurant') || 
+        text.includes('marché') || 
+        text.includes('marche') || 
+        text.includes('shopping')) {
+        return '🍽️'; // Restaurant
+    }
+    
+    // VOYAGE / TRAVEL / DÉPLACEMENT
+    if (text.includes('travel') || 
+        text.includes('voyage') || 
+        text.includes('retour') || 
+        text.includes('travelling') || 
+        text.includes('trajet')) {
+        return '🚗'; // Voiture
+    }
+    
+    // VISITE / TOURISME / SORTIE
+    if (text.includes('visite') || 
+        text.includes('tourisme') || 
+        text.includes('sortie') || 
+        text.includes('visite')) {
+        return '🏛️'; // Monument
+    }
+    
+    // ÉCOLE / ÉTABLISSEMENT SCOLAIRE
+    if (text.includes('ecole') || 
+        text.includes('école') || 
+        text.includes('etablissement') || 
+        text.includes('établissement') || 
+        text.includes('scolaire') || 
+        text.includes('school')) {
+        return '🏫'; // École
+    }
+    
+    // HÔPITAL / HOSPICE / SOCIAL
+    if (text.includes('hopital') || 
+        text.includes('hôpital') || 
+        text.includes('hospice') || 
+        text.includes('social')) {
+        return '🏥'; // Hôpital
+    }
+    
+    // RENCONTRE / INVITATION / SOCIAL
+    if (text.includes('rencontre') || 
+        text.includes('invitation') || 
+        text.includes('social')) {
+        return '🤝'; // Poignée de main
+    }
+    
+    // REPOS / DÉTENTE
+    if (text.includes('repos') || 
+        text.includes('rest') || 
+        text.includes('détente') || 
+        text.includes('relax')) {
+        return '😴'; // Visage qui dort
+    }
+    
+    // INSTALLATION / PRÉPARATION
+    if (text.includes('installation') || 
+        text.includes('preparation') || 
+        text.includes('préparation')) {
+        return '🔧'; // Outils
+    }
+    
+    // PAR DÉFAUT
+    return '🎵'; // Note de musique
+}
 
         // Objet pour mapper les noms de pays aux couleurs de bordure
         const countryColors = {
@@ -4825,7 +4933,7 @@
         
         // Variables pour les programmes par type
         let programsByType = {};
-
+// ===== FONCTION POUR ASSOCIER UN EMOJI AU TYPE DE PROGRAMME =====
         // ===== FONCTIONS POUR LA CARTE =====
         function initMap() {
             // Initialiser la carte centrée sur l'Europe
@@ -6586,9 +6694,10 @@ function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
                 <div class="next-program-time">
                     <i class="fas fa-clock"></i> ${heures}
                 </div>
-                <div class="next-program-type">
-                    <i class="fas fa-music"></i> ${programmeType.substring(0, 15)}${programmeType.length > 15 ? '…' : ''}
-                </div>
+                <div class="next-program-type" style="display: flex; align-items: center; gap: 4px;">
+    <span style="font-size: 1.1rem;">${getProgramEmoji(programmeType)}</span>
+    <span>${programmeType.substring(0, 15)}${programmeType.length > 15 ? '…' : ''}</span>
+</div>
             </div>
             
             <div class="next-program-action-btns" onclick="event.stopPropagation();">
@@ -7113,7 +7222,7 @@ window.addEventListener('resize', function() {
             displayDateDetailsCompact(dateDetailsGrid, programData);
         }
 
-// ===== VERSION ULTRA COMPACTE - Hauteur réduite =====
+// ===== VERSION AVEC EMOJIS PERSONNALISÉS =====
 function displayProgramInfoCompact(container, programData) {
     container.innerHTML = '';
     
@@ -7121,73 +7230,80 @@ function displayProgramInfoCompact(container, programData) {
     mainContainer.style.width = '100%';
     mainContainer.style.display = 'flex';
     mainContainer.style.flexDirection = 'column';
-    mainContainer.style.gap = '6px'; // ⬅️ Réduit de 10px à 6px
+    mainContainer.style.gap = '6px';
     
-    // ===== LIGNE 1 : Programme à gauche, Heure/Lieu à droite =====
+    // Récupérer l'emoji correspondant au programme
+    const programEmoji = getProgramEmoji(programData.programme);
+    
+    // ===== LIGNE 1 : Programme à gauche avec EMOJI, Heure/Lieu à droite =====
     const row1 = document.createElement('div');
     row1.style.display = 'flex';
     row1.style.justifyContent = 'space-between';
     row1.style.alignItems = 'flex-start';
-    row1.style.padding = '6px 8px'; // ⬅️ Réduit de 10px 12px à 6px 8px
+    row1.style.padding = '6px 8px';
     row1.style.background = '#fff4e6';
-    row1.style.borderRadius = '6px'; // ⬅️ Réduit de 8px à 6px
+    row1.style.borderRadius = '6px';
     row1.style.borderLeft = '4px solid #f97316';
     
-    // PARTIE GAUCHE : Programme sur 2 lignes
+    // PARTIE GAUCHE : Programme sur 2 lignes avec EMOJI PERSONNALISÉ
     const leftDiv = document.createElement('div');
     leftDiv.style.display = 'flex';
     leftDiv.style.flexDirection = 'column';
-    leftDiv.style.gap = '2px'; // ⬅️ Réduit de 4px à 2px
+    leftDiv.style.gap = '2px';
     leftDiv.style.flex = '1';
     
-    const programEmoji = document.createElement('div');
-    programEmoji.innerHTML = `<i class="fas fa-music" style="color: #f97316; font-size: 1.1rem;"></i>`; // ⬅️ Réduit de 1.3rem à 1.1rem
+    // Ligne avec l'emoji (personnalisé selon le type)
+    const programEmojiLine = document.createElement('div');
+    programEmojiLine.style.fontSize = '1.3rem';
+    programEmojiLine.style.lineHeight = '1';
+    programEmojiLine.textContent = programEmoji; // Emoji dynamique
     
+    // Texte du programme
     const programText = document.createElement('div');
     programText.style.fontWeight = '700';
     programText.style.color = '#f97316';
-    programText.style.fontSize = '0.85rem'; // ⬅️ Réduit de 0.95rem à 0.85rem
+    programText.style.fontSize = '0.85rem';
     programText.style.lineHeight = '1.2';
-    programText.style.paddingLeft = '4px';
+    programText.style.paddingLeft = '2px';
     programText.textContent = programData.programme && programData.programme.trim() !== '' 
         ? programData.programme 
         : 'Concert';
     
-    leftDiv.appendChild(programEmoji);
+    leftDiv.appendChild(programEmojiLine);
     leftDiv.appendChild(programText);
     
-    // PARTIE DROITE : Heure et Lieu empilés verticalement
+    // PARTIE DROITE : Heure et Lieu (inchangé)
     const rightDiv = document.createElement('div');
     rightDiv.style.display = 'flex';
     rightDiv.style.flexDirection = 'column';
     rightDiv.style.alignItems = 'flex-end';
-    rightDiv.style.gap = '4px'; // ⬅️ Réduit de 6px à 4px
-    rightDiv.style.minWidth = '100px'; // ⬅️ Réduit de 120px à 100px
+    rightDiv.style.gap = '4px';
+    rightDiv.style.minWidth = '100px';
     
     // Heure
     const timeDiv = document.createElement('div');
     timeDiv.style.display = 'flex';
     timeDiv.style.alignItems = 'center';
-    timeDiv.style.gap = '4px'; // ⬅️ Réduit de 6px à 4px
+    timeDiv.style.gap = '4px';
     timeDiv.style.fontWeight = '600';
     timeDiv.style.color = '#1e40af';
-    timeDiv.style.fontSize = '0.8rem'; // ⬅️ Réduit de 0.9rem à 0.8rem
+    timeDiv.style.fontSize = '0.8rem';
     timeDiv.style.backgroundColor = '#dbeafe';
-    timeDiv.style.padding = '2px 8px'; // ⬅️ Réduit de 4px 10px à 2px 8px
-    timeDiv.style.borderRadius = '16px'; // ⬅️ Réduit de 20px à 16px
+    timeDiv.style.padding = '2px 8px';
+    timeDiv.style.borderRadius = '16px';
     timeDiv.innerHTML = `<i class="fas fa-clock" style="color: #2563eb; font-size: 0.8rem;"></i> ${programData.heures || 'Horaire'}`;
     
-    // Lieu - couleur FUSHIA
+    // Lieu
     const lieuDiv = document.createElement('div');
     lieuDiv.style.display = 'flex';
     lieuDiv.style.alignItems = 'center';
-    lieuDiv.style.gap = '4px'; // ⬅️ Réduit de 6px à 4px
+    lieuDiv.style.gap = '4px';
     lieuDiv.style.fontWeight = '600';
     lieuDiv.style.color = '#ff69b4';
-    lieuDiv.style.fontSize = '0.75rem'; // ⬅️ Réduit de 0.85rem à 0.75rem
+    lieuDiv.style.fontSize = '0.75rem';
     lieuDiv.style.backgroundColor = '#ffe4f3';
-    lieuDiv.style.padding = '2px 8px'; // ⬅️ Réduit de 4px 10px à 2px 8px
-    lieuDiv.style.borderRadius = '16px'; // ⬅️ Réduit de 20px à 16px
+    lieuDiv.style.padding = '2px 8px';
+    lieuDiv.style.borderRadius = '16px';
     lieuDiv.style.textAlign = 'right';
     lieuDiv.style.wordBreak = 'break-word';
     lieuDiv.innerHTML = `<i class="fas fa-map-marker-alt" style="color: #ff69b4; font-size: 0.8rem;"></i> ${programData.lieu || 'Lieu'}`;
@@ -7200,7 +7316,9 @@ function displayProgramInfoCompact(container, programData) {
     mainContainer.appendChild(row1);
     
     container.appendChild(mainContainer);
-}                function displayDateDetailsCompact(container, programData) {
+}
+
+                function displayDateDetailsCompact(container, programData) {
             container.innerHTML = '';
             
            const detailsToShow = [
@@ -7352,7 +7470,7 @@ function displayProgramInfoCompact(container, programData) {
     // ===== ⭐ NOUVEAU : LISTE DES PROGRAMMES DANS LE TITRE =====
     // À PLACER EXACTEMENT ICI - APRÈS LE DRAPEAU, AVANT programmesList.style.display
     
-   // ===== NOUVEAU : LISTE DES PROGRAMMES DANS LE TITRE - VERSION COMPACTE =====
+  // ===== NOUVEAU : LISTE DES PROGRAMMES DANS LE TITRE AVEC EMOJIS =====
 const modalHeader = document.querySelector('.modal-compact-title');
 const modalLocationInfo = document.getElementById('modalLocationInfo');
 
@@ -7361,28 +7479,35 @@ let programListHeader = document.getElementById('programListHeader');
 if (!programListHeader) {
     programListHeader = document.createElement('div');
     programListHeader.id = 'programListHeader';
-    programListHeader.style.marginTop = '4px'; // ⬅️ Réduit de 8px à 4px
-    programListHeader.style.marginBottom = '2px'; // ⬅️ AJOUTÉ
-    programListHeader.style.padding = '4px 8px'; // ⬅️ Réduit de 6px 10px à 4px 8px
+    programListHeader.style.marginTop = '4px';
+    programListHeader.style.marginBottom = '2px';
+    programListHeader.style.padding = '4px 8px';
     programListHeader.style.background = '#f8f9fa';
-    programListHeader.style.borderRadius = '4px'; // ⬅️ Réduit de 6px à 4px
-    programListHeader.style.borderLeft = '3px solid #8A2BE2'; // ⬅️ Réduit de 4px à 3px
-    programListHeader.style.fontSize = '0.7rem'; // ⬅️ Réduit de 0.8rem à 0.7rem
+    programListHeader.style.borderRadius = '4px';
+    programListHeader.style.borderLeft = '3px solid #8A2BE2';
+    programListHeader.style.fontSize = '0.7rem';
     programListHeader.style.lineHeight = '1.2';
     
     // Insérer après modalLocationInfo
     modalLocationInfo.parentNode.insertBefore(programListHeader, modalLocationInfo.nextSibling);
 }
 
-// Remplir la liste des programmes - VERSION PLUS COMPACTE
-let programListHtml = '<div style="display: flex; flex-wrap: wrap; gap: 4px;">'; // ⬅️ Réduit de 6px à 4px
+// Remplir la liste des programmes avec EMOJIS
+let programListHtml = '<div style="display: flex; flex-wrap: wrap; gap: 4px;">';
 allProgramsForDate.forEach((program, index) => {
     const programmeText = program.programme && program.programme.trim() !== '' 
         ? program.programme 
         : 'Concert';
+    
+    // Récupérer l'emoji pour ce programme
+    const emoji = getProgramEmoji(programmeText);
+    
     // Version tronquée pour gagner de la place
-    const shortText = programmeText.length > 20 ? programmeText.substring(0, 18) + '…' : programmeText;
-    programListHtml += `<span style="background: #e9d5ff; padding: 1px 6px; border-radius: 10px; font-weight: 600; color: #6b21a8; font-size: 0.65rem;">${index + 1}. ${shortText}</span>`;
+    const shortText = programmeText.length > 15 ? programmeText.substring(0, 12) + '…' : programmeText;
+    
+    programListHtml += `<span style="background: #e9d5ff; padding: 2px 8px; border-radius: 12px; font-weight: 600; color: #6b21a8; font-size: 0.65rem; display: inline-flex; align-items: center; gap: 3px;">
+        ${emoji} ${index + 1}. ${shortText}
+    </span>`;
 });
 programListHtml += '</div>';
 programListHeader.innerHTML = programListHtml;
