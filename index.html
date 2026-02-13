@@ -7304,54 +7304,81 @@ window.addEventListener('resize', function() {
     
     listContainer.innerHTML = '';
     
-    // Si un type spécifique est demandé
-    if (selectedType && programsByType[selectedType]) {
-        const programs = programsByType[selectedType];
-        const typeCard = document.createElement('div');
-        typeCard.className = 'program-type-card';
+   // Dans showProgramsByType, pour l'affichage d'un type spécifique
+if (selectedType && programsByType[selectedType]) {
+    const programs = programsByType[selectedType];
+    const typeCard = document.createElement('div');
+    typeCard.className = 'program-type-card';
+    
+    const hasExcluded = programs.some(p => p.isExcluded);
+    
+    const typeTitle = document.createElement('div');
+    typeTitle.style.fontWeight = 'bold';
+    typeTitle.style.marginBottom = '10px';
+    typeTitle.style.padding = '8px';
+    typeTitle.style.background = hasExcluded ? '#f8fafc' : '#f0f9ff';
+    typeTitle.style.borderRadius = '6px';
+    typeTitle.style.position = 'sticky';
+    typeTitle.style.top = '0';
+    typeTitle.style.zIndex = '10';
+    typeTitle.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 1rem; color: ${hasExcluded ? '#64748b' : '#065f46'};">
+                ${selectedType.charAt(0).toUpperCase() + selectedType.slice(1)} 
+                (${programs.length} programme${programs.length > 1 ? 's' : ''})
+            </span>
+            ${hasExcluded ? '<span style="color:#94a3b8; font-size:0.8rem;">⏭️ Certains non comptés</span>' : ''}
+        </div>
+    `;
+    
+    const programsList = document.createElement('div');
+    programsList.style.fontSize = '0.8rem';
+    programsList.style.maxHeight = '60vh';
+    programsList.style.overflowY = 'auto';
+    programsList.style.padding = '5px';
+    
+    // TRIER PAR DATE et TOUS LES AFFICHER (pas de limite)
+    const sortedPrograms = [...programs].sort((a, b) => a.date - b.date);
+    
+    sortedPrograms.forEach((program, index) => {
+        const programItem = document.createElement('div');
+        programItem.style.padding = '8px';
+        programItem.style.margin = '4px 0';
+        programItem.style.borderRadius = '6px';
+        programItem.style.backgroundColor = program.isExcluded ? '#fff5f5' : '#ffffff';
+        programItem.style.border = program.isExcluded ? '1px solid #fed7d7' : '1px solid #e2e8f0';
+        programItem.style.borderLeft = program.isExcluded ? '4px solid #fc8181' : '4px solid #10b981';
+        programItem.style.cursor = 'pointer';
         
-        const isExcluded = window.excludedPrograms?.byType[selectedType] > 0;
+        const dateStr = formatDateForDisplay(program.date);
+        const emoji = getProgramEmoji(program.programme || 'Concert');
         
-        const typeTitle = document.createElement('div');
-        typeTitle.style.fontWeight = 'bold';
-        typeTitle.style.marginBottom = '6px';
-        typeTitle.style.color = isExcluded ? '#64748b' : '#065f46';
-        typeTitle.innerHTML = `${selectedType.charAt(0).toUpperCase() + selectedType.slice(1)} (${programs.length}) ${isExcluded ? '⏭️' : ''}`;
-        
-        const programsList = document.createElement('div');
-        programsList.style.fontSize = '0.75rem';
-        programsList.style.maxHeight = '300px';
-        programsList.style.overflowY = 'auto';
-        
-        programs.forEach(program => {
-            const programItem = document.createElement('div');
-            programItem.style.padding = '4px 0';
-            programItem.style.borderBottom = '1px dashed #e5e7eb';
-            programItem.style.cursor = 'pointer';
-            if (isExcluded) programItem.style.opacity = '0.8';
-            
-            const dateStr = formatDateForDisplay(program.date);
-            programItem.innerHTML = `
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="font-weight: 600; color: #059669;">📅 ${dateStr}</span>
-                    ${isExcluded ? '<span style="color:#94a3b8;">⏭️</span>' : ''}
+        programItem.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1.2rem;">${emoji}</span>
+                    <span style="font-weight: 700; color: #059669;">${dateStr}</span>
                 </div>
-                <div style="color: #2d3748;">📍 ${program.localite || 'Localité non spécifiée'}</div>
-                <div style="color: #718096; font-size: 0.65rem;">🎵 ${program.lieu || 'Lieu non spécifié'}</div>
-            `;
-            
-            programItem.addEventListener('click', () => {
-                closeProgramTypeModal();
-                showRecapDateModal(program);
-            });
-            
-            programsList.appendChild(programItem);
+                ${program.isExcluded ? '<span style="color:#94a3b8; font-size:0.7rem; background:#f1f5f9; padding:2px 6px; border-radius:12px;">⏭️ non compté</span>' : ''}
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 8px; margin-left: 28px;">
+                <div style="color: #2d3748; font-weight: 600;">📍 ${program.localite || '?'}</div>
+                <div style="color: #f97316;">🎪 ${program.lieu || '?'}</div>
+            </div>
+        `;
+        
+        programItem.addEventListener('click', () => {
+            closeProgramTypeModal();
+            showRecapDateModal(program);
         });
         
-        typeCard.appendChild(typeTitle);
-        typeCard.appendChild(programsList);
-        listContainer.appendChild(typeCard);
-    } else {
+        programsList.appendChild(programItem);
+    });
+    
+    typeCard.appendChild(typeTitle);
+    typeCard.appendChild(programsList);
+    listContainer.appendChild(typeCard);
+} else {
         // Afficher tous les types (comportement normal)
         const sortedTypes = Object.keys(programsByType).sort();
         
@@ -8191,7 +8218,7 @@ dateNavigation.style.display = 'none';
     
     programsByType = {};
     
-    // ===== NOUVEAU : STOCKER SÉPARÉMENT LES TYPES EXCLUS =====
+    // ===== STOCKER SÉPARÉMENT LES TYPES EXCLUS =====
     window.excludedPrograms = {
         total: 0,
         byType: {},
@@ -8234,46 +8261,64 @@ dateNavigation.style.display = 'none';
                 const isExcluded = excludedTypes.some(type => programmeLower.includes(type));
                 
                 // ===== TOUJOURS STOCKER DANS programsByType POUR L'AFFICHAGE =====
-                // (même les exclus, pour pouvoir les voir)
                 if (!programsByType[programmeLower]) {
                     programsByType[programmeLower] = [];
                 }
                 programsByType[programmeLower].push({
                     ...item,
-                    ...rowData
+                    ...rowData,
+                    isExcluded: isExcluded
                 });
                 
                 if (!isExcluded) {
                     // ===== COMPTER UNIQUEMENT LES ACTIVITÉS NON EXCLUES =====
                     programmeStats.total++;
                     
-                    // Statistiques par type de programme (comptage)
+                    // Statistiques par type
                     programmeStats.byType[programmeLower] = (programmeStats.byType[programmeLower] || 0) + 1;
                     
-                    // Statistiques par pays (comptage)
+                    // Statistiques par pays
                     if (!programmeStats.byCountry[pays]) {
                         programmeStats.byCountry[pays] = {
                             total: 0,
                             byType: {},
-                            days: new Set()
+                            days: new Set(),
+                            excludedTotal: 0,
+                            excludedByType: {}
                         };
                     }
                     programmeStats.byCountry[pays].total++;
                     programmeStats.byCountry[pays].byType[programmeLower] = (programmeStats.byCountry[pays].byType[programmeLower] || 0) + 1;
                     programmeStats.byCountry[pays].days.add(item.date.getTime());
                 } else {
-                    // ===== STOCKER LES EXCLUS SÉPARÉMENT =====
+                    // ===== STOCKER LES EXCLUS =====
                     window.excludedPrograms.total++;
                     window.excludedPrograms.byType[programmeLower] = (window.excludedPrograms.byType[programmeLower] || 0) + 1;
                     window.excludedPrograms.list.push({
                         ...item,
                         ...rowData
                     });
+                    
+                    // ===== DANS LES STATS PAR PAYS (À PART) =====
+                    if (!programmeStats.byCountry[pays]) {
+                        programmeStats.byCountry[pays] = {
+                            total: 0,
+                            byType: {},
+                            days: new Set(),
+                            excludedTotal: 0,
+                            excludedByType: {}
+                        };
+                    }
+                    programmeStats.byCountry[pays].excludedTotal++;
+                    programmeStats.byCountry[pays].excludedByType[programmeLower] = 
+                        (programmeStats.byCountry[pays].excludedByType[programmeLower] || 0) + 1;
+                    programmeStats.byCountry[pays].days.add(item.date.getTime());
                 }
             }
         }
     });
     
+    // Appeler la fonction de mise à jour
     updateProgrammeStatsDisplay();
 }
 
@@ -8492,86 +8537,108 @@ dateNavigation.style.display = 'none';
             }
             
             // Statistiques détaillées par pays
-            if (countryStatsSection && countryStatsGrid) {
-                const allCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE', 'MADAGASCAR'];
+           // ===== STATISTIQUES DÉTAILLÉES PAR PAYS =====
+if (countryStatsSection && countryStatsGrid) {
+    const allCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE', 'MADAGASCAR'];
+    
+    if (allCountries.some(country => programmeStats.byCountry[country] || 
+        (window.excludedPrograms && window.excludedPrograms.list.some(p => p.pays?.toUpperCase() === country)))) {
+        countryStatsSection.style.display = 'block';
+        countryStatsGrid.innerHTML = '';
+        
+        allCountries.forEach(country => {
+            const countryData = programmeStats.byCountry[country];
+            const countryName = formatCountryName(country);
+            const dayCount = countryData ? countryData.days.size : 0;
+            
+            // Compter les programmes exclus pour ce pays
+            const excludedInCountry = window.excludedPrograms?.list.filter(p => 
+                p.pays?.toUpperCase() === country) || [];
+            const excludedCount = excludedInCountry.length;
+            
+            // Regrouper les exclus par type
+            const excludedByType = {};
+            excludedInCountry.forEach(p => {
+                const type = p.programme?.toLowerCase() || 'concert';
+                excludedByType[type] = (excludedByType[type] || 0) + 1;
+            });
+            
+            const statItem = document.createElement('div');
+            statItem.className = 'country-stat-item';
+            
+            const countryNameDiv = document.createElement('div');
+            countryNameDiv.className = 'country-stat-name';
+            
+            const flagClass = countryFlags[country] || 'flag-france';
+            const flagDiv = document.createElement('div');
+            flagDiv.className = `country-flag-compact ${flagClass}`;
+            flagDiv.style.width = '14px';
+            flagDiv.style.height = '10px';
+            flagDiv.style.display = 'inline-block';
+            flagDiv.style.marginRight = '4px';
+            
+            countryNameDiv.appendChild(flagDiv);
+            countryNameDiv.appendChild(document.createTextNode(` ${countryName}`));
+            
+            const valuesDiv = document.createElement('div');
+            valuesDiv.className = 'country-stat-values';
+            
+            const programCount = countryData ? countryData.total : 0;
+            
+            const valueDiv = document.createElement('div');
+            valueDiv.className = 'country-stat-value';
+            valueDiv.innerHTML = `<i class="fas fa-music"></i> ${programCount}${excludedCount > 0 ? ` +${excludedCount}` : ''}`;
+            valueDiv.title = `${excludedCount} programme${excludedCount > 1 ? 's' : ''} non compté${excludedCount > 1 ? 's' : ''}`;
+            
+            const daysDiv = document.createElement('div');
+            daysDiv.className = 'country-stat-days';
+            daysDiv.innerHTML = `<i class="fas fa-calendar-day"></i> ${dayCount}`;
+            
+            valuesDiv.appendChild(valueDiv);
+            valuesDiv.appendChild(daysDiv);
+            
+            statItem.appendChild(countryNameDiv);
+            statItem.appendChild(valuesDiv);
+            
+            // Afficher les détails des types (comptés et exclus)
+            if ((countryData && Object.keys(countryData.byType).length > 0) || excludedCount > 0) {
+                let typeDetails = '<div style="margin-top: 5px;">';
                 
-                if (allCountries.some(country => programmeStats.byCountry[country])) {
-                    countryStatsSection.style.display = 'block';
-                    countryStatsGrid.innerHTML = '';
-                    
-                    allCountries.forEach(country => {
-                        const countryData = programmeStats.byCountry[country];
-                        const countryName = formatCountryName(country);
-                        const dayCount = daysByCountry[country] ? daysByCountry[country].size : 0;
-                        
-                        const statItem = document.createElement('div');
-                        statItem.className = 'country-stat-item';
-                        statItem.onclick = () => {
-                            const countryElement = document.getElementById(`country-${country.toLowerCase()}`);
-                            if (countryElement) {
-                                countryElement.scrollIntoView({behavior: 'smooth'});
-                                countryElement.style.boxShadow = '0 0 0 3px rgba(66, 153, 225, 0.5)';
-                                countryElement.style.transition = 'box-shadow 0.5s ease';
-                                setTimeout(() => {
-                                    countryElement.style.boxShadow = '';
-                                }, 2000);
-                            }
-                        };
-                        
-                        const countryNameDiv = document.createElement('div');
-                        countryNameDiv.className = 'country-stat-name';
-                        
-                        const flagClass = countryFlags[country] || 'flag-france';
-                        const flagDiv = document.createElement('div');
-                        flagDiv.className = `country-flag-compact ${flagClass}`;
-                        flagDiv.style.width = '14px';
-                        flagDiv.style.height = '10px';
-                        flagDiv.style.display = 'inline-block';
-                        flagDiv.style.marginRight = '4px';
-                        
-                        countryNameDiv.appendChild(flagDiv);
-                        countryNameDiv.appendChild(document.createTextNode(` ${countryName}`));
-                        
-                        const valuesDiv = document.createElement('div');
-                        valuesDiv.className = 'country-stat-values';
-                        
-                        const programCount = countryData ? countryData.total : 0;
-                        
-                        const valueDiv = document.createElement('div');
-                        valueDiv.className = 'country-stat-value';
-                        valueDiv.innerHTML = `<i class="fas fa-music"></i> ${programCount}`;
-                        
-                        const daysDiv = document.createElement('div');
-                        daysDiv.className = 'country-stat-days';
-                        daysDiv.innerHTML = `<i class="fas fa-calendar-day"></i> ${dayCount}`;
-                        
-                        valuesDiv.appendChild(valueDiv);
-                        valuesDiv.appendChild(daysDiv);
-                        
-                        statItem.appendChild(countryNameDiv);
-                        statItem.appendChild(valuesDiv);
-                        
-                        if (countryData && Object.keys(countryData.byType).length > 0) {
-                            let typeDetails = '';
-                            Object.keys(countryData.byType).forEach(type => {
-                                const count = countryData.byType[type];
-                                const typeName = type.charAt(0).toUpperCase() + type.slice(1);
-                                typeDetails += `<div style="font-size: 0.65rem; color: #718096; margin-top: 2px;">• ${typeName}: ${count}</div>`;
-                            });
-                            
-                            if (typeDetails) {
-                                const detailsDiv = document.createElement('div');
-                                detailsDiv.innerHTML = typeDetails;
-                                statItem.appendChild(detailsDiv);
-                            }
-                        }
-                        
-                        countryStatsGrid.appendChild(statItem);
+                // Types comptés
+                if (countryData && countryData.byType) {
+                    Object.keys(countryData.byType).forEach(type => {
+                        const count = countryData.byType[type];
+                        const typeName = type.charAt(0).toUpperCase() + type.slice(1);
+                        typeDetails += `<div style="font-size: 0.65rem; color: #059669; display: flex; justify-content: space-between;">
+                            <span>• ${typeName}:</span> <span>${count}</span>
+                        </div>`;
                     });
-                } else {
-                    countryStatsSection.style.display = 'none';
                 }
+                
+                // Types exclus
+                if (excludedCount > 0) {
+                    Object.keys(excludedByType).forEach(type => {
+                        const count = excludedByType[type];
+                        const typeName = type.charAt(0).toUpperCase() + type.slice(1);
+                        typeDetails += `<div style="font-size: 0.65rem; color: #94a3b8; display: flex; justify-content: space-between;">
+                            <span>• ${typeName} ⏭️:</span> <span>${count}</span>
+                        </div>`;
+                    });
+                }
+                
+                typeDetails += '</div>';
+                
+                const detailsDiv = document.createElement('div');
+                detailsDiv.innerHTML = typeDetails;
+                statItem.appendChild(detailsDiv);
             }
+            
+            countryStatsGrid.appendChild(statItem);
+        });
+    } else {
+        countryStatsSection.style.display = 'none';
+    }
+}
         }
 
         function updateCalendarStats() {
@@ -9647,6 +9714,96 @@ function openPopupWithBetterPosition(marker) {
             tourMap.panTo(newCenter, { animate: true, duration: 0.5 });
         }
     }, 100);
+}
+// ===== MODAL POUR VOIR TOUS LES PROGRAMMES =====
+function showAllProgramsModal() {
+    const modal = document.getElementById('programTypeModal');
+    const listContainer = document.getElementById('programTypeList');
+    
+    listContainer.innerHTML = '';
+    
+    // Agrandir le modal
+    const modalContent = document.querySelector('.program-type-modal-content');
+    if (modalContent) {
+        modalContent.style.maxWidth = '900px';
+        modalContent.style.maxHeight = '85vh';
+    }
+    
+    // En-tête avec compteurs
+    const header = document.createElement('div');
+    header.style.position = 'sticky';
+    header.style.top = '0';
+    header.style.background = 'white';
+    header.style.zIndex = '20';
+    header.style.padding = '10px';
+    header.style.borderBottom = '2px solid #e2e8f0';
+    header.style.marginBottom = '10px';
+    header.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-list"></i> Tous les programmes
+                <span style="font-size:0.8rem; color:#718096;">(${Object.values(programsByType).reduce((acc, val) => acc + val.length, 0)} total)</span>
+            </h3>
+            <div>
+                <span style="font-size:0.75rem; background:#e9d5ff; padding:4px 8px; border-radius:12px; margin-right:8px;">
+                    ✅ ${programmeStats.total} comptés
+                </span>
+                <span style="font-size:0.75rem; background:#f1f5f9; padding:4px 8px; border-radius:12px;">
+                    ⏭️ ${window.excludedPrograms?.total || 0} exclus
+                </span>
+            </div>
+        </div>
+    `;
+    listContainer.appendChild(header);
+    
+    // Rassembler tous les programmes triés par date
+    const allPrograms = [];
+    Object.values(programsByType).forEach(progs => {
+        allPrograms.push(...progs);
+    });
+    
+    const sortedAll = allPrograms.sort((a, b) => a.date - b.date);
+    
+    // Afficher TOUS les programmes (pas de limite)
+    sortedAll.forEach(program => {
+        const programItem = document.createElement('div');
+        programItem.style.padding = '10px';
+        programItem.style.margin = '5px 0';
+        programItem.style.borderRadius = '6px';
+        programItem.style.backgroundColor = program.isExcluded ? '#fff5f5' : '#ffffff';
+        programItem.style.border = program.isExcluded ? '1px solid #fed7d7' : '1px solid #e2e8f0';
+        programItem.style.borderLeft = program.isExcluded ? '4px solid #fc8181' : '4px solid #10b981';
+        programItem.style.cursor = 'pointer';
+        
+        const dateStr = formatDateForDisplay(program.date);
+        const emoji = getProgramEmoji(program.programme || 'Concert');
+        
+        programItem.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.3rem;">${emoji}</span>
+                    <div>
+                        <div style="font-weight: 700; color: #059669;">${dateStr}</div>
+                        <div style="font-size: 0.85rem;">${program.programme || 'Concert'}</div>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-weight: 600;">${program.localite || '?'}</div>
+                    <div style="font-size: 0.7rem; color: #718096;">${program.pays || '?'}</div>
+                </div>
+            </div>
+            ${program.isExcluded ? '<div style="margin-top:5px; font-size:0.7rem; color:#94a3b8;"><i>⏭️ Non compté dans les statistiques</i></div>' : ''}
+        `;
+        
+        programItem.onclick = () => {
+            closeProgramTypeModal();
+            showRecapDateModal(program);
+        };
+        
+        listContainer.appendChild(programItem);
+    });
+    
+    modal.style.display = 'flex';
 }
     </script>
 </body>
