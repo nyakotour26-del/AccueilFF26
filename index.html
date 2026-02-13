@@ -4298,6 +4298,181 @@
     content: '⏭️';
     font-size: 0.7rem;
 }
+/* ===== STATISTIQUES PAYS CLIQUABLES ===== */
+.country-stat-item {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.country-stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15) !important;
+}
+
+.country-stat-item:hover .country-stat-name {
+    color: #f97316;
+}
+
+.country-stat-item .country-stat-name span:last-child {
+    transition: opacity 0.2s;
+}
+
+.country-stat-item:hover .country-stat-name span:last-child {
+    opacity: 1;
+    color: #f97316;
+}
+
+/* Animation de pulsation pour indiquer le clic */
+@keyframes clickPulse {
+    0% { box-shadow: 0 0 0 0 #f97316; }
+    70% { box-shadow: 0 0 0 10px rgba(249, 115, 22, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+}
+
+.country-stat-item:active {
+    animation: clickPulse 0.5s;
+}
+
+/* Bouton "Voir tous" dans le récapitulatif */
+.view-all-programs-btn {
+    transition: all 0.2s;
+}
+
+.view-all-programs-btn:hover {
+    background: #fb923c !important;
+    transform: scale(1.05);
+}
+/* ===== STYLE POUR LES PROGRAMMES PAR TYPE ===== */
+.program-type-modal-content {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+}
+
+/* Style spécifique pour les concerts */
+.program-item.concert {
+    border-left: 4px solid #f97316 !important;
+    background: linear-gradient(to right, #fff9f0, #ffffff) !important;
+}
+
+.program-item.concert:hover {
+    background: #fff4e6 !important;
+}
+
+.program-item.concert .program-title {
+    color: #f97316 !important;
+    font-weight: 700 !important;
+}
+
+/* Badge concert */
+.concert-badge {
+    background: rgba(249, 115, 22, 0.15);
+    color: #f97316;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Badge exclu */
+.excluded-badge {
+    background: #f1f5f9;
+    color: #64748b;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Animation d'apparition */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.program-item {
+    animation: slideIn 0.3s ease-out;
+    animation-fill-mode: both;
+}
+
+.program-item:nth-child(1) { animation-delay: 0.05s; }
+.program-item:nth-child(2) { animation-delay: 0.1s; }
+.program-item:nth-child(3) { animation-delay: 0.15s; }
+.program-item:nth-child(4) { animation-delay: 0.2s; }
+.program-item:nth-child(5) { animation-delay: 0.25s; }
+.program-item:nth-child(6) { animation-delay: 0.3s; }
+.program-item:nth-child(7) { animation-delay: 0.35s; }
+.program-item:nth-child(8) { animation-delay: 0.4s; }
+.program-item:nth-child(9) { animation-delay: 0.45s; }
+.program-item:nth-child(10) { animation-delay: 0.5s; }
+
+/* ===== STYLE POUR LA BARRE DE RECHERCHE ===== */
+#programSearchInput:focus {
+    border-color: #4299e1 !important;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2) !important;
+    outline: none !important;
+}
+
+#searchClearBtn:hover {
+    background: #e2e8f0 !important;
+    transform: translateY(-1px);
+}
+
+/* Animation des résultats */
+@keyframes searchFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.programs-list-custom > div {
+    animation: searchFadeIn 0.2s ease-out;
+}
+
+/* Message aucun résultat */
+.no-result-message {
+    padding: 40px 20px;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.85rem;
+}
+
+.no-result-message i {
+    font-size: 3rem;
+    opacity: 0.3;
+    margin-bottom: 15px;
+}
+
+/* À ajouter dans ton fichier CSS */
+.program-type-modal-content {
+    max-width: 500px !important;
+    width: 95% !important;
+    margin: 0 auto !important;
+}
+
+@media (max-width: 768px) {
+    .program-type-modal-content {
+        max-width: 95% !important;
+        width: 95% !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -7291,9 +7466,25 @@ window.addEventListener('resize', function() {
         function closeLivreOrModal() {
             document.getElementById('livreOrModal').style.display = 'none';
         }
-
-        // Fonctions pour le modal Programmes par type
-        function showProgramsByType(selectedType = null) {
+// ===== FONCTION DE RECHERCHE DANS LES PROGRAMMES =====
+function filterProgramsBySearch(programs, searchTerm) {
+    if (!searchTerm || searchTerm.trim() === '') return programs;
+    
+    const term = searchTerm.toLowerCase().trim();
+    
+    return programs.filter(program => {
+        return (
+            (program.programme && program.programme.toLowerCase().includes(term)) ||
+            (program.localite && program.localite.toLowerCase().includes(term)) ||
+            (program.lieu && program.lieu.toLowerCase().includes(term)) ||
+            (program.pays && program.pays.toLowerCase().includes(term)) ||
+            (program.heures && program.heures.toLowerCase().includes(term)) ||
+            formatDateForDisplay(program.date).toLowerCase().includes(term)
+        );
+    });
+}
+     // ===== FONCTION POUR AFFICHER LES PROGRAMMES PAR TYPE =====
+function showProgramsByType(selectedType = null) {
     const modal = document.getElementById('programTypeModal');
     const listContainer = document.getElementById('programTypeList');
     
@@ -7304,160 +7495,488 @@ window.addEventListener('resize', function() {
     
     listContainer.innerHTML = '';
     
-   // Dans showProgramsByType, pour l'affichage d'un type spécifique
-if (selectedType && programsByType[selectedType]) {
-    const programs = programsByType[selectedType];
-    const typeCard = document.createElement('div');
-    typeCard.className = 'program-type-card';
+    // Configuration du MODAL (conteneur principal)
+    const modalContent = document.querySelector('.program-type-modal-content');
+    if (modalContent) {
+        modalContent.style.maxWidth = '700px';
+        modalContent.style.maxHeight = '80vh';
+        modalContent.style.overflowY = 'hidden'; // Important: cacher le scroll du modal
+        modalContent.style.display = 'flex';
+        modalContent.style.flexDirection = 'column';
+        modalContent.style.borderRadius = '12px';
+        modalContent.style.padding = '0';
+        modalContent.style.margin = '0';
+    }
     
-    const hasExcluded = programs.some(p => p.isExcluded);
+    // Style du conteneur de liste
+    listContainer.style.display = 'flex';
+    listContainer.style.flexDirection = 'column';
+    listContainer.style.height = '100%';
+    listContainer.style.overflow = 'hidden';
+    listContainer.style.padding = '0';
+    listContainer.style.margin = '0';
     
-    const typeTitle = document.createElement('div');
-    typeTitle.style.fontWeight = 'bold';
-    typeTitle.style.marginBottom = '10px';
-    typeTitle.style.padding = '8px';
-    typeTitle.style.background = hasExcluded ? '#f8fafc' : '#f0f9ff';
-    typeTitle.style.borderRadius = '6px';
-    typeTitle.style.position = 'sticky';
-    typeTitle.style.top = '0';
-    typeTitle.style.zIndex = '10';
-    typeTitle.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 1rem; color: ${hasExcluded ? '#64748b' : '#065f46'};">
-                ${selectedType.charAt(0).toUpperCase() + selectedType.slice(1)} 
-                (${programs.length} programme${programs.length > 1 ? 's' : ''})
-            </span>
-            ${hasExcluded ? '<span style="color:#94a3b8; font-size:0.8rem;">⏭️ Certains non comptés</span>' : ''}
-        </div>
-    `;
+    // Fonction de recherche
+    function filterProgramsBySearch(programs, term) {
+        if (!term || term.trim() === '') return programs;
+        const searchTerm = term.toLowerCase().trim();
+        return programs.filter(p => 
+            (p.programme && p.programme.toLowerCase().includes(searchTerm)) ||
+            (p.localite && p.localite.toLowerCase().includes(searchTerm)) ||
+            (p.lieu && p.lieu.toLowerCase().includes(searchTerm)) ||
+            (p.pays && p.pays.toLowerCase().includes(searchTerm)) ||
+            formatDateForDisplay(p.date).toLowerCase().includes(searchTerm)
+        );
+    }
     
-    const programsList = document.createElement('div');
-    programsList.style.fontSize = '0.8rem';
-    programsList.style.maxHeight = '60vh';
-    programsList.style.overflowY = 'auto';
-    programsList.style.padding = '5px';
-    
-    // TRIER PAR DATE et TOUS LES AFFICHER (pas de limite)
-    const sortedPrograms = [...programs].sort((a, b) => a.date - b.date);
-    
-    sortedPrograms.forEach((program, index) => {
-        const programItem = document.createElement('div');
-        programItem.style.padding = '8px';
-        programItem.style.margin = '4px 0';
-        programItem.style.borderRadius = '6px';
-        programItem.style.backgroundColor = program.isExcluded ? '#fff5f5' : '#ffffff';
-        programItem.style.border = program.isExcluded ? '1px solid #fed7d7' : '1px solid #e2e8f0';
-        programItem.style.borderLeft = program.isExcluded ? '4px solid #fc8181' : '4px solid #10b981';
-        programItem.style.cursor = 'pointer';
+    // ===== SI UN TYPE SPÉCIFIQUE EST DEMANDÉ =====
+    if (selectedType && programsByType[selectedType]) {
+        const programs = programsByType[selectedType];
         
-        const dateStr = formatDateForDisplay(program.date);
-        const emoji = getProgramEmoji(program.programme || 'Concert');
+        // Trier par date
+        const sortedPrograms = [...programs].sort((a, b) => a.date - b.date);
         
-        programItem.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 1.2rem;">${emoji}</span>
-                    <span style="font-weight: 700; color: #059669;">${dateStr}</span>
+        // Couleurs
+        const isConcert = selectedType.toLowerCase().includes('concert');
+        const headerColor = isConcert ? '#f97316' : '#8A2BE2';
+        
+        // Compter les exclus
+        const excludedCount = programs.filter(p => p.isExcluded).length;
+        const countedCount = programs.length - excludedCount;
+        
+        // ===== ZONE FIXE EN HAUT (NE SCROLLERA JAMAIS) =====
+        const fixedHeader = document.createElement('div');
+        fixedHeader.style.flexShrink = '0'; // Empêche le rétrécissement
+        fixedHeader.style.backgroundColor = 'white';
+        fixedHeader.style.borderBottom = `2px solid ${headerColor}`;
+        fixedHeader.style.boxShadow = '0 2px 8px rgba(0,0,0,0.05)';
+        fixedHeader.style.width = '100%';
+        
+        // ----- TITRE ET COMPTEURS -----
+        const titleSection = document.createElement('div');
+        titleSection.style.padding = '15px 20px 10px';
+        titleSection.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h3 style="margin:0; color: ${headerColor}; font-size: 1.1rem; display: flex; align-items: center; gap: 6px;">
+                        <span style="font-size: 1.5rem;">${getProgramEmoji(selectedType)}</span>
+                        ${selectedType.charAt(0).toUpperCase() + selectedType.slice(1)}
+                    </h3>
+                    <div style="font-size: 0.7rem; color: #718096; margin-top: 2px;">
+                        ${programs.length} programme${programs.length > 1 ? 's' : ''}
+                    </div>
                 </div>
-                ${program.isExcluded ? '<span style="color:#94a3b8; font-size:0.7rem; background:#f1f5f9; padding:2px 6px; border-radius:12px;">⏭️ non compté</span>' : ''}
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 8px; margin-left: 28px;">
-                <div style="color: #2d3748; font-weight: 600;">📍 ${program.localite || '?'}</div>
-                <div style="color: #f97316;">🎪 ${program.lieu || '?'}</div>
+                <div style="display: flex; gap: 5px;">
+                    ${countedCount > 0 ? 
+                        `<span style="background:${headerColor}15; color:${headerColor}; padding:2px 8px; border-radius:20px; font-size:0.65rem; font-weight:600;">
+                            ✅ ${countedCount}
+                        </span>` : ''}
+                    ${excludedCount > 0 ? 
+                        `<span style="background:#f1f5f9; color:#64748b; padding:2px 8px; border-radius:20px; font-size:0.65rem;">
+                            ⏭️ ${excludedCount}
+                        </span>` : ''}
+                </div>
             </div>
         `;
+        fixedHeader.appendChild(titleSection);
         
-        programItem.addEventListener('click', () => {
-            closeProgramTypeModal();
-            showRecapDateModal(program);
-        });
+        // ----- BARRE DE RECHERCHE -----
+        const searchSection = document.createElement('div');
+        searchSection.style.padding = '0 20px 10px';
+        searchSection.innerHTML = `
+            <div style="display: flex; gap: 8px;">
+                <div style="flex:1; position:relative;">
+                    <i class="fas fa-search" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:#94a3b8; font-size:0.7rem;"></i>
+                    <input type="text" id="typeSearchInput" placeholder="Rechercher dans ce type..." style="
+                        width:100%;
+                        padding:6px 10px 6px 30px;
+                        border:1px solid #e2e8f0;
+                        border-radius:20px;
+                        font-size:0.7rem;
+                        outline:none;
+                        box-sizing:border-box;
+                    ">
+                </div>
+                <button id="typeSearchClear" style="
+                    background:#f1f5f9;
+                    border:none;
+                    border-radius:20px;
+                    padding:4px 12px;
+                    font-size:0.65rem;
+                    cursor:pointer;
+                    white-space:nowrap;
+                ">Effacer</button>
+            </div>
+            <div id="typeResultCount" style="font-size:0.6rem; color:#94a3b8; margin-top:4px; text-align:right;">
+                ${programs.length} programmes
+            </div>
+        `;
+        fixedHeader.appendChild(searchSection);
         
-        programsList.appendChild(programItem);
-    });
-    
-    typeCard.appendChild(typeTitle);
-    typeCard.appendChild(programsList);
-    listContainer.appendChild(typeCard);
-} else {
-        // Afficher tous les types (comportement normal)
-        const sortedTypes = Object.keys(programsByType).sort();
+        // ----- BOUTON RETOUR (FIXÉ DANS LE HEADER) -----
+        const backSection = document.createElement('div');
+        backSection.style.padding = '0 20px 15px';
+        backSection.innerHTML = `
+            <button id="typeBackBtn" style="
+                display:block;
+                width:100%;
+                padding:8px 0;
+                background-color:#4299e1;
+                color:white;
+                border:none;
+                border-radius:30px;
+                font-size:0.75rem;
+                font-weight:600;
+                cursor:pointer;
+                text-align:center;
+                transition:all 0.2s;
+            ">← Retour aux types</button>
+        `;
+        fixedHeader.appendChild(backSection);
         
-        sortedTypes.forEach(type => {
-            const programs = programsByType[type];
-            const isExcluded = window.excludedPrograms?.byType[type] > 0;
-            const excludedCount = window.excludedPrograms?.byType[type] || 0;
-            const countedCount = programmeStats.byType[type] || 0;
+        listContainer.appendChild(fixedHeader);
+        
+        // ===== ZONE SCROLLABLE (LISTE DES PROGRAMMES) =====
+        const scrollableContent = document.createElement('div');
+        scrollableContent.style.flex = '1';
+        scrollableContent.style.overflowY = 'auto';
+        scrollableContent.style.padding = '15px';
+        scrollableContent.style.backgroundColor = '#ffffff';
+        
+        function renderTypePrograms(searchTerm) {
+            scrollableContent.innerHTML = '';
+            const filtered = filterProgramsBySearch(sortedPrograms, searchTerm);
             
-            const typeCard = document.createElement('div');
-            typeCard.className = 'program-type-card';
-            if (isExcluded) typeCard.style.background = '#f8fafc';
-            
-            const typeTitle = document.createElement('div');
-            typeTitle.style.fontWeight = 'bold';
-            typeTitle.style.marginBottom = '6px';
-            typeTitle.style.display = 'flex';
-            typeTitle.style.justifyContent = 'space-between';
-            typeTitle.style.alignItems = 'center';
-            typeTitle.style.color = isExcluded ? '#64748b' : '#065f46';
-            
-            const titleLeft = document.createElement('span');
-            titleLeft.innerHTML = `${type.charAt(0).toUpperCase() + type.slice(1)} (${programs.length})`;
-            
-            const titleRight = document.createElement('span');
-            titleRight.style.fontSize = '0.7rem';
-            titleRight.style.fontWeight = 'normal';
-            if (isExcluded) {
-                titleRight.innerHTML = '⏭️ non compté';
-                titleRight.style.color = '#94a3b8';
-            } else if (excludedCount > 0) {
-                titleRight.innerHTML = `✅ ${countedCount} activités + ⏭️ ${excludedCount} repos`;
-                titleRight.style.color = '#f97316';
+            const counter = document.getElementById('typeResultCount');
+            if (counter) {
+                counter.innerHTML = searchTerm ? 
+                    `${filtered.length} résultat${filtered.length>1?'s':''} sur ${programs.length}` :
+                    `${programs.length} programmes`;
             }
             
-            typeTitle.appendChild(titleLeft);
-            typeTitle.appendChild(titleRight);
+            if (filtered.length === 0) {
+                scrollableContent.innerHTML = `
+                    <div style="padding:40px 20px; text-align:center; color:#94a3b8; background:#f8fafc; border-radius:8px;">
+                        <i class="fas fa-search" style="font-size:2rem; opacity:0.3; display:block; margin-bottom:10px;"></i>
+                        <div style="font-size:0.8rem;">Aucun résultat pour "${searchTerm}"</div>
+                    </div>
+                `;
+                return;
+            }
             
-            const programsList = document.createElement('div');
-            programsList.style.fontSize = '0.75rem';
-            programsList.style.maxHeight = '200px';
-            programsList.style.overflowY = 'auto';
-            
-            // Montrer seulement 5 exemples pour ne pas surcharger
-            const showPrograms = programs.slice(0, 5);
-            showPrograms.forEach(program => {
-                const programItem = document.createElement('div');
-                programItem.style.padding = '3px 0';
-                programItem.style.borderBottom = '1px dashed #e5e7eb';
-                programItem.style.cursor = 'pointer';
+            filtered.forEach(program => {
+                const item = document.createElement('div');
+                const isProgramConcert = program.programme?.toLowerCase().includes('concert');
+                const borderColor = isProgramConcert ? '#f97316' : (program.isExcluded ? '#fc8181' : '#10b981');
+                
+                item.style.padding = '10px';
+                item.style.margin = '0 0 8px 0';
+                item.style.borderRadius = '6px';
+                item.style.backgroundColor = isProgramConcert ? '#fff9f0' : (program.isExcluded ? '#fff5f5' : '#ffffff');
+                item.style.border = `1px solid ${borderColor}20`;
+                item.style.borderLeft = `3px solid ${borderColor}`;
+                item.style.cursor = 'pointer';
+                item.style.fontSize = '0.7rem';
+                item.style.transition = 'all 0.2s';
+                
+                item.onmouseover = () => {
+                    item.style.backgroundColor = isProgramConcert ? '#fff4e6' : (program.isExcluded ? '#ffe5e5' : '#f7fafc');
+                    item.style.transform = 'translateX(3px)';
+                };
+                item.onmouseout = () => {
+                    item.style.backgroundColor = isProgramConcert ? '#fff9f0' : (program.isExcluded ? '#fff5f5' : '#ffffff');
+                    item.style.transform = 'translateX(0)';
+                };
                 
                 const dateStr = formatDateForDisplay(program.date);
-                programItem.innerHTML = `
-                    <div style="font-weight: 600; color: #059669;">📅 ${dateStr}</div>
-                    <div style="color: #2d3748;">📍 ${program.localite || 'Localité non spécifiée'}</div>
+                const emoji = getProgramEmoji(program.programme);
+                
+                item.innerHTML = `
+                    <div style="display:flex; gap:8px;">
+                        <div style="font-size:1.3rem; min-width:30px;">${emoji}</div>
+                        <div style="flex:1;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2px;">
+                                <span style="font-weight:600; color:#059669;">📅 ${dateStr}</span>
+                                ${program.isExcluded ? '<span style="background:#e2e8f0; padding:2px 6px; border-radius:10px; font-size:0.6rem;">⏭️</span>' : ''}
+                            </div>
+                            <div style="margin-bottom:2px;">
+                                <span style="color:#2d3748;">📍 ${program.localite || '?'}</span>
+                                <span style="color:#f97316; margin-left:8px;">🏛️ ${program.lieu || '?'}</span>
+                            </div>
+                            ${program.heures ? `<div style="color:#2563eb; font-size:0.65rem;">🕐 ${program.heures}</div>` : ''}
+                        </div>
+                    </div>
                 `;
                 
-                programItem.addEventListener('click', () => {
+                item.onclick = () => {
                     closeProgramTypeModal();
                     showRecapDateModal(program);
+                };
+                
+                scrollableContent.appendChild(item);
+            });
+        }
+        
+        renderTypePrograms('');
+        listContainer.appendChild(scrollableContent);
+        
+        // Gestionnaires d'événements
+        setTimeout(() => {
+            const input = document.getElementById('typeSearchInput');
+            const clear = document.getElementById('typeSearchClear');
+            const backBtn = document.getElementById('typeBackBtn');
+            
+            if (input) {
+                input.addEventListener('input', (e) => renderTypePrograms(e.target.value));
+                input.focus();
+            }
+            if (clear) {
+                clear.addEventListener('click', () => {
+                    if (input) {
+                        input.value = '';
+                        renderTypePrograms('');
+                        input.focus();
+                    }
+                });
+            }
+            if (backBtn) {
+                backBtn.addEventListener('click', () => showProgramsByType());
+                backBtn.addEventListener('mouseover', () => {
+                    backBtn.style.backgroundColor = '#3182ce';
+                    backBtn.style.transform = 'translateY(-1px)';
+                });
+                backBtn.addEventListener('mouseout', () => {
+                    backBtn.style.backgroundColor = '#4299e1';
+                    backBtn.style.transform = 'translateY(0)';
+                });
+            }
+        }, 100);
+        
+    } else {
+        // ===== VUE TOUS LES TYPES =====
+        
+        const totalPrograms = Object.values(programsByType).reduce((acc, val) => acc + val.length, 0);
+        const totalExcluded = window.excludedPrograms?.total || 0;
+        const totalCounted = totalPrograms - totalExcluded;
+        
+        // ===== ZONE FIXE EN HAUT =====
+        const fixedHeader = document.createElement('div');
+        fixedHeader.style.flexShrink = '0';
+        fixedHeader.style.backgroundColor = 'white';
+        fixedHeader.style.borderBottom = '2px solid #8A2BE2';
+        fixedHeader.style.boxShadow = '0 2px 8px rgba(0,0,0,0.05)';
+        fixedHeader.style.width = '100%';
+        
+        // ----- TITRE ET COMPTEURS -----
+        const titleSection = document.createElement('div');
+        titleSection.style.padding = '15px 20px 10px';
+        titleSection.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin:0; color:#8A2BE2; font-size:1.1rem;">
+                    <i class="fas fa-list"></i> Tous les types
+                </h3>
+                <div style="display:flex; gap:5px;">
+                    <span style="background:#e9d5ff; color:#6b21a8; padding:2px 8px; border-radius:20px; font-size:0.65rem;">✅ ${totalCounted}</span>
+                    <span style="background:#f1f5f9; color:#64748b; padding:2px 8px; border-radius:20px; font-size:0.65rem;">⏭️ ${totalExcluded}</span>
+                </div>
+            </div>
+        `;
+        fixedHeader.appendChild(titleSection);
+        
+        // ----- BARRE DE RECHERCHE -----
+        const searchSection = document.createElement('div');
+        searchSection.style.padding = '0 20px 15px';
+        searchSection.innerHTML = `
+            <div style="display: flex; gap: 8px;">
+                <div style="flex:1; position:relative;">
+                    <i class="fas fa-search" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:#94a3b8; font-size:0.7rem;"></i>
+                    <input type="text" id="globalSearchInput" placeholder="Rechercher dans tous les programmes..." style="
+                        width:100%;
+                        padding:6px 10px 6px 30px;
+                        border:1px solid #e2e8f0;
+                        border-radius:20px;
+                        font-size:0.7rem;
+                        outline:none;
+                        box-sizing:border-box;
+                    ">
+                </div>
+                <button id="globalSearchClear" style="
+                    background:#f1f5f9;
+                    border:none;
+                    border-radius:20px;
+                    padding:4px 12px;
+                    font-size:0.65rem;
+                    cursor:pointer;
+                    white-space:nowrap;
+                ">Effacer</button>
+            </div>
+            <div id="globalResultCount" style="font-size:0.6rem; color:#94a3b8; margin-top:4px; text-align:right;">
+                ${totalPrograms} programmes
+            </div>
+        `;
+        fixedHeader.appendChild(searchSection);
+        
+        listContainer.appendChild(fixedHeader);
+        
+        // ===== ZONE SCROLLABLE =====
+        const scrollableContent = document.createElement('div');
+        scrollableContent.style.flex = '1';
+        scrollableContent.style.overflowY = 'auto';
+        scrollableContent.style.padding = '15px';
+        scrollableContent.style.backgroundColor = '#ffffff';
+        
+        function renderGlobalView(searchTerm) {
+            scrollableContent.innerHTML = '';
+            
+            if (searchTerm && searchTerm.trim() !== '') {
+                // MODE RECHERCHE
+                const allPrograms = [];
+                Object.keys(programsByType).forEach(type => {
+                    programsByType[type].forEach(p => {
+                        allPrograms.push({...p, typeName: type});
+                    });
                 });
                 
-                programsList.appendChild(programItem);
-            });
-            
-            if (programs.length > 5) {
-                const more = document.createElement('div');
-                more.style.padding = '3px 0';
-                more.style.color = '#718096';
-                more.style.fontStyle = 'italic';
-                more.style.fontSize = '0.7rem';
-                more.textContent = `... et ${programs.length - 5} autres`;
-                programsList.appendChild(more);
+                const filtered = filterProgramsBySearch(allPrograms, searchTerm);
+                
+                const counter = document.getElementById('globalResultCount');
+                if (counter) {
+                    counter.innerHTML = `${filtered.length} résultat${filtered.length>1?'s':''} sur ${totalPrograms}`;
+                }
+                
+                if (filtered.length === 0) {
+                    scrollableContent.innerHTML = `
+                        <div style="padding:40px 20px; text-align:center; color:#94a3b8;">
+                            <i class="fas fa-search" style="font-size:2rem; opacity:0.3; display:block; margin-bottom:10px;"></i>
+                            <div>Aucun résultat pour "${searchTerm}"</div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                filtered.forEach(program => {
+                    const item = document.createElement('div');
+                    const isConcert = program.programme?.toLowerCase().includes('concert');
+                    const borderColor = isConcert ? '#f97316' : (program.isExcluded ? '#fc8181' : '#10b981');
+                    
+                    item.style.padding = '10px';
+                    item.style.margin = '0 0 8px 0';
+                    item.style.borderRadius = '6px';
+                    item.style.backgroundColor = isConcert ? '#fff9f0' : (program.isExcluded ? '#fff5f5' : '#ffffff');
+                    item.style.border = `1px solid ${borderColor}20`;
+                    item.style.borderLeft = `3px solid ${borderColor}`;
+                    item.style.cursor = 'pointer';
+                    item.style.fontSize = '0.7rem';
+                    
+                    const dateStr = formatDateForDisplay(program.date);
+                    const emoji = getProgramEmoji(program.programme);
+                    
+                    item.innerHTML = `
+                        <div style="display:flex; gap:8px;">
+                            <div style="font-size:1.3rem;">${emoji}</div>
+                            <div style="flex:1;">
+                                <div style="display:flex; justify-content:space-between;">
+                                    <span style="font-weight:600; color:#059669;">📅 ${dateStr}</span>
+                                    <span style="color:#8A2BE2; font-size:0.6rem;">📋 ${program.typeName}</span>
+                                </div>
+                                <div>📍 ${program.localite || '?'} - 🏛️ ${program.lieu || '?'}</div>
+                                ${program.heures ? `<div style="color:#2563eb;">🕐 ${program.heures}</div>` : ''}
+                            </div>
+                        </div>
+                    `;
+                    
+                    item.onclick = () => {
+                        closeProgramTypeModal();
+                        showRecapDateModal(program);
+                    };
+                    
+                    scrollableContent.appendChild(item);
+                });
+                
+            } else {
+                // MODE NORMAL - Cartes des types
+                const counter = document.getElementById('globalResultCount');
+                if (counter) counter.innerHTML = `${totalPrograms} programmes`;
+                
+                const sortedTypes = Object.keys(programsByType).sort((a,b) => {
+                    if (a.includes('concert')) return -1;
+                    if (b.includes('concert')) return 1;
+                    return a.localeCompare(b);
+                });
+                
+                sortedTypes.forEach(type => {
+                    const programs = programsByType[type];
+                    const isConcert = type.includes('concert');
+                    const typeColor = isConcert ? '#f97316' : '#8A2BE2';
+                    
+                    const excluded = programs.filter(p => p.isExcluded).length;
+                    const counted = programs.length - excluded;
+                    
+                    const card = document.createElement('div');
+                    card.style.padding = '12px';
+                    card.style.margin = '0 0 10px 0';
+                    card.style.borderRadius = '8px';
+                    card.style.backgroundColor = isConcert ? '#fff4e6' : '#f3e8ff';
+                    card.style.borderLeft = `4px solid ${typeColor}`;
+                    card.style.cursor = 'pointer';
+                    card.style.boxShadow = '0 2px 5px rgba(0,0,0,0.03)';
+                    card.style.transition = 'all 0.2s';
+                    
+                    card.onmouseover = () => {
+                        card.style.transform = 'translateX(3px)';
+                        card.style.boxShadow = `0 4px 10px ${typeColor}30`;
+                    };
+                    card.onmouseout = () => {
+                        card.style.transform = 'translateX(0)';
+                        card.style.boxShadow = '0 2px 5px rgba(0,0,0,0.03)';
+                    };
+                    
+                    card.onclick = () => showProgramsByType(type);
+                    
+                    card.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="font-size:1.8rem;">${getProgramEmoji(type)}</span>
+                            <div style="flex:1;">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <span style="font-weight:700; color:${typeColor};">${type.charAt(0).toUpperCase() + type.slice(1)}</span>
+                                    <span style="background:white; padding:2px 10px; border-radius:20px; font-size:0.65rem;">
+                                        ${programs.length}
+                                    </span>
+                                </div>
+                                <div style="display:flex; gap:8px; margin-top:4px; font-size:0.65rem;">
+                                    <span style="color:#059669;">✅ ${counted}</span>
+                                    ${excluded > 0 ? `<span style="color:#94a3b8;">⏭️ ${excluded}</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    scrollableContent.appendChild(card);
+                });
             }
+        }
+        
+        renderGlobalView('');
+        listContainer.appendChild(scrollableContent);
+        
+        // Gestionnaires d'événements
+        setTimeout(() => {
+            const input = document.getElementById('globalSearchInput');
+            const clear = document.getElementById('globalSearchClear');
             
-            typeCard.appendChild(typeTitle);
-            typeCard.appendChild(programsList);
-            listContainer.appendChild(typeCard);
-        });
+            if (input) {
+                input.addEventListener('input', (e) => renderGlobalView(e.target.value));
+            }
+            if (clear) {
+                clear.addEventListener('click', () => {
+                    if (input) {
+                        input.value = '';
+                        renderGlobalView('');
+                        input.focus();
+                    }
+                });
+            }
+        }, 100);
     }
     
     modal.style.display = 'flex';
@@ -8566,6 +9085,43 @@ if (countryStatsSection && countryStatsGrid) {
             const statItem = document.createElement('div');
             statItem.className = 'country-stat-item';
             
+            // ===== RENDRE TOUT L'ÉLÉMENT CLIQUABLE =====
+            statItem.style.cursor = 'pointer';
+            statItem.style.transition = 'all 0.2s';
+            statItem.onmouseover = () => {
+                statItem.style.transform = 'translateY(-2px)';
+                statItem.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+            };
+            statItem.onmouseout = () => {
+                statItem.style.transform = 'translateY(0)';
+                statItem.style.boxShadow = 'none';
+            };
+            
+            // ===== ACTION AU CLIC : ALLER VERS LA SECTION DU PAYS =====
+            statItem.onclick = () => {
+                // Trouver la section du pays dans le récapitulatif
+                const countryElement = document.getElementById(`country-${country.toLowerCase()}`);
+                if (countryElement) {
+                    countryElement.scrollIntoView({behavior: 'smooth', block: 'start'});
+                    
+                    // Mettre en évidence
+                    countryElement.style.boxShadow = '0 0 0 4px #f97316, 0 4px 12px rgba(0,0,0,0.2)';
+                    countryElement.style.transition = 'box-shadow 0.5s ease';
+                    
+                    // Optionnel: Ouvrir automatiquement la liste des programmes
+                    const toggleBtn = countryElement.querySelector('.toggle-dates-btn-compact');
+                    if (toggleBtn && !countryElement.querySelector('.country-dates-compact.show')) {
+                        setTimeout(() => {
+                            toggleBtn.click();
+                        }, 500);
+                    }
+                    
+                    setTimeout(() => {
+                        countryElement.style.boxShadow = '';
+                    }, 3000);
+                }
+            };
+            
             const countryNameDiv = document.createElement('div');
             countryNameDiv.className = 'country-stat-name';
             
@@ -8579,6 +9135,14 @@ if (countryStatsSection && countryStatsGrid) {
             
             countryNameDiv.appendChild(flagDiv);
             countryNameDiv.appendChild(document.createTextNode(` ${countryName}`));
+            
+            // Ajouter une petite icône pour indiquer que c'est cliquable
+            const clickIcon = document.createElement('span');
+            clickIcon.innerHTML = ' 🔍';
+            clickIcon.style.fontSize = '0.7rem';
+            clickIcon.style.opacity = '0.6';
+            clickIcon.style.marginLeft = '4px';
+            countryNameDiv.appendChild(clickIcon);
             
             const valuesDiv = document.createElement('div');
             valuesDiv.className = 'country-stat-values';
@@ -9802,6 +10366,156 @@ function showAllProgramsModal() {
         
         listContainer.appendChild(programItem);
     });
+    
+    modal.style.display = 'flex';
+}
+// ===== FONCTION POUR AFFICHER LES PROGRAMMES D'UN PAYS SPÉCIFIQUE =====
+function showProgramsByCountry(country) {
+    const modal = document.getElementById('programTypeModal');
+    const listContainer = document.getElementById('programTypeList');
+    
+    listContainer.innerHTML = '';
+    
+    // Agrandir le modal
+    const modalContent = document.querySelector('.program-type-modal-content');
+    if (modalContent) {
+        modalContent.style.maxWidth = '800px';
+        modalContent.style.maxHeight = '80vh';
+    }
+    
+    const countryName = formatCountryName(country);
+    const flagClass = countryFlags[country] || 'flag-france';
+    
+    // Récupérer tous les programmes de ce pays
+    const countryPrograms = [];
+    Object.values(programsByType).forEach(progs => {
+        progs.forEach(p => {
+            if (p.pays?.toUpperCase() === country) {
+                countryPrograms.push(p);
+            }
+        });
+    });
+    
+    // Trier par date
+    countryPrograms.sort((a, b) => a.date - b.date);
+    
+    // Compter les exclus
+    const excludedCount = countryPrograms.filter(p => p.isExcluded).length;
+    const countedCount = countryPrograms.length - excludedCount;
+    
+    // En-tête
+    const header = document.createElement('div');
+    header.style.position = 'sticky';
+    header.style.top = '0';
+    header.style.background = 'white';
+    header.style.zIndex = '20';
+    header.style.padding = '15px';
+    header.style.borderBottom = '2px solid #e2e8f0';
+    header.style.marginBottom = '15px';
+    header.style.borderRadius = '8px';
+    header.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+    
+    header.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="${flagClass}" style="width: 32px; height: 21px; border-radius: 4px;"></div>
+                <h3 style="margin:0;">${countryName}</h3>
+                <span style="font-size:0.8rem; color:#718096;">(${countryPrograms.length} programme${countryPrograms.length > 1 ? 's' : ''})</span>
+            </div>
+            <div>
+                <span style="font-size:0.75rem; background:#e9d5ff; padding:4px 10px; border-radius:20px; margin-right:8px;">
+                    ✅ ${countedCount} activités
+                </span>
+                <span style="font-size:0.75rem; background:#f1f5f9; padding:4px 10px; border-radius:20px;">
+                    ⏭️ ${excludedCount} repos/départs
+                </span>
+            </div>
+        </div>
+    `;
+    listContainer.appendChild(header);
+    
+    // Liste des programmes
+    const programsList = document.createElement('div');
+    programsList.style.maxHeight = '60vh';
+    programsList.style.overflowY = 'auto';
+    programsList.style.padding = '5px';
+    
+    countryPrograms.forEach(program => {
+        const programItem = document.createElement('div');
+        programItem.style.padding = '12px';
+        programItem.style.margin = '8px 0';
+        programItem.style.borderRadius = '8px';
+        programItem.style.backgroundColor = program.isExcluded ? '#fff5f5' : '#ffffff';
+        programItem.style.border = program.isExcluded ? '1px solid #fed7d7' : '1px solid #e2e8f0';
+        programItem.style.borderLeft = program.isExcluded ? '4px solid #fc8181' : '4px solid #10b981';
+        programItem.style.cursor = 'pointer';
+        programItem.style.transition = 'all 0.2s';
+        
+        programItem.onmouseover = () => {
+            programItem.style.transform = 'translateX(5px)';
+            programItem.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+        };
+        programItem.onmouseout = () => {
+            programItem.style.transform = 'translateX(0)';
+            programItem.style.boxShadow = 'none';
+        };
+        
+        const dateStr = formatDateForDisplay(program.date);
+        const emoji = getProgramEmoji(program.programme || 'Concert');
+        const localite = program.localite || 'Localité non spécifiée';
+        const lieu = program.lieu || 'Lieu non spécifié';
+        
+        programItem.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="display: flex; gap: 12px; flex:1;">
+                    <span style="font-size: 1.5rem;">${emoji}</span>
+                    <div style="flex:1;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="font-weight: 700; color: #059669;">${dateStr}</span>
+                            ${program.isExcluded ? '<span style="color:#94a3b8; font-size:0.7rem;">⏭️ non compté</span>' : ''}
+                        </div>
+                        <div style="font-weight: 600; margin-top: 4px;">${program.programme || 'Concert'}</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px;">
+                            <div style="color: #2d3748;">📍 ${localite}</div>
+                            <div style="color: #f97316;">🏛️ ${lieu}</div>
+                        </div>
+                        ${program.heures ? `<div style="color: #2563eb; margin-top:4px;">🕐 ${program.heures}</div>` : ''}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        programItem.onclick = () => {
+            closeProgramTypeModal();
+            showRecapDateModal(program);
+        };
+        
+        programsList.appendChild(programItem);
+    });
+    
+    listContainer.appendChild(programsList);
+    
+    // Bouton retour
+    const backButton = document.createElement('div');
+    backButton.style.marginTop = '15px';
+    backButton.style.textAlign = 'center';
+    backButton.innerHTML = `
+        <button onclick="showProgramsByType()" style="
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        ">
+            ← Retour à tous les types
+        </button>
+    `;
+    listContainer.appendChild(backButton);
     
     modal.style.display = 'flex';
 }
