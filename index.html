@@ -6928,13 +6928,13 @@ window.addEventListener('resize', function() {
                 function displayDateDetailsCompact(container, programData) {
             container.innerHTML = '';
             
-            const detailsToShow = [
-                { label: 'Responsable', key: 'adresse', emoji: '👤' },
-                { label: 'Hébergement', key: 'hebergement', emoji: '🏠' },
-                { label: 'Trajet', key: 'trajets', emoji: '🚗', icon: '⏱️' }, // NOUVEAU
-                { label: 'Localisation', key: 'localisation', emoji: '🗺️' },
-                { label: 'Site', key: 'site', emoji: '🌐' }
-            ];
+           const detailsToShow = [
+    { label: 'Responsable', key: 'adresse', emoji: '👤' },
+    { label: 'Hébergement', key: 'hebergement', emoji: '🏠' },
+    { label: 'Trajet depuis dernier endroit avec coordonnees', key: 'trajets', emoji: '🚗', icon: '⏱️' }, // NOUVEAU
+    { label: 'Localisation', key: 'localisation', emoji: '🗺️' },
+    { label: 'Site', key: 'site', emoji: '🌐' }
+];
             
             let hasAnyData = false;
             
@@ -7944,20 +7944,19 @@ window.addEventListener('resize', function() {
                         programCard.appendChild(programmeLine);
                         
                         // Ajouter les infos trajet si disponibles
-                        if (dateItem.trajets && dateItem.trajets.trim() !== '') {
-                            const trajetLine = document.createElement('div');
-                            trajetLine.className = 'date-details-line-compact';
-                            trajetLine.style.marginTop = '4px';
-                            trajetLine.style.fontSize = '0.65rem';
-                            trajetLine.style.color = '#7c3aed';
-                            
-                            let trajetText = dateItem.trajets;
-                            // Ajouter l'emoji voiture
-                            trajetText = '🚗 ' + trajetText;
-                            
-                            trajetLine.innerHTML = `<span class="detail-emoji-small">🚗</span> ${trajetText}`;
-                            programCard.appendChild(trajetLine);
-                        }
+                       if (dateItem.trajets && dateItem.trajets.trim() !== '') {
+    const trajetLine = document.createElement('div');
+    trajetLine.className = 'date-details-line-compact';
+    trajetLine.style.marginTop = '4px';
+    trajetLine.style.fontSize = '0.65rem';
+    trajetLine.style.color = '#7c3aed';
+    
+    let trajetText = dateItem.trajets;
+    trajetText = '🚗 ' + trajetText;
+    
+    trajetLine.innerHTML = `<span class="detail-emoji-small">🚗</span> Trajet depuis dernier endroit avec coordonnees: ${trajetText}`;
+    programCard.appendChild(trajetLine);
+}
                         
                         programCardsGrid.appendChild(programCard);
                     });
