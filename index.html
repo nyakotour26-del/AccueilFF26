@@ -3992,7 +3992,33 @@
     padding: 4px 8px !important;
     font-size: 0.7rem !important;
 }
+/* ===== FLÈCHES LISIBLES ===== */
+.arrow-icon, .transition-icon {
+    background: transparent !important;
+    border: none !important;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.15));
+}
 
+.leaflet-marker-icon.arrow-icon {
+    margin-left: -15px !important;
+    margin-top: -20px !important;
+}
+
+.leaflet-marker-icon.transition-icon {
+    margin-left: -17px !important;
+    margin-top: -22px !important;
+}
+
+/* Au survol, un peu plus visible */
+.arrow-icon:hover, .transition-icon:hover {
+    filter: drop-shadow(0 3px 5px rgba(0,0,0,0.2));
+    z-index: 1000 !important;
+}
+
+/* Texte bien lisible */
+.arrow-icon div, .transition-icon div {
+    line-height: 1.2 !important;
+}
     </style>
 </head>
 <body>
@@ -5202,62 +5228,134 @@ const markerIcon = L.divIcon({
             }).addTo(tourMap);
             countryRoutes.push(countryRoute);
             
-            // Ajouter des flèches pour la route du pays
-            for (let j = 0; j < countryLocations.length - 1; j++) {
-                const start = countryLocations[j];
-                const end = countryLocations[j + 1];
-                
-                // Calculer le point milieu
-                const midLat = (start[0] + end[0]) / 2;
-                const midLng = (start[1] + end[1]) / 2;
-                
-               // Créer un marqueur flèche directionnelle avec numéro de trajet
-const arrowIcon = L.divIcon({
-    className: 'arrow-icon',
-    html: `<div style="
-        position: relative;
-        width: 24px; 
-        height: 24px; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    ">
-        <!-- Flèche de base -->
-        <div style="
-            position: absolute;
-            width: 0; 
-            height: 0; 
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 16px solid ${routeColor};
-            opacity: 0.9;
-            transform: rotate(${calculateBearing(start, end)}deg);
-        "></div>
-        
-        <!-- Numéro de trajet (ex: 1→2) - JAUNE avec ombre noire -->
-        <div style="
-            position: absolute;
-            color: yellow; /* Jaune */
-            font-weight: 900;
-            font-size: 9px; /* Légèrement plus grand */
-            text-shadow: 1px 1px 3px black, -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black; /* Ombre noire sur 4 côtés */
-            transform: rotate(${calculateBearing(start, end)}deg);
-            z-index: 10;
-            pointer-events: none;
-        ">
-            ${j+1}→${j+2}
-        </div>
-    </div>`,
-    iconSize: [24, 24],
-    iconAnchor: [12, 12]
-});
-                
-                L.marker([midLat, midLng], { 
-                    icon: arrowIcon, 
-                    interactive: false,
-                    title: `Trajet de ${j+1} à ${j+2}`
-                }).addTo(tourMap);
+           // Ajouter des flèches pour la route du pays - VERSION LISIBLE
+for (let j = 0; j < countryLocations.length - 1; j++) {
+    const start = countryLocations[j];
+    const end = countryLocations[j + 1];
+    
+    // Calculer le point milieu
+    const midLat = (start[0] + end[0]) / 2;
+    const midLng = (start[1] + end[1]) / 2;
+    
+    // ===== RÉCUPÉRER LE TRAJET =====
+    let trajetText = '';
+    let distanceValue = '';
+    let dureeValue = '';
+    
+    // Chercher dans les données
+    if (datesWithData && datesWithData.length > 0) {
+        for (let k = 0; k < datesWithData.length; k++) {
+            const item = datesWithData[k];
+            const rowData = getRowData(item.rowIndex);
+            
+            if (rowData.coordonnees && rowData.coordonnees.trim() !== '') {
+                const coords = extractCoordinatesFromCell(rowData.coordonnees);
+                if (coords && Math.abs(coords[0] - end[0]) < 0.01 && 
+                    Math.abs(coords[1] - end[1]) < 0.01) {
+                    if (rowData.trajets && rowData.trajets.trim() !== '') {
+                        trajetText = rowData.trajets;
+                        
+                        // Extraire la distance (km)
+                        const distanceMatch = trajetText.match(/(\d+[\.,]?\d*)\s*km/i);
+                        if (distanceMatch) distanceValue = distanceMatch[0];
+                        
+                        // Extraire la durée (h/min)
+                        const dureeMatch = trajetText.match(/(\d+h\d*|\d+\s*min|\d+\s*minutes)/i);
+                        if (dureeMatch) dureeValue = dureeMatch[0];
+                        
+                        break;
+                    }
+                }
             }
+        }
+    }
+    
+    // FORMATER LE TEXTE COMPACT MAIS LISIBLE
+    let infoText = '';
+    if (distanceValue && dureeValue) {
+        infoText = `${distanceValue.replace(' ', '')} ${dureeValue.replace(' ', '')}`;
+    } else if (distanceValue) {
+        infoText = distanceValue;
+    } else if (dureeValue) {
+        infoText = dureeValue;
+    } else if (trajetText) {
+        infoText = trajetText.length > 15 ? trajetText.substring(0, 12) + '…' : trajetText;
+    }
+    
+    // CRÉER UN MARQUEUR MICRO MAIS LISIBLE
+    const arrowIcon = L.divIcon({
+        className: 'arrow-icon',
+        html: `<div style="
+            position: relative;
+            width: 30px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        ">
+            <!-- PETIT ROND AVEC NUMÉRO (comme les ronds date) -->
+            <div style="
+                position: absolute;
+                top: -12px;
+                background: ${routeColor};
+                color: white;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                font-size: 10px;
+                font-weight: 800;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid white;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                z-index: 10;
+            ">${j+1}</div>
+            
+            <!-- FLÈCHE MICRO -->
+            <div style="
+                width: 0; 
+                height: 0; 
+                border-left: 7px solid transparent;
+                border-right: 7px solid transparent;
+                border-bottom: 12px solid ${routeColor};
+                opacity: 0.8;
+                transform: rotate(${calculateBearing(start, end)}deg);
+                filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+                margin-top: 5px;
+            "></div>
+            
+            <!-- INFO TRAJET LISIBLE -->
+            ${infoText ? `
+            <div style="
+                position: absolute;
+                top: 22px;
+                background: white;
+                border-radius: 12px;
+                padding: 3px 8px;
+                border: 1.5px solid ${routeColor};
+                font-size: 9px;
+                font-weight: 700;
+                color: #2d3748;
+                white-space: nowrap;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+                line-height: 1.2;
+                letter-spacing: normal;
+            ">
+                ${infoText}
+            </div>` : ''}
+        </div>`,
+        iconSize: [30, 50],
+        iconAnchor: [15, 30]
+    });
+    
+    L.marker([midLat, midLng], { 
+        icon: arrowIcon,
+        interactive: true,
+        title: trajetText || `Trajet ${j+1} → ${j+2}`
+    }).addTo(tourMap);
+}
         }
     });
     
@@ -6016,67 +6114,146 @@ function addLegendStyles() {
         }
         
         // ===== NOUVELLE FONCTION : CRÉER UNE FLÈCHE DE TRANSITION ENTRE PAYS =====
-        function createCountryTransitionArrow(start, end, transitionNumber, fromCountry, toCountry) {
-            // Calculer le point milieu
-            const midLat = (start[0] + end[0]) / 2;
-            const midLng = (start[1] + end[1]) / 2;
+        // Créer une flèche de transition entre pays - VERSION LISIBLE
+function createCountryTransitionArrow(start, end, transitionNumber, fromCountry, toCountry) {
+    // Calculer le point milieu
+    const midLat = (start[0] + end[0]) / 2;
+    const midLng = (start[1] + end[1]) / 2;
+    
+    // Créer une ligne pointillée discrète
+    const transitionLine = L.polyline([start, end], {
+        color: '#f59e0b',
+        weight: 2,
+        opacity: 0.4,
+        dashArray: '5, 5',
+    }).addTo(tourMap);
+    interCountryRoutes.push(transitionLine);
+    
+    // Récupérer les infos de trajet
+    let trajetText = '';
+    let distanceValue = '';
+    let dureeValue = '';
+    
+    if (window.programsByCoordinates) {
+        const toCountryGroups = Object.values(window.programsByCoordinates).filter(g => 
+            g.pays === toCountry && g.programs[0]?.rowData?.trajets
+        );
+        if (toCountryGroups.length > 0) {
+            trajetText = toCountryGroups[0].programs[0].rowData.trajets;
             
-            // Créer une ligne pointillée orange entre les pays
-            const transitionLine = L.polyline([start, end], {
-                color: '#f59e0b',
-                weight: 2,
-                opacity: 0.6,
-                dashArray: '10, 10',
-                lineCap: 'round'
-            }).addTo(tourMap);
-            interCountryRoutes.push(transitionLine);
+            const distanceMatch = trajetText.match(/(\d+[\.,]?\d*)\s*km/i);
+            if (distanceMatch) distanceValue = distanceMatch[0];
             
-            // Créer un marqueur avec le numéro de transition
-            const transitionIcon = L.divIcon({
-                className: 'transition-icon',
-                html: `<div style="
-                    width: 24px; 
-                    height: 24px; 
-                    background: #f59e0b;
-                    border-radius: 50%;
-                    border: 2px solid white;
-                    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: white;
-                    font-weight: bold;
-                    font-size: 10px;
-                ">${transitionNumber}</div>`,
-                iconSize: [24, 24],
-                iconAnchor: [12, 12]
-            });
-            
-            const transitionMarker = L.marker([midLat, midLng], { icon: transitionIcon }).addTo(tourMap);
-            
-            // Ajouter une popup d'information
-            const popupContent = `
-                <div style="max-width: 200px; font-family: 'Segoe UI', sans-serif;">
-                    <div style="font-size: 0.9rem; font-weight: 800; color: #2d3748; margin-bottom: 4px;">
-                        🚗 Transition #${transitionNumber}
-                    </div>
-                    <div style="font-size: 0.8rem; color: #4a5568;">
-                        <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 2px;">
-                            <div style="width: 12px; height: 8px; background: ${getCountryColor(fromCountry)}; border-radius: 2px;"></div>
-                            <span>${formatCountryName(fromCountry)}</span>
-                        </div>
-                        <div style="text-align: center; margin: 4px 0;">↓</div>
-                        <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 2px;">
-                            <div style="width: 12px; height: 8px; background: ${getCountryColor(toCountry)}; border-radius: 2px;"></div>
-                            <span>${formatCountryName(toCountry)}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            transitionMarker.bindPopup(popupContent);
-            mapMarkers.push(transitionMarker);
+            const dureeMatch = trajetText.match(/(\d+h\d*|\d+\s*min|\d+\s*minutes)/i);
+            if (dureeMatch) dureeValue = dureeMatch[0];
         }
+    }
+    
+    // FORMATER LE TEXTE COMPACT MAIS LISIBLE
+    let infoText = '';
+    if (distanceValue && dureeValue) {
+        infoText = `${distanceValue.replace(' ', '')} ${dureeValue.replace(' ', '')}`;
+    } else if (distanceValue) {
+        infoText = distanceValue;
+    } else if (dureeValue) {
+        infoText = dureeValue;
+    } else if (trajetText) {
+        infoText = trajetText.length > 15 ? trajetText.substring(0, 12) + '…' : trajetText;
+    }
+    
+    // Couleur spécifique par pays
+    const getCountryColor = (country) => {
+        if (country === 'BELGIQUE') return '#6A0DAD'; // Violet
+        if (country === 'SUISSE') return '#2E7D32';   // Vert foncé
+        return '#f59e0b'; // Orange par défaut
+    };
+    
+    const transitionColor = getCountryColor(toCountry);
+    
+    // CRÉER UN MARQUEUR POUR TRANSITION
+    const transitionIcon = L.divIcon({
+        className: 'transition-icon',
+        html: `<div style="
+            position: relative;
+            width: 35px;
+            height: 45px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        ">
+            <!-- PETIT ROND NUMÉROTÉ -->
+            <div style="
+                position: absolute;
+                top: -15px;
+                background: ${transitionColor};
+                color: white;
+                border-radius: 50%;
+                width: 22px;
+                height: 22px;
+                font-size: 11px;
+                font-weight: 800;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid white;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                z-index: 10;
+            ">${transitionNumber}</div>
+            
+            <!-- PETITE FLÈCHE -->
+            <div style="
+                width: 0; 
+                height: 0; 
+                border-left: 7px solid transparent;
+                border-right: 7px solid transparent;
+                border-bottom: 12px solid ${transitionColor};
+                opacity: 0.8;
+                filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+                margin-top: 5px;
+            "></div>
+            
+            <!-- INFO TRAJET LISIBLE -->
+            <div style="
+                position: absolute;
+                top: 22px;
+                background: white;
+                border-radius: 14px;
+                padding: 3px 10px;
+                border: 1.5px solid ${transitionColor};
+                font-size: 9px;
+                font-weight: 700;
+                color: #2d3748;
+                white-space: nowrap;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+                line-height: 1.2;
+                display: flex;
+                gap: 4px;
+            ">
+                <span style="color: ${transitionColor};">${fromCountry.substring(0,2)}→${toCountry.substring(0,2)}</span>
+                <span>${infoText || ''}</span>
+            </div>
+        </div>`,
+        iconSize: [35, 55],
+        iconAnchor: [17, 35]
+    });
+    
+    const transitionMarker = L.marker([midLat, midLng], { 
+        icon: transitionIcon,
+        interactive: true
+    }).addTo(tourMap);
+    
+    // Popup au clic
+    transitionMarker.bindPopup(`
+        <div style="font-size: 0.8rem; padding: 6px;">
+            <div style="font-weight: 800; color: ${transitionColor};">Transition #${transitionNumber}</div>
+            <div style="margin: 4px 0;">${formatCountryName(fromCountry)} → ${formatCountryName(toCountry)}</div>
+            ${trajetText ? `<div style="margin-top: 4px; color: #4a5568; background: #f7fafc; padding: 4px; border-radius: 4px;">${trajetText}</div>` : ''}
+        </div>
+    `);
+    
+    mapMarkers.push(transitionMarker);
+}
         
         // Fonction pour calculer l'angle de la flèche directionnelle
         function calculateBearing(start, end) {
@@ -6096,18 +6273,18 @@ function addLegendStyles() {
             return bearing;
         }
         
-        function getCountryColor(country) {
-            const colors = {
-                'SUISSE': '#D52B1E',
-                'FRANCE': '#002395',
-                'ALLEMAGNE': '#000000',
-                'BELGIQUE': '#000000',
-                'WALES': '#D21034',
-                'ANGLETERRE': '#012169',
-                'MADAGASCAR': '#FC3D32'
-            };
-            return colors[country] || '#4299e1';
-        }
+       function getCountryColor(country) {
+    const colors = {
+        'SUISSE': '#2E7D32',      // Vert foncé (plus visible)
+        'FRANCE': '#002395',       // Bleu foncé
+        'ALLEMAGNE': '#000000',    // Noir
+        'BELGIQUE': '#6A0DAD',     // VIOLET (Belgique)
+        'WALES': '#D21034',        // Rouge
+        'ANGLETERRE': '#012169',   // Bleu marine
+        'MADAGASCAR': '#FC3D32'    // Rouge
+    };
+    return colors[country] || '#4299e1';
+}
         
         function centerMap() {
             const locations = [];
@@ -6140,7 +6317,7 @@ function addLegendStyles() {
             });
         }
 
-// ===== FONCTION : FORMATER LA LOCALISATION AVEC APERÇU DE CARTE =====
+// ===== NOUVELLE FONCTION : FORMATER LA LOCALISATION AVEC APERÇU DE CARTE =====
 function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
     if (!text) return '';
     
@@ -6151,37 +6328,21 @@ function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
     let hasMapPreview = false;
     let mapPreviewHtml = '';
     
-    // ===== CAS 1 : COORDONNÉES EXACTES =====
+    // Si on a des coordonnées exactes, créer un aperçu de carte
     if (coordText && coordText.trim() !== '') {
         const coords = extractCoordinatesFromCell(coordText);
         if (coords) {
             const [lat, lng] = coords;
+            
+            // 🔥 NOUVEAU : Créer le lien Google Maps
             const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
             
             mapPreviewHtml = `
                 <div class="map-preview-container" id="${'map-' + Math.random().toString(36).substr(2, 9)}">
-                    <div style="margin-bottom: 6px; font-size: 0.7rem; color: #4a5568; font-weight: 600;">
+                    <div style="margin-bottom: 8px; font-size: 0.75rem; color: #4a5568; font-weight: 600;">
                         <i class="fas fa-map-pin"></i> Localisation exacte:
                     </div>
-                    
-                    <!-- 🔥 BOUTONS AU-DESSUS DE LA CARTE -->
-                    <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
-                        <a href="https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=15/${lat}/${lng}" target="_blank" style="flex: 1; min-width: 70px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 5px; background: #4299e1; color: white; border: none; border-radius: 5px; font-size: 0.65rem; font-weight: 600; text-decoration: none;">
-                            <i class="fas fa-map"></i> OSM
-                        </a>
-                        <a href="${googleMapsUrl}" target="_blank" style="flex: 1; min-width: 70px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 5px; background: #ea4335; color: white; border: none; border-radius: 5px; font-size: 0.65rem; font-weight: 600; text-decoration: none;">
-                            <i class="fab fa-google"></i> Google
-                        </a>
-                        <a href="https://waze.com/ul?ll=${lat},${lng}&navigate=yes" target="_blank" style="flex: 1; min-width: 70px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 5px; background: #33CCFF; color: white; border: none; border-radius: 5px; font-size: 0.65rem; font-weight: 600; text-decoration: none;">
-                            <i class="fas fa-car"></i> Waze
-                        </a>
-                        <button onclick="copyToClipboard('${coordText}')" style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 8px; background: #718096; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 0.65rem; font-weight: 600;">
-                            <i class="fas fa-copy"></i> 📋
-                        </button>
-                    </div>
-                    
-                    <!-- APERÇU CARTE -->
-                    <div style="position: relative; width: 100%; height: 160px; background: #f0f9ff; border-radius: 6px; overflow: hidden; border: 1px solid #e2e8f0; margin-bottom: 5px;">
+                    <div style="position: relative; width: 100%; height: 200px; background: #f0f9ff; border-radius: 8px; overflow: hidden; border: 2px solid #e2e8f0; margin-bottom: 8px;">
                         <iframe 
                             width="100%" 
                             height="100%" 
@@ -6194,54 +6355,141 @@ function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
                         </iframe>
                     </div>
                     
-                    <div style="font-size: 0.6rem; color: #718096; text-align: center;">
-                        <i class="fas fa-info-circle"></i> ${lat.toFixed(5)}, ${lng.toFixed(5)}
-                    </div>
+                                     <!-- 🔥 BOUTONS DE NAVIGATION (MAINTENANT AU-DESSUS DE LA CARTE) -->
+<div style="display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap;">
+    <!-- Bouton 1 : OpenStreetMap -->
+    <a href="https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=15/${lat}/${lng}" target="_blank" style="flex: 1; min-width: 80px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 6px; background: #4299e1; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600; text-decoration: none;">
+        <i class="fas fa-map"></i>
+        OSM
+    </a>
+    
+    <!-- Bouton 2 : Google Maps -->
+    <a href="${googleMapsUrl}" target="_blank" style="flex: 1; min-width: 80px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 6px; background: #ea4335; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600; text-decoration: none;">
+        <i class="fab fa-google"></i>
+        Google
+    </a>
+    
+    <!-- Bouton 3 : Waze -->
+    <a href="https://waze.com/ul?ll=${lat},${lng}&navigate=yes" target="_blank" style="flex: 1; min-width: 80px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 6px; background: #33CCFF; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600; text-decoration: none;">
+        <i class="fas fa-car"></i>
+        Waze
+    </a>
+    
+    <!-- Bouton 4 : Copier -->
+    <button onclick="copyToClipboard('${coordText}')" style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 10px; background: #718096; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600;">
+        <i class="fas fa-copy"></i>
+        📋
+    </button>
+</div>
+
+<!-- APERÇU CARTE (MAINTENANT EN DESSOUS) -->
+<div style="position: relative; width: 100%; height: 180px; background: #f0f9ff; border-radius: 8px; overflow: hidden; border: 2px solid #e2e8f0; margin-bottom: 8px;">
+    <iframe 
+        width="100%" 
+        height="100%" 
+        frameborder="0" 
+        scrolling="no" 
+        marginheight="0" 
+        marginwidth="0"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=${lng-0.02},${lat-0.02},${lng+0.02},${lat+0.02}&layer=mapnik&marker=${lat},${lng}"
+        style="border: 0; display: block;">
+    </iframe>
+</div>
+
+<div style="margin-top: 6px; font-size: 0.65rem; color: #718096; text-align: center;">
+    <i class="fas fa-info-circle"></i> Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}
+</div>
                 </div>
             `;
             hasMapPreview = true;
         }
     }
     
-    // ===== CAS 2 : URL GOOGLE MAPS SANS COORDONNÉES =====
-    if (!hasMapPreview && urls && urls.length > 0) {
+    // Si on a une URL Google Maps mais pas de coordonnées exactes
+    if (urls && urls.length > 0 && !hasMapPreview) {
         const url = urls[0];
         mapPreviewHtml = `
             <div class="map-preview-container">
-                <div style="margin-bottom: 6px; font-size: 0.7rem; color: #4a5568; font-weight: 600;">
+                <div style="margin-bottom: 8px; font-size: 0.75rem; color: #4a5568; font-weight: 600;">
                     <i class="fas fa-link"></i> Lien de localisation:
                 </div>
-                
-                <!-- 🔥 BOUTONS AU-DESSUS -->
-                <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
-                    <a href="${url}" target="_blank" style="flex: 1; min-width: 80px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 5px; background: #ea4335; color: white; border: none; border-radius: 5px; font-size: 0.65rem; font-weight: 600; text-decoration: none;">
-                        <i class="fab fa-google"></i> Google
-                    </a>
-                    <a href="https://waze.com/ul?q=${encodeURIComponent(url)}" target="_blank" style="flex: 1; min-width: 80px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 5px; background: #33CCFF; color: white; border: none; border-radius: 5px; font-size: 0.65rem; font-weight: 600; text-decoration: none;">
-                        <i class="fas fa-car"></i> Waze
-                    </a>
-                    <button onclick="copyToClipboard('${url}')" style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 8px; background: #718096; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 0.65rem; font-weight: 600;">
-                        <i class="fas fa-copy"></i> 📋
-                    </button>
-                </div>
-                
-                <!-- LIEN DIRECT -->
-                <div style="background: #f8fafc; padding: 8px; border-radius: 6px; border: 1px solid #e2e8f0;">
-                    <div class="link-with-copy" style="display: flex; align-items: center; gap: 4px;">
-                        <a href="${url}" class="link-blue" target="_blank" style="flex: 1; word-break: break-all; font-size: 0.65rem;">${url.length > 40 ? url.substring(0, 40) + '...' : url}</a>
+                <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <div class="link-with-copy" style="display: flex; align-items: center; gap: 4px; margin-bottom: 8px;">
+                        <a href="${url}" class="link-blue" target="_blank" style="flex: 1; word-break: break-all;">${url}</a>
+                        <button class="copy-link-btn" onclick="copyToClipboard('${url}')" title="Copier le lien">📋</button>
                     </div>
+                    
+                   <!-- 🔥 BOUTONS DE NAVIGATION (AU-DESSUS) -->
+<div style="display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap;">
+    <a href="${url}" target="_blank" style="flex: 1; min-width: 80px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 6px; background: #ea4335; color: white; border: none; border-radius: 6px; font-size: 0.7rem; font-weight: 600; text-decoration: none;">
+        <i class="fab fa-google"></i>
+        Google
+    </a>
+    
+    <a href="https://waze.com/ul?q=${encodeURIComponent(url)}" target="_blank" style="flex: 1; min-width: 80px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 6px; background: #33CCFF; color: white; border: none; border-radius: 6px; font-size: 0.7rem; font-weight: 600; text-decoration: none;">
+        <i class="fas fa-car"></i>
+        Waze
+    </a>
+    
+    <button onclick="copyToClipboard('${url}')" style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 10px; background: #718096; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7rem; font-weight: 600;">
+        <i class="fas fa-copy"></i>
+        📋
+    </button>
+</div>
+
+<!-- LIEN DE LOCALISATION (EN DESSOUS) -->
+<div style="background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+    <div class="link-with-copy" style="display: flex; align-items: center; gap: 4px;">
+        <a href="${url}" class="link-blue" target="_blank" style="flex: 1; word-break: break-all;">${url}</a>
+    </div>
+</div>
                 </div>
             </div>
         `;
         hasMapPreview = true;
     }
     
-    // ===== CAS 3 : TEXTE SEULEMENT =====
-    if (!hasMapPreview) {
-        return `<div style="font-size: 0.75rem; color: #4a5568;">${text}</div>`;
+    let resultHtml = '';
+    
+    // Ajouter le lien si présent
+    if (urls && urls.length > 0) {
+        const url = urls[0];
+        resultHtml += `
+            <div style="margin-bottom: 8px;">
+                <div style="font-size: 0.75rem; color: #4a5568; font-weight: 600; margin-bottom: 4px;">
+                    <i class="fas fa-link"></i> Lien:
+                </div>
+                <div class="link-with-copy">
+                    <a href="${url}" class="link-blue" target="_blank">${url.length > 50 ? url.substring(0, 50) + '...' : url}</a>
+                    <button class="copy-link-btn" onclick="copyToClipboard('${url}')" title="Copier le lien">📋</button>
+                </div>
+            </div>
+        `;
     }
     
-    return mapPreviewHtml;
+    // Ajouter les coordonnées si disponibles
+    if (coordText && coordText.trim() !== '' && !hasMapPreview) {
+        resultHtml += `
+            <div style="margin-bottom: 8px;">
+                <div style="font-size: 0.75rem; color: #4a5568; font-weight: 600; margin-bottom: 4px;">
+                    <i class="fas fa-map-pin"></i> Coordonnées:
+                </div>
+                <div style="font-size: 0.7rem; color: #059669; font-weight: 600; background: #f0fdf4; padding: 8px; border-radius: 6px; border-left: 3px solid #10b981;">
+                    ${coordText}
+                    <button onclick="copyToClipboard('${coordText}')" style="margin-left: 8px; background: none; border: none; color: #059669; cursor: pointer;" title="Copier">
+                        📋
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Ajouter l'aperçu de carte
+    if (hasMapPreview) {
+        resultHtml += mapPreviewHtml;
+    }
+    
+    return resultHtml || text;
 }
 
 
