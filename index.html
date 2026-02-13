@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <!-- Ajout de Leaflet pour la carte -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<!-- Ajouter une police plus épaisse pour les programmes -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Playfair+Display:wght@700&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -4019,6 +4021,47 @@
 .arrow-icon div, .transition-icon div {
     line-height: 1.2 !important;
 }
+/* ===== POLICE SPÉCIALE POUR LES PROGRAMMES ===== */
+.program-special-font {
+    font-family: 'Montserrat', 'Roboto Condensed', 'Arial Black', sans-serif;
+    font-weight: 900;
+    letter-spacing: -0.3px;
+    text-transform: uppercase;
+}
+
+/* Pour le texte du programme dans la bulle */
+.program-main-text {
+    font-family: 'Montserrat', 'Arial Black', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    color: #f97316;
+    line-height: 1.3;
+    letter-spacing: -0.3px;
+    text-shadow: 1px 1px 0 rgba(249, 115, 22, 0.1);
+}
+
+/* Pour les items dans la liste du titre */
+.program-list-item {
+    font-family: 'Montserrat', 'Arial Black', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+}
+
+/* Pour le badge dans la section prochain programme */
+.next-program-type {
+    font-family: 'Montserrat', 'Arial Black', sans-serif !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.3px !important;
+}
+
+/* Contraste avec les autres textes */
+.date-detail-label-compact,
+.date-detail-value-compact,
+.modal-location-info,
+.time-div, .lieu-div {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    font-weight: 500 !important;
+}
     </style>
 </head>
 <body>
@@ -6694,10 +6737,25 @@ function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
                 <div class="next-program-time">
                     <i class="fas fa-clock"></i> ${heures}
                 </div>
-                <div class="next-program-type" style="display: flex; align-items: center; gap: 4px;">
-    <span style="font-size: 1.1rem;">${getProgramEmoji(programmeType)}</span>
-    <span>${programmeType.substring(0, 15)}${programmeType.length > 15 ? '…' : ''}</span>
+                <div class="next-program-type" style="
+    display: flex; 
+    align-items: center; 
+    gap: 6px;
+    background: #fff3e0;
+    color: #f97316;
+    padding: 4px 12px;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    font-family: 'Montserrat', 'Arial Black', sans-serif;
+    letter-spacing: -0.3px;
+    text-transform: uppercase;
+">
+    <span style="font-size: 1.2rem;">${getProgramEmoji(programmeType)}</span>
+    <span>${programmeType.substring(0, 12)}${programmeType.length > 12 ? '…' : ''}</span>
 </div>
+
+
             </div>
             
             <div class="next-program-action-btns" onclick="event.stopPropagation();">
@@ -7222,7 +7280,7 @@ window.addEventListener('resize', function() {
             displayDateDetailsCompact(dateDetailsGrid, programData);
         }
 
-// ===== VERSION AVEC EMOJIS PERSONNALISÉS =====
+// ===== VERSION AVEC POLICE SPÉCIALE POUR LE PROGRAMME =====
 function displayProgramInfoCompact(container, programData) {
     container.innerHTML = '';
     
@@ -7240,30 +7298,34 @@ function displayProgramInfoCompact(container, programData) {
     row1.style.display = 'flex';
     row1.style.justifyContent = 'space-between';
     row1.style.alignItems = 'flex-start';
-    row1.style.padding = '6px 8px';
+    row1.style.padding = '8px 10px';
     row1.style.background = '#fff4e6';
-    row1.style.borderRadius = '6px';
+    row1.style.borderRadius = '8px';
     row1.style.borderLeft = '4px solid #f97316';
     
-    // PARTIE GAUCHE : Programme sur 2 lignes avec EMOJI PERSONNALISÉ
+    // PARTIE GAUCHE : Programme sur 2 lignes avec POLICE SPÉCIALE
     const leftDiv = document.createElement('div');
     leftDiv.style.display = 'flex';
     leftDiv.style.flexDirection = 'column';
-    leftDiv.style.gap = '2px';
+    leftDiv.style.gap = '4px';
     leftDiv.style.flex = '1';
     
-    // Ligne avec l'emoji (personnalisé selon le type)
+    // Ligne avec l'emoji (personnalisé)
     const programEmojiLine = document.createElement('div');
-    programEmojiLine.style.fontSize = '1.3rem';
+    programEmojiLine.style.fontSize = '1.4rem';
     programEmojiLine.style.lineHeight = '1';
-    programEmojiLine.textContent = programEmoji; // Emoji dynamique
+    programEmojiLine.textContent = programEmoji;
     
-    // Texte du programme
+    // TEXTE DU PROGRAMME - POLICE SPÉCIALE + ÉPAISSE
     const programText = document.createElement('div');
-    programText.style.fontWeight = '700';
+    programText.style.fontFamily = "'Montserrat', 'Roboto Condensed', 'Arial Black', sans-serif"; // Police différente
+    programText.style.fontWeight = '900'; // Ultra épais
+    programText.style.fontSize = '1rem'; // Légèrement plus grand
     programText.style.color = '#f97316';
-    programText.style.fontSize = '0.85rem';
-    programText.style.lineHeight = '1.2';
+    programText.style.lineHeight = '1.3';
+    programText.style.letterSpacing = '-0.3px'; // Rapproche les lettres
+    programText.style.textTransform = 'uppercase'; // Tout en majuscules (optionnel)
+    programText.style.textShadow = '1px 1px 0 rgba(0,0,0,0.05)'; // Léger relief
     programText.style.paddingLeft = '2px';
     programText.textContent = programData.programme && programData.programme.trim() !== '' 
         ? programData.programme 
@@ -7272,41 +7334,43 @@ function displayProgramInfoCompact(container, programData) {
     leftDiv.appendChild(programEmojiLine);
     leftDiv.appendChild(programText);
     
-    // PARTIE DROITE : Heure et Lieu (inchangé)
+    // PARTIE DROITE : Heure et Lieu (police normale)
     const rightDiv = document.createElement('div');
     rightDiv.style.display = 'flex';
     rightDiv.style.flexDirection = 'column';
     rightDiv.style.alignItems = 'flex-end';
-    rightDiv.style.gap = '4px';
-    rightDiv.style.minWidth = '100px';
+    rightDiv.style.gap = '6px';
+    rightDiv.style.minWidth = '110px';
     
-    // Heure
+    // Heure - police normale
     const timeDiv = document.createElement('div');
     timeDiv.style.display = 'flex';
     timeDiv.style.alignItems = 'center';
-    timeDiv.style.gap = '4px';
+    timeDiv.style.gap = '5px';
+    timeDiv.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"; // Police normale
     timeDiv.style.fontWeight = '600';
     timeDiv.style.color = '#1e40af';
-    timeDiv.style.fontSize = '0.8rem';
+    timeDiv.style.fontSize = '0.85rem';
     timeDiv.style.backgroundColor = '#dbeafe';
-    timeDiv.style.padding = '2px 8px';
-    timeDiv.style.borderRadius = '16px';
-    timeDiv.innerHTML = `<i class="fas fa-clock" style="color: #2563eb; font-size: 0.8rem;"></i> ${programData.heures || 'Horaire'}`;
+    timeDiv.style.padding = '3px 10px';
+    timeDiv.style.borderRadius = '20px';
+    timeDiv.innerHTML = `<i class="fas fa-clock" style="color: #2563eb;"></i> ${programData.heures || 'Horaire'}`;
     
-    // Lieu
+    // Lieu - police normale
     const lieuDiv = document.createElement('div');
     lieuDiv.style.display = 'flex';
     lieuDiv.style.alignItems = 'center';
-    lieuDiv.style.gap = '4px';
+    lieuDiv.style.gap = '5px';
+    lieuDiv.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"; // Police normale
     lieuDiv.style.fontWeight = '600';
     lieuDiv.style.color = '#ff69b4';
-    lieuDiv.style.fontSize = '0.75rem';
+    lieuDiv.style.fontSize = '0.8rem';
     lieuDiv.style.backgroundColor = '#ffe4f3';
-    lieuDiv.style.padding = '2px 8px';
-    lieuDiv.style.borderRadius = '16px';
+    lieuDiv.style.padding = '3px 10px';
+    lieuDiv.style.borderRadius = '20px';
     lieuDiv.style.textAlign = 'right';
     lieuDiv.style.wordBreak = 'break-word';
-    lieuDiv.innerHTML = `<i class="fas fa-map-marker-alt" style="color: #ff69b4; font-size: 0.8rem;"></i> ${programData.lieu || 'Lieu'}`;
+    lieuDiv.innerHTML = `<i class="fas fa-map-marker-alt" style="color: #ff69b4;"></i> ${programData.lieu || 'Lieu'}`;
     
     rightDiv.appendChild(timeDiv);
     rightDiv.appendChild(lieuDiv);
@@ -7317,7 +7381,6 @@ function displayProgramInfoCompact(container, programData) {
     
     container.appendChild(mainContainer);
 }
-
                 function displayDateDetailsCompact(container, programData) {
             container.innerHTML = '';
             
@@ -7492,7 +7555,7 @@ if (!programListHeader) {
     modalLocationInfo.parentNode.insertBefore(programListHeader, modalLocationInfo.nextSibling);
 }
 
-// Remplir la liste des programmes avec EMOJIS
+// Remplir la liste des programmes avec POLICE SPÉCIALE pour le texte
 let programListHtml = '<div style="display: flex; flex-wrap: wrap; gap: 4px;">';
 allProgramsForDate.forEach((program, index) => {
     const programmeText = program.programme && program.programme.trim() !== '' 
@@ -7502,16 +7565,27 @@ allProgramsForDate.forEach((program, index) => {
     // Récupérer l'emoji pour ce programme
     const emoji = getProgramEmoji(programmeText);
     
-    // Version tronquée pour gagner de la place
-    const shortText = programmeText.length > 15 ? programmeText.substring(0, 12) + '…' : programmeText;
+    // Version tronquée
+    const shortText = programmeText.length > 12 ? programmeText.substring(0, 10) + '…' : programmeText;
     
-    programListHtml += `<span style="background: #e9d5ff; padding: 2px 8px; border-radius: 12px; font-weight: 600; color: #6b21a8; font-size: 0.65rem; display: inline-flex; align-items: center; gap: 3px;">
+    programListHtml += `<span style="
+        background: #e9d5ff; 
+        padding: 3px 10px; 
+        border-radius: 20px; 
+        font-weight: 700; 
+        color: #6b21a8; 
+        font-size: 0.7rem; 
+        display: inline-flex; 
+        align-items: center; 
+        gap: 4px;
+        font-family: 'Montserrat', 'Arial Black', sans-serif;
+        letter-spacing: -0.2px;
+    ">
         ${emoji} ${index + 1}. ${shortText}
     </span>`;
 });
 programListHtml += '</div>';
 programListHeader.innerHTML = programListHtml;
-
     // CACHER l'ancienne liste de programmes
     programmesList.style.display = 'none';
     
