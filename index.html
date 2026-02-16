@@ -9911,68 +9911,78 @@ function renderCalendar() {
 function formatDateToCompare(date) {
     return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
 }
-        async function loadDataFromGoogleSheets(method = 'direct') {
-            document.getElementById('loadingIndicator').style.display = 'block';
-            document.getElementById('retryOptions').style.display = 'none';
-            clearErrorMessages();
+       async function loadDataFromGoogleSheets(method = 'direct') {
+    document.getElementById('loadingIndicator').style.display = 'block';
+    document.getElementById('retryOptions').style.display = 'none';
+    clearErrorMessages();
+    
+    // L'URL originale de votre Google Sheet
+    const originalUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrF0hs00W-QvR3v5wxZA1ceGEx4xWR0dJv5kF3zgab6YVV00OehcwxYg-EJfOrMqj4IJnDl649SIkg/pub?gid=951917006&single=true&output=csv';
+    
+    // Liste des URLs et méthodes à essayer
+    const methods = [
+        {
+            name: 'Proxy allorigins',
+            url: 'https://api.allorigins.win/raw?url=' + encodeURIComponent(originalUrl)
+        },
+        {
+            name: 'Proxy corsproxy',
+            url: 'https://corsproxy.io/?' + encodeURIComponent(originalUrl)
+        },
+        {
+            name: 'Proxy cors-anywhere',
+            url: 'https://cors-anywhere.herokuapp.com/' + originalUrl
+        },
+        {
+            name: 'Export direct',
+            url: 'https://docs.google.com/spreadsheets/d/1w5M9d6tXECriMwMP7Oq7QaJtWGf7RsTT_9vl34mqwHA/export?format=csv&gid=951917006'
+        },
+        {
+            name: 'Original',
+            url: originalUrl
+        }
+    ];
+    
+    for (let i = 0; i < methods.length; i++) {
+        try {
+            console.log(`Essai méthode ${i+1}: ${methods[i].name}`);
             
-            try {
-                let response;
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 15000);
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
+            
+            const response = await fetch(methods[i].url, {
+                signal: controller.signal,
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache'
+                },
+                mode: 'cors'
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (response.ok) {
+                const csvText = await response.text();
                 
-                switch(method) {
-                    case 'direct':
-                        response = await fetch(GOOGLE_SHEETS_URL, {
-                            signal: controller.signal,
-                            headers: {
-                                'Cache-Control': 'no-cache',
-                                'Pragma': 'no-cache'
-                            }
-                        });
-                        break;
-                        
-                    case 'proxy':
-                        const proxyUrl = `https://cors-anywhere.herokuapp.com/${GOOGLE_SHEETS_URL}`;
-                        response = await fetch(proxyUrl, {
-                            signal: controller.signal,
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest'
-                            }
-                        });
-                        break;
-                        
-                    case 'cors':
-                        const corsProxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(GOOGLE_SHEETS_URL)}`;
-                        response = await fetch(corsProxy, {
-                            signal: controller.signal
-                        });
-                        break;
-                }
-                
-                clearTimeout(timeoutId);
-                
-                if (response.ok) {
-                    const csvText = await response.text();
+                // Vérifier que le texte n'est pas vide et semble être un CSV valide
+                if (csvText && csvText.trim().length > 100 && csvText.includes(',')) {
+                    console.log(`✅ Succès avec ${methods[i].name}`);
                     processCSVData(csvText);
+                    document.getElementById('loadingIndicator').style.display = 'none';
                     return;
                 }
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                
-            } catch (error) {
-                if (method === 'direct') {
-                    loadDataFromGoogleSheets('proxy');
-                } else if (method === 'proxy') {
-                    loadDataFromGoogleSheets('cors');
-                } else {
-                    showRetryOptions();
-                    showError(`Impossible de charger les données. Vérifiez:<br>
-                    1. Votre connexion internet<br>
-                    2. Que le Google Sheet est bien publié<br>
-                    3. Essayez une méthode alternative ci-dessous`);
-                }
             }
+        } catch (error) {
+            console.log(`❌ Échec méthode ${i+1}:`, error.message);
         }
+    }
+    
+    // Si tout échoue, afficher les options de secours
+    console.log('❌ Toutes les méthodes ont échoué');
+    document.getElementById('retryOptions').style.display = 'block';
+    document.getElementById('loadingIndicator').style.display = 'none';
+    showError('Impossible de charger les données. Utilisez une méthode alternative ci-dessous ou vérifiez votre connexion internet.');
+}
 
         function showRetryOptions() {
             document.getElementById('retryOptions').style.display = 'block';
