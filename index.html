@@ -10893,7 +10893,8 @@ function getCountryGradient(country) {
         'MADAGASCAR': '#2E7D32, #1B5E20' // Vert pour Madagascar
     };
     return gradients[country] || '#4299e1, #3182ce';
-}       // ===== GÉNÉRER LE RÉCAPITULATIF PAR PAYS (VERSION AVEC TOUTES LES CORRECTIONS) =====
+}
+       // ===== GÉNÉRER LE RÉCAPITULATIF PAR PAYS (VERSION AVEC LISTE DES PROGRAMMES SANS DOUBLON) =====
 function generateRecapByCountry() {
     const recapContainer = document.getElementById('recapContainer');
     const noDatesMessage = document.getElementById('noDatesMessage');
@@ -10964,20 +10965,27 @@ function generateRecapByCountry() {
         countryDates.sort((a, b) => a.date - b.date);
         datesWithLocation.sort((a, b) => a.date - b.date);
         
-        // Compter les programmes par type pour ce pays
-        const programmeCounts = {};
+        // ===== EXTRAIRE LES TYPES DE PROGRAMMES SANS DOUBLON =====
+        const uniqueProgramTypes = new Set();
         datesWithLocation.forEach(item => {
             const programme = item.programme && item.programme.trim() !== '' 
                 ? item.programme 
                 : 'Concert';
-            const programmeType = programme.toLowerCase();
-            programmeCounts[programmeType] = (programmeCounts[programmeType] || 0) + 1;
+            // Prendre le mot principal (ex: "Concert", "Visite", "Repas")
+            const mainType = programme.split(' ')[0];
+            uniqueProgramTypes.add(mainType);
         });
+        
+        // Convertir en tableau et formater
+        const programTypesList = Array.from(uniqueProgramTypes).map(type => {
+            // Capitaliser la première lettre
+            return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+        }).join(', ');
         
         const totalProgrammes = datesWithLocation.length;
         const uniqueDays = new Set(countryDates.map(item => item.date.getTime())).size;
         
-        // ===== EN-TÊTE DU PAYS - AVEC COULEUR SPÉCIFIQUE POUR MADAGASCAR =====
+        // ===== EN-TÊTE DU PAYS =====
         let gradientColor;
         if (country === 'BELGIQUE') {
             gradientColor = '#FFD700, #FFA500'; // Jaune pour Belgique
@@ -11116,7 +11124,7 @@ function generateRecapByCountry() {
         buttonsRow.style.gap = '10px';
         buttonsRow.style.marginTop = '5px';
 
-        // Bouton PROGRAMMES (en toutes lettres)
+        // Bouton PROGRAMMES
         const toggleBtn = document.createElement('button');
         toggleBtn.style.flex = '1';
         toggleBtn.style.background = 'white';
@@ -11144,7 +11152,7 @@ function generateRecapByCountry() {
         toggleBtn.appendChild(btnIcon);
         toggleBtn.appendChild(btnText);
 
-        // Bouton DATES DISPONIBLES (en toutes lettres)
+        // Bouton DATES DISPONIBLES
         const freeBtn = document.createElement('button');
         freeBtn.style.flex = '1';
         freeBtn.style.background = 'white';
@@ -11296,7 +11304,7 @@ function generateRecapByCountry() {
 
         freeDatesSection.appendChild(freeDatesList);
         
-        // ===== TITRE "PROGRAMMES PRÉVUS DANS LE PAYS" =====
+        // ===== TITRE AVEC LISTE DES PROGRAMMES SANS DOUBLON =====
         const programmesTitle = document.createElement('div');
         programmesTitle.style.padding = '10px 12px 5px 12px';
         programmesTitle.style.fontSize = '0.85rem';
@@ -11304,9 +11312,22 @@ function generateRecapByCountry() {
         programmesTitle.style.color = '#2d3748';
         programmesTitle.style.borderBottom = '2px solid #e2e8f0';
         programmesTitle.style.marginTop = '5px';
-        programmesTitle.innerHTML = '<i class="fas fa-music" style="color: #f97316; margin-right: 6px;"></i>Programmes prévus dans le pays';
+        programmesTitle.style.display = 'flex';
+        programmesTitle.style.alignItems = 'center';
+        programmesTitle.style.gap = '6px';
+        programmesTitle.style.flexWrap = 'wrap';
         
-        // ===== LISTE DES PROGRAMMES PAR PAYS AVEC COULEURS SPÉCIFIQUES =====
+        const iconSpan = document.createElement('i');
+        iconSpan.className = 'fas fa-tags';
+        iconSpan.style.color = '#f97316';
+        
+        const textSpan = document.createElement('span');
+        textSpan.textContent = programTypesList || 'Aucun programme';
+        
+        programmesTitle.appendChild(iconSpan);
+        programmesTitle.appendChild(textSpan);
+        
+        // ===== LISTE DES PROGRAMMES PAR PAYS AVEC LIEU VISIBLE NON COUPÉ =====
         const datesContainer = document.createElement('div');
         datesContainer.className = 'country-dates-compact';
         datesContainer.id = `dates-${country.toLowerCase()}`;
@@ -11493,14 +11514,14 @@ function generateRecapByCountry() {
                 headerDiv.appendChild(dateDiv);
                 headerDiv.appendChild(flagMini);
                 
-                // Localité et lieu
+                // Localité et lieu (LIEU NON COUPÉ)
                 const locationDiv = document.createElement('div');
                 locationDiv.style.display = 'flex';
-                locationDiv.style.alignItems = 'center';
-                locationDiv.style.gap = '6px';
-                locationDiv.style.flexWrap = 'wrap';
+                locationDiv.style.flexDirection = 'column'; // Passage en colonne pour mieux voir
+                locationDiv.style.gap = '4px';
                 locationDiv.style.marginTop = '2px';
                 
+                // Localité
                 const localiteSpan = document.createElement('span');
                 localiteSpan.style.fontWeight = '600';
                 localiteSpan.style.color = '#2d3748';
@@ -11511,19 +11532,23 @@ function generateRecapByCountry() {
                 localiteSpan.innerHTML = `<i class="fas fa-map-pin" style="font-size:0.7rem; color: ${borderColor};"></i> ${dateItem.localite || ''}`;
                 locationDiv.appendChild(localiteSpan);
                 
+                // LIEU - PLUS VISIBLE ET NON COUPÉ
                 if (dateItem.lieu && dateItem.lieu.trim() !== '') {
                     const lieuSpan = document.createElement('span');
-                    lieuSpan.style.backgroundColor = 'white';
-                    lieuSpan.style.padding = '2px 6px';
-                    lieuSpan.style.borderRadius = '12px';
-                    lieuSpan.style.fontSize = '0.7rem';
+                    lieuSpan.style.backgroundColor = 'rgba(249, 115, 22, 0.1)';
+                    lieuSpan.style.padding = '4px 8px';
+                    lieuSpan.style.borderRadius = '6px';
+                    lieuSpan.style.fontSize = '0.75rem';
+                    lieuSpan.style.fontWeight = '500';
                     lieuSpan.style.color = '#f97316';
-                    lieuSpan.style.border = `1px solid ${borderColor}`;
-                    lieuSpan.style.whiteSpace = 'nowrap';
-                    lieuSpan.style.overflow = 'hidden';
-                    lieuSpan.style.textOverflow = 'ellipsis';
-                    lieuSpan.style.maxWidth = '100px';
-                    lieuSpan.innerHTML = `<i class="fas fa-landmark" style="font-size:0.6rem;"></i> ${dateItem.lieu.substring(0, 10)}${dateItem.lieu.length > 10 ? '…' : ''}`;
+                    lieuSpan.style.border = '1px solid #f97316';
+                    lieuSpan.style.display = 'flex';
+                    lieuSpan.style.alignItems = 'center';
+                    lieuSpan.style.gap = '4px';
+                    lieuSpan.style.wordBreak = 'break-word'; // Permet de couper les mots longs
+                    lieuSpan.style.whiteSpace = 'normal'; // Permet le retour à la ligne
+                    lieuSpan.style.width = '100%'; // Prend toute la largeur
+                    lieuSpan.innerHTML = `<i class="fas fa-landmark" style="font-size:0.7rem;"></i> ${dateItem.lieu}`;
                     locationDiv.appendChild(lieuSpan);
                 }
                 
@@ -11564,6 +11589,10 @@ function generateRecapByCountry() {
                 progDiv.style.fontSize = '0.7rem';
                 progDiv.style.fontWeight = '500';
                 progDiv.style.color = textColor;
+                progDiv.style.whiteSpace = 'nowrap';
+                progDiv.style.overflow = 'hidden';
+                progDiv.style.textOverflow = 'ellipsis';
+                progDiv.style.maxWidth = '120px';
                 progDiv.innerHTML = `<span style="font-size:0.85rem;">${programEmoji}</span> ${(dateItem.programme || 'Concert').substring(0, 10)}${(dateItem.programme || '').length > 10 ? '…' : ''}`;
                 infoDiv.appendChild(progDiv);
                 
