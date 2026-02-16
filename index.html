@@ -4639,6 +4639,47 @@
         gap: 8px;
     }
 }
+/* ===== STYLE POUR LA BULLE D'INFORMATION AVEC EMOJIS ===== */
+@keyframes floatEmoji {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-3px) rotate(5deg); }
+}
+
+#recapDateInfoModal .programMainCard:hover [style*="font-size: 2.2rem"] {
+    animation: floatEmoji 1s ease-in-out infinite;
+}
+
+#recapDateInfoModal [style*="background: #f8f9fa"] {
+    transition: all 0.2s ease;
+}
+
+#recapDateInfoModal [style*="background: #f8f9fa"]:hover {
+    transform: translateX(3px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Animation d'apparition */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+#recapDateInfoModal > div > div {
+    animation: slideInRight 0.3s ease-out;
+    animation-fill-mode: both;
+}
+
+#recapDateInfoModal > div > div:nth-child(1) { animation-delay: 0.1s; }
+#recapDateInfoModal > div > div:nth-child(2) { animation-delay: 0.2s; }
+#recapDateInfoModal > div > div:nth-child(3) { animation-delay: 0.3s; }
+#recapDateInfoModal > div > div:nth-child(4) { animation-delay: 0.4s; }
+#recapDateInfoModal > div > div:nth-child(5) { animation-delay: 0.5s; }
     </style>
 </head>
 <body>
@@ -8759,7 +8800,7 @@ dateNavigation.style.display = 'none';
             }, 300);
         }
 
-       function showRecapDateModal(dateInfo) {
+      function showRecapDateModal(dateInfo) {
     const modal = document.getElementById('recapDateModal');
     const modalContent = document.getElementById('recapDateModalContent');
     const modalTitle = document.getElementById('recapModalDateTitle');
@@ -8775,9 +8816,207 @@ dateNavigation.style.display = 'none';
     modalFlag.className = 'modal-flag-small';
     modalFlag.classList.add(flagClass);
     
-    // MODIFICATION: Utiliser directement dateInfo qui contient déjà toutes les données
+    // MODIFICATION: Afficher les infos avec EMOJI dans la bulle
     if (dateInfo) {
-        displayDateInfoCompact(dateInfoModal, dateInfo);
+        // Créer un conteneur pour les infos principales avec emoji
+        const infoContainer = document.createElement('div');
+        infoContainer.style.display = 'flex';
+        infoContainer.style.flexDirection = 'column';
+        infoContainer.style.gap = '8px';
+        
+        // Récupérer l'emoji pour ce programme
+        const programEmoji = getProgramEmoji(dateInfo.programme);
+        
+        // ===== CARTE PRINCIPALE DU PROGRAMME =====
+        const programMainCard = document.createElement('div');
+        programMainCard.style.display = 'flex';
+        programMainCard.style.alignItems = 'center';
+        programMainCard.style.gap = '12px';
+        programMainCard.style.padding = '12px';
+        programMainCard.style.background = '#fff4e6';
+        programMainCard.style.borderRadius = '10px';
+        programMainCard.style.borderLeft = '5px solid #f97316';
+        programMainCard.style.marginBottom = '10px';
+        
+        // Emoji agrandi
+        const emojiBig = document.createElement('div');
+        emojiBig.style.fontSize = '2.2rem';
+        emojiBig.style.lineHeight = '1';
+        emojiBig.style.minWidth = '45px';
+        emojiBig.style.textAlign = 'center';
+        emojiBig.textContent = programEmoji;
+        
+        // Infos programme
+        const programInfo = document.createElement('div');
+        programInfo.style.flex = '1';
+        
+        const programTitle = document.createElement('div');
+        programTitle.style.fontFamily = "'Montserrat', 'Arial Black', sans-serif";
+        programTitle.style.fontWeight = '900';
+        programTitle.style.fontSize = '1.1rem';
+        programTitle.style.color = '#f97316';
+        programTitle.style.marginBottom = '5px';
+        programTitle.style.letterSpacing = '-0.3px';
+        programTitle.textContent = dateInfo.programme && dateInfo.programme.trim() !== '' 
+            ? dateInfo.programme 
+            : 'Concert';
+        
+        const programDetails = document.createElement('div');
+        programDetails.style.display = 'flex';
+        programDetails.style.gap = '15px';
+        programDetails.style.flexWrap = 'wrap';
+        
+        if (dateInfo.heures && dateInfo.heures.trim() !== '') {
+            const timeSpan = document.createElement('span');
+            timeSpan.style.display = 'flex';
+            timeSpan.style.alignItems = 'center';
+            timeSpan.style.gap = '5px';
+            timeSpan.style.background = '#dbeafe';
+            timeSpan.style.padding = '3px 10px';
+            timeSpan.style.borderRadius = '20px';
+            timeSpan.style.fontSize = '0.8rem';
+            timeSpan.style.fontWeight = '600';
+            timeSpan.style.color = '#1e40af';
+            timeSpan.innerHTML = `<i class="fas fa-clock"></i> ${dateInfo.heures}`;
+            programDetails.appendChild(timeSpan);
+        }
+        
+        if (dateInfo.lieu && dateInfo.lieu.trim() !== '') {
+            const lieuSpan = document.createElement('span');
+            lieuSpan.style.display = 'flex';
+            lieuSpan.style.alignItems = 'center';
+            lieuSpan.style.gap = '5px';
+            lieuSpan.style.background = '#ffe4f3';
+            lieuSpan.style.padding = '3px 10px';
+            lieuSpan.style.borderRadius = '20px';
+            lieuSpan.style.fontSize = '0.8rem';
+            lieuSpan.style.fontWeight = '600';
+            lieuSpan.style.color = '#ff69b4';
+            lieuSpan.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${dateInfo.lieu}`;
+            programDetails.appendChild(lieuSpan);
+        }
+        
+        programInfo.appendChild(programTitle);
+        programInfo.appendChild(programDetails);
+        
+        programMainCard.appendChild(emojiBig);
+        programMainCard.appendChild(programInfo);
+        
+        infoContainer.appendChild(programMainCard);
+        
+        // ===== GRILLE DES INFORMATIONS COMPLÉMENTAIRES =====
+        const detailsGrid = document.createElement('div');
+        detailsGrid.style.display = 'grid';
+        detailsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        detailsGrid.style.gap = '8px';
+        detailsGrid.style.marginTop = '8px';
+        
+        // Adresse / Contact
+        if (dateInfo.adresse && dateInfo.adresse.trim() !== '') {
+            const adresseCard = document.createElement('div');
+            adresseCard.style.padding = '8px';
+            adresseCard.style.background = '#f8f9fa';
+            adresseCard.style.borderRadius = '6px';
+            adresseCard.style.borderLeft = '3px solid #4299e1';
+            adresseCard.style.gridColumn = '1 / 3';
+            
+            adresseCard.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                    <span style="font-size: 1.1rem;">👤</span>
+                    <span style="font-weight: 600; color: #2d3748;">Responsable/Contact:</span>
+                </div>
+                <div style="font-size: 0.8rem; color: #4a5568; padding-left: 24px;">${dateInfo.adresse}</div>
+            `;
+            detailsGrid.appendChild(adresseCard);
+        }
+        
+        // Hébergement
+        if (dateInfo.hebergement && dateInfo.hebergement.trim() !== '') {
+            const hebergementCard = document.createElement('div');
+            hebergementCard.style.padding = '8px';
+            hebergementCard.style.background = '#f8f9fa';
+            hebergementCard.style.borderRadius = '6px';
+            hebergementCard.style.borderLeft = '3px solid #48bb78';
+            hebergementCard.style.gridColumn = '1 / 3';
+            
+            hebergementCard.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                    <span style="font-size: 1.1rem;">🏠</span>
+                    <span style="font-weight: 600; color: #2d3748;">Hébergement:</span>
+                </div>
+                <div style="font-size: 0.8rem; color: #4a5568; padding-left: 24px;">${dateInfo.hebergement}</div>
+            `;
+            detailsGrid.appendChild(hebergementCard);
+        }
+        
+        // Trajet
+        if (dateInfo.trajets && dateInfo.trajets.trim() !== '') {
+            const trajetCard = document.createElement('div');
+            trajetCard.style.padding = '8px';
+            trajetCard.style.background = '#f8f9fa';
+            trajetCard.style.borderRadius = '6px';
+            trajetCard.style.borderLeft = '3px solid #7c3aed';
+            trajetCard.style.gridColumn = '1 / 3';
+            
+            trajetCard.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                    <span style="font-size: 1.1rem;">🚗</span>
+                    <span style="font-weight: 600; color: #2d3748;">Trajet:</span>
+                </div>
+                <div style="font-size: 0.8rem; color: #4a5568; padding-left: 24px;">${dateInfo.trajets}</div>
+            `;
+            detailsGrid.appendChild(trajetCard);
+        }
+        
+        // Site
+        if (dateInfo.site && dateInfo.site.trim() !== '') {
+            const siteCard = document.createElement('div');
+            siteCard.style.padding = '8px';
+            siteCard.style.background = '#f8f9fa';
+            siteCard.style.borderRadius = '6px';
+            siteCard.style.borderLeft = '3px solid #ed8936';
+            siteCard.style.gridColumn = '1 / 3';
+            
+            siteCard.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                    <span style="font-size: 1.1rem;">🌐</span>
+                    <span style="font-weight: 600; color: #2d3748;">Site:</span>
+                </div>
+                <div style="font-size: 0.8rem; color: #4a5568; padding-left: 24px;">${formatLinkWithCopy(dateInfo.site)}</div>
+            `;
+            detailsGrid.appendChild(siteCard);
+        }
+        
+        // Localisation
+        if (dateInfo.localisation && dateInfo.localisation.trim() !== '') {
+            const locCard = document.createElement('div');
+            locCard.style.padding = '8px';
+            locCard.style.background = '#f8f9fa';
+            locCard.style.borderRadius = '6px';
+            locCard.style.borderLeft = '3px solid #f97316';
+            locCard.style.gridColumn = '1 / 3';
+            
+            const coordText = dateInfo.coordonnees || '';
+            const mapPreview = formatLocationWithMapPreview(dateInfo.localisation, coordText, dateInfo.localite);
+            
+            locCard.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                    <span style="font-size: 1.1rem;">🗺️</span>
+                    <span style="font-weight: 600; color: #2d3748;">Localisation:</span>
+                </div>
+                <div style="padding-left: 24px;">${mapPreview}</div>
+            `;
+            detailsGrid.appendChild(locCard);
+        }
+        
+        infoContainer.appendChild(detailsGrid);
+        
+        // Remplacer le contenu du modal
+        dateInfoModal.innerHTML = '';
+        dateInfoModal.appendChild(infoContainer);
+        
+        // Ancienne fonction displayDateDetailsCompact n'est plus utilisée
+        // On peut garder la ligne suivante pour compatibilité
         displayDateDetailsCompact(dateDetailsGrid, dateInfo);
     } else {
         dateInfoModal.innerHTML = '<div style="font-size: 0.75rem; color: #718096; font-style: italic;">Aucune information disponible</div>';
