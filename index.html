@@ -4549,6 +4549,96 @@
 .date-programme:hover span:first-child {
     animation: emojiPop 0.3s ease;
 }
+/* ===== GRILLE DES PROGRAMMES : 2 COLONNES SUR ORDI ET TABLETTE ===== */
+.country-programmes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+}
+
+/* Tablette : 2 colonnes */
+@media (min-width: 481px) and (max-width: 768px) {
+    .country-programmes-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px;
+    }
+    
+    /* Ajuster la taille des cartes pour tablette */
+    .date-item-compact {
+        padding: 8px;
+        min-height: 85px;
+    }
+    
+    .date-value-compact {
+        font-size: 0.8rem !important;
+    }
+    
+    .date-location-left {
+        font-size: 0.75rem;
+    }
+    
+    .date-location-left .lieu {
+        font-size: 0.7rem;
+    }
+    
+    .date-time, .date-programme {
+        font-size: 0.7rem;
+    }
+}
+
+/* Très petit mobile (moins de 480px) : 1 colonne */
+@media (max-width: 480px) {
+    .country-programmes-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px;
+    }
+}
+
+/* Mobile standard (moins de 768px) mais PAS très petit */
+@media (max-width: 768px) and (min-width: 481px) {
+    .country-programmes-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+/* ===== AMÉLIORATIONS POUR TABLETTE ===== */
+@media (min-width: 481px) and (max-width: 768px) {
+    /* Réduire légèrement la taille des cartes */
+    .date-item-compact {
+        padding: 8px 6px;
+        min-height: 80px;
+    }
+    
+    /* Réduire les marges */
+    .date-header-compact {
+        margin-bottom: 4px;
+        padding-bottom: 3px;
+    }
+    
+    /* Ajuster les textes */
+    .date-value-compact {
+        font-size: 0.75rem !important;
+    }
+    
+    .date-location-left {
+        font-size: 0.7rem;
+        gap: 4px;
+    }
+    
+    .date-location-left .lieu {
+        font-size: 0.65rem;
+        margin-left: 4px;
+    }
+    
+    .date-time, .date-programme {
+        font-size: 0.65rem;
+    }
+    
+    /* Réduire l'espacement */
+    .country-programmes-grid {
+        gap: 8px;
+    }
+}
     </style>
 </head>
 <body>
@@ -9548,19 +9638,19 @@ if (countryStatsSection && countryStatsGrid) {
                 freeDatesSection.appendChild(freeDatesList);
                 freeDatesSection.appendChild(freeDatesSummary);
                 
-               // ===== MODIFICATION : LISTE DES PROGRAMMES PAR PAYS RESPONSIVE =====
-const datesContainer = document.createElement('div');
-datesContainer.className = 'country-dates-compact';
-datesContainer.id = `dates-${country.toLowerCase()}`;
-
-if (datesWithLocation.length > 0) {
-    // Créer une grille de cartes
-    const programCardsGrid = document.createElement('div');
-    programCardsGrid.className = 'country-programmes-grid';
-    // Forcer 2 colonnes sur desktop via style inline
-    programCardsGrid.style.display = 'grid';
-    programCardsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
-    programCardsGrid.style.gap = '12px';
+                // ===== MODIFICATION : LISTE DES PROGRAMMES PAR PAYS RESPONSIVE =====
+                const datesContainer = document.createElement('div');
+                datesContainer.className = 'country-dates-compact';
+                datesContainer.id = `dates-${country.toLowerCase()}`;
+                
+                if (datesWithLocation.length > 0) {
+                    // Créer une grille de cartes - 2 par ligne sur ordi
+const programCardsGrid = document.createElement('div');
+programCardsGrid.className = 'country-programmes-grid';
+// Forcer 2 colonnes sur desktop via style inline
+programCardsGrid.style.display = 'grid';
+programCardsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+programCardsGrid.style.gap = '12px';
                     
                    datesWithLocation.forEach(dateItem => {
     const programCard = document.createElement('div');
