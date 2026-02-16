@@ -9886,67 +9886,83 @@ function formatDateToCompare(date) {
     return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
 }
         async function loadDataFromGoogleSheets(method = 'direct') {
-            document.getElementById('loadingIndicator').style.display = 'block';
-            document.getElementById('retryOptions').style.display = 'none';
-            clearErrorMessages();
+    document.getElementById('loadingIndicator').style.display = 'block';
+    document.getElementById('retryOptions').style.display = 'none';
+    clearErrorMessages();
+    
+    // L'URL originale de votre Google Sheet
+    const originalUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrF0hs00W-QvR3v5wxZA1ceGEx4xWR0dJv5kF3zgab6YVV00OehcwxYg-EJfOrMqj4IJnDl649SIkg/pub?gid=951917006&single=true&output=csv';
+    
+    // Liste des URLs à essayer dans l'ordre
+    const urls = [
+        originalUrl,  // Essai direct
+        'https://api.allorigins.win/raw?url=' + encodeURIComponent(originalUrl),  // Proxy CORS gratuit
+        'https://corsproxy.io/?' + encodeURIComponent(originalUrl),  // Autre proxy
+        'https://cors-anywhere.herokuapp.com/' + originalUrl  // Proxy alternatif
+    ];
+    
+    let lastError = null;
+    
+    for (let i = 0; i < urls.length; i++) {
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
             
-            try {
-                let response;
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 15000);
-                
-                switch(method) {
-                    case 'direct':
-                        response = await fetch(GOOGLE_SHEETS_URL, {
-                            signal: controller.signal,
-                            headers: {
-                                'Cache-Control': 'no-cache',
-                                'Pragma': 'no-cache'
-                            }
-                        });
-                        break;
-                        
-                    case 'proxy':
-                        const proxyUrl = `https://cors-anywhere.herokuapp.com/${GOOGLE_SHEETS_URL}`;
-                        response = await fetch(proxyUrl, {
-                            signal: controller.signal,
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest'
-                            }
-                        });
-                        break;
-                        
-                    case 'cors':
-                        const corsProxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(GOOGLE_SHEETS_URL)}`;
-                        response = await fetch(corsProxy, {
-                            signal: controller.signal
-                        });
-                        break;
+            const response = await fetch(urls[i], {
+                signal: controller.signal,
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache'
                 }
-                
-                clearTimeout(timeoutId);
-                
-                if (response.ok) {
-                    const csvText = await response.text();
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (response.ok) {
+                const csvText = await response.text();
+                if (csvText && csvText.trim().length > 100) {
                     processCSVData(csvText);
+                    document.getElementById('loadingIndicator').style.display = 'none';
                     return;
                 }
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                
-            } catch (error) {
-                if (method === 'direct') {
-                    loadDataFromGoogleSheets('proxy');
-                } else if (method === 'proxy') {
-                    loadDataFromGoogleSheets('cors');
-                } else {
-                    showRetryOptions();
-                    showError(`Impossible de charger les données. Vérifiez:<br>
-                    1. Votre connexion internet<br>
-                    2. Que le Google Sheet est bien publié<br>
-                    3. Essayez une méthode alternative ci-dessous`);
-                }
             }
+        } catch (error) {
+            console.log(`Méthode ${i+1} échouée:`, error);
+            lastError = error;
         }
+    }
+    
+    // Si tout échoue, afficher les options de secours
+    document.getElementById('retryOptions').style.display = 'block';
+    document.getElementById('loadingIndicator').style.display = 'none';
+    showError('Impossible de charger les données. Essayez une méthode alternative ci-dessous.');
+}
+
+// Ajoutez aussi cette fonction pour le mode "proxy" qui fonctionne bien en local
+async function loadWithProxy() {
+    document.getElementById('loadingIndicator').style.display = 'block';
+    document.getElementById('retryOptions').style.display = 'none';
+    clearErrorMessages();
+    
+    try {
+        const originalUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrF0hs00W-QvR3v5wxZA1ceGEx4xWR0dJv5kF3zgab6YVV00OehcwxYg-EJfOrMqj4IJnDl649SIkg/pub?gid=951917006&single=true&output=csv';
+        const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(originalUrl);
+        
+        const response = await fetch(proxyUrl);
+        
+        if (response.ok) {
+            const csvText = await response.text();
+            processCSVData(csvText);
+        } else {
+            throw new Error('Erreur proxy');
+        }
+    } catch (error) {
+        showError('Erreur avec le proxy. Essayez une autre méthode.');
+        document.getElementById('retryOptions').style.display = 'block';
+    } finally {
+        document.getElementById('loadingIndicator').style.display = 'none';
+    }
+}
 
         function showRetryOptions() {
             document.getElementById('retryOptions').style.display = 'block';
