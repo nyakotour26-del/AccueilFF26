@@ -5249,32 +5249,38 @@
     color: #ff8c00 !important;
 }
 
-/* Repas en JAUNE FLUO */
-.country-programmes-grid > div[style*="border-color: #ffff00"] {
-    background: linear-gradient(145deg, #ffffe0, #fffff0) !important;
-    border-color: #ffff00 !important;
-    box-shadow: 0 4px 12px rgba(255, 255, 0, 0.4) !important;
+/* Repas en JAUNE PLUS FONCÉ */
+.country-programmes-grid > div[style*="border-color: #e6b800"] {
+    background: linear-gradient(145deg, #fff9e6, #fffdf5) !important;
+    border-color: #e6b800 !important;
+    box-shadow: 0 2px 6px rgba(230, 184, 0, 0.3) !important;
 }
 
-.country-programmes-grid > div[style*="border-color: #ffff00"]:hover {
-    box-shadow: 0 8px 20px rgba(255, 255, 0, 0.5) !important;
+.country-programmes-grid > div[style*="border-color: #e6b800"]:hover {
+    box-shadow: 0 4px 10px rgba(230, 184, 0, 0.4) !important;
 }
 
-.country-programmes-grid > div[style*="border-color: #ffff00"] .time-div {
-    background-color: #ffff00 !important;
+.country-programmes-grid > div[style*="border-color: #e6b800"] .time-div {
+    background-color: #e6b800 !important;
     color: #000000 !important;
 }
 
-.country-programmes-grid > div[style*="border-color: #ffff00"] .prog-div {
-    border-color: #ffff00 !important;
+.country-programmes-grid > div[style*="border-color: #e6b800"] .prog-div {
+    border-color: #e6b800 !important;
     color: #000000 !important;
 }
 
-.country-programmes-grid > div[style*="border-color: #ffff00"] .date-div {
-    border-color: #ffff00 !important;
+.country-programmes-grid > div[style*="border-color: #e6b800"] .date-div {
+    border-color: #e6b800 !important;
     color: #000000 !important;
 }
 
+/* Cercle emoji pour les repas */
+#programInfoCentered [style*="background-color: #e6b800"] {
+    background-color: #e6b800 !important;
+    color: #000000 !important;
+    box-shadow: 0 4px 8px rgba(230, 184, 0, 0.4) !important;
+}
 /* Rencontres en BLEU CIEL */
 .country-programmes-grid > div[style*="border-color: #0ea5e9"] {
     background: linear-gradient(145deg, #e0f2fe, #f0f9ff) !important;
@@ -9023,9 +9029,9 @@ if (programmeLower.includes('vol') || programmeLower.includes('avion') ||
 } else if (programmeLower.includes('repas') || programmeLower.includes('restaurant') || 
            programmeLower.includes('apéro') || programmeLower.includes('marché') ||
            programmeLower.includes('shopping')) {
-    borderColor = '#ffff00'; // JAUNE FLUO pour les repas
-    bgColor = '#ffffe0'; // Fond jaune clair
-    emojiBgColor = '#ffff00';
+    borderColor = '#e6b800'; // JAUNE PLUS FONCÉ (ocre/jaune foncé)
+    bgColor = '#fff9e6'; // Fond jaune très clair
+    emojiBgColor = '#e6b800';
 } else if (programmeLower.includes('visite') || programmeLower.includes('tourisme') || 
            programmeLower.includes('sortie')) {
     borderColor = '#ff8c00'; // ORANGE pour les visites
@@ -10670,192 +10676,194 @@ programCardsGrid.style.gap = '12px';
     // Récupérer l'emoji pour ce programme
     const programEmoji = getProgramEmoji(dateItem.programme);
     
-   // Déterminer la couleur du cadre en fonction du type de programme
-let borderColor = '#000000'; // NOIR pour les concerts (par défaut)
-let bgColor = '#f5f5f5'; // Fond gris très clair pour les concerts
-let headerColor = '#000000';
-let badgeColor = '#000000';
-
-const programmeLower = (dateItem.programme || '').toLowerCase();
-
-if (programmeLower.includes('vol') || programmeLower.includes('avion') || 
-    programmeLower.includes('départ') || programmeLower.includes('retour') ||
-    programmeLower.includes('depart')) {
-    borderColor = '#3b82f6'; // Bleu pour les vols
-    bgColor = '#eff6ff'; // Fond bleu clair
-    headerColor = '#2563eb';
-    badgeColor = '#3b82f6';
-} else if (programmeLower.includes('repos') || programmeLower.includes('rest') || 
-           programmeLower.includes('détente') || programmeLower.includes('relax')) {
-    borderColor = '#10b981'; // Vert pour le repos
-    bgColor = '#d1fae5'; // Fond vert clair
-    headerColor = '#059669';
-    badgeColor = '#10b981';
-} else if (programmeLower.includes('repas') || programmeLower.includes('restaurant') || 
-           programmeLower.includes('apéro') || programmeLower.includes('marché') ||
-           programmeLower.includes('shopping')) {
-    borderColor = '#ffff00'; // JAUNE FLUO pour les repas
-    bgColor = '#ffffe0'; // Fond jaune clair
-    headerColor = '#e6b800';
-    badgeColor = '#ffff00';
-} else if (programmeLower.includes('visite') || programmeLower.includes('tourisme') || 
-           programmeLower.includes('sortie')) {
-    borderColor = '#ff8c00'; // ORANGE pour les visites
-    bgColor = '#fff4e6'; // Fond orange clair
-    headerColor = '#e67e00';
-    badgeColor = '#ff8c00';
-} else if (programmeLower.includes('eglise') || programmeLower.includes('église') || 
-           programmeLower.includes('culte') || programmeLower.includes('mfm') ||
-           programmeLower.includes('celebration') || programmeLower.includes('célébration')) {
-    borderColor = '#6b21a8'; // Violet foncé pour les cultes
-    bgColor = '#f3e8ff'; // Fond violet très clair
-    headerColor = '#5b21b6';
-    badgeColor = '#6b21a8';
-} else if (programmeLower.includes('animation') || programmeLower.includes('enfant') || 
-           programmeLower.includes('jeux') || programmeLower.includes('sport') ||
-           programmeLower.includes('jeu')) {
-    borderColor = '#ec4899'; // Rose pour les animations
-    bgColor = '#fce7f3'; // Fond rose clair
-    headerColor = '#db2777';
-    badgeColor = '#ec4899';
-} else if (programmeLower.includes('rencontre') || programmeLower.includes('invitation')) {
-    borderColor = '#0ea5e9'; // BLEU CIEL pour les rencontres
-    bgColor = '#e0f2fe'; // Fond bleu ciel clair
-    headerColor = '#0284c7';
-    badgeColor = '#0ea5e9';
-}
+    // Déterminer la couleur du cadre en fonction du type de programme
+    let borderColor = '#000000'; // NOIR pour les concerts
+    let bgColor = '#f5f5f5';
+    let headerColor = '#000000';
+    let badgeColor = '#000000';
     
-    // ===== NOUVELLE CARTE STYLISÉE =====
+    const programmeLower = (dateItem.programme || '').toLowerCase();
+    
+    if (programmeLower.includes('vol') || programmeLower.includes('avion') || 
+        programmeLower.includes('départ') || programmeLower.includes('retour') ||
+        programmeLower.includes('depart')) {
+        borderColor = '#3b82f6';
+        bgColor = '#eff6ff';
+        headerColor = '#2563eb';
+        badgeColor = '#3b82f6';
+    } else if (programmeLower.includes('repos') || programmeLower.includes('rest') || 
+               programmeLower.includes('détente') || programmeLower.includes('relax')) {
+        borderColor = '#10b981';
+        bgColor = '#d1fae5';
+        headerColor = '#059669';
+        badgeColor = '#10b981';
+    } else if (programmeLower.includes('repas') || programmeLower.includes('restaurant') || 
+               programmeLower.includes('apéro') || programmeLower.includes('marché') ||
+               programmeLower.includes('shopping')) {
+        borderColor = '#e6b800'; // JAUNE PLUS FONCÉ
+        bgColor = '#fff9e6';
+        headerColor = '#cc9900';
+        badgeColor = '#e6b800';
+    } else if (programmeLower.includes('visite') || programmeLower.includes('tourisme') || 
+               programmeLower.includes('sortie')) {
+        borderColor = '#ff8c00';
+        bgColor = '#fff4e6';
+        headerColor = '#e67e00';
+        badgeColor = '#ff8c00';
+    } else if (programmeLower.includes('eglise') || programmeLower.includes('église') || 
+               programmeLower.includes('culte') || programmeLower.includes('mfm') ||
+               programmeLower.includes('celebration') || programmeLower.includes('célébration')) {
+        borderColor = '#6b21a8';
+        bgColor = '#f3e8ff';
+        headerColor = '#5b21b6';
+        badgeColor = '#6b21a8';
+    } else if (programmeLower.includes('animation') || programmeLower.includes('enfant') || 
+               programmeLower.includes('jeux') || programmeLower.includes('sport') ||
+               programmeLower.includes('jeu')) {
+        borderColor = '#ec4899';
+        bgColor = '#fce7f3';
+        headerColor = '#db2777';
+        badgeColor = '#ec4899';
+    } else if (programmeLower.includes('rencontre') || programmeLower.includes('invitation')) {
+        borderColor = '#0ea5e9';
+        bgColor = '#e0f2fe';
+        headerColor = '#0284c7';
+        badgeColor = '#0ea5e9';
+    }
+    
+    // ===== NOUVELLE CARTE COMPACTE (HAUTEUR RÉDUITE) =====
     const programCard = document.createElement('div');
     programCard.style.backgroundColor = bgColor;
-    programCard.style.borderRadius = '12px';
+    programCard.style.borderRadius = '10px';
     programCard.style.border = `2px solid ${borderColor}`;
-    programCard.style.boxShadow = `0 4px 12px ${borderColor}30`;
-    programCard.style.padding = '12px';
+    programCard.style.boxShadow = `0 2px 6px ${borderColor}30`;
+    programCard.style.padding = '8px'; // Padding réduit de 12px à 8px
     programCard.style.cursor = 'pointer';
-    programCard.style.transition = 'all 0.3s ease';
+    programCard.style.transition = 'all 0.2s ease';
     programCard.style.position = 'relative';
     programCard.style.overflow = 'hidden';
     programCard.style.display = 'flex';
     programCard.style.flexDirection = 'column';
-    programCard.style.gap = '8px';
+    programCard.style.gap = '4px'; // Gap réduit de 8px à 4px
     
-    // Effet de survol
+    // Effet de survol plus subtil
     programCard.onmouseover = () => {
-        programCard.style.transform = 'translateY(-4px)';
-        programCard.style.boxShadow = `0 8px 20px ${borderColor}50`;
+        programCard.style.transform = 'translateY(-2px)'; // Moins d'élévation
+        programCard.style.boxShadow = `0 4px 10px ${borderColor}40`;
     };
     programCard.onmouseout = () => {
         programCard.style.transform = 'translateY(0)';
-        programCard.style.boxShadow = `0 4px 12px ${borderColor}30`;
+        programCard.style.boxShadow = `0 2px 6px ${borderColor}30`;
     };
     
-    // Action au clic
     programCard.onclick = () => showRecapDateModal(dateItem);
     
-    // Bande décorative en haut
+    // Bande décorative en haut (plus fine)
     const topBand = document.createElement('div');
     topBand.style.position = 'absolute';
     topBand.style.top = '0';
     topBand.style.left = '0';
     topBand.style.right = '0';
-    topBand.style.height = '4px';
+    topBand.style.height = '3px'; // Réduit de 4px à 3px
     topBand.style.background = borderColor;
     programCard.appendChild(topBand);
     
-    // ===== EN-TÊTE DE LA CARTE =====
+    // ===== EN-TÊTE COMPACT =====
     const cardHeader = document.createElement('div');
     cardHeader.style.display = 'flex';
     cardHeader.style.justifyContent = 'space-between';
     cardHeader.style.alignItems = 'center';
-    cardHeader.style.marginBottom = '4px';
+    cardHeader.style.marginBottom = '2px'; // Réduit
     
-    // Date avec icône
+    // Date avec icône (plus petite)
     const dateDiv = document.createElement('div');
     dateDiv.style.display = 'flex';
     dateDiv.style.alignItems = 'center';
-    dateDiv.style.gap = '6px';
-    dateDiv.style.fontWeight = '700';
+    dateDiv.style.gap = '4px';
+    dateDiv.style.fontWeight = '600'; // Moins gras
     dateDiv.style.color = borderColor;
-    dateDiv.style.fontSize = '0.9rem';
+    dateDiv.style.fontSize = '0.8rem'; // Plus petit
     dateDiv.style.backgroundColor = 'white';
-    dateDiv.style.padding = '4px 10px';
-    dateDiv.style.borderRadius = '20px';
+    dateDiv.style.padding = '2px 8px'; // Padding réduit
+    dateDiv.style.borderRadius = '16px';
     dateDiv.style.border = `1px solid ${borderColor}`;
-    dateDiv.innerHTML = `<i class="fas fa-calendar-alt" style="color: ${borderColor};"></i> ${formatDateForDisplay(dateItem.date)}`;
+    dateDiv.innerHTML = `<i class="fas fa-calendar-alt" style="font-size:0.7rem; color: ${borderColor};"></i> ${formatDateForDisplay(dateItem.date)}`;
     
-    // Drapeau
+    // Drapeau (plus petit)
     const flagDiv = document.createElement('div');
-    flagDiv.style.width = '24px';
-    flagDiv.style.height = '16px';
-    flagDiv.style.borderRadius = '3px';
-    flagDiv.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+    flagDiv.style.width = '20px'; // Réduit de 24px à 20px
+    flagDiv.style.height = '13px'; // Réduit de 16px à 13px
+    flagDiv.style.borderRadius = '2px';
+    flagDiv.style.boxShadow = '0 1px 2px rgba(0,0,0,0.2)';
     const flagClass = countryFlags[dateItem.pays.toUpperCase()] || 'flag-france';
     flagDiv.classList.add(flagClass);
     
     cardHeader.appendChild(dateDiv);
     cardHeader.appendChild(flagDiv);
     
-    // ===== LIGNE LOCALITÉ ET LIEU =====
+    // ===== LIGNE LOCALITÉ COMPACTE =====
     const locationDiv = document.createElement('div');
     locationDiv.style.display = 'flex';
-    locationDiv.style.flexWrap = 'wrap';
     locationDiv.style.alignItems = 'center';
-    locationDiv.style.gap = '8px';
-    locationDiv.style.marginTop = '4px';
-    locationDiv.style.padding = '4px 0';
+    locationDiv.style.gap = '6px';
+    locationDiv.style.marginTop = '2px';
+    locationDiv.style.padding = '2px 0';
     
     // Localité
     const localiteSpan = document.createElement('span');
     localiteSpan.style.display = 'flex';
     localiteSpan.style.alignItems = 'center';
-    localiteSpan.style.gap = '4px';
+    localiteSpan.style.gap = '3px';
     localiteSpan.style.fontWeight = '600';
     localiteSpan.style.color = '#2d3748';
-    localiteSpan.style.fontSize = '0.85rem';
-    localiteSpan.innerHTML = `<i class="fas fa-map-pin" style="color: ${borderColor};"></i> ${dateItem.localite || 'Localité'}`;
+    localiteSpan.style.fontSize = '0.75rem'; // Plus petit
+    localiteSpan.innerHTML = `<i class="fas fa-map-pin" style="font-size:0.7rem; color: ${borderColor};"></i> ${dateItem.localite || 'Localité'}`;
     
-    // Lieu (si présent)
+    // Lieu (si présent) - plus compact
     if (dateItem.lieu && dateItem.lieu.trim() !== '') {
         const lieuSpan = document.createElement('span');
         lieuSpan.style.display = 'flex';
         lieuSpan.style.alignItems = 'center';
-        lieuSpan.style.gap = '4px';
+        lieuSpan.style.gap = '3px';
         lieuSpan.style.backgroundColor = 'white';
-        lieuSpan.style.padding = '2px 8px';
-        lieuSpan.style.borderRadius = '16px';
-        lieuSpan.style.fontSize = '0.8rem';
+        lieuSpan.style.padding = '1px 6px'; // Padding réduit
+        lieuSpan.style.borderRadius = '12px';
+        lieuSpan.style.fontSize = '0.7rem'; // Plus petit
         lieuSpan.style.color = '#f97316';
         lieuSpan.style.border = `1px solid ${borderColor}`;
-        lieuSpan.innerHTML = `<i class="fas fa-landmark" style="color: ${borderColor};"></i> ${dateItem.lieu.substring(0, 20)}${dateItem.lieu.length > 20 ? '...' : ''}`;
+        lieuSpan.style.whiteSpace = 'nowrap';
+        lieuSpan.style.overflow = 'hidden';
+        lieuSpan.style.textOverflow = 'ellipsis';
+        lieuSpan.style.maxWidth = '120px';
+        lieuSpan.innerHTML = `<i class="fas fa-landmark" style="font-size:0.6rem; color: ${borderColor};"></i> ${dateItem.lieu.substring(0, 12)}${dateItem.lieu.length > 12 ? '...' : ''}`;
         locationDiv.appendChild(lieuSpan);
     }
     
     locationDiv.appendChild(localiteSpan);
     
-    // ===== LIGNE HEURE ET PROGRAMME =====
+    // ===== LIGNE HEURE ET PROGRAMME COMPACTE =====
     const infoDiv = document.createElement('div');
     infoDiv.style.display = 'flex';
     infoDiv.style.justifyContent = 'space-between';
     infoDiv.style.alignItems = 'center';
-    infoDiv.style.marginTop = '6px';
-    infoDiv.style.padding = '6px 0';
-    infoDiv.style.borderTop = `1px dashed ${borderColor}40`;
-    infoDiv.style.borderBottom = `1px dashed ${borderColor}40`;
+    infoDiv.style.marginTop = '2px';
+    infoDiv.style.padding = '3px 0'; // Padding réduit
+    infoDiv.style.borderTop = `1px dashed ${borderColor}30`;
+    infoDiv.style.borderBottom = `1px dashed ${borderColor}30`;
     
     // Heure
     if (dateItem.heures && dateItem.heures.trim() !== '') {
         const timeDiv = document.createElement('div');
         timeDiv.style.display = 'flex';
         timeDiv.style.alignItems = 'center';
-        timeDiv.style.gap = '4px';
+        timeDiv.style.gap = '3px';
         timeDiv.style.backgroundColor = badgeColor;
-        timeDiv.style.color = 'white';
-        timeDiv.style.padding = '4px 12px';
-        timeDiv.style.borderRadius = '20px';
-        timeDiv.style.fontSize = '0.8rem';
+        timeDiv.style.color = badgeColor === '#e6b800' ? '#000000' : 'white'; // Texte noir si fond jaune
+        timeDiv.style.padding = '2px 8px'; // Padding réduit
+        timeDiv.style.borderRadius = '16px';
+        timeDiv.style.fontSize = '0.7rem'; // Plus petit
         timeDiv.style.fontWeight = '600';
-        timeDiv.innerHTML = `<i class="fas fa-clock"></i> ${dateItem.heures}`;
+        timeDiv.innerHTML = `<i class="fas fa-clock" style="font-size:0.6rem;"></i> ${dateItem.heures}`;
         infoDiv.appendChild(timeDiv);
     }
     
@@ -10864,53 +10872,58 @@ if (programmeLower.includes('vol') || programmeLower.includes('avion') ||
         const progDiv = document.createElement('div');
         progDiv.style.display = 'flex';
         progDiv.style.alignItems = 'center';
-        progDiv.style.gap = '6px';
+        progDiv.style.gap = '3px';
         progDiv.style.backgroundColor = 'white';
-        progDiv.style.padding = '4px 12px';
-        progDiv.style.borderRadius = '20px';
+        progDiv.style.padding = '2px 8px';
+        progDiv.style.borderRadius = '16px';
         progDiv.style.border = `1px solid ${borderColor}`;
-        progDiv.style.fontSize = '0.8rem';
+        progDiv.style.fontSize = '0.7rem';
         progDiv.style.fontWeight = '600';
         progDiv.style.color = borderColor;
-        progDiv.innerHTML = `<span style="font-size: 1rem;">${programEmoji}</span> ${dateItem.programme.substring(0, 20)}${dateItem.programme.length > 20 ? '...' : ''}`;
+        progDiv.style.whiteSpace = 'nowrap';
+        progDiv.style.overflow = 'hidden';
+        progDiv.style.textOverflow = 'ellipsis';
+        progDiv.style.maxWidth = '140px';
+        progDiv.innerHTML = `<span style="font-size:0.8rem;">${programEmoji}</span> ${dateItem.programme.substring(0, 10)}${dateItem.programme.length > 10 ? '...' : ''}`;
         infoDiv.appendChild(progDiv);
     }
     
-    // ===== INFOS SUPPLÉMENTAIRES (TRAJET ET CONTACT) =====
+    // ===== INFOS SUPPLÉMENTAIRES (TRAJET ET CONTACT) - OPTIONNEL =====
+    // On peut les afficher sur une seule ligne compacte
     const extraDiv = document.createElement('div');
     extraDiv.style.display = 'flex';
     extraDiv.style.flexWrap = 'wrap';
-    extraDiv.style.gap = '6px';
-    extraDiv.style.marginTop = '6px';
-    extraDiv.style.fontSize = '0.75rem';
+    extraDiv.style.gap = '4px';
+    extraDiv.style.marginTop = '2px';
+    extraDiv.style.fontSize = '0.65rem'; // Plus petit
     
-    // Trajet
+    // Trajet (si présent)
     if (dateItem.trajets && dateItem.trajets.trim() !== '') {
         const trajetDiv = document.createElement('div');
         trajetDiv.style.display = 'flex';
         trajetDiv.style.alignItems = 'center';
-        trajetDiv.style.gap = '4px';
+        trajetDiv.style.gap = '2px';
         trajetDiv.style.backgroundColor = 'white';
-        trajetDiv.style.padding = '3px 8px';
-        trajetDiv.style.borderRadius = '16px';
-        trajetDiv.style.border = `1px solid ${borderColor}60`;
+        trajetDiv.style.padding = '1px 6px';
+        trajetDiv.style.borderRadius = '12px';
+        trajetDiv.style.border = `1px solid ${borderColor}40`;
         trajetDiv.style.color = '#7c3aed';
-        trajetDiv.innerHTML = `<span style="font-size: 0.9rem;">🚗</span> ${dateItem.trajets.substring(0, 15)}${dateItem.trajets.length > 15 ? '...' : ''}`;
+        trajetDiv.innerHTML = `<span style="font-size:0.7rem;">🚗</span> ${dateItem.trajets.substring(0, 8)}${dateItem.trajets.length > 8 ? '...' : ''}`;
         extraDiv.appendChild(trajetDiv);
     }
     
-    // Contact (adresse)
+    // Contact (si présent)
     if (dateItem.adresse && dateItem.adresse.trim() !== '') {
         const contactDiv = document.createElement('div');
         contactDiv.style.display = 'flex';
         contactDiv.style.alignItems = 'center';
-        contactDiv.style.gap = '4px';
+        contactDiv.style.gap = '2px';
         contactDiv.style.backgroundColor = 'white';
-        contactDiv.style.padding = '3px 8px';
-        contactDiv.style.borderRadius = '16px';
-        contactDiv.style.border = `1px solid ${borderColor}60`;
+        contactDiv.style.padding = '1px 6px';
+        contactDiv.style.borderRadius = '12px';
+        contactDiv.style.border = `1px solid ${borderColor}40`;
         contactDiv.style.color = '#4a5568';
-        contactDiv.innerHTML = `<span style="font-size: 0.9rem;">👤</span> ${dateItem.adresse.substring(0, 15)}${dateItem.adresse.length > 15 ? '...' : ''}`;
+        contactDiv.innerHTML = `<span style="font-size:0.7rem;">👤</span> ${dateItem.adresse.substring(0, 8)}${dateItem.adresse.length > 8 ? '...' : ''}`;
         extraDiv.appendChild(contactDiv);
     }
     
