@@ -10893,8 +10893,7 @@ function getCountryGradient(country) {
         'MADAGASCAR': '#2E7D32, #1B5E20' // Vert pour Madagascar
     };
     return gradients[country] || '#4299e1, #3182ce';
-}
-       // ===== GÉNÉRER LE RÉCAPITULATIF PAR PAYS (VERSION AVEC LISTE DES PROGRAMMES SANS DOUBLON) =====
+}       // ===== GÉNÉRER LE RÉCAPITULATIF PAR PAYS (VERSION AVEC NOMBRE PAR TYPE) =====
 function generateRecapByCountry() {
     const recapContainer = document.getElementById('recapContainer');
     const noDatesMessage = document.getElementById('noDatesMessage');
@@ -10965,22 +10964,40 @@ function generateRecapByCountry() {
         countryDates.sort((a, b) => a.date - b.date);
         datesWithLocation.sort((a, b) => a.date - b.date);
         
-        // ===== EXTRAIRE LES TYPES DE PROGRAMMES SANS DOUBLON =====
-        const uniqueProgramTypes = new Set();
+        // ===== COMPTER LES PROGRAMMES PAR TYPE POUR CE PAYS =====
+        const programTypesCount = {};
         datesWithLocation.forEach(item => {
             const programme = item.programme && item.programme.trim() !== '' 
                 ? item.programme 
                 : 'Concert';
             // Prendre le mot principal (ex: "Concert", "Visite", "Repas")
-            const mainType = programme.split(' ')[0];
-            uniqueProgramTypes.add(mainType);
+            const mainType = programme.split(' ')[0].charAt(0).toUpperCase() + programme.split(' ')[0].slice(1).toLowerCase();
+            
+            if (!programTypesCount[mainType]) {
+                programTypesCount[mainType] = 0;
+            }
+            programTypesCount[mainType]++;
         });
         
-        // Convertir en tableau et formater
-        const programTypesList = Array.from(uniqueProgramTypes).map(type => {
-            // Capitaliser la première lettre
-            return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
-        }).join(', ');
+        // Créer la liste formatée avec les nombres
+        const programTypesList = Object.entries(programTypesCount)
+            .map(([type, count]) => {
+                // Ajouter un emoji selon le type
+                let emoji = '🎵';
+                const typeLower = type.toLowerCase();
+                if (typeLower.includes('vol') || typeLower.includes('avion')) emoji = '✈️';
+                else if (typeLower.includes('repos')) emoji = '😴';
+                else if (typeLower.includes('repas')) emoji = '🥗';
+                else if (typeLower.includes('visite')) emoji = '🚶';
+                else if (typeLower.includes('eglise') || typeLower.includes('culte')) emoji = '✝️';
+                else if (typeLower.includes('animation')) emoji = '🤹';
+                else if (typeLower.includes('rencontre')) emoji = '👥';
+                
+                return `<span style="display: inline-flex; align-items: center; gap: 3px; background: rgba(249,115,22,0.1); padding: 2px 8px; border-radius: 20px; margin: 2px;">
+                    ${emoji} ${type} <span style="font-weight: 800; color: #f97316; margin-left: 3px;">${count}</span>
+                </span>`;
+            })
+            .join(' ');
         
         const totalProgrammes = datesWithLocation.length;
         const uniqueDays = new Set(countryDates.map(item => item.date.getTime())).size;
@@ -11304,7 +11321,7 @@ function generateRecapByCountry() {
 
         freeDatesSection.appendChild(freeDatesList);
         
-        // ===== TITRE AVEC LISTE DES PROGRAMMES SANS DOUBLON =====
+        // ===== TITRE AVEC LISTE DES PROGRAMMES ET LEUR NOMBRE =====
         const programmesTitle = document.createElement('div');
         programmesTitle.style.padding = '10px 12px 5px 12px';
         programmesTitle.style.fontSize = '0.85rem';
@@ -11322,12 +11339,12 @@ function generateRecapByCountry() {
         iconSpan.style.color = '#f97316';
         
         const textSpan = document.createElement('span');
-        textSpan.textContent = programTypesList || 'Aucun programme';
+        textSpan.innerHTML = programTypesList || 'Aucun programme';
         
         programmesTitle.appendChild(iconSpan);
         programmesTitle.appendChild(textSpan);
         
-        // ===== LISTE DES PROGRAMMES PAR PAYS AVEC LIEU VISIBLE NON COUPÉ =====
+        // ===== LISTE DES PROGRAMMES PAR PAYS =====
         const datesContainer = document.createElement('div');
         datesContainer.className = 'country-dates-compact';
         datesContainer.id = `dates-${country.toLowerCase()}`;
@@ -11514,10 +11531,10 @@ function generateRecapByCountry() {
                 headerDiv.appendChild(dateDiv);
                 headerDiv.appendChild(flagMini);
                 
-                // Localité et lieu (LIEU NON COUPÉ)
+                // Localité et lieu
                 const locationDiv = document.createElement('div');
                 locationDiv.style.display = 'flex';
-                locationDiv.style.flexDirection = 'column'; // Passage en colonne pour mieux voir
+                locationDiv.style.flexDirection = 'column';
                 locationDiv.style.gap = '4px';
                 locationDiv.style.marginTop = '2px';
                 
@@ -11545,9 +11562,9 @@ function generateRecapByCountry() {
                     lieuSpan.style.display = 'flex';
                     lieuSpan.style.alignItems = 'center';
                     lieuSpan.style.gap = '4px';
-                    lieuSpan.style.wordBreak = 'break-word'; // Permet de couper les mots longs
-                    lieuSpan.style.whiteSpace = 'normal'; // Permet le retour à la ligne
-                    lieuSpan.style.width = '100%'; // Prend toute la largeur
+                    lieuSpan.style.wordBreak = 'break-word';
+                    lieuSpan.style.whiteSpace = 'normal';
+                    lieuSpan.style.width = '100%';
                     lieuSpan.innerHTML = `<i class="fas fa-landmark" style="font-size:0.7rem;"></i> ${dateItem.lieu}`;
                     locationDiv.appendChild(lieuSpan);
                 }
