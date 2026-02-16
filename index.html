@@ -10179,48 +10179,46 @@ setTimeout(() => {
         }
 
        function scrollToGeneralInfo() {
-    // Sur ordinateur, les infos générales sont dans header-info-section
-    // Sur mobile, elles sont dans .section.mobile-only
-    
+    // Chercher la section des informations générales
     let targetSection = null;
     
-    // Essayer de trouver la section desktop d'abord
-    targetSection = document.querySelector('.header-info-section');
+    // Version desktop (dans l'en-tête)
+    const desktopInfo = document.querySelector('.header-info-section');
+    if (desktopInfo) {
+        targetSection = desktopInfo;
+    }
     
-    // Si pas trouvée, chercher la section mobile
+    // Version mobile (si on est sur mobile)
     if (!targetSection) {
         const sections = document.querySelectorAll('.section');
         for (let section of sections) {
             const title = section.querySelector('.section-title');
-            if (title && title.textContent.includes('Informations générales')) {
+            if (title && (title.textContent.includes('Informations') || title.textContent.includes('info'))) {
                 targetSection = section;
                 break;
             }
         }
     }
     
-    // Si toujours pas trouvée, aller vers le haut de la page
-    if (!targetSection) {
+    if (targetSection) {
+        targetSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+        
+        targetSection.style.boxShadow = '0 0 0 3px rgba(66, 153, 225, 0.5)';
+        targetSection.style.transition = 'box-shadow 0.5s ease';
+        
+        setTimeout(() => {
+            targetSection.style.boxShadow = '';
+        }, 2000);
+    } else {
+        // Si rien trouvé, remonter en haut
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
-        return;
     }
-    
-    // Faire défiler jusqu'à la section
-    targetSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-    });
-    
-    // Effet de surbrillance
-    targetSection.style.boxShadow = '0 0 0 3px rgba(66, 153, 225, 0.5)';
-    targetSection.style.transition = 'box-shadow 0.5s ease';
-    
-    setTimeout(() => {
-        targetSection.style.boxShadow = '';
-    }, 2000);
 }
         
         function scrollToRecapSection() {
