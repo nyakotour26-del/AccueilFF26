@@ -2874,72 +2874,98 @@
         }
         
         /* ===== MODIFICATION : BOUTONS FLOTTANTS AVEC NOUVEAU BOUTON SHEET ===== */
-        .floating-buttons {
-            position: fixed;
-            bottom: 16px;
-            right: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            z-index: 1000;
-        }
-        
-        .floating-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            background: white;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: #2d3748;
-        }
-        
-        .floating-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .floating-btn-calendar {
-            background: linear-gradient(135deg, #4299e1, #3182ce);
-            color: white;
-        }
-        
-        .floating-btn-unlock {
-            background: linear-gradient(135deg, #ed8936, #dd771c);
-            color: white;
-        }
-        
-        .floating-btn-countries {
-            background: linear-gradient(135deg, #48bb78, #38a169);
-            color: white;
-        }
-        
-        .floating-btn-info {
-            background: linear-gradient(135deg, #9f7aea, #805ad5);
-            color: white;
-        }
-        
-        .floating-btn-map {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-        }
-        
-        .floating-btn-sheet {
-            background: linear-gradient(135deg, #ec4899, #db2777);
-            color: white;
-        }
-        
-        @media (min-width: 769px) {
-            .floating-buttons {
-                display: none;
-            }
-        }
+/* Boutons flottants - visibles sur TOUS les écrans */
+.floating-buttons {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.floating-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #2d3748;
+}
+
+.floating-btn:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.floating-btn-calendar {
+    background: linear-gradient(135deg, #4299e1, #3182ce);
+    color: white;
+}
+
+.floating-btn-unlock {
+    background: linear-gradient(135deg, #ed8936, #dd771c);
+    color: white;
+}
+
+.floating-btn-countries {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    color: white;
+}
+
+.floating-btn-map {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+}
+
+.floating-btn-info {
+    background: linear-gradient(135deg, #9f7aea, #805ad5);
+    color: white;
+}
+
+.floating-btn-sheet {
+    background: linear-gradient(135deg, #ec4899, #db2777);
+    color: white;
+}
+
+/* Petit ajustement pour mobile */
+@media (max-width: 768px) {
+    .floating-buttons {
+        bottom: 16px;
+        right: 16px;
+        gap: 8px;
+    }
+    
+    .floating-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* Très petits écrans */
+@media (max-width: 480px) {
+    .floating-buttons {
+        bottom: 12px;
+        right: 12px;
+        gap: 6px;
+    }
+    
+    .floating-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+    }
+}
         
         .modal-lieu-orange {
             color: #f97316 !important;
@@ -9886,83 +9912,67 @@ function formatDateToCompare(date) {
     return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
 }
         async function loadDataFromGoogleSheets(method = 'direct') {
-    document.getElementById('loadingIndicator').style.display = 'block';
-    document.getElementById('retryOptions').style.display = 'none';
-    clearErrorMessages();
-    
-    // L'URL originale de votre Google Sheet
-    const originalUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrF0hs00W-QvR3v5wxZA1ceGEx4xWR0dJv5kF3zgab6YVV00OehcwxYg-EJfOrMqj4IJnDl649SIkg/pub?gid=951917006&single=true&output=csv';
-    
-    // Liste des URLs à essayer dans l'ordre
-    const urls = [
-        originalUrl,  // Essai direct
-        'https://api.allorigins.win/raw?url=' + encodeURIComponent(originalUrl),  // Proxy CORS gratuit
-        'https://corsproxy.io/?' + encodeURIComponent(originalUrl),  // Autre proxy
-        'https://cors-anywhere.herokuapp.com/' + originalUrl  // Proxy alternatif
-    ];
-    
-    let lastError = null;
-    
-    for (let i = 0; i < urls.length; i++) {
-        try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000);
+            document.getElementById('loadingIndicator').style.display = 'block';
+            document.getElementById('retryOptions').style.display = 'none';
+            clearErrorMessages();
             
-            const response = await fetch(urls[i], {
-                signal: controller.signal,
-                headers: {
-                    'Cache-Control': 'no-cache',
-                    'Pragma': 'no-cache'
+            try {
+                let response;
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
+                
+                switch(method) {
+                    case 'direct':
+                        response = await fetch(GOOGLE_SHEETS_URL, {
+                            signal: controller.signal,
+                            headers: {
+                                'Cache-Control': 'no-cache',
+                                'Pragma': 'no-cache'
+                            }
+                        });
+                        break;
+                        
+                    case 'proxy':
+                        const proxyUrl = `https://cors-anywhere.herokuapp.com/${GOOGLE_SHEETS_URL}`;
+                        response = await fetch(proxyUrl, {
+                            signal: controller.signal,
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        });
+                        break;
+                        
+                    case 'cors':
+                        const corsProxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(GOOGLE_SHEETS_URL)}`;
+                        response = await fetch(corsProxy, {
+                            signal: controller.signal
+                        });
+                        break;
                 }
-            });
-            
-            clearTimeout(timeoutId);
-            
-            if (response.ok) {
-                const csvText = await response.text();
-                if (csvText && csvText.trim().length > 100) {
+                
+                clearTimeout(timeoutId);
+                
+                if (response.ok) {
+                    const csvText = await response.text();
                     processCSVData(csvText);
-                    document.getElementById('loadingIndicator').style.display = 'none';
                     return;
                 }
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                
+            } catch (error) {
+                if (method === 'direct') {
+                    loadDataFromGoogleSheets('proxy');
+                } else if (method === 'proxy') {
+                    loadDataFromGoogleSheets('cors');
+                } else {
+                    showRetryOptions();
+                    showError(`Impossible de charger les données. Vérifiez:<br>
+                    1. Votre connexion internet<br>
+                    2. Que le Google Sheet est bien publié<br>
+                    3. Essayez une méthode alternative ci-dessous`);
+                }
             }
-        } catch (error) {
-            console.log(`Méthode ${i+1} échouée:`, error);
-            lastError = error;
         }
-    }
-    
-    // Si tout échoue, afficher les options de secours
-    document.getElementById('retryOptions').style.display = 'block';
-    document.getElementById('loadingIndicator').style.display = 'none';
-    showError('Impossible de charger les données. Essayez une méthode alternative ci-dessous.');
-}
-
-// Ajoutez aussi cette fonction pour le mode "proxy" qui fonctionne bien en local
-async function loadWithProxy() {
-    document.getElementById('loadingIndicator').style.display = 'block';
-    document.getElementById('retryOptions').style.display = 'none';
-    clearErrorMessages();
-    
-    try {
-        const originalUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrF0hs00W-QvR3v5wxZA1ceGEx4xWR0dJv5kF3zgab6YVV00OehcwxYg-EJfOrMqj4IJnDl649SIkg/pub?gid=951917006&single=true&output=csv';
-        const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(originalUrl);
-        
-        const response = await fetch(proxyUrl);
-        
-        if (response.ok) {
-            const csvText = await response.text();
-            processCSVData(csvText);
-        } else {
-            throw new Error('Erreur proxy');
-        }
-    } catch (error) {
-        showError('Erreur avec le proxy. Essayez une autre méthode.');
-        document.getElementById('retryOptions').style.display = 'block';
-    } finally {
-        document.getElementById('loadingIndicator').style.display = 'none';
-    }
-}
 
         function showRetryOptions() {
             document.getElementById('retryOptions').style.display = 'block';
