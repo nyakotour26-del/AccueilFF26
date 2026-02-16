@@ -1485,11 +1485,11 @@
             font-weight: 700;
         }
         
-        .date-location-left .lieu {
-            color: #f97316;
-            font-weight: 700;
-            margin-left: 10px;
-        }
+        .lieu {
+    color: #f97316 !important;
+    font-weight: 700;
+    margin-left: 10px;
+}
         
         .date-location-left::before {
             content: "📍";
@@ -4499,6 +4499,56 @@
         width: 95% !important;
     }
 }
+/* ===== GRILLE DES PROGRAMMES : 2 COLONNES SUR ORDI ===== */
+.country-programmes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+}
+
+/* Tablette : 2 colonnes aussi */
+@media (max-width: 992px) and (min-width: 769px) {
+    .country-programmes-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+
+/* Mobile : 1 colonne */
+@media (max-width: 768px) {
+    .country-programmes-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px;
+    }
+}
+
+/* Très petit mobile */
+@media (max-width: 480px) {
+    .country-programmes-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+/* ===== STYLE POUR LES EMOJIS DANS LES CARTES ===== */
+.date-programme {
+    transition: all 0.2s ease;
+}
+
+.date-programme:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+}
+
+/* Animation pour les emojis */
+@keyframes emojiPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.date-programme:hover span:first-child {
+    animation: emojiPop 0.3s ease;
+}
     </style>
 </head>
 <body>
@@ -5371,8 +5421,7 @@ function getProgramEmoji(programText) {
     
     // PAR DÉFAUT
     return '🎵';
-}
-        // Objet pour mapper les noms de pays aux couleurs de bordure
+}        // Objet pour mapper les noms de pays aux couleurs de bordure
         const countryColors = {
             'FRANCE': '#002395',
             'ALLEMAGNE': '#000000',
@@ -8220,14 +8269,14 @@ function displayProgramInfoCompact(container, programData) {
     
     // TEXTE DU PROGRAMME - POLICE SPÉCIALE + ÉPAISSE
     const programText = document.createElement('div');
-    programText.style.fontFamily = "'Montserrat', 'Roboto Condensed', 'Arial Black', sans-serif"; // Police différente
-    programText.style.fontWeight = '900'; // Ultra épais
-    programText.style.fontSize = '1rem'; // Légèrement plus grand
+    programText.style.fontFamily = "'Montserrat', 'Roboto Condensed', 'Arial Black', sans-serif";
+    programText.style.fontWeight = '900';
+    programText.style.fontSize = '1rem';
     programText.style.color = '#f97316';
     programText.style.lineHeight = '1.3';
-    programText.style.letterSpacing = '-0.3px'; // Rapproche les lettres
-    programText.style.textTransform = 'uppercase'; // Tout en majuscules (optionnel)
-    programText.style.textShadow = '1px 1px 0 rgba(0,0,0,0.05)'; // Léger relief
+    programText.style.letterSpacing = '-0.3px';
+    programText.style.textTransform = 'uppercase';
+    programText.style.textShadow = '1px 1px 0 rgba(0,0,0,0.05)';
     programText.style.paddingLeft = '2px';
     programText.textContent = programData.programme && programData.programme.trim() !== '' 
         ? programData.programme 
@@ -8249,7 +8298,7 @@ function displayProgramInfoCompact(container, programData) {
     timeDiv.style.display = 'flex';
     timeDiv.style.alignItems = 'center';
     timeDiv.style.gap = '5px';
-    timeDiv.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"; // Police normale
+    timeDiv.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
     timeDiv.style.fontWeight = '600';
     timeDiv.style.color = '#1e40af';
     timeDiv.style.fontSize = '0.85rem';
@@ -8263,7 +8312,7 @@ function displayProgramInfoCompact(container, programData) {
     lieuDiv.style.display = 'flex';
     lieuDiv.style.alignItems = 'center';
     lieuDiv.style.gap = '5px';
-    lieuDiv.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"; // Police normale
+    lieuDiv.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
     lieuDiv.style.fontWeight = '600';
     lieuDiv.style.color = '#ff69b4';
     lieuDiv.style.fontSize = '0.8rem';
@@ -8282,8 +8331,7 @@ function displayProgramInfoCompact(container, programData) {
     mainContainer.appendChild(row1);
     
     container.appendChild(mainContainer);
-}
-                function displayDateDetailsCompact(container, programData) {
+}                function displayDateDetailsCompact(container, programData) {
             container.innerHTML = '';
             
            const detailsToShow = [
@@ -8487,8 +8535,7 @@ allProgramsForDate.forEach((program, index) => {
     </span>`;
 });
 programListHtml += '</div>';
-programListHeader.innerHTML = programListHtml;
-    // CACHER l'ancienne liste de programmes
+programListHeader.innerHTML = programListHtml;    // CACHER l'ancienne liste de programmes
     programmesList.style.display = 'none';
     
    // ===== CRÉER UN CONTENEUR FIXE POUR HEURE/LIEU/PROGRAMME DANS LE TITRE =====
@@ -9507,86 +9554,122 @@ if (countryStatsSection && countryStatsGrid) {
                 datesContainer.id = `dates-${country.toLowerCase()}`;
                 
                 if (datesWithLocation.length > 0) {
-                    // Créer une grille de cartes responsive
-                    const programCardsGrid = document.createElement('div');
-                    programCardsGrid.className = 'country-programmes-grid';
+                    // Créer une grille de cartes - 2 par ligne sur ordi
+const programCardsGrid = document.createElement('div');
+programCardsGrid.className = 'country-programmes-grid';
+// Forcer 2 colonnes sur desktop via style inline
+programCardsGrid.style.display = 'grid';
+programCardsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+programCardsGrid.style.gap = '12px';
                     
-                    datesWithLocation.forEach(dateItem => {
-                        const programCard = document.createElement('div');
-                        programCard.className = 'date-item-compact';
-                        programCard.onclick = () => showRecapDateModal(dateItem);
-                        
-                        const cardHeader = document.createElement('div');
-                        cardHeader.className = 'date-header-compact';
-                        
-                        const cardDate = document.createElement('div');
-                        cardDate.className = 'date-value-compact';
-                        cardDate.textContent = formatDateForDisplay(dateItem.date);
-                        
-                        const cardFlag = document.createElement('div');
-                        cardFlag.className = 'date-flag-compact';
-                        const dateFlagClass = countryFlags[dateItem.pays.toUpperCase()] || 'flag-france';
-                        cardFlag.classList.add(dateFlagClass);
-                        
-                        cardHeader.appendChild(cardDate);
-                        cardHeader.appendChild(cardFlag);
-                        
-                        // Ligne pour localité et lieu sur une ligne
-                        const locationLine = document.createElement('div');
-                        locationLine.className = 'date-location-line';
-                        
-                        const locationLeft = document.createElement('div');
-                        locationLeft.className = 'date-location-left';
-                        locationLeft.innerHTML = `<span class="localite">${dateItem.localite || 'Localité non spécifiée'}</span>`;
-                        
-                        if (dateItem.lieu && dateItem.lieu.trim() !== '') {
-                            locationLeft.innerHTML += `<span class="lieu">${dateItem.lieu.substring(0, 30)}${dateItem.lieu.length > 30 ? '...' : ''}</span>`;
-                        }
-                        
-                        locationLine.appendChild(locationLeft);
-                        
-                        // Ligne pour heure et programme sur une ligne
-                        const programmeLine = document.createElement('div');
-                        programmeLine.className = 'date-programme-line';
-                        
-                        if (dateItem.heures && dateItem.heures.trim() !== '') {
-                            const timeDiv = document.createElement('div');
-                            timeDiv.className = 'date-time';
-                            timeDiv.textContent = dateItem.heures;
-                            programmeLine.appendChild(timeDiv);
-                        }
-                        
-                        if (dateItem.programme && dateItem.programme.trim() !== '') {
-                            const programmeDiv = document.createElement('div');
-                                                        programmeDiv.className = 'date-programme';
-                            programmeDiv.innerHTML = `<span style="color: #f97316 !important;">${dateItem.programme.substring(0, 30)}${dateItem.programme.length > 30 ? '...' : ''}</span>`;
-                            if (dateItem.programme.length > 30) {
-                                programmeDiv.textContent += '...';
-                            }
-                            programmeLine.appendChild(programmeDiv);
-                        }
-                        
-                                               programCard.appendChild(cardHeader);
-                        programCard.appendChild(locationLine);
-                        programCard.appendChild(programmeLine);
-                        
-                        // Ajouter les infos trajet si disponibles
-                       if (dateItem.trajets && dateItem.trajets.trim() !== '') {
-    const trajetLine = document.createElement('div');
-    trajetLine.className = 'date-details-line-compact';
-    trajetLine.style.marginTop = '4px';
-    trajetLine.style.fontSize = '0.65rem';
-    trajetLine.style.color = '#7c3aed';
+                   datesWithLocation.forEach(dateItem => {
+    const programCard = document.createElement('div');
+    programCard.className = 'date-item-compact';
+    programCard.onclick = () => showRecapDateModal(dateItem);
     
-    let trajetText = dateItem.trajets;
-    trajetText = '🚗 ' + trajetText;
+    // Récupérer l'emoji pour ce programme
+    const programEmoji = getProgramEmoji(dateItem.programme);
     
-    trajetLine.innerHTML = `<span class="detail-emoji-small">🚗</span> Trajet depuis dernier endroit avec coordonnees: ${trajetText}`;
-    programCard.appendChild(trajetLine);
-}
-                        
-                        programCardsGrid.appendChild(programCard);
-                    });
+    const cardHeader = document.createElement('div');
+    cardHeader.className = 'date-header-compact';
+    
+    const cardDate = document.createElement('div');
+    cardDate.className = 'date-value-compact';
+    cardDate.textContent = formatDateForDisplay(dateItem.date);
+    
+    const cardFlag = document.createElement('div');
+    cardFlag.className = 'date-flag-compact';
+    const dateFlagClass = countryFlags[dateItem.pays.toUpperCase()] || 'flag-france';
+    cardFlag.classList.add(dateFlagClass);
+    
+    cardHeader.appendChild(cardDate);
+    cardHeader.appendChild(cardFlag);
+    
+    // MODIFICATION: Affichage sur 2 lignes pour ordinateur avec EMOJI
+    const programContent = document.createElement('div');
+    programContent.style.display = 'grid';
+    programContent.style.gridTemplateColumns = 'repeat(2, 1fr)';
+    programContent.style.gap = '8px';
+    programContent.style.marginTop = '8px';
+    
+    // Ligne 1: Localité et Lieu
+    const locationLine = document.createElement('div');
+    locationLine.style.gridColumn = '1 / 3';
+    locationLine.style.display = 'flex';
+    locationLine.style.flexWrap = 'wrap';
+    locationLine.style.gap = '8px';
+    locationLine.style.alignItems = 'center';
+    
+    const locationLeft = document.createElement('div');
+    locationLeft.className = 'date-location-left';
+    locationLeft.innerHTML = `<span class="localite">${dateItem.localite || 'Localité non spécifiée'}</span>`;
+    
+    if (dateItem.lieu && dateItem.lieu.trim() !== '') {
+        locationLeft.innerHTML += `<span class="lieu">${dateItem.lieu.substring(0, 30)}${dateItem.lieu.length > 30 ? '...' : ''}</span>`;
+    }
+    
+    locationLine.appendChild(locationLeft);
+    
+    // Ligne 2 colonne 1: Heure
+    const timeColumn = document.createElement('div');
+    timeColumn.style.display = 'flex';
+    timeColumn.style.alignItems = 'center';
+    
+    if (dateItem.heures && dateItem.heures.trim() !== '') {
+        const timeDiv = document.createElement('div');
+        timeDiv.className = 'date-time';
+        timeDiv.textContent = dateItem.heures;
+        timeColumn.appendChild(timeDiv);
+    }
+    
+    // Ligne 2 colonne 2: Programme avec EMOJI
+    const programColumn = document.createElement('div');
+    programColumn.style.display = 'flex';
+    programColumn.style.alignItems = 'center';
+    programColumn.style.justifyContent = 'flex-end';
+    
+    if (dateItem.programme && dateItem.programme.trim() !== '') {
+        const programmeDiv = document.createElement('div');
+        programmeDiv.className = 'date-programme';
+        programmeDiv.style.display = 'flex';
+        programmeDiv.style.alignItems = 'center';
+        programmeDiv.style.gap = '4px';
+        programmeDiv.style.backgroundColor = '#fff4e6';
+        programmeDiv.style.padding = '3px 10px';
+        programmeDiv.style.borderRadius = '20px';
+        programmeDiv.style.border = '1px solid #f97316';
+        programmeDiv.innerHTML = `
+            <span style="font-size: 1rem;">${programEmoji}</span>
+            <span style="color: #f97316; font-weight: 700;">${dateItem.programme.substring(0, 25)}${dateItem.programme.length > 25 ? '...' : ''}</span>
+        `;
+        programColumn.appendChild(programmeDiv);
+    }
+    
+    programContent.appendChild(locationLine);
+    programContent.appendChild(timeColumn);
+    programContent.appendChild(programColumn);
+    
+    programCard.appendChild(cardHeader);
+    programCard.appendChild(programContent);
+    
+    // Ajouter les infos trajet si disponibles
+    if (dateItem.trajets && dateItem.trajets.trim() !== '') {
+        const trajetLine = document.createElement('div');
+        trajetLine.className = 'date-details-line-compact';
+        trajetLine.style.marginTop = '4px';
+        trajetLine.style.fontSize = '0.65rem';
+        trajetLine.style.color = '#7c3aed';
+        trajetLine.style.gridColumn = '1 / 3';
+        
+        let trajetText = dateItem.trajets;
+        trajetText = '🚗 ' + trajetText;
+        
+        trajetLine.innerHTML = `<span class="detail-emoji-small">🚗</span> ${trajetText}`;
+        programCard.appendChild(trajetLine);
+    }
+    
+    programCardsGrid.appendChild(programCard);
+});
                     
                     datesContainer.appendChild(programCardsGrid);
                 } else {
