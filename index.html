@@ -5037,6 +5037,276 @@
         padding: 12px !important;
     }
 }
+/* ===== STYLES POUR LES CADRES DE PROGRAMME ===== */
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#programInfoCentered > div > div {
+    animation: cardAppear 0.4s ease-out;
+}
+
+/* Animation pour l'emoji */
+@keyframes emojiPop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+#programInfoCentered [style*="border-radius: 50%"]:hover {
+    animation: emojiPop 0.4s ease;
+}
+
+/* Style pour les badges */
+#programInfoCentered [style*="border-radius: 30px"] {
+    transition: all 0.2s ease;
+}
+
+#programInfoCentered [style*="border-radius: 30px"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+}
+
+/* Responsive pour mobile */
+@media (max-width: 768px) {
+    #programInfoCentered [style*="width: 60px"] {
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 1.6rem !important;
+    }
+    
+    #programInfoCentered [style*="font-size: 1.2rem"] {
+        font-size: 1rem !important;
+    }
+    
+    #programInfoCentered [style*="border-radius: 30px"] {
+        font-size: 0.8rem !important;
+        padding: 4px 8px !important;
+    }
+}
+/* ===== COULEURS SPÉCIFIQUES PAR TYPE DE PROGRAMME ===== */
+.program-card-concert {
+    border-left: 5px solid #f97316;
+    background: linear-gradient(135deg, #fff4e6, #fff9f0);
+}
+
+.program-card-vol {
+    border-left: 5px solid #3b82f6;
+    background: linear-gradient(135deg, #eff6ff, #f0f9ff);
+}
+
+.program-card-repos {
+    border-left: 5px solid #10b981;
+    background: linear-gradient(135deg, #d1fae5, #ecfdf5);
+}
+
+.program-card-repas {
+    border-left: 5px solid #f59e0b;
+    background: linear-gradient(135deg, #fef3c7, #fffbeb);
+}
+
+.program-card-visite {
+    border-left: 5px solid #8b5cf6;
+    background: linear-gradient(135deg, #ede9fe, #f5f3ff);
+}
+
+.program-card-culte {
+    border-left: 5px solid #6b21a8;
+    background: linear-gradient(135deg, #f3e8ff, #faf5ff);
+}
+
+.program-card-animation {
+    border-left: 5px solid #ec4899;
+    background: linear-gradient(135deg, #fce7f3, #fdf2f8);
+}
+/* ===== STYLES POUR LES NOUVELLES CARTES DE PROGRAMME ===== */
+.country-programmes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+}
+
+/* Animation d'apparition */
+@keyframes cardSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.country-programmes-grid > div {
+    animation: cardSlideIn 0.4s ease-out;
+    animation-fill-mode: both;
+}
+
+.country-programmes-grid > div:nth-child(1) { animation-delay: 0.05s; }
+.country-programmes-grid > div:nth-child(2) { animation-delay: 0.1s; }
+.country-programmes-grid > div:nth-child(3) { animation-delay: 0.15s; }
+.country-programmes-grid > div:nth-child(4) { animation-delay: 0.2s; }
+.country-programmes-grid > div:nth-child(5) { animation-delay: 0.25s; }
+.country-programmes-grid > div:nth-child(6) { animation-delay: 0.3s; }
+
+/* Style pour les icônes dans les cartes */
+.country-programmes-grid .fas, 
+.country-programmes-grid .far {
+    font-size: 0.8rem;
+}
+
+/* Badge pour les informations supplémentaires */
+.country-programmes-grid [style*="border-radius: 16px"] {
+    transition: all 0.2s ease;
+}
+
+.country-programmes-grid [style*="border-radius: 16px"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Animation de pulsation pour l'emoji au survol */
+@keyframes emojiPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.country-programmes-grid > div:hover [style*="font-size: 1rem"]:first-child {
+    animation: emojiPulse 0.4s ease;
+}
+
+/* Responsive pour tablette */
+@media (min-width: 481px) and (max-width: 768px) {
+    .country-programmes-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+    }
+}
+
+/* Responsive pour mobile */
+@media (max-width: 480px) {
+    .country-programmes-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+    
+    .country-programmes-grid > div {
+        padding: 10px !important;
+    }
+}
+/* ===== STYLES SPÉCIFIQUES POUR LES NOUVELLES COULEURS ===== */
+
+/* Concerts en NOIR */
+.country-programmes-grid > div[style*="border-color: #000000"] {
+    background: linear-gradient(145deg, #f5f5f5, #ffffff) !important;
+    border-color: #000000 !important;
+}
+
+.country-programmes-grid > div[style*="border-color: #000000"]:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+.country-programmes-grid > div[style*="border-color: #000000"] .date-div {
+    border-color: #000000 !important;
+    color: #000000 !important;
+}
+
+.country-programmes-grid > div[style*="border-color: #000000"] .time-div {
+    background-color: #000000 !important;
+}
+
+.country-programmes-grid > div[style*="border-color: #000000"] .prog-div {
+    border-color: #000000 !important;
+    color: #000000 !important;
+}
+
+/* Visites en ORANGE */
+.country-programmes-grid > div[style*="border-color: #ff8c00"] {
+    background: linear-gradient(145deg, #fff4e6, #fff9f0) !important;
+}
+
+.country-programmes-grid > div[style*="border-color: #ff8c00"] .time-div {
+    background-color: #ff8c00 !important;
+}
+
+.country-programmes-grid > div[style*="border-color: #ff8c00"] .prog-div {
+    border-color: #ff8c00 !important;
+    color: #ff8c00 !important;
+}
+
+/* Repas en JAUNE FLUO */
+.country-programmes-grid > div[style*="border-color: #ffff00"] {
+    background: linear-gradient(145deg, #ffffe0, #fffff0) !important;
+    border-color: #ffff00 !important;
+    box-shadow: 0 4px 12px rgba(255, 255, 0, 0.4) !important;
+}
+
+.country-programmes-grid > div[style*="border-color: #ffff00"]:hover {
+    box-shadow: 0 8px 20px rgba(255, 255, 0, 0.5) !important;
+}
+
+.country-programmes-grid > div[style*="border-color: #ffff00"] .time-div {
+    background-color: #ffff00 !important;
+    color: #000000 !important;
+}
+
+.country-programmes-grid > div[style*="border-color: #ffff00"] .prog-div {
+    border-color: #ffff00 !important;
+    color: #000000 !important;
+}
+
+.country-programmes-grid > div[style*="border-color: #ffff00"] .date-div {
+    border-color: #ffff00 !important;
+    color: #000000 !important;
+}
+
+/* Rencontres en BLEU CIEL */
+.country-programmes-grid > div[style*="border-color: #0ea5e9"] {
+    background: linear-gradient(145deg, #e0f2fe, #f0f9ff) !important;
+}
+
+.country-programmes-grid > div[style*="border-color: #0ea5e9"] .time-div {
+    background-color: #0ea5e9 !important;
+}
+
+.country-programmes-grid > div[style*="border-color: #0ea5e9"] .prog-div {
+    border-color: #0ea5e9 !important;
+    color: #0ea5e9 !important;
+}
+
+/* Styles pour les cercles emoji */
+#programInfoCentered [style*="background-color: #000000"] {
+    background-color: #000000 !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+#programInfoCentered [style*="background-color: #ff8c00"] {
+    background-color: #ff8c00 !important;
+}
+
+#programInfoCentered [style*="background-color: #ffff00"] {
+    background-color: #ffff00 !important;
+    color: #000000 !important;
+}
+
+#programInfoCentered [style*="background-color: #0ea5e9"] {
+    background-color: #0ea5e9 !important;
+}
     </style>
 </head>
 <body>
@@ -8727,99 +8997,239 @@ function displayProgramInfoCompact(container, programData) {
     mainContainer.style.width = '100%';
     mainContainer.style.display = 'flex';
     mainContainer.style.flexDirection = 'column';
-    mainContainer.style.gap = '6px';
+    mainContainer.style.gap = '8px';
     
     // Récupérer l'emoji correspondant au programme
     const programEmoji = getProgramEmoji(programData.programme);
     
-    // ===== LIGNE 1 : Programme à gauche avec EMOJI, Heure/Lieu à droite =====
-    const row1 = document.createElement('div');
-    row1.style.display = 'flex';
-    row1.style.justifyContent = 'space-between';
-    row1.style.alignItems = 'flex-start';
-    row1.style.padding = '8px 10px';
-    row1.style.background = '#fff4e6';
-    row1.style.borderRadius = '8px';
-    row1.style.borderLeft = '4px solid #f97316';
+    // Déterminer la couleur du cadre en fonction du type de programme
+let borderColor = '#000000'; // NOIR pour les concerts (par défaut)
+let bgColor = '#f5f5f5'; // Fond gris très clair pour les concerts
+let emojiBgColor = '#000000';
+
+const programmeLower = (programData.programme || '').toLowerCase();
+
+if (programmeLower.includes('vol') || programmeLower.includes('avion') || 
+    programmeLower.includes('départ') || programmeLower.includes('retour') ||
+    programmeLower.includes('depart')) {
+    borderColor = '#3b82f6'; // Bleu pour les vols
+    bgColor = '#eff6ff'; // Fond bleu clair
+    emojiBgColor = '#3b82f6';
+} else if (programmeLower.includes('repos') || programmeLower.includes('rest') || 
+           programmeLower.includes('détente') || programmeLower.includes('relax')) {
+    borderColor = '#10b981'; // Vert pour le repos
+    bgColor = '#d1fae5'; // Fond vert clair
+    emojiBgColor = '#10b981';
+} else if (programmeLower.includes('repas') || programmeLower.includes('restaurant') || 
+           programmeLower.includes('apéro') || programmeLower.includes('marché') ||
+           programmeLower.includes('shopping')) {
+    borderColor = '#ffff00'; // JAUNE FLUO pour les repas
+    bgColor = '#ffffe0'; // Fond jaune clair
+    emojiBgColor = '#ffff00';
+} else if (programmeLower.includes('visite') || programmeLower.includes('tourisme') || 
+           programmeLower.includes('sortie')) {
+    borderColor = '#ff8c00'; // ORANGE pour les visites
+    bgColor = '#fff4e6'; // Fond orange clair
+    emojiBgColor = '#ff8c00';
+} else if (programmeLower.includes('eglise') || programmeLower.includes('église') || 
+           programmeLower.includes('culte') || programmeLower.includes('mfm') ||
+           programmeLower.includes('celebration') || programmeLower.includes('célébration')) {
+    borderColor = '#6b21a8'; // Violet foncé pour les cultes
+    bgColor = '#f3e8ff'; // Fond violet très clair
+    emojiBgColor = '#6b21a8';
+} else if (programmeLower.includes('animation') || programmeLower.includes('enfant') || 
+           programmeLower.includes('jeux') || programmeLower.includes('sport') ||
+           programmeLower.includes('jeu')) {
+    borderColor = '#ec4899'; // Rose pour les animations
+    bgColor = '#fce7f3'; // Fond rose clair
+    emojiBgColor = '#ec4899';
+} else if (programmeLower.includes('rencontre') || programmeLower.includes('invitation')) {
+    borderColor = '#0ea5e9'; // BLEU CIEL pour les rencontres
+    bgColor = '#e0f2fe'; // Fond bleu ciel clair
+    emojiBgColor = '#0ea5e9';
+}
     
-    // PARTIE GAUCHE : Programme sur 2 lignes avec POLICE SPÉCIALE
-    const leftDiv = document.createElement('div');
-    leftDiv.style.display = 'flex';
-    leftDiv.style.flexDirection = 'column';
-    leftDiv.style.gap = '4px';
-    leftDiv.style.flex = '1';
+    // ===== NOUVEAU CADRE STYLISÉ =====
+    const programCard = document.createElement('div');
+    programCard.style.display = 'flex';
+    programCard.style.flexDirection = 'column';
+    programCard.style.backgroundColor = bgColor;
+    programCard.style.borderRadius = '12px';
+    programCard.style.border = `2px solid ${borderColor}`;
+    programCard.style.boxShadow = `0 4px 10px ${borderColor}30`;
+    programCard.style.padding = '16px';
+    programCard.style.position = 'relative';
+    programCard.style.overflow = 'hidden';
+    programCard.style.transition = 'all 0.3s ease';
     
-    // Ligne avec l'emoji (personnalisé)
-    const programEmojiLine = document.createElement('div');
-    programEmojiLine.style.fontSize = '1.4rem';
-    programEmojiLine.style.lineHeight = '1';
-    programEmojiLine.textContent = programEmoji;
+    // Effet de survol
+    programCard.onmouseover = () => {
+        programCard.style.transform = 'translateY(-3px)';
+        programCard.style.boxShadow = `0 8px 20px ${borderColor}50`;
+    };
+    programCard.onmouseout = () => {
+        programCard.style.transform = 'translateY(0)';
+        programCard.style.boxShadow = `0 4px 10px ${borderColor}30`;
+    };
     
-    // TEXTE DU PROGRAMME - POLICE SPÉCIALE + ÉPAISSE
-    const programText = document.createElement('div');
-    programText.style.fontFamily = "'Montserrat', 'Roboto Condensed', 'Arial Black', sans-serif";
-    programText.style.fontWeight = '900';
-    programText.style.fontSize = '1rem';
-    programText.style.color = '#f97316';
-    programText.style.lineHeight = '1.3';
-    programText.style.letterSpacing = '-0.3px';
-    programText.style.textTransform = 'uppercase';
-    programText.style.textShadow = '1px 1px 0 rgba(0,0,0,0.05)';
-    programText.style.paddingLeft = '2px';
-    programText.textContent = programData.programme && programData.programme.trim() !== '' 
+    // Bande décorative en haut
+    const topBand = document.createElement('div');
+    topBand.style.position = 'absolute';
+    topBand.style.top = '0';
+    topBand.style.left = '0';
+    topBand.style.right = '0';
+    topBand.style.height = '6px';
+    topBand.style.background = borderColor;
+    programCard.appendChild(topBand);
+    
+    // Contenu principal
+    const contentRow = document.createElement('div');
+    contentRow.style.display = 'flex';
+    contentRow.style.gap = '16px';
+    contentRow.style.alignItems = 'flex-start';
+    
+    // Cercle emoji à gauche
+    const emojiCircle = document.createElement('div');
+    emojiCircle.style.width = '60px';
+    emojiCircle.style.height = '60px';
+    emojiCircle.style.borderRadius = '50%';
+    emojiCircle.style.backgroundColor = emojiBgColor;
+    emojiCircle.style.display = 'flex';
+    emojiCircle.style.alignItems = 'center';
+    emojiCircle.style.justifyContent = 'center';
+    emojiCircle.style.fontSize = '2rem';
+    emojiCircle.style.color = 'white';
+    emojiCircle.style.boxShadow = `0 4px 8px ${borderColor}80`;
+    emojiCircle.style.flexShrink = '0';
+    emojiCircle.textContent = programEmoji;
+    
+    // Informations programme à droite
+    const infoRight = document.createElement('div');
+    infoRight.style.flex = '1';
+    infoRight.style.display = 'flex';
+    infoRight.style.flexDirection = 'column';
+    infoRight.style.gap = '8px';
+    
+    // Titre du programme
+    const programTitle = document.createElement('div');
+    programTitle.style.fontFamily = "'Montserrat', 'Arial Black', sans-serif";
+    programTitle.style.fontWeight = '900';
+    programTitle.style.fontSize = '1.2rem';
+    programTitle.style.color = borderColor;
+    programTitle.style.letterSpacing = '-0.3px';
+    programTitle.style.textTransform = 'uppercase';
+    programTitle.style.textShadow = '1px 1px 0 rgba(0,0,0,0.05)';
+    programTitle.style.lineHeight = '1.3';
+    programTitle.textContent = programData.programme && programData.programme.trim() !== '' 
         ? programData.programme 
         : 'Concert';
     
-    leftDiv.appendChild(programEmojiLine);
-    leftDiv.appendChild(programText);
+    // Badges pour heure et lieu
+    const badgesRow = document.createElement('div');
+    badgesRow.style.display = 'flex';
+    badgesRow.style.flexWrap = 'wrap';
+    badgesRow.style.gap = '10px';
+    badgesRow.style.marginTop = '4px';
     
-    // PARTIE DROITE : Heure et Lieu (police normale)
-    const rightDiv = document.createElement('div');
-    rightDiv.style.display = 'flex';
-    rightDiv.style.flexDirection = 'column';
-    rightDiv.style.alignItems = 'flex-end';
-    rightDiv.style.gap = '6px';
-    rightDiv.style.minWidth = '110px';
+    // Badge heure
+    if (programData.heures && programData.heures.trim() !== '') {
+        const timeBadge = document.createElement('div');
+        timeBadge.style.display = 'flex';
+        timeBadge.style.alignItems = 'center';
+        timeBadge.style.gap = '6px';
+        timeBadge.style.backgroundColor = 'white';
+        timeBadge.style.padding = '5px 12px';
+        timeBadge.style.borderRadius = '30px';
+        timeBadge.style.border = `1px solid ${borderColor}`;
+        timeBadge.style.color = '#1e40af';
+        timeBadge.style.fontWeight = '600';
+        timeBadge.style.fontSize = '0.9rem';
+        timeBadge.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
+        timeBadge.innerHTML = `<i class="fas fa-clock" style="color: ${borderColor};"></i> ${programData.heures}`;
+        badgesRow.appendChild(timeBadge);
+    }
     
-    // Heure - police normale
-    const timeDiv = document.createElement('div');
-    timeDiv.style.display = 'flex';
-    timeDiv.style.alignItems = 'center';
-    timeDiv.style.gap = '5px';
-    timeDiv.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
-    timeDiv.style.fontWeight = '600';
-    timeDiv.style.color = '#1e40af';
-    timeDiv.style.fontSize = '0.85rem';
-    timeDiv.style.backgroundColor = '#dbeafe';
-    timeDiv.style.padding = '3px 10px';
-    timeDiv.style.borderRadius = '20px';
-    timeDiv.innerHTML = `<i class="fas fa-clock" style="color: #2563eb;"></i> ${programData.heures || 'Horaire'}`;
+    // Badge lieu
+    if (programData.lieu && programData.lieu.trim() !== '') {
+        const lieuBadge = document.createElement('div');
+        lieuBadge.style.display = 'flex';
+        lieuBadge.style.alignItems = 'center';
+        lieuBadge.style.gap = '6px';
+        lieuBadge.style.backgroundColor = 'white';
+        lieuBadge.style.padding = '5px 12px';
+        lieuBadge.style.borderRadius = '30px';
+        lieuBadge.style.border = `1px solid ${borderColor}`;
+        lieuBadge.style.color = '#f97316';
+        lieuBadge.style.fontWeight = '600';
+        lieuBadge.style.fontSize = '0.9rem';
+        lieuBadge.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
+        lieuBadge.innerHTML = `<i class="fas fa-map-marker-alt" style="color: ${borderColor};"></i> ${programData.lieu}`;
+        badgesRow.appendChild(lieuBadge);
+    }
     
-    // Lieu - police normale
-    const lieuDiv = document.createElement('div');
-    lieuDiv.style.display = 'flex';
-    lieuDiv.style.alignItems = 'center';
-    lieuDiv.style.gap = '5px';
-    lieuDiv.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
-    lieuDiv.style.fontWeight = '600';
-    lieuDiv.style.color = '#ff69b4';
-    lieuDiv.style.fontSize = '0.8rem';
-    lieuDiv.style.backgroundColor = '#ffe4f3';
-    lieuDiv.style.padding = '3px 10px';
-    lieuDiv.style.borderRadius = '20px';
-    lieuDiv.style.textAlign = 'right';
-    lieuDiv.style.wordBreak = 'break-word';
-    lieuDiv.innerHTML = `<i class="fas fa-map-marker-alt" style="color: #ff69b4;"></i> ${programData.lieu || 'Lieu'}`;
+    infoRight.appendChild(programTitle);
+    infoRight.appendChild(badgesRow);
     
-    rightDiv.appendChild(timeDiv);
-    rightDiv.appendChild(lieuDiv);
+    contentRow.appendChild(emojiCircle);
+    contentRow.appendChild(infoRight);
     
-    row1.appendChild(leftDiv);
-    row1.appendChild(rightDiv);
-    mainContainer.appendChild(row1);
+    programCard.appendChild(contentRow);
     
+    // Ligne décorative si d'autres infos existent
+    if ((programData.adresse && programData.adresse.trim() !== '') || 
+        (programData.trajets && programData.trajets.trim() !== '')) {
+        
+        const separator = document.createElement('div');
+        separator.style.height = '1px';
+        separator.style.background = borderColor;
+        separator.style.opacity = '0.3';
+        separator.style.margin = '12px 0 8px 0';
+        programCard.appendChild(separator);
+        
+        // Infos supplémentaires en mini badges
+        const extraRow = document.createElement('div');
+        extraRow.style.display = 'flex';
+        extraRow.style.flexWrap = 'wrap';
+        extraRow.style.gap = '8px';
+        extraRow.style.marginTop = '4px';
+        
+        if (programData.adresse && programData.adresse.trim() !== '') {
+            const contactBadge = document.createElement('div');
+            contactBadge.style.display = 'flex';
+            contactBadge.style.alignItems = 'center';
+            contactBadge.style.gap = '4px';
+            contactBadge.style.backgroundColor = 'white';
+            contactBadge.style.padding = '3px 10px';
+            contactBadge.style.borderRadius = '20px';
+            contactBadge.style.fontSize = '0.8rem';
+            contactBadge.style.color = '#4a5568';
+            contactBadge.innerHTML = `<span style="font-size: 1rem;">👤</span> ${programData.adresse.substring(0, 25)}${programData.adresse.length > 25 ? '...' : ''}`;
+            extraRow.appendChild(contactBadge);
+        }
+        
+        if (programData.trajets && programData.trajets.trim() !== '') {
+            const trajetBadge = document.createElement('div');
+            trajetBadge.style.display = 'flex';
+            trajetBadge.style.alignItems = 'center';
+            trajetBadge.style.gap = '4px';
+            trajetBadge.style.backgroundColor = 'white';
+            trajetBadge.style.padding = '3px 10px';
+            trajetBadge.style.borderRadius = '20px';
+            trajetBadge.style.fontSize = '0.8rem';
+            trajetBadge.style.color = '#7c3aed';
+            trajetBadge.innerHTML = `<span style="font-size: 1rem;">🚗</span> ${programData.trajets.substring(0, 25)}${programData.trajets.length > 25 ? '...' : ''}`;
+            extraRow.appendChild(trajetBadge);
+        }
+        
+        programCard.appendChild(extraRow);
+    }
+    
+    mainContainer.appendChild(programCard);
     container.appendChild(mainContainer);
-}                function displayDateDetailsCompact(container, programData) {
+}   
+
+
+           function displayDateDetailsCompact(container, programData) {
             container.innerHTML = '';
             
            const detailsToShow = [
@@ -9491,7 +9901,7 @@ dateNavigation.style.display = 'none';
             return localiteCount;
         }
 
-       function calculateProgrammeStats() {
+      function calculateProgrammeStats() {
     programmeStats = {
         total: 0,
         byType: {},
@@ -9530,9 +9940,10 @@ dateNavigation.style.display = 'none';
             const pays = rowData.pays.toUpperCase() || '';
             const localite = rowData.localite || '';
             
-            // Ignorer les retours à Madagascar
+            // Ignorer les retours à Madagascar ET Madagascar lui-même
             if (localite.toUpperCase().includes('RETOUR MADAGASCAR') || 
-                localite.toUpperCase().includes('MADAGASCAR')) {
+                localite.toUpperCase().includes('MADAGASCAR') ||
+                pays === 'MADAGASCAR') { // ← AJOUT DE CETTE CONDITION
                 return;
             }
             
@@ -9559,19 +9970,21 @@ dateNavigation.style.display = 'none';
                     // Statistiques par type
                     programmeStats.byType[programmeLower] = (programmeStats.byType[programmeLower] || 0) + 1;
                     
-                    // Statistiques par pays
-                    if (!programmeStats.byCountry[pays]) {
-                        programmeStats.byCountry[pays] = {
-                            total: 0,
-                            byType: {},
-                            days: new Set(),
-                            excludedTotal: 0,
-                            excludedByType: {}
-                        };
+                    // Statistiques par pays (mais pas Madagascar)
+                    if (pays !== 'MADAGASCAR') { // ← AJOUT DE CETTE CONDITION
+                        if (!programmeStats.byCountry[pays]) {
+                            programmeStats.byCountry[pays] = {
+                                total: 0,
+                                byType: {},
+                                days: new Set(),
+                                excludedTotal: 0,
+                                excludedByType: {}
+                            };
+                        }
+                        programmeStats.byCountry[pays].total++;
+                        programmeStats.byCountry[pays].byType[programmeLower] = (programmeStats.byCountry[pays].byType[programmeLower] || 0) + 1;
+                        programmeStats.byCountry[pays].days.add(item.date.getTime());
                     }
-                    programmeStats.byCountry[pays].total++;
-                    programmeStats.byCountry[pays].byType[programmeLower] = (programmeStats.byCountry[pays].byType[programmeLower] || 0) + 1;
-                    programmeStats.byCountry[pays].days.add(item.date.getTime());
                 } else {
                     // ===== STOCKER LES EXCLUS =====
                     window.excludedPrograms.total++;
@@ -9581,20 +9994,22 @@ dateNavigation.style.display = 'none';
                         ...rowData
                     });
                     
-                    // ===== DANS LES STATS PAR PAYS (À PART) =====
-                    if (!programmeStats.byCountry[pays]) {
-                        programmeStats.byCountry[pays] = {
-                            total: 0,
-                            byType: {},
-                            days: new Set(),
-                            excludedTotal: 0,
-                            excludedByType: {}
-                        };
+                    // ===== DANS LES STATS PAR PAYS (À PART) MAIS PAS MADAGASCAR =====
+                    if (pays !== 'MADAGASCAR') { // ← AJOUT DE CETTE CONDITION
+                        if (!programmeStats.byCountry[pays]) {
+                            programmeStats.byCountry[pays] = {
+                                total: 0,
+                                byType: {},
+                                days: new Set(),
+                                excludedTotal: 0,
+                                excludedByType: {}
+                            };
+                        }
+                        programmeStats.byCountry[pays].excludedTotal++;
+                        programmeStats.byCountry[pays].excludedByType[programmeLower] = 
+                            (programmeStats.byCountry[pays].excludedByType[programmeLower] || 0) + 1;
+                        programmeStats.byCountry[pays].days.add(item.date.getTime());
                     }
-                    programmeStats.byCountry[pays].excludedTotal++;
-                    programmeStats.byCountry[pays].excludedByType[programmeLower] = 
-                        (programmeStats.byCountry[pays].excludedByType[programmeLower] || 0) + 1;
-                    programmeStats.byCountry[pays].days.add(item.date.getTime());
                 }
             }
         }
@@ -9603,7 +10018,6 @@ dateNavigation.style.display = 'none';
     // Appeler la fonction de mise à jour
     updateProgrammeStatsDisplay();
 }
-
        function updateProgrammeStatsDisplay() {
     const statsProgrammesTotal = document.getElementById('statsProgrammesTotal');
     const statsProgrammesDetails = document.getElementById('statsProgrammesDetails');
@@ -9645,7 +10059,6 @@ dateNavigation.style.display = 'none';
                 if (!allTypes[type]) {
                     allTypes[type] = 0;
                 }
-                // Optionnel: les afficher en grisé
             });
         }
         
@@ -9696,314 +10109,319 @@ dateNavigation.style.display = 'none';
         statsProgrammesDetails.appendChild(typeButtonsContainer);
     }
     
-   
-    
-    
-            
-            // Drapeaux dans "Pays visités"
-            if (flagsContainerStat) {
-                flagsContainerStat.innerHTML = '';
-                const uniqueCountries = new Set();
-                
-                datesWithData.forEach(item => {
-                    if (item.pays && item.pays.trim() !== '') {
-                        const country = item.pays.toUpperCase();
-                        const localite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
-                        
-                        if (!localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
-                            !localite.toUpperCase().includes('MADAGASCAR')) {
-                            uniqueCountries.add(country);
-                        }
-                    }
-                });
-                
-                const allCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE', 'MADAGASCAR'];
-                allCountries.forEach(country => {
-                    if (uniqueCountries.has(country)) {
-                        const flagDiv = document.createElement('div');
-                        flagDiv.className = `stat-flag ${countryFlags[country] || 'flag-france'}`;
-                        flagDiv.title = formatCountryName(country);
-                        flagDiv.onclick = () => {
-                            const countryElement = document.getElementById(`country-${country.toLowerCase()}`);
-                            if (countryElement) {
-                                countryElement.scrollIntoView({behavior: 'smooth'});
-                                countryElement.style.boxShadow = '0 0 0 3px rgba(66, 153, 225, 0.5)';
-                                countryElement.style.transition = 'box-shadow 0.5s ease';
-                                setTimeout(() => {
-                                    countryElement.style.boxShadow = '';
-                                }, 2000);
-                            }
-                        };
-                        flagsContainerStat.appendChild(flagDiv);
-                    }
-                });
-            }
-            
-            // Compter les jours de séjour par pays
-            const daysByCountry = {};
-            datesWithData.forEach(item => {
-                if (item.pays && item.pays.trim() !== '') {
-                    const country = item.pays.toUpperCase();
-                    const localite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
-                    
-                    if (!localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
-                        !localite.toUpperCase().includes('MADAGASCAR')) {
-                        
-                        if (!daysByCountry[country]) {
-                            daysByCountry[country] = new Set();
-                        }
-                        daysByCountry[country].add(item.date.getTime());
-                    }
-                }
-            });
-            
-            // Trouver le pays avec le plus de programmes et de jours
-            let maxCountry = '';
-            let maxProgramCount = 0;
-            let maxDayCount = 0;
-            
-            Object.keys(programmeStats.byCountry).forEach(country => {
-                const programCount = programmeStats.byCountry[country].total;
-                const dayCount = daysByCountry[country] ? daysByCountry[country].size : 0;
-                
-                if (programCount > maxProgramCount) {
-                    maxProgramCount = programCount;
-                    maxDayCount = dayCount;
-                    maxCountry = country;
-                }
-            });
-            
-            if (topCountryValue && maxCountry) {
-                const countryName = formatCountryName(maxCountry);
-                const flagClass = countryFlags[maxCountry] || 'flag-france';
-                
-                const flagDiv = document.createElement('div');
-                flagDiv.className = `top-country-flag ${flagClass}`;
-                flagDiv.style.display = 'inline-block';
-                flagDiv.style.marginRight = '6px';
-                flagDiv.style.verticalAlign = 'middle';
-                
-                topCountryValue.innerHTML = '';
-                topCountryValue.appendChild(flagDiv);
-                topCountryValue.appendChild(document.createTextNode(countryName));
-                
-                // Ajouter les statistiques par pays sur une ligne
-                const statsContainer = document.createElement('div');
-                statsContainer.className = 'top-country-stats';
-                
-                const allCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE', 'MADAGASCAR'];
-                allCountries.forEach(country => {
-                    const countryData = programmeStats.byCountry[country];
-                    if (countryData && countryData.total > 0) {
-                        const statMini = document.createElement('div');
-                        statMini.className = 'country-stat-mini';
-                        
-                        const flagMini = document.createElement('div');
-                        flagMini.className = `country-stat-flag ${countryFlags[country] || 'flag-france'}`;
-                        
-                        const statText = document.createElement('span');
-                        statText.textContent = countryData.total;
-                        
-                        statMini.appendChild(flagMini);
-                        statMini.appendChild(statText);
-                        statsContainer.appendChild(statMini);
-                    }
-                });
-                
-                if (statsPaysDetails) {
-                    statsPaysDetails.innerHTML = '';
-                    statsPaysDetails.appendChild(statsContainer);
-                }
-            } else if (topCountryValue) {
-                topCountryValue.textContent = '-';
-            }
-            
-            // Statistiques détaillées par pays
-           // ===== STATISTIQUES DÉTAILLÉES PAR PAYS =====
-if (countryStatsSection && countryStatsGrid) {
-    const allCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE', 'MADAGASCAR'];
-    
-    if (allCountries.some(country => programmeStats.byCountry[country] || 
-        (window.excludedPrograms && window.excludedPrograms.list.some(p => p.pays?.toUpperCase() === country)))) {
-        countryStatsSection.style.display = 'block';
-        countryStatsGrid.innerHTML = '';
+    // Drapeaux dans "Pays visités" (EXCLURE MADAGASCAR)
+    if (flagsContainerStat) {
+        flagsContainerStat.innerHTML = '';
+        const uniqueCountries = new Set();
         
-        allCountries.forEach(country => {
-            const countryData = programmeStats.byCountry[country];
-            const countryName = formatCountryName(country);
-            const dayCount = countryData ? countryData.days.size : 0;
-            
-            // Compter les programmes exclus pour ce pays
-            const excludedInCountry = window.excludedPrograms?.list.filter(p => 
-                p.pays?.toUpperCase() === country) || [];
-            const excludedCount = excludedInCountry.length;
-            
-            // Regrouper les exclus par type
-            const excludedByType = {};
-            excludedInCountry.forEach(p => {
-                const type = p.programme?.toLowerCase() || 'concert';
-                excludedByType[type] = (excludedByType[type] || 0) + 1;
-            });
-            
-            const statItem = document.createElement('div');
-            statItem.className = 'country-stat-item';
-            
-            // ===== RENDRE TOUT L'ÉLÉMENT CLIQUABLE =====
-            statItem.style.cursor = 'pointer';
-            statItem.style.transition = 'all 0.2s';
-            statItem.onmouseover = () => {
-                statItem.style.transform = 'translateY(-2px)';
-                statItem.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-            };
-            statItem.onmouseout = () => {
-                statItem.style.transform = 'translateY(0)';
-                statItem.style.boxShadow = 'none';
-            };
-            
-            // ===== ACTION AU CLIC : ALLER VERS LA SECTION DU PAYS =====
-            statItem.onclick = () => {
-                // Trouver la section du pays dans le récapitulatif
-                const countryElement = document.getElementById(`country-${country.toLowerCase()}`);
-                if (countryElement) {
-                    countryElement.scrollIntoView({behavior: 'smooth', block: 'start'});
-                    
-                    // Mettre en évidence
-                    countryElement.style.boxShadow = '0 0 0 4px #f97316, 0 4px 12px rgba(0,0,0,0.2)';
-                    countryElement.style.transition = 'box-shadow 0.5s ease';
-                    
-                    // Optionnel: Ouvrir automatiquement la liste des programmes
-                    const toggleBtn = countryElement.querySelector('.toggle-dates-btn-compact');
-                    if (toggleBtn && !countryElement.querySelector('.country-dates-compact.show')) {
+        datesWithData.forEach(item => {
+            if (item.pays && item.pays.trim() !== '') {
+                const country = item.pays.toUpperCase();
+                const localite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
+                
+                // EXCLURE MADAGASCAR de l'affichage des drapeaux
+                if (!localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
+                    !localite.toUpperCase().includes('MADAGASCAR') &&
+                    country !== 'MADAGASCAR') {
+                    uniqueCountries.add(country);
+                }
+            }
+        });
+        
+        // Liste des pays européens uniquement dans l'ordre
+        const europeanCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
+        europeanCountries.forEach(country => {
+            if (uniqueCountries.has(country)) {
+                const flagDiv = document.createElement('div');
+                flagDiv.className = `stat-flag ${countryFlags[country] || 'flag-france'}`;
+                flagDiv.title = formatCountryName(country);
+                flagDiv.onclick = () => {
+                    const countryElement = document.getElementById(`country-${country.toLowerCase()}`);
+                    if (countryElement) {
+                        countryElement.scrollIntoView({behavior: 'smooth'});
+                        countryElement.style.boxShadow = '0 0 0 3px rgba(66, 153, 225, 0.5)';
+                        countryElement.style.transition = 'box-shadow 0.5s ease';
                         setTimeout(() => {
-                            toggleBtn.click();
-                        }, 500);
+                            countryElement.style.boxShadow = '';
+                        }, 2000);
+                    }
+                };
+                flagsContainerStat.appendChild(flagDiv);
+            }
+        });
+    }
+    
+    // Compter les jours de séjour par pays (EXCLURE MADAGASCAR)
+    const daysByCountry = {};
+    datesWithData.forEach(item => {
+        if (item.pays && item.pays.trim() !== '') {
+            const country = item.pays.toUpperCase();
+            const localite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
+            
+            // EXCLURE MADAGASCAR
+            if (!localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
+                !localite.toUpperCase().includes('MADAGASCAR') &&
+                country !== 'MADAGASCAR') {
+                
+                if (!daysByCountry[country]) {
+                    daysByCountry[country] = new Set();
+                }
+                daysByCountry[country].add(item.date.getTime());
+            }
+        }
+    });
+    
+    // Trouver le pays avec le plus de programmes (parmi les pays européens)
+    let maxCountry = '';
+    let maxProgramCount = 0;
+    let maxDayCount = 0;
+    
+    // Ne considérer que les pays européens
+    const europeanCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
+    
+    europeanCountries.forEach(country => {
+        const countryData = programmeStats.byCountry[country];
+        if (countryData) {
+            const programCount = countryData.total;
+            const dayCount = daysByCountry[country] ? daysByCountry[country].size : 0;
+            
+            if (programCount > maxProgramCount) {
+                maxProgramCount = programCount;
+                maxDayCount = dayCount;
+                maxCountry = country;
+            }
+        }
+    });
+    
+    if (topCountryValue && maxCountry) {
+        const countryName = formatCountryName(maxCountry);
+        const flagClass = countryFlags[maxCountry] || 'flag-france';
+        
+        const flagDiv = document.createElement('div');
+        flagDiv.className = `top-country-flag ${flagClass}`;
+        flagDiv.style.display = 'inline-block';
+        flagDiv.style.marginRight = '6px';
+        flagDiv.style.verticalAlign = 'middle';
+        
+        topCountryValue.innerHTML = '';
+        topCountryValue.appendChild(flagDiv);
+        topCountryValue.appendChild(document.createTextNode(countryName));
+        
+        // Ajouter les statistiques par pays sur une ligne
+        const statsContainer = document.createElement('div');
+        statsContainer.className = 'top-country-stats';
+        
+        europeanCountries.forEach(country => {
+            const countryData = programmeStats.byCountry[country];
+            if (countryData && countryData.total > 0) {
+                const statMini = document.createElement('div');
+                statMini.className = 'country-stat-mini';
+                
+                const flagMini = document.createElement('div');
+                flagMini.className = `country-stat-flag ${countryFlags[country] || 'flag-france'}`;
+                
+                const statText = document.createElement('span');
+                statText.textContent = countryData.total;
+                
+                statMini.appendChild(flagMini);
+                statMini.appendChild(statText);
+                statsContainer.appendChild(statMini);
+            }
+        });
+        
+        if (statsPaysDetails) {
+            statsPaysDetails.innerHTML = '';
+            statsPaysDetails.appendChild(statsContainer);
+        }
+    } else if (topCountryValue) {
+        topCountryValue.textContent = '-';
+    }
+    
+    // Statistiques détaillées par pays (EXCLURE MADAGASCAR)
+    if (countryStatsSection && countryStatsGrid) {
+        const europeanCountries = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
+        
+        if (europeanCountries.some(country => programmeStats.byCountry[country] || 
+            (window.excludedPrograms && window.excludedPrograms.list.some(p => p.pays?.toUpperCase() === country)))) {
+            countryStatsSection.style.display = 'block';
+            countryStatsGrid.innerHTML = '';
+            
+            europeanCountries.forEach(country => {
+                const countryData = programmeStats.byCountry[country];
+                const countryName = formatCountryName(country);
+                const dayCount = countryData ? countryData.days.size : 0;
+                
+                // Compter les programmes exclus pour ce pays
+                const excludedInCountry = window.excludedPrograms?.list.filter(p => 
+                    p.pays?.toUpperCase() === country) || [];
+                const excludedCount = excludedInCountry.length;
+                
+                // Regrouper les exclus par type
+                const excludedByType = {};
+                excludedInCountry.forEach(p => {
+                    const type = p.programme?.toLowerCase() || 'concert';
+                    excludedByType[type] = (excludedByType[type] || 0) + 1;
+                });
+                
+                const statItem = document.createElement('div');
+                statItem.className = 'country-stat-item';
+                
+                // Rendre tout l'élément cliquable
+                statItem.style.cursor = 'pointer';
+                statItem.style.transition = 'all 0.2s';
+                statItem.onmouseover = () => {
+                    statItem.style.transform = 'translateY(-2px)';
+                    statItem.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+                };
+                statItem.onmouseout = () => {
+                    statItem.style.transform = 'translateY(0)';
+                    statItem.style.boxShadow = 'none';
+                };
+                
+                // Action au clic : aller vers la section du pays
+                statItem.onclick = () => {
+                    const countryElement = document.getElementById(`country-${country.toLowerCase()}`);
+                    if (countryElement) {
+                        countryElement.scrollIntoView({behavior: 'smooth', block: 'start'});
+                        
+                        countryElement.style.boxShadow = '0 0 0 4px #f97316, 0 4px 12px rgba(0,0,0,0.2)';
+                        countryElement.style.transition = 'box-shadow 0.5s ease';
+                        
+                        const toggleBtn = countryElement.querySelector('.toggle-dates-btn-compact');
+                        if (toggleBtn && !countryElement.querySelector('.country-dates-compact.show')) {
+                            setTimeout(() => {
+                                toggleBtn.click();
+                            }, 500);
+                        }
+                        
+                        setTimeout(() => {
+                            countryElement.style.boxShadow = '';
+                        }, 3000);
+                    }
+                };
+                
+                const countryNameDiv = document.createElement('div');
+                countryNameDiv.className = 'country-stat-name';
+                
+                const flagClass = countryFlags[country] || 'flag-france';
+                const flagDiv = document.createElement('div');
+                flagDiv.className = `country-flag-compact ${flagClass}`;
+                flagDiv.style.width = '14px';
+                flagDiv.style.height = '10px';
+                flagDiv.style.display = 'inline-block';
+                flagDiv.style.marginRight = '4px';
+                
+                countryNameDiv.appendChild(flagDiv);
+                countryNameDiv.appendChild(document.createTextNode(` ${countryName}`));
+                
+                const clickIcon = document.createElement('span');
+                clickIcon.innerHTML = ' 🔍';
+                clickIcon.style.fontSize = '0.7rem';
+                clickIcon.style.opacity = '0.6';
+                clickIcon.style.marginLeft = '4px';
+                countryNameDiv.appendChild(clickIcon);
+                
+                const valuesDiv = document.createElement('div');
+                valuesDiv.className = 'country-stat-values';
+                
+                const programCount = countryData ? countryData.total : 0;
+                
+                const valueDiv = document.createElement('div');
+                valueDiv.className = 'country-stat-value';
+                valueDiv.innerHTML = `<i class="fas fa-music"></i> ${programCount}${excludedCount > 0 ? ` +${excludedCount}` : ''}`;
+                valueDiv.title = `${excludedCount} programme${excludedCount > 1 ? 's' : ''} non compté${excludedCount > 1 ? 's' : ''}`;
+                
+                const daysDiv = document.createElement('div');
+                daysDiv.className = 'country-stat-days';
+                daysDiv.innerHTML = `<i class="fas fa-calendar-day"></i> ${dayCount}`;
+                
+                valuesDiv.appendChild(valueDiv);
+                valuesDiv.appendChild(daysDiv);
+                
+                statItem.appendChild(countryNameDiv);
+                statItem.appendChild(valuesDiv);
+                
+                // Afficher les détails des types (comptés et exclus)
+                if ((countryData && Object.keys(countryData.byType).length > 0) || excludedCount > 0) {
+                    let typeDetails = '<div style="margin-top: 5px;">';
+                    
+                    // Types comptés
+                    if (countryData && countryData.byType) {
+                        Object.keys(countryData.byType).forEach(type => {
+                            const count = countryData.byType[type];
+                            const typeName = type.charAt(0).toUpperCase() + type.slice(1);
+                            typeDetails += `<div style="font-size: 0.65rem; color: #059669; display: flex; justify-content: space-between;">
+                                <span>• ${typeName}:</span> <span>${count}</span>
+                            </div>`;
+                        });
                     }
                     
-                    setTimeout(() => {
-                        countryElement.style.boxShadow = '';
-                    }, 3000);
-                }
-            };
-            
-            const countryNameDiv = document.createElement('div');
-            countryNameDiv.className = 'country-stat-name';
-            
-            const flagClass = countryFlags[country] || 'flag-france';
-            const flagDiv = document.createElement('div');
-            flagDiv.className = `country-flag-compact ${flagClass}`;
-            flagDiv.style.width = '14px';
-            flagDiv.style.height = '10px';
-            flagDiv.style.display = 'inline-block';
-            flagDiv.style.marginRight = '4px';
-            
-            countryNameDiv.appendChild(flagDiv);
-            countryNameDiv.appendChild(document.createTextNode(` ${countryName}`));
-            
-            // Ajouter une petite icône pour indiquer que c'est cliquable
-            const clickIcon = document.createElement('span');
-            clickIcon.innerHTML = ' 🔍';
-            clickIcon.style.fontSize = '0.7rem';
-            clickIcon.style.opacity = '0.6';
-            clickIcon.style.marginLeft = '4px';
-            countryNameDiv.appendChild(clickIcon);
-            
-            const valuesDiv = document.createElement('div');
-            valuesDiv.className = 'country-stat-values';
-            
-            const programCount = countryData ? countryData.total : 0;
-            
-            const valueDiv = document.createElement('div');
-            valueDiv.className = 'country-stat-value';
-            valueDiv.innerHTML = `<i class="fas fa-music"></i> ${programCount}${excludedCount > 0 ? ` +${excludedCount}` : ''}`;
-            valueDiv.title = `${excludedCount} programme${excludedCount > 1 ? 's' : ''} non compté${excludedCount > 1 ? 's' : ''}`;
-            
-            const daysDiv = document.createElement('div');
-            daysDiv.className = 'country-stat-days';
-            daysDiv.innerHTML = `<i class="fas fa-calendar-day"></i> ${dayCount}`;
-            
-            valuesDiv.appendChild(valueDiv);
-            valuesDiv.appendChild(daysDiv);
-            
-            statItem.appendChild(countryNameDiv);
-            statItem.appendChild(valuesDiv);
-            
-            // Afficher les détails des types (comptés et exclus)
-            if ((countryData && Object.keys(countryData.byType).length > 0) || excludedCount > 0) {
-                let typeDetails = '<div style="margin-top: 5px;">';
-                
-                // Types comptés
-                if (countryData && countryData.byType) {
-                    Object.keys(countryData.byType).forEach(type => {
-                        const count = countryData.byType[type];
-                        const typeName = type.charAt(0).toUpperCase() + type.slice(1);
-                        typeDetails += `<div style="font-size: 0.65rem; color: #059669; display: flex; justify-content: space-between;">
-                            <span>• ${typeName}:</span> <span>${count}</span>
-                        </div>`;
-                    });
+                    // Types exclus
+                    if (excludedCount > 0) {
+                        Object.keys(excludedByType).forEach(type => {
+                            const count = excludedByType[type];
+                            const typeName = type.charAt(0).toUpperCase() + type.slice(1);
+                            typeDetails += `<div style="font-size: 0.65rem; color: #94a3b8; display: flex; justify-content: space-between;">
+                                <span>• ${typeName} ⏭️:</span> <span>${count}</span>
+                            </div>`;
+                        });
+                    }
+                    
+                    typeDetails += '</div>';
+                    
+                    const detailsDiv = document.createElement('div');
+                    detailsDiv.innerHTML = typeDetails;
+                    statItem.appendChild(detailsDiv);
                 }
                 
-                // Types exclus
-                if (excludedCount > 0) {
-                    Object.keys(excludedByType).forEach(type => {
-                        const count = excludedByType[type];
-                        const typeName = type.charAt(0).toUpperCase() + type.slice(1);
-                        typeDetails += `<div style="font-size: 0.65rem; color: #94a3b8; display: flex; justify-content: space-between;">
-                            <span>• ${typeName} ⏭️:</span> <span>${count}</span>
-                        </div>`;
-                    });
-                }
-                
-                typeDetails += '</div>';
-                
-                const detailsDiv = document.createElement('div');
-                detailsDiv.innerHTML = typeDetails;
-                statItem.appendChild(detailsDiv);
-            }
-            
-            countryStatsGrid.appendChild(statItem);
-        });
-    } else {
-        countryStatsSection.style.display = 'none';
+                countryStatsGrid.appendChild(statItem);
+            });
+        } else {
+            countryStatsSection.style.display = 'none';
+        }
     }
 }
-        }
 
         function updateCalendarStats() {
-            if (datesWithData.length === 0) return;
+    if (datesWithData.length === 0) return;
+    
+    const uniqueCountries = new Set();
+    datesWithData.forEach(item => {
+        if (item.pays && item.pays.trim() !== '') {
+            const localite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
             
-            const uniqueCountries = new Set();
-            datesWithData.forEach(item => {
-                if (item.pays && item.pays.trim() !== '') {
-                    const localite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
-                    
-                    if (!localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
-                        !localite.toUpperCase().includes('MADAGASCAR')) {
-                        uniqueCountries.add(item.pays.toUpperCase());
-                    }
-                }
-            });
-            
-            const joursTourneeSet = new Set();
-            datesWithData.forEach(item => {
-                if (item.pays && item.pays.trim() !== '') {
-                    const localite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
-                    
-                    if (!localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
-                        !localite.toUpperCase().includes('MADAGASCAR')) {
-                        joursTourneeSet.add(item.date.getTime());
-                    }
-                }
-            });
-            const joursTournee = joursTourneeSet.size;
-            
-            const statsPaysVisites = document.getElementById('statsPaysVisites');
-            const statsJoursTournee = document.getElementById('statsJoursTournee');
-            
-            if (statsPaysVisites) statsPaysVisites.textContent = uniqueCountries.size;
-            if (statsJoursTournee) statsJoursTournee.textContent = joursTournee;
-            
-            calculateProgrammeStats();
+            // EXCLURE MADAGASCAR du comptage des pays visités
+            if (!localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
+                !localite.toUpperCase().includes('MADAGASCAR') &&
+                item.pays.toUpperCase() !== 'MADAGASCAR') { // ← AJOUT DE CETTE CONDITION
+                uniqueCountries.add(item.pays.toUpperCase());
+            }
         }
+    });
+    
+    const joursTourneeSet = new Set();
+    datesWithData.forEach(item => {
+        if (item.pays && item.pays.trim() !== '') {
+            const localite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
+            
+            // EXCLURE MADAGASCAR du comptage des jours de tournée
+            if (!localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
+                !localite.toUpperCase().includes('MADAGASCAR') &&
+                item.pays.toUpperCase() !== 'MADAGASCAR') { // ← AJOUT DE CETTE CONDITION
+                joursTourneeSet.add(item.date.getTime());
+            }
+        }
+    });
+    const joursTournee = joursTourneeSet.size;
+    
+    const statsPaysVisites = document.getElementById('statsPaysVisites');
+    const statsJoursTournee = document.getElementById('statsJoursTournee');
+    
+    if (statsPaysVisites) statsPaysVisites.textContent = uniqueCountries.size;
+    if (statsJoursTournee) statsJoursTournee.textContent = joursTournee;
+    
+    calculateProgrammeStats();
+}
 
         // ===== MODIFICATION : GÉNÉRATION DU RÉCAPITULATIF PAR PAYS =====
         function generateRecapByCountry() {
@@ -10248,110 +10666,260 @@ programCardsGrid.style.display = 'grid';
 programCardsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
 programCardsGrid.style.gap = '12px';
                     
-                   datesWithLocation.forEach(dateItem => {
-    const programCard = document.createElement('div');
-    programCard.className = 'date-item-compact';
-    programCard.onclick = () => showRecapDateModal(dateItem);
-    
+                  datesWithLocation.forEach(dateItem => {
     // Récupérer l'emoji pour ce programme
     const programEmoji = getProgramEmoji(dateItem.programme);
     
+   // Déterminer la couleur du cadre en fonction du type de programme
+let borderColor = '#000000'; // NOIR pour les concerts (par défaut)
+let bgColor = '#f5f5f5'; // Fond gris très clair pour les concerts
+let headerColor = '#000000';
+let badgeColor = '#000000';
+
+const programmeLower = (dateItem.programme || '').toLowerCase();
+
+if (programmeLower.includes('vol') || programmeLower.includes('avion') || 
+    programmeLower.includes('départ') || programmeLower.includes('retour') ||
+    programmeLower.includes('depart')) {
+    borderColor = '#3b82f6'; // Bleu pour les vols
+    bgColor = '#eff6ff'; // Fond bleu clair
+    headerColor = '#2563eb';
+    badgeColor = '#3b82f6';
+} else if (programmeLower.includes('repos') || programmeLower.includes('rest') || 
+           programmeLower.includes('détente') || programmeLower.includes('relax')) {
+    borderColor = '#10b981'; // Vert pour le repos
+    bgColor = '#d1fae5'; // Fond vert clair
+    headerColor = '#059669';
+    badgeColor = '#10b981';
+} else if (programmeLower.includes('repas') || programmeLower.includes('restaurant') || 
+           programmeLower.includes('apéro') || programmeLower.includes('marché') ||
+           programmeLower.includes('shopping')) {
+    borderColor = '#ffff00'; // JAUNE FLUO pour les repas
+    bgColor = '#ffffe0'; // Fond jaune clair
+    headerColor = '#e6b800';
+    badgeColor = '#ffff00';
+} else if (programmeLower.includes('visite') || programmeLower.includes('tourisme') || 
+           programmeLower.includes('sortie')) {
+    borderColor = '#ff8c00'; // ORANGE pour les visites
+    bgColor = '#fff4e6'; // Fond orange clair
+    headerColor = '#e67e00';
+    badgeColor = '#ff8c00';
+} else if (programmeLower.includes('eglise') || programmeLower.includes('église') || 
+           programmeLower.includes('culte') || programmeLower.includes('mfm') ||
+           programmeLower.includes('celebration') || programmeLower.includes('célébration')) {
+    borderColor = '#6b21a8'; // Violet foncé pour les cultes
+    bgColor = '#f3e8ff'; // Fond violet très clair
+    headerColor = '#5b21b6';
+    badgeColor = '#6b21a8';
+} else if (programmeLower.includes('animation') || programmeLower.includes('enfant') || 
+           programmeLower.includes('jeux') || programmeLower.includes('sport') ||
+           programmeLower.includes('jeu')) {
+    borderColor = '#ec4899'; // Rose pour les animations
+    bgColor = '#fce7f3'; // Fond rose clair
+    headerColor = '#db2777';
+    badgeColor = '#ec4899';
+} else if (programmeLower.includes('rencontre') || programmeLower.includes('invitation')) {
+    borderColor = '#0ea5e9'; // BLEU CIEL pour les rencontres
+    bgColor = '#e0f2fe'; // Fond bleu ciel clair
+    headerColor = '#0284c7';
+    badgeColor = '#0ea5e9';
+}
+    
+    // ===== NOUVELLE CARTE STYLISÉE =====
+    const programCard = document.createElement('div');
+    programCard.style.backgroundColor = bgColor;
+    programCard.style.borderRadius = '12px';
+    programCard.style.border = `2px solid ${borderColor}`;
+    programCard.style.boxShadow = `0 4px 12px ${borderColor}30`;
+    programCard.style.padding = '12px';
+    programCard.style.cursor = 'pointer';
+    programCard.style.transition = 'all 0.3s ease';
+    programCard.style.position = 'relative';
+    programCard.style.overflow = 'hidden';
+    programCard.style.display = 'flex';
+    programCard.style.flexDirection = 'column';
+    programCard.style.gap = '8px';
+    
+    // Effet de survol
+    programCard.onmouseover = () => {
+        programCard.style.transform = 'translateY(-4px)';
+        programCard.style.boxShadow = `0 8px 20px ${borderColor}50`;
+    };
+    programCard.onmouseout = () => {
+        programCard.style.transform = 'translateY(0)';
+        programCard.style.boxShadow = `0 4px 12px ${borderColor}30`;
+    };
+    
+    // Action au clic
+    programCard.onclick = () => showRecapDateModal(dateItem);
+    
+    // Bande décorative en haut
+    const topBand = document.createElement('div');
+    topBand.style.position = 'absolute';
+    topBand.style.top = '0';
+    topBand.style.left = '0';
+    topBand.style.right = '0';
+    topBand.style.height = '4px';
+    topBand.style.background = borderColor;
+    programCard.appendChild(topBand);
+    
+    // ===== EN-TÊTE DE LA CARTE =====
     const cardHeader = document.createElement('div');
-    cardHeader.className = 'date-header-compact';
+    cardHeader.style.display = 'flex';
+    cardHeader.style.justifyContent = 'space-between';
+    cardHeader.style.alignItems = 'center';
+    cardHeader.style.marginBottom = '4px';
     
-    const cardDate = document.createElement('div');
-    cardDate.className = 'date-value-compact';
-    cardDate.textContent = formatDateForDisplay(dateItem.date);
+    // Date avec icône
+    const dateDiv = document.createElement('div');
+    dateDiv.style.display = 'flex';
+    dateDiv.style.alignItems = 'center';
+    dateDiv.style.gap = '6px';
+    dateDiv.style.fontWeight = '700';
+    dateDiv.style.color = borderColor;
+    dateDiv.style.fontSize = '0.9rem';
+    dateDiv.style.backgroundColor = 'white';
+    dateDiv.style.padding = '4px 10px';
+    dateDiv.style.borderRadius = '20px';
+    dateDiv.style.border = `1px solid ${borderColor}`;
+    dateDiv.innerHTML = `<i class="fas fa-calendar-alt" style="color: ${borderColor};"></i> ${formatDateForDisplay(dateItem.date)}`;
     
-    const cardFlag = document.createElement('div');
-    cardFlag.className = 'date-flag-compact';
-    const dateFlagClass = countryFlags[dateItem.pays.toUpperCase()] || 'flag-france';
-    cardFlag.classList.add(dateFlagClass);
+    // Drapeau
+    const flagDiv = document.createElement('div');
+    flagDiv.style.width = '24px';
+    flagDiv.style.height = '16px';
+    flagDiv.style.borderRadius = '3px';
+    flagDiv.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+    const flagClass = countryFlags[dateItem.pays.toUpperCase()] || 'flag-france';
+    flagDiv.classList.add(flagClass);
     
-    cardHeader.appendChild(cardDate);
-    cardHeader.appendChild(cardFlag);
+    cardHeader.appendChild(dateDiv);
+    cardHeader.appendChild(flagDiv);
     
-    // MODIFICATION: Affichage sur 2 lignes pour ordinateur avec EMOJI
-    const programContent = document.createElement('div');
-    programContent.style.display = 'grid';
-    programContent.style.gridTemplateColumns = 'repeat(2, 1fr)';
-    programContent.style.gap = '8px';
-    programContent.style.marginTop = '8px';
+    // ===== LIGNE LOCALITÉ ET LIEU =====
+    const locationDiv = document.createElement('div');
+    locationDiv.style.display = 'flex';
+    locationDiv.style.flexWrap = 'wrap';
+    locationDiv.style.alignItems = 'center';
+    locationDiv.style.gap = '8px';
+    locationDiv.style.marginTop = '4px';
+    locationDiv.style.padding = '4px 0';
     
-    // Ligne 1: Localité et Lieu
-    const locationLine = document.createElement('div');
-    locationLine.style.gridColumn = '1 / 3';
-    locationLine.style.display = 'flex';
-    locationLine.style.flexWrap = 'wrap';
-    locationLine.style.gap = '8px';
-    locationLine.style.alignItems = 'center';
+    // Localité
+    const localiteSpan = document.createElement('span');
+    localiteSpan.style.display = 'flex';
+    localiteSpan.style.alignItems = 'center';
+    localiteSpan.style.gap = '4px';
+    localiteSpan.style.fontWeight = '600';
+    localiteSpan.style.color = '#2d3748';
+    localiteSpan.style.fontSize = '0.85rem';
+    localiteSpan.innerHTML = `<i class="fas fa-map-pin" style="color: ${borderColor};"></i> ${dateItem.localite || 'Localité'}`;
     
-    const locationLeft = document.createElement('div');
-    locationLeft.className = 'date-location-left';
-    locationLeft.innerHTML = `<span class="localite">${dateItem.localite || 'Localité non spécifiée'}</span>`;
-    
+    // Lieu (si présent)
     if (dateItem.lieu && dateItem.lieu.trim() !== '') {
-        locationLeft.innerHTML += `<span class="lieu">${dateItem.lieu.substring(0, 30)}${dateItem.lieu.length > 30 ? '...' : ''}</span>`;
+        const lieuSpan = document.createElement('span');
+        lieuSpan.style.display = 'flex';
+        lieuSpan.style.alignItems = 'center';
+        lieuSpan.style.gap = '4px';
+        lieuSpan.style.backgroundColor = 'white';
+        lieuSpan.style.padding = '2px 8px';
+        lieuSpan.style.borderRadius = '16px';
+        lieuSpan.style.fontSize = '0.8rem';
+        lieuSpan.style.color = '#f97316';
+        lieuSpan.style.border = `1px solid ${borderColor}`;
+        lieuSpan.innerHTML = `<i class="fas fa-landmark" style="color: ${borderColor};"></i> ${dateItem.lieu.substring(0, 20)}${dateItem.lieu.length > 20 ? '...' : ''}`;
+        locationDiv.appendChild(lieuSpan);
     }
     
-    locationLine.appendChild(locationLeft);
+    locationDiv.appendChild(localiteSpan);
     
-    // Ligne 2 colonne 1: Heure
-    const timeColumn = document.createElement('div');
-    timeColumn.style.display = 'flex';
-    timeColumn.style.alignItems = 'center';
+    // ===== LIGNE HEURE ET PROGRAMME =====
+    const infoDiv = document.createElement('div');
+    infoDiv.style.display = 'flex';
+    infoDiv.style.justifyContent = 'space-between';
+    infoDiv.style.alignItems = 'center';
+    infoDiv.style.marginTop = '6px';
+    infoDiv.style.padding = '6px 0';
+    infoDiv.style.borderTop = `1px dashed ${borderColor}40`;
+    infoDiv.style.borderBottom = `1px dashed ${borderColor}40`;
     
+    // Heure
     if (dateItem.heures && dateItem.heures.trim() !== '') {
         const timeDiv = document.createElement('div');
-        timeDiv.className = 'date-time';
-        timeDiv.textContent = dateItem.heures;
-        timeColumn.appendChild(timeDiv);
+        timeDiv.style.display = 'flex';
+        timeDiv.style.alignItems = 'center';
+        timeDiv.style.gap = '4px';
+        timeDiv.style.backgroundColor = badgeColor;
+        timeDiv.style.color = 'white';
+        timeDiv.style.padding = '4px 12px';
+        timeDiv.style.borderRadius = '20px';
+        timeDiv.style.fontSize = '0.8rem';
+        timeDiv.style.fontWeight = '600';
+        timeDiv.innerHTML = `<i class="fas fa-clock"></i> ${dateItem.heures}`;
+        infoDiv.appendChild(timeDiv);
     }
     
-    // Ligne 2 colonne 2: Programme avec EMOJI
-    const programColumn = document.createElement('div');
-    programColumn.style.display = 'flex';
-    programColumn.style.alignItems = 'center';
-    programColumn.style.justifyContent = 'flex-end';
-    
+    // Programme avec emoji
     if (dateItem.programme && dateItem.programme.trim() !== '') {
-        const programmeDiv = document.createElement('div');
-        programmeDiv.className = 'date-programme';
-        programmeDiv.style.display = 'flex';
-        programmeDiv.style.alignItems = 'center';
-        programmeDiv.style.gap = '4px';
-        programmeDiv.style.backgroundColor = '#fff4e6';
-        programmeDiv.style.padding = '3px 10px';
-        programmeDiv.style.borderRadius = '20px';
-        programmeDiv.style.border = '1px solid #f97316';
-        programmeDiv.innerHTML = `
-            <span style="font-size: 1rem;">${programEmoji}</span>
-            <span style="color: #f97316; font-weight: 700;">${dateItem.programme.substring(0, 25)}${dateItem.programme.length > 25 ? '...' : ''}</span>
-        `;
-        programColumn.appendChild(programmeDiv);
+        const progDiv = document.createElement('div');
+        progDiv.style.display = 'flex';
+        progDiv.style.alignItems = 'center';
+        progDiv.style.gap = '6px';
+        progDiv.style.backgroundColor = 'white';
+        progDiv.style.padding = '4px 12px';
+        progDiv.style.borderRadius = '20px';
+        progDiv.style.border = `1px solid ${borderColor}`;
+        progDiv.style.fontSize = '0.8rem';
+        progDiv.style.fontWeight = '600';
+        progDiv.style.color = borderColor;
+        progDiv.innerHTML = `<span style="font-size: 1rem;">${programEmoji}</span> ${dateItem.programme.substring(0, 20)}${dateItem.programme.length > 20 ? '...' : ''}`;
+        infoDiv.appendChild(progDiv);
     }
     
-    programContent.appendChild(locationLine);
-    programContent.appendChild(timeColumn);
-    programContent.appendChild(programColumn);
+    // ===== INFOS SUPPLÉMENTAIRES (TRAJET ET CONTACT) =====
+    const extraDiv = document.createElement('div');
+    extraDiv.style.display = 'flex';
+    extraDiv.style.flexWrap = 'wrap';
+    extraDiv.style.gap = '6px';
+    extraDiv.style.marginTop = '6px';
+    extraDiv.style.fontSize = '0.75rem';
     
-    programCard.appendChild(cardHeader);
-    programCard.appendChild(programContent);
-    
-    // Ajouter les infos trajet si disponibles
+    // Trajet
     if (dateItem.trajets && dateItem.trajets.trim() !== '') {
-        const trajetLine = document.createElement('div');
-        trajetLine.className = 'date-details-line-compact';
-        trajetLine.style.marginTop = '4px';
-        trajetLine.style.fontSize = '0.65rem';
-        trajetLine.style.color = '#7c3aed';
-        trajetLine.style.gridColumn = '1 / 3';
-        
-        let trajetText = dateItem.trajets;
-        trajetText = '🚗 ' + trajetText;
-        
-        trajetLine.innerHTML = `<span class="detail-emoji-small">🚗</span> ${trajetText}`;
-        programCard.appendChild(trajetLine);
+        const trajetDiv = document.createElement('div');
+        trajetDiv.style.display = 'flex';
+        trajetDiv.style.alignItems = 'center';
+        trajetDiv.style.gap = '4px';
+        trajetDiv.style.backgroundColor = 'white';
+        trajetDiv.style.padding = '3px 8px';
+        trajetDiv.style.borderRadius = '16px';
+        trajetDiv.style.border = `1px solid ${borderColor}60`;
+        trajetDiv.style.color = '#7c3aed';
+        trajetDiv.innerHTML = `<span style="font-size: 0.9rem;">🚗</span> ${dateItem.trajets.substring(0, 15)}${dateItem.trajets.length > 15 ? '...' : ''}`;
+        extraDiv.appendChild(trajetDiv);
+    }
+    
+    // Contact (adresse)
+    if (dateItem.adresse && dateItem.adresse.trim() !== '') {
+        const contactDiv = document.createElement('div');
+        contactDiv.style.display = 'flex';
+        contactDiv.style.alignItems = 'center';
+        contactDiv.style.gap = '4px';
+        contactDiv.style.backgroundColor = 'white';
+        contactDiv.style.padding = '3px 8px';
+        contactDiv.style.borderRadius = '16px';
+        contactDiv.style.border = `1px solid ${borderColor}60`;
+        contactDiv.style.color = '#4a5568';
+        contactDiv.innerHTML = `<span style="font-size: 0.9rem;">👤</span> ${dateItem.adresse.substring(0, 15)}${dateItem.adresse.length > 15 ? '...' : ''}`;
+        extraDiv.appendChild(contactDiv);
+    }
+    
+    // Assemblage de la carte
+    programCard.appendChild(cardHeader);
+    programCard.appendChild(locationDiv);
+    programCard.appendChild(infoDiv);
+    if (extraDiv.children.length > 0) {
+        programCard.appendChild(extraDiv);
     }
     
     programCardsGrid.appendChild(programCard);
