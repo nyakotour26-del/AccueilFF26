@@ -10178,40 +10178,50 @@ setTimeout(() => {
             errorContainer.innerHTML = '';
         }
 
-        function scrollToGeneralInfo() {
-            const sections = document.querySelectorAll('.section');
-            let generalInfoSection = null;
-            
-            for (let section of sections) {
-                const title = section.querySelector('.section-title');
-                if (title && title.textContent.includes('Informations générales')) {
-                    generalInfoSection = section;
-                    break;
-                }
-            }
-            
-            if (generalInfoSection) {
-                generalInfoSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-                
-                generalInfoSection.style.boxShadow = '0 0 0 3px rgba(66, 153, 225, 0.5)';
-                generalInfoSection.style.transition = 'box-shadow 0.5s ease';
-                
-                setTimeout(() => {
-                    generalInfoSection.style.boxShadow = '';
-                }, 2000);
-            } else {
-                const firstSection = document.querySelector('.section');
-                if (firstSection) {
-                    firstSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+       function scrollToGeneralInfo() {
+    // Sur ordinateur, les infos générales sont dans header-info-section
+    // Sur mobile, elles sont dans .section.mobile-only
+    
+    let targetSection = null;
+    
+    // Essayer de trouver la section desktop d'abord
+    targetSection = document.querySelector('.header-info-section');
+    
+    // Si pas trouvée, chercher la section mobile
+    if (!targetSection) {
+        const sections = document.querySelectorAll('.section');
+        for (let section of sections) {
+            const title = section.querySelector('.section-title');
+            if (title && title.textContent.includes('Informations générales')) {
+                targetSection = section;
+                break;
             }
         }
+    }
+    
+    // Si toujours pas trouvée, aller vers le haut de la page
+    if (!targetSection) {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        return;
+    }
+    
+    // Faire défiler jusqu'à la section
+    targetSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
+    
+    // Effet de surbrillance
+    targetSection.style.boxShadow = '0 0 0 3px rgba(66, 153, 225, 0.5)';
+    targetSection.style.transition = 'box-shadow 0.5s ease';
+    
+    setTimeout(() => {
+        targetSection.style.boxShadow = '';
+    }, 2000);
+}
         
         function scrollToRecapSection() {
             const recapSection = document.getElementById('recapSection');
