@@ -9548,19 +9548,19 @@ if (countryStatsSection && countryStatsGrid) {
                 freeDatesSection.appendChild(freeDatesList);
                 freeDatesSection.appendChild(freeDatesSummary);
                 
-                // ===== MODIFICATION : LISTE DES PROGRAMMES PAR PAYS RESPONSIVE =====
-                const datesContainer = document.createElement('div');
-                datesContainer.className = 'country-dates-compact';
-                datesContainer.id = `dates-${country.toLowerCase()}`;
-                
-                if (datesWithLocation.length > 0) {
-                    // Créer une grille de cartes - 2 par ligne sur ordi
-const programCardsGrid = document.createElement('div');
-programCardsGrid.className = 'country-programmes-grid';
-// Forcer 2 colonnes sur desktop via style inline
-programCardsGrid.style.display = 'grid';
-programCardsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
-programCardsGrid.style.gap = '12px';
+               // ===== MODIFICATION : LISTE DES PROGRAMMES PAR PAYS RESPONSIVE =====
+const datesContainer = document.createElement('div');
+datesContainer.className = 'country-dates-compact';
+datesContainer.id = `dates-${country.toLowerCase()}`;
+
+if (datesWithLocation.length > 0) {
+    // Créer une grille de cartes
+    const programCardsGrid = document.createElement('div');
+    programCardsGrid.className = 'country-programmes-grid';
+    // Forcer 2 colonnes sur desktop via style inline
+    programCardsGrid.style.display = 'grid';
+    programCardsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+    programCardsGrid.style.gap = '12px';
                     
                    datesWithLocation.forEach(dateItem => {
     const programCard = document.createElement('div');
