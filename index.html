@@ -5570,52 +5570,6 @@
     justify-content: center;
     gap: 4px;
 }
-/* ===== AMÉLIORATION DES TOOLTIPS ===== */
-.calendar-tooltip {
-    pointer-events: auto !important; /* Permet de cliquer sur le tooltip */
-    transition: opacity 0.2s ease;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    border: 2px solid #4299e1;
-    background: white;
-    border-radius: 12px;
-    padding: 12px;
-    max-width: 280px;
-    min-width: 220px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    z-index: 10000;
-}
-
-.calendar-tooltip:hover {
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-}
-
-.calendar-tooltip::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: 20px;
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid #4299e1;
-}
-
-/* Animation d'apparition */
-@keyframes tooltipFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(5px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.calendar-tooltip {
-    animation: tooltipFadeIn 0.2s ease-out;
-}
     </style>
 </head>
 <body>
@@ -6544,20 +6498,14 @@ function getProgramEmoji(programText) {
         let programsByType = {};
 
 
-// ===== FONCTION POUR CRÉER L'APERÇU AU SURVOL (VERSION AMÉLIORÉE) =====
+// ===== FONCTION POUR CRÉER L'APERÇU AU SURVOL (VERSION DÉTAILLÉE) =====
 function createCalendarTooltip(date, programs) {
     if (!programs || programs.length === 0) return null;
     
-    // Supprimer tout tooltip existant avant d'en créer un nouveau
-    removeAllTooltips();
-    
     const tooltip = document.createElement('div');
     tooltip.className = 'calendar-tooltip';
-    tooltip.id = 'calendar-tooltip-' + Date.now(); // ID unique
     tooltip.style.display = 'none';
     tooltip.style.position = 'absolute';
-    tooltip.style.zIndex = '10000';
-    tooltip.style.pointerEvents = 'auto'; // Permet d'interagir avec le tooltip
     document.body.appendChild(tooltip);
     
     // Récupérer le pays (prendre le premier programme)
@@ -6597,7 +6545,7 @@ function createCalendarTooltip(date, programs) {
         return `${emoji} ${type.charAt(0).toUpperCase() + type.slice(1)}${count > 1 ? ` (${count})` : ''}`;
     }).join(' • ');
     
-    // En-tête du tooltip
+    // En-tête du tooltip avec plus d'infos
     let html = `
         <div class="calendar-tooltip-header">
             <span class="calendar-tooltip-date">${formatDateForDisplay(date)}</span>
@@ -6635,8 +6583,9 @@ function createCalendarTooltip(date, programs) {
         </div>
     `;
     
-    // Afficher tous les programmes
+    // Afficher tous les programmes (pas de limite)
     const sortedPrograms = [...programs].sort((a, b) => {
+        // Trier par localité puis par heure
         const rowA = getRowData(a.rowIndex);
         const rowB = getRowData(b.rowIndex);
         return (rowA.localite || '').localeCompare(rowB.localite || '');
@@ -6654,29 +6603,29 @@ function createCalendarTooltip(date, programs) {
         const trajets = rowData.trajets || '';
         
         // Déterminer la couleur de bordure selon le type
-        let borderColor = '#f97316';
+        let borderColor = '#f97316'; // Orange (concert)
         let bgColor = '#fff4e6';
         
         if (programmeText.toLowerCase().includes('vol') || programmeText.toLowerCase().includes('avion')) {
-            borderColor = '#3b82f6';
+            borderColor = '#3b82f6'; // Bleu
             bgColor = '#eff6ff';
         } else if (programmeText.toLowerCase().includes('repos')) {
-            borderColor = '#10b981';
+            borderColor = '#10b981'; // Vert
             bgColor = '#d1fae5';
         } else if (programmeText.toLowerCase().includes('repas')) {
-            borderColor = '#e6b800';
+            borderColor = '#e6b800'; // Jaune
             bgColor = '#fff9e6';
         } else if (programmeText.toLowerCase().includes('visite')) {
-            borderColor = '#ff8c00';
+            borderColor = '#ff8c00'; // Orange
             bgColor = '#fff4e6';
         } else if (programmeText.toLowerCase().includes('eglise') || programmeText.toLowerCase().includes('culte')) {
-            borderColor = '#6b21a8';
+            borderColor = '#6b21a8'; // Violet
             bgColor = '#f3e8ff';
         } else if (programmeText.toLowerCase().includes('animation')) {
-            borderColor = '#ec4899';
+            borderColor = '#ec4899'; // Rose
             bgColor = '#fce7f3';
         } else if (programmeText.toLowerCase().includes('rencontre')) {
-            borderColor = '#0ea5e9';
+            borderColor = '#0ea5e9'; // Bleu ciel
             bgColor = '#e0f2fe';
         }
         
@@ -6704,7 +6653,7 @@ function createCalendarTooltip(date, programs) {
         `;
     });
     
-    // Pied de page
+    // Pied de page avec résumé
     const totalLocalites = uniqueLocalites.size;
     const totalPrograms = programs.length;
     
@@ -6722,7 +6671,8 @@ function createCalendarTooltip(date, programs) {
     
     tooltip.innerHTML = html;
     return tooltip;
-}        // ===== FONCTIONS POUR LA CARTE =====
+}
+        // ===== FONCTIONS POUR LA CARTE =====
         function initMap() {
             // Initialiser la carte centrée sur l'Europe
             tourMap = L.map('tourMap', { maxBounds: L.latLngBounds(L.latLng(35, -15), L.latLng(60, 30)), maxBoundsViscosity: 1.0 }).setView([48.8566, 2.3522], 5); // Centre sur Paris, zoom 5
@@ -8662,141 +8612,80 @@ function findNextProgram() {
       
         // Initialisation et autres fonctions existantes...
         document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('prevMonth').addEventListener('click', prevMonth);
-    document.getElementById('nextMonth').addEventListener('click', nextMonth);
-    document.getElementById('tryDirect').addEventListener('click', () => loadDataFromGoogleSheets('direct'));
-    document.getElementById('tryProxy').addEventListener('click', () => loadDataFromGoogleSheets('proxy'));
-    document.getElementById('tryCors').addEventListener('click', () => loadDataFromGoogleSheets('cors'));
-    document.getElementById('closeModal').addEventListener('click', closeDateModal);
-    document.getElementById('closeRecapModal').addEventListener('click', closeRecapDateModal);
-    
-    // Fermer les modals en cliquant à l'extérieur
-    document.getElementById('dateModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeDateModal();
-        }
-    });
-    
-    document.getElementById('recapDateModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeRecapDateModal();
-        }
-    });
-    
-    document.getElementById('secretariatPasswordModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeSecretariatPasswordModal();
-        }
-    });
-    
-    document.getElementById('livreOrModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeLivreOrModal();
-        }
-    });
-    
-    document.getElementById('programTypeModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeProgramTypeModal();
-        }
-    });
-    
-    // Cacher les sections mobile sur desktop et vice versa
-    adjustSectionsForViewport();
-    window.addEventListener('resize', adjustSectionsForViewport);
-    
-    // Charger les données depuis Google Sheets
-    loadDataFromGoogleSheets('direct');
-    
-    // Ajouter l'événement pour afficher les programmes par type
-    document.getElementById('programmesStatItem').addEventListener('click', showProgramsByType);
-    document.getElementById('paysPlusProgrammesItem').addEventListener('click', scrollToRecapSection);
-    
-    // Initialiser les boutons de navigation rapide
-    initQuickNavButtons();
-    
-    // Initialiser la carte
-    initMap();
-    
-    // ===== NOUVEAU : CONFIGURATION DES TOOLTIPS =====
-    // Configurer les écouteurs globaux pour les tooltips
-    if (typeof setupGlobalTooltipListeners === 'function') {
-        setupGlobalTooltipListeners();
-    }
-    
-    // Supprimer les tooltips quand on ouvre un modal
-    const modalTriggers = document.querySelectorAll('[onclick*="showDateModal"], [onclick*="showRecapDateModal"]');
-    modalTriggers.forEach(trigger => {
-        trigger.addEventListener('click', function() {
-            if (typeof removeAllTooltips === 'function') {
-                removeAllTooltips();
-            }
-        });
-    });
-    
-    // Supprimer les tooltips quand on clique sur les boutons de navigation rapide
-    const navButtons = document.querySelectorAll('.quick-nav-btn-desktop, .quick-nav-btn-mobile, .floating-btn');
-    navButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            if (typeof removeAllTooltips === 'function') {
-                removeAllTooltips();
-            }
-        });
-    });
-    
-    // Supprimer les tooltips quand on change de mois (déjà géré dans setupGlobalTooltipListeners, mais on double la sécurité)
-    const prevMonthBtn = document.getElementById('prevMonth');
-    const nextMonthBtn = document.getElementById('nextMonth');
-    
-    if (prevMonthBtn) {
-        prevMonthBtn.addEventListener('click', function() {
-            if (typeof removeAllTooltips === 'function') {
-                removeAllTooltips();
-            }
-        });
-    }
-    
-    if (nextMonthBtn) {
-        nextMonthBtn.addEventListener('click', function() {
-            if (typeof removeAllTooltips === 'function') {
-                removeAllTooltips();
-            }
-        });
-    }
-    
-    // Supprimer les tooltips quand on scroll (déjà géré dans setupGlobalTooltipListeners)
-    
-    // Gérer le redimensionnement de la fenêtre
-    let resizeTimer;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function() {
-            // Supprimer les tooltips pendant le redimensionnement
-            if (typeof removeAllTooltips === 'function') {
-                removeAllTooltips();
-            }
+            document.getElementById('prevMonth').addEventListener('click', prevMonth);
+            document.getElementById('nextMonth').addEventListener('click', nextMonth);
+            document.getElementById('tryDirect').addEventListener('click', () => loadDataFromGoogleSheets('direct'));
+            document.getElementById('tryProxy').addEventListener('click', () => loadDataFromGoogleSheets('proxy'));
+            document.getElementById('tryCors').addEventListener('click', () => loadDataFromGoogleSheets('cors'));
+            document.getElementById('closeModal').addEventListener('click', closeDateModal);
+            document.getElementById('closeRecapModal').addEventListener('click', closeRecapDateModal);
             
-            if (typeof addItineraryLegend === 'function') {
-                // Supprimer l'ancienne légende
-                const oldLegend = document.querySelector('.itinerary-legend');
-                const oldContainer = document.querySelector('.mobile-legend-container, .leaflet-control');
-                if (oldLegend || oldContainer) {
-                    if (oldContainer) oldContainer.remove();
-                    if (oldLegend) oldLegend.remove();
+            // Fermer les modals en cliquant à l'extérieur
+            document.getElementById('dateModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeDateModal();
                 }
-                // Recréer la légende
-                addItineraryLegend();
+            });
+            
+            document.getElementById('recapDateModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeRecapDateModal();
+                }
+            });
+            
+            document.getElementById('secretariatPasswordModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeSecretariatPasswordModal();
+                }
+            });
+            
+            document.getElementById('livreOrModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeLivreOrModal();
+                }
+            });
+            
+            document.getElementById('programTypeModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeProgramTypeModal();
+                }
+            });
+            
+            // Cacher les sections mobile sur desktop et vice versa
+            adjustSectionsForViewport();
+            window.addEventListener('resize', adjustSectionsForViewport);
+            
+            // Charger les données depuis Google Sheets
+            loadDataFromGoogleSheets('direct');
+            
+            // Ajouter l'événement pour afficher les programmes par type
+            document.getElementById('programmesStatItem').addEventListener('click', showProgramsByType);
+            document.getElementById('paysPlusProgrammesItem').addEventListener('click', scrollToRecapSection);
+            
+            // Initialiser les boutons de navigation rapide
+            initQuickNavButtons();
+            
+            // Initialiser la carte
+            initMap();
+// Gérer le redimensionnement de la fenêtre
+let resizeTimer;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+        if (typeof addItineraryLegend === 'function') {
+            // Supprimer l'ancienne légende
+            const oldLegend = document.querySelector('.itinerary-legend');
+            const oldContainer = document.querySelector('.mobile-legend-container, .leaflet-control');
+            if (oldLegend || oldContainer) {
+                if (oldContainer) oldContainer.remove();
+                if (oldLegend) oldLegend.remove();
             }
-        }, 250);
-    });
-    
-    // Supprimer les tooltips à la fermeture de la page (optionnel)
-    window.addEventListener('beforeunload', function() {
-        if (typeof removeAllTooltips === 'function') {
-            removeAllTooltips();
+            // Recréer la légende
+            addItineraryLegend();
         }
-    });
+    }, 250);
 });
+        });
 
         function initQuickNavButtons() {
             // Les boutons sont déjà définis dans le HTML avec des onclick
@@ -11958,7 +11847,52 @@ function renderCalendar() {
         
         // ===== NOUVEAU : Tooltip au survol =====
         if (programsForDate.length > 0) {
-    let tooltip = null;
+            let tooltip = null;
+            let hideTimeout = null;
+            let showTimeout = null;
+            
+            day.addEventListener('mouseenter', function(e) {
+                if (hideTimeout) {
+                    clearTimeout(hideTimeout);
+                    hideTimeout = null;
+                }
+                
+                showTimeout = setTimeout(() => {
+                    const oldTooltip = document.querySelector('.calendar-tooltip');
+                    if (oldTooltip) oldTooltip.remove();
+                    
+                    tooltip = createCalendarTooltip(dateToCheck, programsForDate);
+                    if (tooltip) {
+                        const rect = day.getBoundingClientRect();
+                        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+                        
+                        tooltip.style.display = 'block';
+                        tooltip.style.left = (rect.left + scrollLeft + 30) + 'px';
+                        tooltip.style.top = (rect.top + scrollTop - tooltip.offsetHeight - 10) + 'px';
+                        
+                        if (tooltip.getBoundingClientRect().top < 0) {
+                            tooltip.style.top = (rect.bottom + scrollTop + 10) + 'px';
+                            tooltip.style.left = (rect.left + scrollLeft) + 'px';
+                        }
+                    }
+                }, 300);
+            });
+            
+            day.addEventListener('mouseleave', function() {
+                if (showTimeout) {
+                    clearTimeout(showTimeout);
+                    showTimeout = null;
+                }
+                
+                hideTimeout = setTimeout(() => {
+                    if (tooltip) {
+                        tooltip.remove();
+                        tooltip = null;
+                    }
+                }, 200);
+            });
+        }
         
         // ===== CODE EXISTANT POUR LE CONTENU DE LA CASE =====
         const localiteCount = countLocalitesForDate(dateToCheck);
@@ -12730,47 +12664,7 @@ function showProgramsByCountry(country) {
     
     modal.style.display = 'flex';
 }
-// ===== FONCTION POUR SUPPRIMER TOUS LES TOOLTIPS =====
-function removeAllTooltips() {
-    const tooltips = document.querySelectorAll('.calendar-tooltip');
-    tooltips.forEach(tooltip => tooltip.remove());
-}
 
-// ===== FONCTION POUR GÉRER LE CLIC EN DEHORS =====
-function setupClickOutsideTooltip() {
-    document.addEventListener('click', function(e) {
-        // Si on clique sur un élément qui n'est pas une case de calendrier
-        if (!e.target.closest('.calendar-day') && !e.target.closest('.calendar-tooltip')) {
-            removeAllTooltips();
-        }
-    });
-}
-
-// ===== FONCTION POUR GÉRER LE SCROLL =====
-function setupScrollTooltip() {
-    window.addEventListener('scroll', function() {
-        removeAllTooltips();
-    }, { passive: true });
-}
-
-// ===== FONCTION POUR GÉRER LE CHANGEMENT DE PAGE =====
-function setupPageChangeTooltip() {
-    // Quand on change de mois
-    const prevBtn = document.getElementById('prevMonth');
-    const nextBtn = document.getElementById('nextMonth');
-    
-    if (prevBtn) {
-        prevBtn.addEventListener('click', function() {
-            removeAllTooltips();
-        });
-    }
-    
-    if (nextBtn) {
-        nextBtn.addEventListener('click', function() {
-            removeAllTooltips();
-        });
-    }
-}
     </script>
 </body>
 </html>
