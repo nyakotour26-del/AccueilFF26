@@ -8622,54 +8622,58 @@ dateNavigation.style.display = 'none';
             }, 300);
         }
 
-        function showRecapDateModal(dateInfo) {
-            const modal = document.getElementById('recapDateModal');
-            const modalContent = document.getElementById('recapDateModalContent');
-            const modalTitle = document.getElementById('recapModalDateTitle');
-            const modalLocationText = document.getElementById('recapModalLocationText');
-            const modalFlag = document.getElementById('recapModalFlag');
-            const dateInfoModal = document.getElementById('recapDateInfoModal');
-            const dateDetailsGrid = document.getElementById('recapDateDetailsGrid');
-            
-            modalTitle.textContent = formatDateForDisplay(dateInfo.date);
-            modalLocationText.textContent = `${dateInfo.localite || 'Localité non spécifiée'} / ${dateInfo.pays || 'Pays non spécifié'}`;
-            
-            const flagClass = countryFlags[dateInfo.pays.toUpperCase()] || 'flag-france';
-            modalFlag.className = 'modal-flag-small';
-            modalFlag.classList.add(flagClass);
-            
-            const dateData = getDetailedDateData(dateInfo.date, dateInfo.localite);
-            
-            if (dateData) {
-                displayDateInfoCompact(dateInfoModal, dateData);
-                displayDateDetailsCompact(dateDetailsGrid, dateData);
-            } else {
-                dateInfoModal.innerHTML = '<div style="font-size: 0.75rem; color: #718096; font-style: italic;">Aucune information disponible</div>';
-                dateDetailsGrid.innerHTML = '<div class="date-detail-item-compact"><div class="date-detail-value-compact green-text" style="text-align: center; font-style: italic; font-size: 0.65rem;">Aucun détail disponible</div></div>';
-            }
-            
-            modal.classList.add('show');
-            setTimeout(() => {
-                modalContent.classList.add('show');
-            }, 10);
-        }
+       function showRecapDateModal(dateInfo) {
+    const modal = document.getElementById('recapDateModal');
+    const modalContent = document.getElementById('recapDateModalContent');
+    const modalTitle = document.getElementById('recapModalDateTitle');
+    const modalLocationText = document.getElementById('recapModalLocationText');
+    const modalFlag = document.getElementById('recapModalFlag');
+    const dateInfoModal = document.getElementById('recapDateInfoModal');
+    const dateDetailsGrid = document.getElementById('recapDateDetailsGrid');
+    
+    modalTitle.textContent = formatDateForDisplay(dateInfo.date);
+    modalLocationText.textContent = `${dateInfo.localite || 'Localité non spécifiée'} / ${dateInfo.pays || 'Pays non spécifié'}`;
+    
+    const flagClass = countryFlags[dateInfo.pays.toUpperCase()] || 'flag-france';
+    modalFlag.className = 'modal-flag-small';
+    modalFlag.classList.add(flagClass);
+    
+    // MODIFICATION: Utiliser directement dateInfo qui contient déjà toutes les données
+    if (dateInfo) {
+        displayDateInfoCompact(dateInfoModal, dateInfo);
+        displayDateDetailsCompact(dateDetailsGrid, dateInfo);
+    } else {
+        dateInfoModal.innerHTML = '<div style="font-size: 0.75rem; color: #718096; font-style: italic;">Aucune information disponible</div>';
+        dateDetailsGrid.innerHTML = '<div class="date-detail-item-compact"><div class="date-detail-value-compact green-text" style="text-align: center; font-style: italic; font-size: 0.65rem;">Aucun détail disponible</div></div>';
+    }
+    
+    modal.classList.add('show');
+    setTimeout(() => {
+        modalContent.classList.add('show');
+    }, 10);
+}
         
-        function getDetailedDateData(date, localite) {
-            for (let i = 0; i < datesWithData.length; i++) {
-                const item = datesWithData[i];
-                if (item.date.getDate() === date.getDate() &&
-                    item.date.getMonth() === date.getMonth() &&
-                    item.date.getFullYear() === date.getFullYear() &&
-                    item.localite === localite) {
-                    
-                    const rowIndex = item.rowIndex;
-                    if (sheetData[rowIndex]) {
-                        return getRowData(rowIndex);
-                    }
+       function getDetailedDateData(date, localite, lieu = null) {
+    for (let i = 0; i < datesWithData.length; i++) {
+        const item = datesWithData[i];
+        if (item.date.getDate() === date.getDate() &&
+            item.date.getMonth() === date.getMonth() &&
+            item.date.getFullYear() === date.getFullYear() &&
+            item.localite === localite) {
+            
+            const rowIndex = item.rowIndex;
+            if (sheetData[rowIndex]) {
+                const rowData = getRowData(rowIndex);
+                // Si on a un lieu spécifique, vérifier qu'il correspond
+                if (lieu && rowData.lieu !== lieu) {
+                    continue; // Essayer le suivant
                 }
+                return rowData;
             }
-            return null;
         }
+    }
+    return null;
+}
         
         function closeRecapDateModal() {
             const modal = document.getElementById('recapDateModal');
