@@ -4680,6 +4680,363 @@
 #recapDateInfoModal > div > div:nth-child(3) { animation-delay: 0.3s; }
 #recapDateInfoModal > div > div:nth-child(4) { animation-delay: 0.4s; }
 #recapDateInfoModal > div > div:nth-child(5) { animation-delay: 0.5s; }
+/* ===== AGRANDISSEMENT DES POLICES POUR TABLETTE ===== */
+@media (min-width: 481px) and (max-width: 768px) {
+    /* Polices générales */
+    body {
+        font-size: 16px !important;
+    }
+    
+    /* Titres */
+    h1 {
+        font-size: 2.4rem !important;
+    }
+    
+    .theme-text-simple {
+        font-size: 1.8rem !important;
+    }
+    
+    .section-title {
+        font-size: 1.5rem !important;
+    }
+    
+    .recap-title {
+        font-size: 1.5rem !important;
+    }
+    
+    /* Boutons de navigation */
+    .quick-nav-btn-mobile {
+        font-size: 0.9rem !important;
+        height: 75px !important;
+        padding: 8px 5px !important;
+    }
+    
+    .quick-nav-btn-mobile i {
+        font-size: 1.3rem !important;
+    }
+    
+    /* Informations générales mobile */
+    .mobile-info-btn {
+        font-size: 0.9rem !important;
+        height: 95px !important;
+        padding: 10px 6px !important;
+    }
+    
+    .mobile-info-btn-emoji {
+        font-size: 1.6rem !important;
+    }
+    
+    .mobile-info-btn-text {
+        font-size: 0.85rem !important;
+        line-height: 1.2 !important;
+    }
+    
+    /* Boutons contributions */
+    .btn {
+        font-size: 0.95rem !important;
+        height: 100px !important;
+    }
+    
+    .btn-emoji {
+        font-size: 1.8rem !important;
+    }
+    
+    /* Calendrier */
+    .calendar-day-header {
+        font-size: 1rem !important;
+        padding: 10px !important;
+    }
+    
+    .calendar-day {
+        min-height: 95px !important;
+        padding: 8px 4px !important;
+    }
+    
+    .calendar-day .day-number {
+        font-size: 1rem !important;
+        margin-bottom: 4px !important;
+    }
+    
+    .calendar-day-flag {
+        width: 24px !important;
+        height: 16px !important;
+    }
+    
+    .calendar-emoji {
+        font-size: 18px !important;
+    }
+    
+    .calendar-more {
+        font-size: 11px !important;
+        padding: 2px 6px !important;
+    }
+    
+    .calendar-day .localite {
+        font-size: 0.85rem !important;
+        margin-top: 4px !important;
+    }
+    
+    .program-count {
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 0.8rem !important;
+    }
+    
+    /* Statistiques */
+    .calendar-stat-value {
+        font-size: 1.4rem !important;
+    }
+    
+    .calendar-stat-label {
+        font-size: 0.95rem !important;
+    }
+    
+    .program-type-btn {
+        font-size: 0.85rem !important;
+        padding: 6px 12px !important;
+    }
+    
+    .country-stat-mini {
+        font-size: 0.85rem !important;
+        padding: 5px 8px !important;
+    }
+    
+    /* Section récapitulatif par pays */
+    .country-name-compact {
+        font-size: 1.3rem !important;
+    }
+    
+    .country-stats-compact {
+        font-size: 0.9rem !important;
+        padding: 6px 10px !important;
+    }
+    
+    .toggle-dates-btn-compact {
+        font-size: 0.95rem !important;
+        padding: 8px 15px !important;
+        height: 36px !important;
+    }
+    
+    .country-period-compact {
+        font-size: 1rem !important;
+        padding: 12px 15px !important;
+    }
+    
+    /* Cartes de programmes */
+    .country-programmes-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+    }
+    
+    .date-item-compact {
+        padding: 12px !important;
+        min-height: 110px !important;
+    }
+    
+    .date-value-compact {
+        font-size: 0.95rem !important;
+    }
+    
+    .date-location-left {
+        font-size: 0.95rem !important;
+    }
+    
+    .date-location-left .localite {
+        font-size: 0.95rem !important;
+    }
+    
+    .date-location-left .lieu {
+        font-size: 0.9rem !important;
+    }
+    
+    .date-time, .date-programme {
+        font-size: 0.9rem !important;
+        padding: 5px 12px !important;
+    }
+    
+    .date-programme span {
+        font-size: 0.95rem !important;
+    }
+    
+    .date-details-line-compact {
+        font-size: 0.8rem !important;
+        margin-top: 8px !important;
+    }
+    
+    /* Dates libres */
+    .free-dates-section {
+        padding: 12px !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .free-dates-title {
+        font-size: 0.95rem !important;
+    }
+    
+    .toggle-free-dates-btn {
+        font-size: 0.85rem !important;
+        padding: 5px 12px !important;
+    }
+    
+    .free-date-item {
+        font-size: 0.85rem !important;
+        padding: 5px 10px !important;
+    }
+    
+    /* Section prochain programme */
+    .next-program-title {
+        font-size: 1.2rem !important;
+    }
+    
+    .next-program-badge {
+        font-size: 0.9rem !important;
+        padding: 6px 15px !important;
+    }
+    
+    .next-program-date-text {
+        font-size: 1rem !important;
+    }
+    
+    .next-program-location-line {
+        font-size: 0.95rem !important;
+    }
+    
+    .next-program-lieu-mini {
+        font-size: 0.85rem !important;
+        padding: 4px 10px !important;
+    }
+    
+    .next-program-time {
+        font-size: 0.85rem !important;
+        padding: 5px 12px !important;
+    }
+    
+    .next-program-type {
+        font-size: 0.9rem !important;
+        padding: 5px 12px !important;
+    }
+    
+    .next-program-coords {
+        font-size: 0.8rem !important;
+        padding: 6px 12px !important;
+    }
+    
+    .next-program-nav-btn {
+        font-size: 0.85rem !important;
+        padding: 6px 15px !important;
+    }
+    
+    .next-program-counter {
+        font-size: 0.85rem !important;
+    }
+    
+    /* Modals */
+    .modal-date-title {
+        font-size: 1.2rem !important;
+    }
+    
+    .modal-location-info {
+        font-size: 1rem !important;
+        padding: 8px 10px !important;
+    }
+    
+    .modal-flag-small {
+        width: 28px !important;
+        height: 18px !important;
+    }
+    
+    .program-info-large {
+        font-size: 1rem !important;
+        padding: 10px !important;
+    }
+    
+    .date-details-title-compact {
+        font-size: 0.95rem !important;
+        padding: 8px 10px !important;
+    }
+    
+    .date-detail-label-compact {
+        font-size: 0.85rem !important;
+        min-width: 100px !important;
+    }
+    
+    .date-detail-value-compact {
+        font-size: 0.85rem !important;
+    }
+    
+    .date-action-btn {
+        font-size: 0.85rem !important;
+        height: 70px !important;
+    }
+    
+    .date-action-emoji {
+        font-size: 1.3rem !important;
+    }
+    
+    /* Bulle d'information programme */
+    #recapDateInfoModal [style*="font-size: 2.2rem"] {
+        font-size: 2.8rem !important;
+    }
+    
+    #recapDateInfoModal [style*="font-family: 'Montserrat'"] {
+        font-size: 1.3rem !important;
+    }
+    
+    #recapDateInfoModal [style*="background: #f8f9fa"] {
+        font-size: 0.9rem !important;
+    }
+    
+    /* Pied de page */
+    footer {
+        font-size: 0.95rem !important;
+        padding: 15px !important;
+    }
+    
+    /* Boutons flottants */
+    .floating-btn {
+        width: 48px !important;
+        height: 48px !important;
+        font-size: 1.4rem !important;
+    }
+}
+
+/* ===== AGRANDISSEMENT POUR PETITES TABLETTES (600px - 768px) ===== */
+@media (min-width: 600px) and (max-width: 768px) {
+    .country-programmes-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    
+    .date-item-compact {
+        padding: 14px !important;
+    }
+}
+
+/* ===== AGRANDISSEMENT POUR TABLETTES EN MODE PAYSAGE ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
+    body {
+        font-size: 15px !important;
+    }
+    
+    .country-programmes-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+    
+    .calendar-day {
+        min-height: 90px !important;
+    }
+    
+    .calendar-day .day-number {
+        font-size: 0.95rem !important;
+    }
+    
+    .calendar-emoji {
+        font-size: 16px !important;
+    }
+    
+    .date-item-compact {
+        padding: 12px !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -10979,6 +11336,7 @@ function showProgramsByCountry(country) {
     
     modal.style.display = 'flex';
 }
+
     </script>
 </body>
 </html>
