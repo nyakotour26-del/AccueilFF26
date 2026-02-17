@@ -6297,7 +6297,10 @@
         let currentDate = new Date(2026, 3, 1); // Avril 2026
         let selectedDate = null;
         let secretariatAccess = false;
-        
+      // ===== DÉTECTION DE L'APPAREIL =====
+function isDesktop() {
+    return window.innerWidth > 768; // Retourne true si écran > 768px (desktop)
+}  
         // Variables pour la navigation entre programmes
         let currentProgramIndex = 0;
         let allProgramsForDate = [];
@@ -8767,17 +8770,16 @@ function showProgramsByType(selectedType = null) {
     
     listContainer.innerHTML = '';
     
-    // Configuration du MODAL (conteneur principal)
+    // Configuration du MODAL
     const modalContent = document.querySelector('.program-type-modal-content');
     if (modalContent) {
         modalContent.style.maxWidth = '700px';
         modalContent.style.maxHeight = '80vh';
-        modalContent.style.overflowY = 'hidden'; // Important: cacher le scroll du modal
+        modalContent.style.overflowY = 'hidden';
         modalContent.style.display = 'flex';
         modalContent.style.flexDirection = 'column';
         modalContent.style.borderRadius = '12px';
         modalContent.style.padding = '0';
-        modalContent.style.margin = '0';
     }
     
     // Style du conteneur de liste
@@ -8786,20 +8788,6 @@ function showProgramsByType(selectedType = null) {
     listContainer.style.height = '100%';
     listContainer.style.overflow = 'hidden';
     listContainer.style.padding = '0';
-    listContainer.style.margin = '0';
-    
-    // Fonction de recherche
-    function filterProgramsBySearch(programs, term) {
-        if (!term || term.trim() === '') return programs;
-        const searchTerm = term.toLowerCase().trim();
-        return programs.filter(p => 
-            (p.programme && p.programme.toLowerCase().includes(searchTerm)) ||
-            (p.localite && p.localite.toLowerCase().includes(searchTerm)) ||
-            (p.lieu && p.lieu.toLowerCase().includes(searchTerm)) ||
-            (p.pays && p.pays.toLowerCase().includes(searchTerm)) ||
-            formatDateForDisplay(p.date).toLowerCase().includes(searchTerm)
-        );
-    }
     
     // ===== SI UN TYPE SPÉCIFIQUE EST DEMANDÉ =====
     if (selectedType && programsByType[selectedType]) {
@@ -8816,9 +8804,9 @@ function showProgramsByType(selectedType = null) {
         const excludedCount = programs.filter(p => p.isExcluded).length;
         const countedCount = programs.length - excludedCount;
         
-        // ===== ZONE FIXE EN HAUT (NE SCROLLERA JAMAIS) =====
+        // ===== ZONE FIXE EN HAUT =====
         const fixedHeader = document.createElement('div');
-        fixedHeader.style.flexShrink = '0'; // Empêche le rétrécissement
+        fixedHeader.style.flexShrink = '0';
         fixedHeader.style.backgroundColor = 'white';
         fixedHeader.style.borderBottom = `2px solid ${headerColor}`;
         fixedHeader.style.boxShadow = '0 2px 8px rgba(0,0,0,0.05)';
@@ -8885,7 +8873,7 @@ function showProgramsByType(selectedType = null) {
         `;
         fixedHeader.appendChild(searchSection);
         
-        // ----- BOUTON RETOUR (FIXÉ DANS LE HEADER) -----
+        // ----- BOUTON RETOUR -----
         const backSection = document.createElement('div');
         backSection.style.padding = '0 20px 15px';
         backSection.innerHTML = `
@@ -8908,7 +8896,7 @@ function showProgramsByType(selectedType = null) {
         
         listContainer.appendChild(fixedHeader);
         
-        // ===== ZONE SCROLLABLE (LISTE DES PROGRAMMES) =====
+        // ===== ZONE SCROLLABLE =====
         const scrollableContent = document.createElement('div');
         scrollableContent.style.flex = '1';
         scrollableContent.style.overflowY = 'auto';
@@ -8917,13 +8905,32 @@ function showProgramsByType(selectedType = null) {
         
         function renderTypePrograms(searchTerm) {
             scrollableContent.innerHTML = '';
-            const filtered = filterProgramsBySearch(sortedPrograms, searchTerm);
             
+            // Filtrer les programmes
+            let filtered = sortedPrograms;
+            if (searchTerm && searchTerm.trim() !== '') {
+                const term = searchTerm.toLowerCase().trim();
+                filtered = sortedPrograms.filter(program => {
+                    const searchableText = `
+                        ${program.programme || ''} 
+                        ${program.localite || ''} 
+                        ${program.lieu || ''} 
+                        ${program.pays || ''} 
+                        ${formatDateForDisplay(program.date)} 
+                        ${program.heures || ''}
+                    `.toLowerCase();
+                    return searchableText.includes(term);
+                });
+            }
+            
+            // Mettre à jour le compteur
             const counter = document.getElementById('typeResultCount');
             if (counter) {
-                counter.innerHTML = searchTerm ? 
-                    `${filtered.length} résultat${filtered.length>1?'s':''} sur ${programs.length}` :
-                    `${programs.length} programmes`;
+                if (searchTerm && searchTerm.trim() !== '') {
+                    counter.innerHTML = `${filtered.length} résultat${filtered.length > 1 ? 's' : ''} sur ${programs.length}`;
+                } else {
+                    counter.innerHTML = `${programs.length} programmes`;
+                }
             }
             
             if (filtered.length === 0) {
@@ -9062,7 +9069,7 @@ function showProgramsByType(selectedType = null) {
             <div style="display: flex; gap: 8px;">
                 <div style="flex:1; position:relative;">
                     <i class="fas fa-search" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:#94a3b8; font-size:0.7rem;"></i>
-                    <input type="text" id="globalSearchInput" placeholder="Rechercher dans tous les programmes..." style="
+                    <input type="text" id="modalSearchInput" placeholder="Rechercher dans tous les programmes..." style="
                         width:100%;
                         padding:6px 10px 6px 30px;
                         border:1px solid #e2e8f0;
@@ -9072,7 +9079,7 @@ function showProgramsByType(selectedType = null) {
                         box-sizing:border-box;
                     ">
                 </div>
-                <button id="globalSearchClear" style="
+                <button id="modalSearchClear" style="
                     background:#f1f5f9;
                     border:none;
                     border-radius:20px;
@@ -9082,7 +9089,7 @@ function showProgramsByType(selectedType = null) {
                     white-space:nowrap;
                 ">Effacer</button>
             </div>
-            <div id="globalResultCount" style="font-size:0.6rem; color:#94a3b8; margin-top:4px; text-align:right;">
+            <div id="modalResultCount" style="font-size:0.6rem; color:#94a3b8; margin-top:4px; text-align:right;">
                 ${totalPrograms} programmes
             </div>
         `;
@@ -9097,62 +9104,113 @@ function showProgramsByType(selectedType = null) {
         scrollableContent.style.padding = '15px';
         scrollableContent.style.backgroundColor = '#ffffff';
         
+        // ===== FONCTION DE RECHERCHE =====
         function renderGlobalView(searchTerm) {
             scrollableContent.innerHTML = '';
             
+            const counter = document.getElementById('modalResultCount');
+            
             if (searchTerm && searchTerm.trim() !== '') {
-                // MODE RECHERCHE
-                const allPrograms = [];
+                // ===== MODE RECHERCHE =====
+                const term = searchTerm.toLowerCase().trim();
+                const results = [];
+                
+                // Parcourir tous les types
                 Object.keys(programsByType).forEach(type => {
-                    programsByType[type].forEach(p => {
-                        allPrograms.push({...p, typeName: type});
+                    programsByType[type].forEach(program => {
+                        const searchableText = `
+                            ${program.programme || ''} 
+                            ${program.localite || ''} 
+                            ${program.lieu || ''} 
+                            ${program.pays || ''} 
+                            ${formatDateForDisplay(program.date)} 
+                            ${program.heures || ''}
+                            ${type}
+                        `.toLowerCase();
+                        
+                        if (searchableText.includes(term)) {
+                            results.push({
+                                ...program,
+                                typeName: type
+                            });
+                        }
                     });
                 });
                 
-                const filtered = filterProgramsBySearch(allPrograms, searchTerm);
+                // Trier par date
+                results.sort((a, b) => a.date - b.date);
                 
-                const counter = document.getElementById('globalResultCount');
                 if (counter) {
-                    counter.innerHTML = `${filtered.length} résultat${filtered.length>1?'s':''} sur ${totalPrograms}`;
+                    counter.innerHTML = `${results.length} résultat${results.length > 1 ? 's' : ''} sur ${totalPrograms}`;
                 }
                 
-                if (filtered.length === 0) {
+                if (results.length === 0) {
                     scrollableContent.innerHTML = `
                         <div style="padding:40px 20px; text-align:center; color:#94a3b8;">
                             <i class="fas fa-search" style="font-size:2rem; opacity:0.3; display:block; margin-bottom:10px;"></i>
                             <div>Aucun résultat pour "${searchTerm}"</div>
+                            <div style="font-size:0.7rem; margin-top:5px;">Essayez d'autres mots-clés</div>
                         </div>
                     `;
                     return;
                 }
                 
-                filtered.forEach(program => {
+                // Afficher les résultats
+                results.forEach(program => {
                     const item = document.createElement('div');
                     const isConcert = program.programme?.toLowerCase().includes('concert');
                     const borderColor = isConcert ? '#f97316' : (program.isExcluded ? '#fc8181' : '#10b981');
                     
-                    item.style.padding = '10px';
-                    item.style.margin = '0 0 8px 0';
-                    item.style.borderRadius = '6px';
+                    item.style.padding = '12px';
+                    item.style.margin = '0 0 10px 0';
+                    item.style.borderRadius = '8px';
                     item.style.backgroundColor = isConcert ? '#fff9f0' : (program.isExcluded ? '#fff5f5' : '#ffffff');
                     item.style.border = `1px solid ${borderColor}20`;
-                    item.style.borderLeft = `3px solid ${borderColor}`;
+                    item.style.borderLeft = `4px solid ${borderColor}`;
                     item.style.cursor = 'pointer';
-                    item.style.fontSize = '0.7rem';
+                    item.style.fontSize = '0.75rem';
+                    item.style.transition = 'all 0.2s';
+                    
+                    item.onmouseover = () => {
+                        item.style.transform = 'translateX(5px)';
+                        item.style.boxShadow = `0 4px 12px ${borderColor}40`;
+                    };
+                    item.onmouseout = () => {
+                        item.style.transform = 'translateX(0)';
+                        item.style.boxShadow = 'none';
+                    };
                     
                     const dateStr = formatDateForDisplay(program.date);
                     const emoji = getProgramEmoji(program.programme);
                     
                     item.innerHTML = `
-                        <div style="display:flex; gap:8px;">
-                            <div style="font-size:1.3rem;">${emoji}</div>
+                        <div style="display:flex; gap:12px;">
+                            <div style="font-size:1.6rem; min-width:40px; text-align:center;">${emoji}</div>
                             <div style="flex:1;">
-                                <div style="display:flex; justify-content:space-between;">
-                                    <span style="font-weight:600; color:#059669;">📅 ${dateStr}</span>
-                                    <span style="color:#8A2BE2; font-size:0.6rem;">📋 ${program.typeName}</span>
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                                    <span style="font-weight:700; color:#059669; font-size:0.8rem;">📅 ${dateStr}</span>
+                                    <span style="background:#8A2BE2; color:white; padding:2px 10px; border-radius:20px; font-size:0.65rem; font-weight:600;">
+                                        ${program.typeName}
+                                    </span>
                                 </div>
-                                <div>📍 ${program.localite || '?'} - 🏛️ ${program.lieu || '?'}</div>
-                                ${program.heures ? `<div style="color:#2563eb;">🕐 ${program.heures}</div>` : ''}
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:4px;">
+                                    <div style="display:flex; align-items:center; gap:4px;">
+                                        <span style="color:#2d3748;">📍 ${program.localite || '?'}</span>
+                                    </div>
+                                    <div style="display:flex; align-items:center; gap:4px;">
+                                        <span style="color:#f97316;">🏛️ ${program.lieu || '?'}</span>
+                                    </div>
+                                </div>
+                                ${program.heures ? `
+                                <div style="display:flex; align-items:center; gap:4px; background:#dbeafe; padding:3px 8px; border-radius:16px; display:inline-block; margin-top:4px;">
+                                    <span style="color:#1e40af;">🕐 ${program.heures}</span>
+                                </div>
+                                ` : ''}
+                                ${program.isExcluded ? `
+                                <div style="margin-top:5px; font-size:0.65rem; color:#94a3b8;">
+                                    ⏭️ Non compté dans les statistiques
+                                </div>
+                                ` : ''}
                             </div>
                         </div>
                     `;
@@ -9166,11 +9224,12 @@ function showProgramsByType(selectedType = null) {
                 });
                 
             } else {
-                // MODE NORMAL - Cartes des types
-                const counter = document.getElementById('globalResultCount');
-                if (counter) counter.innerHTML = `${totalPrograms} programmes`;
+                // ===== MODE NORMAL - Cartes des types =====
+                if (counter) {
+                    counter.innerHTML = `${totalPrograms} programmes`;
+                }
                 
-                const sortedTypes = Object.keys(programsByType).sort((a,b) => {
+                const sortedTypes = Object.keys(programsByType).sort((a, b) => {
                     if (a.includes('concert')) return -1;
                     if (b.includes('concert')) return 1;
                     return a.localeCompare(b);
@@ -9185,39 +9244,41 @@ function showProgramsByType(selectedType = null) {
                     const counted = programs.length - excluded;
                     
                     const card = document.createElement('div');
-                    card.style.padding = '12px';
-                    card.style.margin = '0 0 10px 0';
-                    card.style.borderRadius = '8px';
+                    card.style.padding = '15px';
+                    card.style.margin = '0 0 12px 0';
+                    card.style.borderRadius = '10px';
                     card.style.backgroundColor = isConcert ? '#fff4e6' : '#f3e8ff';
-                    card.style.borderLeft = `4px solid ${typeColor}`;
+                    card.style.borderLeft = `5px solid ${typeColor}`;
                     card.style.cursor = 'pointer';
-                    card.style.boxShadow = '0 2px 5px rgba(0,0,0,0.03)';
+                    card.style.boxShadow = '0 3px 8px rgba(0,0,0,0.05)';
                     card.style.transition = 'all 0.2s';
                     
                     card.onmouseover = () => {
-                        card.style.transform = 'translateX(3px)';
-                        card.style.boxShadow = `0 4px 10px ${typeColor}30`;
+                        card.style.transform = 'translateX(5px)';
+                        card.style.boxShadow = `0 6px 15px ${typeColor}40`;
                     };
                     card.onmouseout = () => {
                         card.style.transform = 'translateX(0)';
-                        card.style.boxShadow = '0 2px 5px rgba(0,0,0,0.03)';
+                        card.style.boxShadow = '0 3px 8px rgba(0,0,0,0.05)';
                     };
                     
                     card.onclick = () => showProgramsByType(type);
                     
                     card.innerHTML = `
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            <span style="font-size:1.8rem;">${getProgramEmoji(type)}</span>
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <span style="font-size:2rem; min-width:50px; text-align:center;">${getProgramEmoji(type)}</span>
                             <div style="flex:1;">
-                                <div style="display:flex; justify-content:space-between; align-items:center;">
-                                    <span style="font-weight:700; color:${typeColor};">${type.charAt(0).toUpperCase() + type.slice(1)}</span>
-                                    <span style="background:white; padding:2px 10px; border-radius:20px; font-size:0.65rem;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                                    <span style="font-weight:800; color:${typeColor}; font-size:1rem;">
+                                        ${type.charAt(0).toUpperCase() + type.slice(1)}
+                                    </span>
+                                    <span style="background:white; padding:3px 12px; border-radius:20px; font-size:0.7rem; font-weight:600; border:1px solid ${typeColor};">
                                         ${programs.length}
                                     </span>
                                 </div>
-                                <div style="display:flex; gap:8px; margin-top:4px; font-size:0.65rem;">
-                                    <span style="color:#059669;">✅ ${counted}</span>
-                                    ${excluded > 0 ? `<span style="color:#94a3b8;">⏭️ ${excluded}</span>` : ''}
+                                <div style="display:flex; gap:10px; font-size:0.7rem;">
+                                    <span style="color:#059669;">✅ ${counted} activités</span>
+                                    ${excluded > 0 ? `<span style="color:#94a3b8;">⏭️ ${excluded} repos/départs</span>` : ''}
                                 </div>
                             </div>
                         </div>
@@ -9231,20 +9292,35 @@ function showProgramsByType(selectedType = null) {
         renderGlobalView('');
         listContainer.appendChild(scrollableContent);
         
-        // Gestionnaires d'événements
+        // ===== GESTIONNAIRES D'ÉVÉNEMENTS =====
         setTimeout(() => {
-            const input = document.getElementById('globalSearchInput');
-            const clear = document.getElementById('globalSearchClear');
+            const input = document.getElementById('modalSearchInput');
+            const clear = document.getElementById('modalSearchClear');
             
             if (input) {
-                input.addEventListener('input', (e) => renderGlobalView(e.target.value));
+                // Supprimer les anciens événements
+                const newInput = input.cloneNode(true);
+                input.parentNode.replaceChild(newInput, input);
+                
+                // Ajouter le nouvel événement
+                newInput.addEventListener('input', function(e) {
+                    renderGlobalView(e.target.value);
+                });
+                
+                // Focus automatique
+                newInput.focus();
             }
+            
             if (clear) {
-                clear.addEventListener('click', () => {
-                    if (input) {
-                        input.value = '';
+                const newClear = clear.cloneNode(true);
+                clear.parentNode.replaceChild(newClear, clear);
+                
+                newClear.addEventListener('click', function() {
+                    const inputElement = document.getElementById('modalSearchInput');
+                    if (inputElement) {
+                        inputElement.value = '';
                         renderGlobalView('');
-                        input.focus();
+                        inputElement.focus();
                     }
                 });
             }
@@ -11846,7 +11922,7 @@ function renderCalendar() {
         );
         
         // ===== NOUVEAU : Tooltip au survol =====
-        if (programsForDate.length > 0) {
+        if (programsForDate.length > 0 && isDesktop()) {
             let tooltip = null;
             let hideTimeout = null;
             let showTimeout = null;
