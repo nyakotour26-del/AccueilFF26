@@ -4516,7 +4516,7 @@
         width: 95% !important;
     }
 }
-/* ===== GRILLE DES PROGRAMMES : 2 COLONNES SUR ORDI ===== */
+/* ===== GRILLE DES PROGRAMMES : 2 COLONNES SUR ORDI, 1 SUR MOBILE ===== */
 .country-programmes-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -4524,26 +4524,33 @@
     margin-top: 12px;
 }
 
-/* Tablette : 2 colonnes aussi */
-@media (max-width: 992px) and (min-width: 769px) {
+/* Tablette (entre 768px et 992px) : 2 colonnes */
+@media (min-width: 769px) and (max-width: 992px) {
     .country-programmes-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
     }
 }
 
-/* Mobile : 1 colonne */
+/* Mobile standard (moins de 768px) : 1 colonne */
 @media (max-width: 768px) {
     .country-programmes-grid {
         grid-template-columns: 1fr !important;
         gap: 8px;
     }
+    
+    /* Ajuster la taille des cartes pour mobile */
+    .date-item-compact {
+        padding: 8px;
+        min-height: 85px;
+    }
 }
 
-/* Très petit mobile */
+/* Très petit mobile (moins de 480px) : toujours 1 colonne */
 @media (max-width: 480px) {
     .country-programmes-grid {
         grid-template-columns: 1fr !important;
+        gap: 8px;
     }
 }
 /* ===== STYLE POUR LES EMOJIS DANS LES CARTES ===== */
