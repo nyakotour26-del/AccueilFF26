@@ -6396,6 +6396,44 @@
 .month-card div {
     line-height: 1 !important;
 }
+/* ===== TITRE DE PAGE ULTRA COMPACT SUR MOBILE ===== */
+@media (max-width: 768px) {
+    
+    /* Si le titre est dans un conteneur flex */
+    .header-title-container, 
+    [class*="header"] > div:first-child,
+    header .flex-container {
+        gap: 8px !important;
+        margin-bottom: 10px !important;
+        flex-wrap: nowrap !important;
+    }
+    
+    /* Style direct du titre */
+    h1, 
+    .page-title,
+    [class*="title"] {
+        font-size: 1.3rem !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        flex: 1 !important;
+        line-height: 1.2 !important;
+        -webkit-text-fill-color: transparent !important; /* Garde le dégradé */
+        background: linear-gradient(135deg, #2d3748, #4a5568) !important;
+        -webkit-background-clip: text !important;
+    }
+    
+    /* Compteur de jours */
+    #tourDayCounter {
+        font-size: 1rem !important;
+        padding: 4px 12px !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        line-height: 1 !important;
+        border-radius: 30px !important;
+    }
+}
     </style>
 </head>
 <body>
