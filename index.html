@@ -2892,7 +2892,17 @@
     gap: 10px;
     z-index: 1000;
 }
+/* ===== NOUVEAU BOUTON TABLEAU PROG (ROSE) ===== */
+.floating-btn-tableau {
+    background: linear-gradient(135deg, #ec4899, #db2777) !important;
+    color: white !important;
+}
 
+.floating-btn-tableau:hover {
+    background: linear-gradient(135deg, #db2777, #be185d) !important;
+    transform: translateY(-3px) scale(1.1) !important;
+    box-shadow: 0 8px 20px rgba(236, 72, 153, 0.4) !important;
+}
 .floating-btn {
     width: 45px;
     height: 45px;
@@ -6658,26 +6668,31 @@
         </div>
         
         <!-- ===== MODIFICATION : BOUTONS FLOTTANTS AVEC NOUVEAU BOUTON SHEET ===== -->
-        <div class="floating-buttons">
-            <button class="floating-btn floating-btn-calendar" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})" title="Calendrier">
-                📆
-            </button>
-            <button class="floating-btn floating-btn-unlock" onclick="openSecretariatWithPassword('mobile')" title="Déverrouiller">
-                🔓
-            </button>
-            <button class="floating-btn floating-btn-countries" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})" title="Dates par pays">
-                🗺
-            </button>
-            <button class="floating-btn floating-btn-map" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})" title="Carte itinéraire">
-                🗺️
-            </button>
-            <button class="floating-btn floating-btn-info" onclick="scrollToGeneralInfo()" title="Informations générales">
-                ℹ
-            </button>
-            <button class="floating-btn floating-btn-sheet" onclick="window.open('https://docs.google.com/spreadsheets/d/1w5M9d6tXECriMwMP7Oq7QaJtWGf7RsTT_9vl34mqwHA/edit?gid=0#gid=0', '_blank')" title="Sheet des programmes">
-                📊
-            </button>
-        </div>
+       <!-- ===== BOUTONS FLOTTANTS AVEC EMOJIS DIFFÉRENCIÉS ===== -->
+<div class="floating-buttons">
+    <button class="floating-btn floating-btn-calendar" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})" title="Calendrier">
+        📅
+    </button>
+    <button class="floating-btn floating-btn-unlock" onclick="openSecretariatWithPassword('mobile')" title="Déverrouiller">
+        🔓
+    </button>
+    <button class="floating-btn floating-btn-countries" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})" title="Dates par pays">
+        🗂️
+    </button>
+    <button class="floating-btn floating-btn-map" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})" title="Carte itinéraire">
+        🗺️
+    </button>
+    <button class="floating-btn floating-btn-info" onclick="scrollToGeneralInfo()" title="Informations générales">
+        ℹ️
+    </button>
+    <button class="floating-btn floating-btn-sheet" onclick="window.open('https://docs.google.com/spreadsheets/d/1w5M9d6tXECriMwMP7Oq7QaJtWGf7RsTT_9vl34mqwHA/edit?gid=0#gid=0', '_blank')" title="Sheet des programmes">
+        📊
+    </button>
+    <!-- ===== NOUVEAU BOUTON TABLEAU PROG (ROSE) ===== -->
+    <button class="floating-btn floating-btn-tableau" onclick="showCompactTableView()" title="Tableau des programmes">
+        📋
+    </button>
+</div>
         
         <footer>
             <p>Tournée Europe 2026 - Tous droits réservés</p>
@@ -12598,123 +12613,122 @@ function renderCalendar() {
     let firstDayOfWeek = firstDayOfMonth.getDay();
     firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
     
+    // ===== JOURS DU MOIS PRÉCÉDENT =====
     const prevMonthLastDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
     for (let i = firstDayOfWeek - 1; i >= 0; i--) {
         const day = document.createElement('div');
         day.className = 'calendar-day other-month';
-        day.innerHTML = `<div class="day-number">${prevMonthLastDay - i}</div>`;
         
         const prevMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, prevMonthLastDay - i);
+        
+        // Vérifier les jours fériés pour le mois précédent
         const holidayName = getMalagasyHolidayName(prevMonthDate);
+        
+        let dayContent = `<div class="day-number">${prevMonthLastDay - i}</div>`;
+        
         if (holidayName) {
             day.classList.add('malagasy-holiday');
-            const holidayElement = document.createElement('div');
-            holidayElement.className = 'malagasy-holiday-name';
-            holidayElement.textContent = holidayName;
-            day.appendChild(holidayElement);
+            dayContent += `<div class="malagasy-holiday-name">${holidayName}</div>`;
         }
         
+        day.innerHTML = dayContent;
         calendarGrid.appendChild(day);
     }
     
+    // ===== JOURS DU MOIS COURANT =====
     for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
         const day = document.createElement('div');
         day.className = 'calendar-day';
         
         const dateToCheck = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
         
-      // ===== NOUVEAU : Récupérer les programmes pour cette date =====
-const programsForDate = datesWithData.filter(item => 
-    item.date.getDate() === dateToCheck.getDate() &&
-    item.date.getMonth() === dateToCheck.getMonth() &&
-    item.date.getFullYear() === dateToCheck.getFullYear()
-);
-
-// ===== NOUVEAU : Tooltip au survol =====
-if (programsForDate.length > 0 && isDesktop()) {
-    let tooltip = null;
-    let hideTimeout = null;
-    let showTimeout = null;
-    
-    day.addEventListener('mouseenter', function(e) {
-        // Cacher tous les autres tooltips
-        hideAllCalendarTooltips();
+        // ===== VÉRIFIER LES JOURS FÉRIÉS POUR LE MOIS COURANT =====
+        const holidayName = getMalagasyHolidayName(dateToCheck);
         
-        if (hideTimeout) {
-            clearTimeout(hideTimeout);
-            hideTimeout = null;
-        }
+        // Récupérer les programmes pour cette date
+        const programsForDate = datesWithData.filter(item => 
+            item.date.getDate() === dateToCheck.getDate() &&
+            item.date.getMonth() === dateToCheck.getMonth() &&
+            item.date.getFullYear() === dateToCheck.getFullYear()
+        );
         
-        showTimeout = setTimeout(() => {
-            // Vérifier qu'aucune modale n'est ouverte
-            const dateModal = document.getElementById('dateModal');
-            const recapModal = document.getElementById('recapDateModal');
-            const programModal = document.getElementById('programTypeModal');
+        // ===== NOUVEAU : Tooltip au survol =====
+        if (programsForDate.length > 0 && isDesktop()) {
+            let tooltip = null;
+            let hideTimeout = null;
+            let showTimeout = null;
             
-            if (dateModal && dateModal.classList.contains('show')) return;
-            if (recapModal && recapModal.classList.contains('show')) return;
-            if (programModal && programModal.style.display === 'flex') return;
-            
-            tooltip = createCalendarTooltip(dateToCheck, programsForDate);
-            if (tooltip) {
-                const rect = day.getBoundingClientRect();
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+            day.addEventListener('mouseenter', function(e) {
+                // Cacher tous les autres tooltips
+                hideAllCalendarTooltips();
                 
-                tooltip.style.display = 'block';
-                tooltip.style.left = (rect.left + scrollLeft + 30) + 'px';
-                tooltip.style.top = (rect.top + scrollTop - tooltip.offsetHeight - 10) + 'px';
-                
-                if (tooltip.getBoundingClientRect().top < 0) {
-                    tooltip.style.top = (rect.bottom + scrollTop + 10) + 'px';
-                    tooltip.style.left = (rect.left + scrollLeft) + 'px';
+                if (hideTimeout) {
+                    clearTimeout(hideTimeout);
+                    hideTimeout = null;
                 }
                 
-                // Stocker le timeout dans le tableau global
-                if (!window.tooltipTimeouts) window.tooltipTimeouts = [];
-                window.tooltipTimeouts.push(showTimeout);
-            }
-        }, 300);
-    });
-    
-    day.addEventListener('mouseleave', function() {
-        if (showTimeout) {
-            clearTimeout(showTimeout);
-            showTimeout = null;
+                showTimeout = setTimeout(() => {
+                    // Vérifier qu'aucune modale n'est ouverte
+                    const dateModal = document.getElementById('dateModal');
+                    const recapModal = document.getElementById('recapDateModal');
+                    const programModal = document.getElementById('programTypeModal');
+                    
+                    if (dateModal && dateModal.classList.contains('show')) return;
+                    if (recapModal && recapModal.classList.contains('show')) return;
+                    if (programModal && programModal.style.display === 'flex') return;
+                    
+                    tooltip = createCalendarTooltip(dateToCheck, programsForDate);
+                    if (tooltip) {
+                        const rect = day.getBoundingClientRect();
+                        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+                        
+                        tooltip.style.display = 'block';
+                        tooltip.style.left = (rect.left + scrollLeft + 30) + 'px';
+                        tooltip.style.top = (rect.top + scrollTop - tooltip.offsetHeight - 10) + 'px';
+                        
+                        if (tooltip.getBoundingClientRect().top < 0) {
+                            tooltip.style.top = (rect.bottom + scrollTop + 10) + 'px';
+                            tooltip.style.left = (rect.left + scrollLeft) + 'px';
+                        }
+                        
+                        if (!window.tooltipTimeouts) window.tooltipTimeouts = [];
+                        window.tooltipTimeouts.push(showTimeout);
+                    }
+                }, 300);
+            });
+            
+            day.addEventListener('mouseleave', function() {
+                if (showTimeout) {
+                    clearTimeout(showTimeout);
+                    showTimeout = null;
+                }
+                
+                hideTimeout = setTimeout(() => {
+                    if (tooltip) {
+                        tooltip.remove();
+                        tooltip = null;
+                    }
+                }, 200);
+            });
         }
-        
-        hideTimeout = setTimeout(() => {
-            if (tooltip) {
-                tooltip.remove();
-                tooltip = null;
-            }
-        }, 200);
-    });
-}
-        
-        // ===== CODE EXISTANT POUR LE CONTENU DE LA CASE =====
-        const localiteCount = countLocalitesForDate(dateToCheck);
-        const hasLocalites = localiteCount > 0;
         
         let dayContent = `<div class="day-number">${i}</div>`;
         
+        // ===== AJOUTER LE JOUR FÉRIÉ S'IL Y EN A UN =====
+        if (holidayName) {
+            day.classList.add('malagasy-holiday');
+            dayContent += `<div class="malagasy-holiday-name">${holidayName}</div>`;
+        }
+        
+        // Trouver le pays
         let foundPays = '';
-        for (let r = 0; r < sheetData.length; r++) {
-            const row = sheetData[r];
-            const rowDateStr = row[columnMapping['DATES']] || '';
-            if (rowDateStr) {
-                const rowDate = parseDate(rowDateStr);
-                if (rowDate && 
-                    rowDate.getDate() === dateToCheck.getDate() &&
-                    rowDate.getMonth() === dateToCheck.getMonth() &&
-                    rowDate.getFullYear() === dateToCheck.getFullYear()) {
-                    
-                    const rowPays = row[columnMapping['PAYS']] || '';
-                    if (rowPays) {
-                        foundPays = rowPays.toUpperCase();
-                        break;
-                    }
-                }
+        for (let r = 0; r < programsForDate.length; r++) {
+            const rowData = getRowData(programsForDate[r].rowIndex);
+            const rowPays = rowData.pays || '';
+            if (rowPays) {
+                foundPays = rowPays.toUpperCase();
+                break;
             }
         }
         
@@ -12722,74 +12736,62 @@ if (programsForDate.length > 0 && isDesktop()) {
             day.classList.add('has-data');
             dayContent += `<div class="calendar-flag-emoji-line">`;
             dayContent += `<div class="calendar-day-flag ${countryFlags[foundPays]}" style="width:22px; height:15px; display:inline-block;" title="${foundPays}"></div>`;
-           // ===== NOUVELLE LOGIQUE : N'afficher les emojis que si la ligne a du contenu =====
-const programsAvecContenu = programsForDate.filter(program => {
-    const rowData = getRowData(program.rowIndex);
-    const programmeOriginal = (rowData.programmeOriginal || '').trim();
-    const localite = (rowData.localite || '').trim();
-    const lieu = (rowData.lieu || '').trim();
-    
-    // On garde seulement les programmes qui ont AU MOINS un des trois champs rempli
-    return programmeOriginal !== '' || localite !== '' || lieu !== '';
-});
-
-if (programsAvecContenu.length > 0) {
-    const maxEmojis = 3;
-    const emojisToShow = programsAvecContenu.slice(0, maxEmojis);
-    
-    emojisToShow.forEach(program => {
-        const rowData = getRowData(program.rowIndex);
-        const programmeOriginal = (rowData.programmeOriginal || '').trim();
-        const localite = (rowData.localite || '').trim();
-        const lieu = (rowData.lieu || '').trim();
-        
-        let emoji = '';
-        
-        // CAS 1 : Programme spécifié
-        if (programmeOriginal !== '') {
-            emoji = getProgramEmoji(programmeOriginal);
-        }
-        // CAS 2 : Pas de programme mais localité OU lieu rempli
-        else if (localite !== '' || lieu !== '') {
-            emoji = '🎵'; // Concert par défaut
-        }
-        // CAS 3 : Rien du tout → on n'affiche pas d'emoji (normalement ce cas est filtré)
-        
-        if (emoji !== '') {
-            dayContent += `<span class="calendar-emoji" style="font-size:14px; margin:0 1px; display:inline-block;" title="${programmeOriginal || 'Concert'}">${emoji}</span>`;
-        }
-    });
-    
-    if (programsAvecContenu.length > maxEmojis) {
-        dayContent += `<span class="calendar-more" style="font-size:9px; font-weight:bold; color:#6b21a8; background:#e9d5ff; border-radius:10px; padding:1px 5px; margin-left:2px; display:inline-block;">+${programsAvecContenu.length - maxEmojis}</span>`;
-    }
-}
-// Si programsAvecContenu.length === 0, on n'affiche AUCUN emoji (juste le drapeau)
             
-            dayContent += `</div>`;
+            // Filtrer les programmes avec contenu
+            const programsAvecContenu = programsForDate.filter(program => {
+                const rowData = getRowData(program.rowIndex);
+                const programmeOriginal = (rowData.programmeOriginal || '').trim();
+                const localite = (rowData.localite || '').trim();
+                const lieu = (rowData.lieu || '').trim();
+                
+                return programmeOriginal !== '' || localite !== '' || lieu !== '';
+            });
             
-            if (hasLocalites && programsForDate.length > 0) {
-                for (let p = 0; p < programsForDate.length; p++) {
-                    const rowData = getRowData(programsForDate[p].rowIndex);
-                    const localite = rowData.localite || '';
-                    if (localite.trim() !== '') {
-                        dayContent += `<div class="localite" style="font-size:0.7rem; font-weight:600; color:#2980b9; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; margin-top:2px;">${localite}</div>`;
-                        break;
+            if (programsAvecContenu.length > 0) {
+                const maxEmojis = 3;
+                const emojisToShow = programsAvecContenu.slice(0, maxEmojis);
+                
+                emojisToShow.forEach(program => {
+                    const rowData = getRowData(program.rowIndex);
+                    const programmeOriginal = (rowData.programmeOriginal || '').trim();
+                    const localite = (rowData.localite || '').trim();
+                    const lieu = (rowData.lieu || '').trim();
+                    
+                    let emoji = '';
+                    
+                    if (programmeOriginal !== '') {
+                        emoji = getProgramEmoji(programmeOriginal);
+                    } else if (localite !== '' || lieu !== '') {
+                        emoji = '🎵';
                     }
+                    
+                    if (emoji !== '') {
+                        dayContent += `<span class="calendar-emoji" style="font-size:14px; margin:0 1px; display:inline-block;" title="${programmeOriginal || 'Concert'}">${emoji}</span>`;
+                    }
+                });
+                
+                if (programsAvecContenu.length > maxEmojis) {
+                    dayContent += `<span class="calendar-more" style="font-size:9px; font-weight:bold; color:#6b21a8; background:#e9d5ff; border-radius:10px; padding:1px 5px; margin-left:2px; display:inline-block;">+${programsAvecContenu.length - maxEmojis}</span>`;
                 }
             }
             
-            if (hasLocalites) {
-                dayContent += `<div class="program-count" style="position:absolute; top:2px; right:2px; width:18px; height:18px; border-radius:50%; background:#10b981; color:white; font-size:0.65rem; font-weight:bold; display:flex; align-items:center; justify-content:center; z-index:10; box-shadow:0 2px 4px rgba(0,0,0,0.2); border:2px solid white;" title="${localiteCount} localité${localiteCount > 1 ? 's' : ''}">${localiteCount}</div>`;
+            dayContent += `</div>`;
+            
+            if (programsAvecContenu.length > 0) {
+                const firstProgram = programsAvecContenu[0];
+                const rowData = getRowData(firstProgram.rowIndex);
+                const localite = rowData.localite || '';
+                if (localite.trim() !== '') {
+                    dayContent += `<div class="localite" style="font-size:0.7rem; font-weight:600; color:#2980b9; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; margin-top:2px;">${localite}</div>`;
+                }
+            }
+            
+            if (programsAvecContenu.length > 0) {
+                dayContent += `<div class="program-count" style="position:absolute; top:2px; right:2px; width:18px; height:18px; border-radius:50%; background:#10b981; color:white; font-size:0.65rem; font-weight:bold; display:flex; align-items:center; justify-content:center; z-index:10; box-shadow:0 2px 4px rgba(0,0,0,0.2); border:2px solid white;" title="${programsAvecContenu.length} programme${programsAvecContenu.length > 1 ? 's' : ''}">${programsAvecContenu.length}</div>`;
             }
         }
         
         day.innerHTML = dayContent;
-        
-        const holidayName = getMalagasyHolidayName(dateToCheck);
-        if (holidayName) {
-            day.classList.add('malagasy-holiday');
-        }
         
         day.addEventListener('click', () => {
             selectDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), i));
@@ -12798,6 +12800,7 @@ if (programsAvecContenu.length > 0) {
         calendarGrid.appendChild(day);
     }
     
+    // ===== JOURS DU MOIS SUIVANT =====
     const totalCells = 42;
     const daysInCalendar = firstDayOfWeek + lastDayOfMonth.getDate();
     const nextMonthDays = totalCells - daysInCalendar;
@@ -12805,22 +12808,23 @@ if (programsAvecContenu.length > 0) {
     for (let i = 1; i <= nextMonthDays; i++) {
         const day = document.createElement('div');
         day.className = 'calendar-day other-month';
-        day.innerHTML = `<div class="day-number">${i}</div>`;
         
         const nextMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, i);
+        
+        // Vérifier les jours fériés pour le mois suivant
         const holidayName = getMalagasyHolidayName(nextMonthDate);
+        
+        let dayContent = `<div class="day-number">${i}</div>`;
+        
         if (holidayName) {
             day.classList.add('malagasy-holiday');
-            const holidayElement = document.createElement('div');
-            holidayElement.className = 'malagasy-holiday-name';
-            holidayElement.textContent = holidayName;
-            day.appendChild(holidayElement);
+            dayContent += `<div class="malagasy-holiday-name">${holidayName}</div>`;
         }
         
+        day.innerHTML = dayContent;
         calendarGrid.appendChild(day);
     }
-}
-// ===== FONCTION UTILITAIRE POUR FORMATER UNE DATE EN STRING COMPARABLE =====
+}// ===== FONCTION UTILITAIRE POUR FORMATER UNE DATE EN STRING COMPARABLE =====
 function formatDateToCompare(date) {
     return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
 }
