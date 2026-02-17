@@ -4516,43 +4516,6 @@
         width: 95% !important;
     }
 }
-/* ===== GRILLE DES PROGRAMMES : 2 COLONNES SUR ORDI, 1 SUR MOBILE ===== */
-.country-programmes-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-top: 12px;
-}
-
-/* Tablette (entre 768px et 992px) : 2 colonnes */
-@media (min-width: 769px) and (max-width: 992px) {
-    .country-programmes-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-    }
-}
-
-/* Mobile standard (moins de 768px) : 1 colonne */
-@media (max-width: 768px) {
-    .country-programmes-grid {
-        grid-template-columns: 1fr !important;
-        gap: 8px;
-    }
-    
-    /* Ajuster la taille des cartes pour mobile */
-    .date-item-compact {
-        padding: 8px;
-        min-height: 85px;
-    }
-}
-
-/* Très petit mobile (moins de 480px) : toujours 1 colonne */
-@media (max-width: 480px) {
-    .country-programmes-grid {
-        grid-template-columns: 1fr !important;
-        gap: 8px;
-    }
-}
 /* ===== STYLE POUR LES EMOJIS DANS LES CARTES ===== */
 .date-programme {
     transition: all 0.2s ease;
@@ -4573,43 +4536,8 @@
 .date-programme:hover span:first-child {
     animation: emojiPop 0.3s ease;
 }
-/* ===== GRILLE DES PROGRAMMES : 2 COLONNES SUR ORDI ET TABLETTE ===== */
-.country-programmes-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-top: 12px;
-}
 
-/* Tablette : 2 colonnes */
-@media (min-width: 481px) and (max-width: 768px) {
-    .country-programmes-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px;
-    }
-    
-    /* Ajuster la taille des cartes pour tablette */
-    .date-item-compact {
-        padding: 8px;
-        min-height: 85px;
-    }
-    
-    .date-value-compact {
-        font-size: 0.8rem !important;
-    }
-    
-    .date-location-left {
-        font-size: 0.75rem;
-    }
-    
-    .date-location-left .lieu {
-        font-size: 0.7rem;
-    }
-    
-    .date-time, .date-programme {
-        font-size: 0.7rem;
-    }
-}
+
 
 /* Très petit mobile (moins de 480px) : 1 colonne */
 @media (max-width: 480px) {
@@ -5157,12 +5085,7 @@
     background: linear-gradient(135deg, #fce7f3, #fdf2f8);
 }
 /* ===== STYLES POUR LES NOUVELLES CARTES DE PROGRAMME ===== */
-.country-programmes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-    margin-top: 12px;
-}
+
 
 /* Animation d'apparition */
 @keyframes cardSlideIn {
@@ -6292,7 +6215,36 @@
         pointer-events: none;
     }
 }
+/* ===== GRILLE DES PROGRAMMES : 2 COLONNES SUR ORDI, 1 SUR MOBILE ===== */
+.country-programmes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+}
 
+/* Pour les très grands écrans (optionnel) */
+@media (min-width: 1400px) {
+    .country-programmes-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Mobile (tous les écrans ≤ 768px) : 1 colonne */
+@media (max-width: 768px) {
+    .country-programmes-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px;
+    }
+}
+
+/* Ajustement de la hauteur des cartes sur mobile */
+@media (max-width: 768px) {
+    .date-item-compact {
+        padding: 8px;
+        min-height: 80px;
+    }
+}
     </style>
 </head>
 <body>
