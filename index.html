@@ -146,7 +146,15 @@
             border-color: rgba(66, 153, 225, 0.3);
             background: rgba(66, 153, 225, 0.08);
         }
+                .quick-nav-btn-mobile.search-btn {
+            border-color: rgba(138, 43, 226, 0.3);
+            background: rgba(138, 43, 226, 0.08);
+        }
         
+        .quick-nav-btn-mobile.search-btn:hover {
+            border-color: rgba(138, 43, 226, 0.4);
+            background: rgba(138, 43, 226, 0.15);
+        }
         .quick-nav-btn-mobile.dates-btn {
             border-color: rgba(72, 187, 120, 0.3);
             background: rgba(72, 187, 120, 0.08);
@@ -5570,6 +5578,15 @@
     justify-content: center;
     gap: 4px;
 }
+        .quick-nav-btn-desktop.search-btn {
+            border-color: rgba(138, 43, 226, 0.3);
+            background: rgba(138, 43, 226, 0.08);
+        }
+        
+        .quick-nav-btn-desktop.search-btn:hover {
+            border-color: rgba(138, 43, 226, 0.4);
+            background: rgba(138, 43, 226, 0.15);
+        }
     </style>
 </head>
 <body>
@@ -5577,7 +5594,7 @@
         <header>
             <h1>Tournée Europe 2026</h1>
             
-            <!-- BOUTONS DE NAVIGATION RAPIDE POUR DESKTOP -->
+                       <!-- BOUTONS DE NAVIGATION RAPIDE POUR DESKTOP -->
             <div class="quick-nav-buttons-desktop">
                 <button class="quick-nav-btn-desktop calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
                     <i class="fas fa-calendar-alt"></i>
@@ -5590,6 +5607,10 @@
                 <button class="quick-nav-btn-desktop stats-btn" onclick="scrollToStats()">
                     <i class="fas fa-chart-bar"></i>
                     Statistiques
+                </button>
+                <button class="quick-nav-btn-desktop search-btn" onclick="showProgramsByType()">
+                    <i class="fas fa-search"></i>
+                    Recherche
                 </button>
                 <button class="quick-nav-btn-desktop map-btn" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})">
                     <i class="fas fa-map-marked-alt"></i>
@@ -5763,12 +5784,15 @@
                     <i class="fas fa-chart-bar"></i>
                     Statistiques
                 </button>
+                <button class="quick-nav-btn-mobile search-btn" onclick="showProgramsByType()">
+                    <i class="fas fa-search"></i>
+                    Recherche
+                </button>
                 <button class="quick-nav-btn-mobile map-btn" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})">
                     <i class="fas fa-map-marked-alt"></i>
                     Carte
                 </button>
-            </div>
-        </header>
+            </div>        </header>
               
        
       <!-- ===== SECTION PROCHAIN PROGRAMME - ULTRA COMPACT ===== -->
@@ -6263,7 +6287,7 @@
     <div class="program-type-modal" id="programTypeModal">
         <div class="program-type-modal-content">
             <div class="program-type-modal-header">
-                <h3><i class="fas fa-music"></i> Programmes par type</h3>
+                <h3><i class="fas fa-music"></i> Rechercher programme</h3>
                 <button class="close-modal" onclick="closeProgramTypeModal()">
                     <i class="fas fa-times"></i>
                 </button>
@@ -6502,6 +6526,7 @@ function getProgramEmoji(programText) {
 
 
 // ===== FONCTION POUR CRÉER L'APERÇU AU SURVOL (VERSION DÉTAILLÉE) =====
+// ===== FONCTION POUR CRÉER L'APERÇU AU SURVOL (VERSION AVEC GESTION DES TIMEOUTS) =====
 function createCalendarTooltip(date, programs) {
     if (!programs || programs.length === 0) return null;
     
@@ -8615,6 +8640,63 @@ function findNextProgram() {
       
         // Initialisation et autres fonctions existantes...
         document.addEventListener('DOMContentLoaded', function() {
+// Initialiser le tableau des timeouts
+window.tooltipTimeouts = [];
+
+// Cacher les tooltips quand on clique n'importe où
+document.addEventListener('click', function(e) {
+    // Ne pas cacher si on clique sur une case du calendrier (pour permettre le survol suivant)
+    if (e.target.closest('.calendar-day')) {
+        // Cacher après un court délai pour éviter les conflits
+        setTimeout(hideAllCalendarTooltips, 50);
+    } else {
+        hideAllCalendarTooltips();
+    }
+});
+
+// Cacher les tooltips quand on ouvre une modale
+const modalTriggers = [
+    document.getElementById('dateModal'),
+    document.getElementById('recapDateModal'),
+    document.getElementById('programTypeModal'),
+    document.getElementById('secretariatPasswordModal'),
+    document.getElementById('livreOrModal')
+];
+
+modalTriggers.forEach(modal => {
+    if (modal) {
+        modal.addEventListener('show', function() {
+            hideAllCalendarTooltips();
+        });
+        
+        // Pour les modals qui s'ouvrent via les boutons
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'style' || mutation.attributeName === 'class') {
+                    if (modal.style.display === 'flex' || modal.classList.contains('show')) {
+                        hideAllCalendarTooltips();
+                    }
+                }
+            });
+        });
+        
+        observer.observe(modal, { attributes: true });
+    }
+});
+
+// Cacher les tooltips quand on utilise les boutons de navigation
+document.getElementById('prevMonth')?.addEventListener('click', hideAllCalendarTooltips);
+document.getElementById('nextMonth')?.addEventListener('click', hideAllCalendarTooltips);
+
+// Cacher les tooltips au scroll
+window.addEventListener('scroll', function() {
+    hideAllCalendarTooltips();
+}, { passive: true });
+
+// Cacher les tooltips quand on change la taille de la fenêtre
+window.addEventListener('resize', function() {
+    hideAllCalendarTooltips();
+});
             document.getElementById('prevMonth').addEventListener('click', prevMonth);
             document.getElementById('nextMonth').addEventListener('click', nextMonth);
             document.getElementById('tryDirect').addEventListener('click', () => loadDataFromGoogleSheets('direct'));
@@ -11914,61 +11996,74 @@ function renderCalendar() {
         
         const dateToCheck = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
         
-        // ===== NOUVEAU : Récupérer les programmes pour cette date =====
-        const programsForDate = datesWithData.filter(item => 
-            item.date.getDate() === dateToCheck.getDate() &&
-            item.date.getMonth() === dateToCheck.getMonth() &&
-            item.date.getFullYear() === dateToCheck.getFullYear()
-        );
+      // ===== NOUVEAU : Récupérer les programmes pour cette date =====
+const programsForDate = datesWithData.filter(item => 
+    item.date.getDate() === dateToCheck.getDate() &&
+    item.date.getMonth() === dateToCheck.getMonth() &&
+    item.date.getFullYear() === dateToCheck.getFullYear()
+);
+
+// ===== NOUVEAU : Tooltip au survol =====
+if (programsForDate.length > 0 && isDesktop()) {
+    let tooltip = null;
+    let hideTimeout = null;
+    let showTimeout = null;
+    
+    day.addEventListener('mouseenter', function(e) {
+        // Cacher tous les autres tooltips
+        hideAllCalendarTooltips();
         
-        // ===== NOUVEAU : Tooltip au survol =====
-        if (programsForDate.length > 0 && isDesktop()) {
-            let tooltip = null;
-            let hideTimeout = null;
-            let showTimeout = null;
-            
-            day.addEventListener('mouseenter', function(e) {
-                if (hideTimeout) {
-                    clearTimeout(hideTimeout);
-                    hideTimeout = null;
-                }
-                
-                showTimeout = setTimeout(() => {
-                    const oldTooltip = document.querySelector('.calendar-tooltip');
-                    if (oldTooltip) oldTooltip.remove();
-                    
-                    tooltip = createCalendarTooltip(dateToCheck, programsForDate);
-                    if (tooltip) {
-                        const rect = day.getBoundingClientRect();
-                        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-                        
-                        tooltip.style.display = 'block';
-                        tooltip.style.left = (rect.left + scrollLeft + 30) + 'px';
-                        tooltip.style.top = (rect.top + scrollTop - tooltip.offsetHeight - 10) + 'px';
-                        
-                        if (tooltip.getBoundingClientRect().top < 0) {
-                            tooltip.style.top = (rect.bottom + scrollTop + 10) + 'px';
-                            tooltip.style.left = (rect.left + scrollLeft) + 'px';
-                        }
-                    }
-                }, 300);
-            });
-            
-            day.addEventListener('mouseleave', function() {
-                if (showTimeout) {
-                    clearTimeout(showTimeout);
-                    showTimeout = null;
-                }
-                
-                hideTimeout = setTimeout(() => {
-                    if (tooltip) {
-                        tooltip.remove();
-                        tooltip = null;
-                    }
-                }, 200);
-            });
+        if (hideTimeout) {
+            clearTimeout(hideTimeout);
+            hideTimeout = null;
         }
+        
+        showTimeout = setTimeout(() => {
+            // Vérifier qu'aucune modale n'est ouverte
+            const dateModal = document.getElementById('dateModal');
+            const recapModal = document.getElementById('recapDateModal');
+            const programModal = document.getElementById('programTypeModal');
+            
+            if (dateModal && dateModal.classList.contains('show')) return;
+            if (recapModal && recapModal.classList.contains('show')) return;
+            if (programModal && programModal.style.display === 'flex') return;
+            
+            tooltip = createCalendarTooltip(dateToCheck, programsForDate);
+            if (tooltip) {
+                const rect = day.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+                
+                tooltip.style.display = 'block';
+                tooltip.style.left = (rect.left + scrollLeft + 30) + 'px';
+                tooltip.style.top = (rect.top + scrollTop - tooltip.offsetHeight - 10) + 'px';
+                
+                if (tooltip.getBoundingClientRect().top < 0) {
+                    tooltip.style.top = (rect.bottom + scrollTop + 10) + 'px';
+                    tooltip.style.left = (rect.left + scrollLeft) + 'px';
+                }
+                
+                // Stocker le timeout dans le tableau global
+                if (!window.tooltipTimeouts) window.tooltipTimeouts = [];
+                window.tooltipTimeouts.push(showTimeout);
+            }
+        }, 300);
+    });
+    
+    day.addEventListener('mouseleave', function() {
+        if (showTimeout) {
+            clearTimeout(showTimeout);
+            showTimeout = null;
+        }
+        
+        hideTimeout = setTimeout(() => {
+            if (tooltip) {
+                tooltip.remove();
+                tooltip = null;
+            }
+        }, 200);
+    });
+}
         
         // ===== CODE EXISTANT POUR LE CONTENU DE LA CASE =====
         const localiteCount = countLocalitesForDate(dateToCheck);
@@ -12345,7 +12440,17 @@ function clearAllTooltips() {
     currentDate.setMonth(currentDate.getMonth() - 1);
     renderCalendar();
 }
-
+// ===== FONCTION POUR CACHER TOUS LES TOOLTIPS DU CALENDRIER =====
+function hideAllCalendarTooltips() {
+    const tooltips = document.querySelectorAll('.calendar-tooltip');
+    tooltips.forEach(t => t.remove());
+    
+    // Annuler tous les timeouts en cours
+    if (window.tooltipTimeouts) {
+        window.tooltipTimeouts.forEach(timeout => clearTimeout(timeout));
+    }
+    window.tooltipTimeouts = [];
+}
 function nextMonth() {
     clearAllTooltips();  // ← AJOUTER CETTE LIGNE
     currentDate.setMonth(currentDate.getMonth() + 1);
