@@ -6434,6 +6434,45 @@
         border-radius: 30px !important;
     }
 }
+/* ===== CORRECTION TITRE BULLE SUR MOBILE ===== */
+@media (max-width: 768px) {
+    .date-modal-header {
+        padding: 6px 8px !important;
+    }
+    
+    .modal-date-title {
+        font-size: 0.9rem !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 180px !important;
+    }
+    
+    .modal-location-info {
+        padding: 4px 8px !important;
+        gap: 4px !important;
+    }
+    
+    .modal-location-info span {
+        font-size: 0.75rem !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+    
+    .modal-flag-small {
+        width: 20px !important;
+        height: 13px !important;
+        flex-shrink: 0 !important;
+    }
+    
+    /* Bouton fermer plus petit */
+    .close-modal {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 1rem !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -7018,20 +7057,21 @@
     <!-- Modal pour les détails de date -->
     <div class="date-modal" id="dateModal">
         <div class="date-modal-content" id="dateModalContent">
-            <div class="date-modal-header">
-                <div class="modal-compact-title">
-                    <div class="modal-compact-title-left">
-                        <h3 class="modal-date-title" id="modalDateTitle">Dim 19-Avr-26 (2)</h3>
-                    </div>
-                    <button class="close-modal" id="closeModal">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-location-info" id="modalLocationInfo">
-                    <div class="modal-flag-small" id="modalFlag"></div>
-                    <span id="modalLocationText">Puidoux / Suisse</span>
-                </div>
-            </div>
+            <div class="date-modal-header" style="flex-direction: column; align-items: stretch; padding: 8px 12px;">
+    <!-- Première ligne : Date à gauche, bouton fermer à droite -->
+    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 6px;">
+        <h3 class="modal-date-title" id="modalDateTitle" style="font-size: 1rem; margin: 0; color: #059669; font-weight: 700;">Dim 19-Avr-26 (2)</h3>
+        <button class="close-modal" id="closeModal" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <!-- Deuxième ligne : Localité et pays (avec drapeau) -->
+    <div class="modal-location-info" id="modalLocationInfo" style="display: flex; align-items: center; gap: 8px; background: #f0f9ff; padding: 6px 10px; border-radius: 8px; margin: 0;">
+        <div class="modal-flag-small" id="modalFlag" style="width: 24px; height: 16px; border-radius: 3px;"></div>
+        <span id="modalLocationText" style="font-weight: 600; color: #2d3748; font-size: 0.9rem;">Puidoux / Suisse</span>
+    </div>
+</div>
             
             <!-- ===== MODIFICATION : SECTION INFOS PROGRAMME COMPACTE ===== -->
             <div class="program-info-centered" id="programInfoCentered">
