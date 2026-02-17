@@ -5800,6 +5800,80 @@
         font-size: 10px;
     }
 }
+/* ===== STYLES POUR LE TABLEAU AVEC TITRES FIXES ===== */
+.compact-table-wrapper::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.compact-table-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.compact-table-wrapper::-webkit-scrollbar-thumb {
+    background: #4299e1;
+    border-radius: 4px;
+}
+
+.compact-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #3182ce;
+}
+
+/* Pour Firefox */
+.compact-table-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: #4299e1 #f1f1f1;
+}
+
+/* Ombre portée pour la zone fixe */
+#compactTableView > div:first-child {
+    border-bottom: 2px solid #e2e8f0;
+}
+/* ===== STYLES POUR LE TABLEAU AVEC DOUBLE STICKY ===== */
+#compactTableScroller {
+    scrollbar-width: thin;
+    scrollbar-color: #ec4899 #f1f1f1;
+}
+
+#compactTableScroller::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+#compactTableScroller::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+#compactTableScroller::-webkit-scrollbar-thumb {
+    background: #ec4899;
+    border-radius: 4px;
+}
+
+#compactTableScroller::-webkit-scrollbar-thumb:hover {
+    background: #be185d;
+}
+
+/* Pour que le sticky fonctionne bien */
+#compactTableScroller > div > div {
+    box-sizing: border-box;
+}
+
+/* Ajustements pour mobile */
+@media (max-width: 768px) {
+    #compactTableScroller > div {
+        grid-template-columns: 60px repeat(4, minmax(160px, 1fr)) !important;
+    }
+    
+    #compactTableScroller > div > div {
+        font-size: 0.65rem !important;
+    }
+    
+    .compact-table-title {
+        font-size: 1.1rem !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -5853,11 +5927,11 @@
         <i class="fas fa-map-marked-alt"></i>
         Carte itinéraire
     </button>
-    <!-- ===== NOUVEAU BOUTON : VUE COMPACTE ===== -->
-    <button class="quick-nav-btn-desktop compact-view-btn" onclick="showCompactTableView()" style="border-color: rgba(255, 193, 7, 0.3); background: rgba(255, 193, 7, 0.08);">
-        <i class="fas fa-th"></i>
-        Vue compacte
-    </button>
+   <!-- ===== BOUTON : TABLEAU PROG (ROSE) ===== -->
+<button class="quick-nav-btn-desktop compact-view-btn" onclick="showCompactTableView()" style="border-color: rgba(236, 72, 153, 0.4); background: rgba(236, 72, 153, 0.12);">
+    <i class="fas fa-th"></i>
+    Tableau prog
+</button>
 </div>
             
             <!-- DISPOSITION POUR DESKTOP -->
@@ -6034,11 +6108,14 @@
         <i class="fas fa-map-marked-alt"></i>
         Carte
     </button>
-    <!-- ===== NOUVEAU BOUTON : VUE COMPACTE ===== -->
-    <button class="quick-nav-btn-mobile compact-view-btn" onclick="showCompactTableView()" style="border-color: rgba(255, 193, 7, 0.3); background: rgba(255, 193, 7, 0.08);">
-        <i class="fas fa-th"></i>
-        Vue compacte
-    </button>
+   <!-- ===== BOUTON : TABLEAU PROG (ROSE) ===== -->
+<button class="quick-nav-btn-mobile compact-view-btn" onclick="showCompactTableView()" 
+        style="border-color: rgba(236, 72, 153, 0.4); background: rgba(236, 72, 153, 0.12); transition: all 0.3s;"
+        onmouseover="this.style.background='rgba(236, 72, 153, 0.25)'; this.style.borderColor='rgba(236, 72, 153, 0.6)'; this.style.transform='translateY(-3px)';"
+        onmouseout="this.style.background='rgba(236, 72, 153, 0.12)'; this.style.borderColor='rgba(236, 72, 153, 0.4)'; this.style.transform='translateY(0)';">
+    <i class="fas fa-th"></i>
+    Tableau prog
+</button>
 </div>
 
         </header>
@@ -13216,7 +13293,8 @@ function showCompactTableView() {
     }, 2000);
 }
 
-// ===== GÉNÉRER LE TABLEAU COMPACT - VERSION LISIBLE =====
+// ===== GÉNÉRER LE TABLEAU COMPACT - TOUS LES TITRES FIXES =====
+// ===== GÉNÉRER LE TABLEAU COMPACT - DOUBLE EFFET STICKY =====
 function generateCompactTableHTML() {
     if (!datesWithData || datesWithData.length === 0) {
         return `
@@ -13239,31 +13317,121 @@ function generateCompactTableHTML() {
     const daysInMonth = months.map(m => new Date(m.year, m.index + 1, 0).getDate());
     const maxDays = Math.max(...daysInMonth); // 31 pour Juillet
     
-    // Commencer la construction HTML
+    // ===== STRUCTURE AVEC DOUBLE STICKY =====
     let html = `
-        <h2 class="compact-table-title">
-            <i class="fas fa-th" style="color: #ffc107;"></i>
-            Vue compacte des programmes
-            <span style="font-size: 0.8rem; color: #718096; margin-left: auto;">
-                <i class="fas fa-info-circle"></i> Cliquez sur une case pour voir tous les détails
-            </span>
-        </h2>
-        <div class="compact-table-container">
-            <div class="compact-grid">
-                <!-- En-tête -->
-                <div class="compact-grid-header">Jour</div>
+       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 0 16px; flex-wrap: wrap; gap: 10px;">
+    <h2 class="compact-table-title" style="margin: 0;">
+        <i class="fas fa-th" style="color: #ffc107;"></i>
+        Tableau des programmes
+    </h2>
+    
+    <!-- ===== BARRE D'OUTILS D'EXPORT ===== -->
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button onclick="exportTableAsImage()" style="background: linear-gradient(135deg, #48bb78, #38a169); color: white; border: none; padding: 8px 16px; border-radius: 30px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(72,187,120,0.3); transition: all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-camera"></i> Image
+        </button>
+        <button onclick="exportTableAsExcel()" style="background: linear-gradient(135deg, #4299e1, #3182ce); color: white; border: none; padding: 8px 16px; border-radius: 30px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(66,153,225,0.3); transition: all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-file-excel"></i> Excel
+        </button>
+        <button onclick="exportTableAsPDF()" style="background: linear-gradient(135deg, #ed8936, #dd6b20); color: white; border: none; padding: 8px 16px; border-radius: 30px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(237,137,54,0.3); transition: all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-file-pdf"></i> PDF
+        </button>
+    </div>
+</div>
+        
+        <!-- Conteneur avec scroll horizontal ET vertical -->
+        <div style="
+            position: relative;
+            width: 100%;
+            overflow: auto;
+            max-height: 600px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        " id="compactTableScroller">
+            
+            <!-- TABLEAU avec grille CSS -->
+            <div style="
+                display: grid;
+                grid-template-columns: 80px repeat(4, minmax(200px, 1fr));
+                min-width: 900px;
+            ">
     `;
     
-    // Ajouter les en-têtes des mois
+    // ===== PREMIÈRE LIGNE : EN-TÊTES DES MOIS (STICKY EN HAUT) =====
+    
+    // Case vide en haut à gauche (au-dessus de "Jour")
+    html += `
+                <div style="
+                    background: linear-gradient(135deg, #2d3748, #1a202c);
+                    height: 70px;
+                    position: sticky;
+                    top: 0;
+                    left: 0;
+                    z-index: 30;
+                    border-right: 1px solid #4a5568;
+                    border-bottom: 2px solid #4a5568;
+                "></div>
+    `;
+    
+    // En-têtes des mois (sticky en haut)
     months.forEach(m => {
-        html += `<div class="compact-grid-header">${m.name} <span style="color:#666; font-size:0.7rem;">2026</span></div>`;
+        html += `
+                <div style="
+                    background: linear-gradient(135deg, #2d3748, #1a202c);
+                    padding: 15px 6px;
+                    text-align: center;
+                    font-weight: 800;
+                    font-size: 0.9rem;
+                    color: white;
+                    border-right: 1px solid #4a5568;
+                    border-bottom: 2px solid #4a5568;
+                    position: sticky;
+                    top: 0;
+                    z-index: 20;
+                    height: 70px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                ">
+                    ${m.name}
+                    <span style="color: #ffc107; font-size: 0.75rem;">2026</span>
+                </div>
+        `;
     });
+    
+    // ===== DEUXIÈME LIGNE : TITRE "JOUR" + PREMIERS PROGRAMMES ? NON, on passe directement aux lignes de données =====
+    // En réalité, la première ligne de données commencera après les en-têtes
     
     // Lignes pour chaque jour
     for (let day = 1; day <= maxDays; day++) {
+        
+        // Colonne "Jour" (sticky à gauche ET en haut pour la première ligne)
+        const isFirstRow = (day === 1);
+        
         html += `
-            <!-- Jour ${day} -->
-            <div class="compact-grid-header" style="background: #edf2f7; font-weight: 600;">${day}</div>
+                <div style="
+                    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+                    font-weight: 800;
+                    padding: 10px 4px;
+                    text-align: center;
+                    font-size: 0.9rem;
+                    color: #1e293b;
+                    border-right: 1px solid #cbd5e0;
+                    border-bottom: 1px solid #cbd5e0;
+                    position: sticky;
+                    left: 0;
+                    z-index: 15;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    ${isFirstRow ? 'top: 70px;' : ''}
+                    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+                ">
+                    <span style="background: white; padding: 5px 12px; border-radius: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">${day}</span>
+                </div>
         `;
         
         // Pour chaque mois, remplir la case
@@ -13280,15 +13448,13 @@ function generateCompactTableHTML() {
                     item.date.getFullYear() === month.year
                 );
                 
-                // Classes CSS pour le week-end
-                let dayClass = 'compact-grid-day';
-                if (dayOfWeek === 6) dayClass += ' compact-day-saturday';
-                if (dayOfWeek === 0) dayClass += ' compact-day-sunday';
+                // Styles de fond pour le week-end
+                let bgColor = 'white';
+                if (dayOfWeek === 6) bgColor = '#fef3e2'; // Samedi
+                if (dayOfWeek === 0) bgColor = '#fce4e4'; // Dimanche
                 
                 if (programsForDate.length > 0) {
-                    // Numéro du jour en haut à droite
-                    let cellContent = `<div class="compact-day-number">${day}</div>`;
-                    cellContent += `<div class="compact-cell-content">`;
+                    html += `<div style="padding: 8px 6px; background: ${bgColor}; min-height: 100px; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f0f9ff'" onmouseout="this.style.background='${bgColor}'" onclick="showDateModal(new Date(${month.year}, ${month.index}, ${day}), '${programsForDate[0].localite?.replace(/'/g, "\\'") || ''}', '${programsForDate[0].pays?.replace(/'/g, "\\'") || ''}')">`;
                     
                     // Pour chaque programme
                     programsForDate.forEach((program, idx) => {
@@ -13303,60 +13469,58 @@ function generateCompactTableHTML() {
                         const flagClass = countryFlags[pays] || 'flag-france';
                         const emoji = getProgramEmoji(programme);
                         
-                        // Ajouter un séparateur entre les programmes
+                        // Séparateur entre programmes
                         if (idx > 0) {
-                            cellContent += `<div style="border-top: 1px dashed #e2e8f0; margin: 2px 0; width: 100%;"></div>`;
+                            html += `<div style="border-top: 1px dashed #e2e8f0; margin: 6px 0; width: 100%;"></div>`;
                         }
                         
-                        // ===== LIGNE 1 : DRAPEAU + EMOJI + LOCALITÉ (COMPLET) =====
-                        cellContent += `
-                            <div style="display: flex; align-items: center; gap: 3px; flex-wrap: wrap; margin-bottom: 1px;">
-                                <div class="compact-flag-mini ${flagClass}" style="width:18px; height:12px;"></div>
-                                <span style="font-size: 13px;">${emoji}</span>
-                                <span style="font-weight: 600; color: #2980b9; font-size: 0.7rem; white-space: normal; word-break: break-word;">${localite}</span>
+                        // ===== LIGNE 1 : DRAPEAU + EMOJI + LOCALITÉ =====
+                        html += `
+                            <div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap; margin-bottom: 4px;">
+                                <div class="${flagClass}" style="width:20px; height:14px; border-radius:2px; box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div>
+                                <span style="font-size: 14px;">${emoji}</span>
+                                <span style="font-weight: 700; color: #2980b9; font-size: 0.75rem;">${localite}</span>
                             </div>
                         `;
                         
-                        // ===== LIGNE 2 : LIEU (COMPLET) =====
+                        // ===== LIGNE 2 : LIEU =====
                         if (lieu && lieu.trim() !== '') {
-                            cellContent += `
-                                <div style="display: flex; align-items: center; gap: 3px; margin: 1px 0 1px 18px; color: #f97316; font-weight: 500; font-size: 0.7rem; white-space: normal; word-break: break-word;">
-                                    <i class="fas fa-map-marker-alt" style="font-size: 0.65rem; min-width: 12px;"></i>
+                            html += `
+                                <div style="display: flex; align-items: center; gap: 4px; margin: 2px 0 2px 24px; color: #f97316; font-weight: 500; font-size: 0.7rem; word-break: break-word;">
+                                    <i class="fas fa-map-marker-alt" style="font-size: 0.7rem; min-width: 14px;"></i>
                                     <span>${lieu}</span>
                                 </div>
                             `;
                         }
                         
-                        // ===== LIGNE 3 : HEURE (COMPLET) =====
+                        // ===== LIGNE 3 : HEURE =====
                         if (heures && heures.trim() !== '') {
-                            cellContent += `
-                                <div style="display: flex; align-items: center; gap: 3px; margin: 1px 0 1px 18px; color: #2563eb; font-weight: 600; font-size: 0.7rem; white-space: normal; word-break: break-word;">
-                                    <i class="fas fa-clock" style="font-size: 0.65rem; min-width: 12px;"></i>
+                            html += `
+                                <div style="display: flex; align-items: center; gap: 4px; margin: 2px 0 2px 24px; color: #2563eb; font-weight: 600; font-size: 0.7rem;">
+                                    <i class="fas fa-clock" style="font-size: 0.7rem; min-width: 14px;"></i>
                                     <span>${heures}</span>
                                 </div>
                             `;
                         }
                     });
                     
-                    cellContent += `</div>`;
-                    
-                    // Rendre la case cliquable
-                    html += `<div class="${dayClass}" onclick="showDateModal(new Date(${month.year}, ${month.index}, ${day}), '${programsForDate[0].localite || ''}', '${programsForDate[0].pays || ''}')">`;
-                    html += cellContent;
                     html += `</div>`;
                     
                 } else {
                     // Case vide
-                    html += `<div class="compact-grid-day compact-day-empty">`;
-                    html += `<div class="compact-day-number">${day}</div>`;
-                    html += `<div style="color:#cbd5e0; text-align:center; font-style:italic;">—</div>`;
-                    html += `</div>`;
+                    html += `
+                        <div style="padding: 8px 6px; background: ${bgColor}; min-height: 100px; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; color: #cbd5e0; font-style: italic;">
+                            —
+                        </div>
+                    `;
                 }
             } else {
                 // Jour n'existe pas dans ce mois
-                html += `<div class="compact-grid-day compact-day-empty" style="background:#f1f5f9;">`;
-                html += `<div style="color:#cbd5e0; text-align:center;">—</div>`;
-                html += `</div>`;
+                html += `
+                    <div style="padding: 8px 6px; background: #f1f5f9; min-height: 100px; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; color: #cbd5e0;">
+                        —
+                    </div>
+                `;
             }
         });
     }
@@ -13364,7 +13528,9 @@ function generateCompactTableHTML() {
     html += `
             </div>
         </div>
-        <div style="margin-top: 12px; font-size: 0.75rem; color: #718096; display: flex; gap: 20px; flex-wrap: wrap; align-items: center;">
+        
+        <!-- Légende en bas -->
+        <div style="margin-top: 16px; font-size: 0.75rem; color: #718096; display: flex; gap: 20px; flex-wrap: wrap; align-items: center; background: white; padding: 10px 16px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
             <span><span style="display:inline-block; width:12px; height:12px; background:#fef3e2; border:1px solid #f59e0b; border-radius:3px;"></span> Samedi</span>
             <span><span style="display:inline-block; width:12px; height:12px; background:#fce4e4; border:1px solid #ef4444; border-radius:3px;"></span> Dimanche</span>
             <span><i class="fas fa-flag"></i> Drapeau pays</span>
@@ -13375,6 +13541,463 @@ function generateCompactTableHTML() {
     `;
     
     return html;
-}    </script>
+}   
+ </script>
+<script>
+// ===== CHARGEMENT DES BIBLIOTHÈQUES =====
+(function() {
+    if (!document.getElementById('html2canvas-script')) {
+        const s1 = document.createElement('script');
+        s1.id = 'html2canvas-script';
+        s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        document.head.appendChild(s1);
+    }
+    if (!document.getElementById('xlsx-script')) {
+        const s2 = document.createElement('script');
+        s2.id = 'xlsx-script';
+        s2.src = 'https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js';
+        document.head.appendChild(s2);
+    }
+    if (!document.getElementById('jspdf-script')) {
+        const s3 = document.createElement('script');
+        s3.id = 'jspdf-script';
+        s3.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+        document.head.appendChild(s3);
+        const s4 = document.createElement('script');
+        s4.id = 'jspdf-autotable';
+        s4.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js';
+        document.head.appendChild(s4);
+    }
+})();
+
+// ===== EXPORT EN IMAGE =====
+function exportTableAsImage() {
+    const container = document.querySelector('#compactTableScroller');
+    if (!container) { alert('Affiche d\'abord le tableau (bouton "Tableau prog")'); return; }
+    
+    const loading = document.createElement('div');
+    loading.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:20px; border-radius:10px; box-shadow:0 10px 25px rgba(0,0,0,0.2); z-index:10000;';
+    loading.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:2rem; color:#4299e1;"></i><br>Génération...';
+    document.body.appendChild(loading);
+    
+    setTimeout(() => {
+        html2canvas(container, { scale: 2, backgroundColor: '#ffffff' })
+            .then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'tableau-programmes.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                document.body.removeChild(loading);
+                showNotif('Image téléchargée');
+            })
+            .catch(() => { document.body.removeChild(loading); alert('Erreur'); });
+    }, 500);
+}
+
+// ===== EXPORT EXCEL =====
+function exportTableAsExcel() {
+    if (!datesWithData || datesWithData.length === 0) { alert('Aucune donnée'); return; }
+    
+    const mois = ['Avril 2026', 'Mai 2026', 'Juin 2026', 'Juillet 2026'];
+    const data = [['Jour', ...mois]];
+    
+    for (let jour = 1; jour <= 31; jour++) {
+        const ligne = [jour];
+        for (let m = 0; m < 4; m++) {
+            const programmes = datesWithData.filter(d => 
+                d.date.getDate() === jour && 
+                d.date.getMonth() === m + 3 && 
+                d.date.getFullYear() === 2026
+            );
+            
+            if (programmes.length > 0) {
+                let texte = '';
+                programmes.forEach((p, i) => {
+                    const r = getRowData(p.rowIndex);
+                    if (i > 0) texte += ' | ';
+                    texte += `${r.localite || ''} ${r.heures || ''}`;
+                });
+                ligne.push(texte);
+            } else {
+                ligne.push('');
+            }
+        }
+        data.push(ligne);
+    }
+    
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    ws['!cols'] = [{ wch: 8 }, { wch: 35 }, { wch: 35 }, { wch: 35 }, { wch: 35 }];
+    XLSX.utils.book_append_sheet(wb, ws, 'Programmes');
+    XLSX.writeFile(wb, 'tableau-programmes.xlsx');
+    showNotif('Excel téléchargé');
+}
+
+// ===== EXPORT PDF =====
+// ===== EXPORT PDF - CALENDRIER 4 PAGES (AVRIL À JUILLET 2026) =====
+function exportTableAsPDF() {
+    if (!datesWithData || datesWithData.length === 0) { 
+        alert('Aucune donnée'); 
+        return; 
+    }
+    
+    // Message de chargement
+    const loading = document.createElement('div');
+    loading.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:20px; border-radius:10px; box-shadow:0 10px 25px rgba(0,0,0,0.2); z-index:10000;';
+    loading.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:2rem; color:#4299e1;"></i><br>Génération du calendrier PDF (4 pages)...';
+    document.body.appendChild(loading);
+    
+    setTimeout(() => {
+        try {
+            const { jsPDF } = window.jspdf;
+            
+            // ===== CONFIGURATION =====
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+            
+            // Marges
+            const margeGauche = 12;
+            const margeDroite = 12;
+            const margeHaut = 35;
+            const largeurPage = 210;
+            const largeurDisponible = largeurPage - margeGauche - margeDroite; // 186mm
+            
+            // Configuration du calendrier
+            const joursParSemaine = 7;
+            const largeurCase = largeurDisponible / joursParSemaine; // ~26.5mm par case
+            const hauteurCase = 28; // Hauteur confortable
+            
+            // Mois à afficher
+            const mois = [
+                { nom: 'AVRIL 2026', index: 3, jours: 30 },
+                { nom: 'MAI 2026', index: 4, jours: 31 },
+                { nom: 'JUIN 2026', index: 5, jours: 30 },
+                { nom: 'JUILLET 2026', index: 6, jours: 31 }
+            ];
+            
+            // Jours de la semaine
+            const joursSemaine = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+            const joursAbrev = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+            
+            // ===== COULEURS DES DRAPEAUX =====
+            const couleursDrapeaux = {
+                'SUISSE': { bg: [213, 43, 30], croix: [255, 255, 255] },
+                'FRANCE': { bleu: [0, 35, 149], blanc: [255, 255, 255], rouge: [237, 41, 57] },
+                'ALLEMAGNE': { noir: [0, 0, 0], rouge: [221, 0, 0], or: [255, 206, 0] },
+                'BELGIQUE': { noir: [0, 0, 0], jaune: [250, 224, 66], rouge: [237, 41, 57] },
+                'WALES': { rouge: [210, 16, 52], blanc: [255, 255, 255], vert: [0, 128, 0] },
+                'ANGLETERRE': { bleu: [1, 33, 105], blanc: [255, 255, 255] },
+                'MADAGASCAR': { rouge: [252, 61, 50], blanc: [255, 255, 255], vert: [0, 126, 58] }
+            };
+            
+            // ===== FONCTION POUR NETTOYER LE TEXTE =====
+            function nettoyerTexte(texte) {
+                if (!texte) return '';
+                return texte.replace(/[^\w\s\.,\-éèêëàâäîïôöùûüçÉÈÊËÀÂÄÎÏÔÖÙÛÜÇ']/gi, ' ').replace(/\s+/g, ' ').trim();
+            }
+            
+            // ===== FONCTION POUR COUPER LE TEXTE =====
+            function couperTexte(texte, largeurMax, taillePolice) {
+                if (!texte) return [''];
+                doc.setFontSize(taillePolice);
+                doc.setFont('helvetica', 'bold');
+                
+                const mots = texte.split(' ');
+                const lignes = [];
+                let ligneCourante = '';
+                
+                for (const mot of mots) {
+                    const testLigne = ligneCourante ? ligneCourante + ' ' + mot : mot;
+                    const largeur = doc.getTextWidth(testLigne);
+                    
+                    if (largeur < largeurMax) {
+                        ligneCourante = testLigne;
+                    } else {
+                        if (ligneCourante) lignes.push(ligneCourante);
+                        ligneCourante = mot;
+                    }
+                }
+                if (ligneCourante) lignes.push(ligneCourante);
+                
+                return lignes;
+            }
+            
+            // ===== FONCTION POUR DESSINER UN DRAPEAU =====
+            function dessinerDrapeau(x, y, pays, taille = 5) {
+                const coul = couleursDrapeaux[pays.toUpperCase()] || couleursDrapeaux['FRANCE'];
+                
+                switch(pays.toUpperCase()) {
+                    case 'SUISSE':
+                        doc.setFillColor(coul.bg[0], coul.bg[1], coul.bg[2]);
+                        doc.rect(x, y, taille, taille, 'F');
+                        doc.setFillColor(255, 255, 255);
+                        doc.rect(x + taille/3, y, taille/3, taille, 'F');
+                        doc.rect(x, y + taille/3, taille, taille/3, 'F');
+                        break;
+                        
+                    case 'FRANCE':
+                        doc.setFillColor(coul.bleu[0], coul.bleu[1], coul.bleu[2]);
+                        doc.rect(x, y, taille/3, taille, 'F');
+                        doc.setFillColor(255, 255, 255);
+                        doc.rect(x + taille/3, y, taille/3, taille, 'F');
+                        doc.setFillColor(coul.rouge[0], coul.rouge[1], coul.rouge[2]);
+                        doc.rect(x + 2*taille/3, y, taille/3, taille, 'F');
+                        break;
+                        
+                    case 'ALLEMAGNE':
+                        doc.setFillColor(coul.noir[0], coul.noir[1], coul.noir[2]);
+                        doc.rect(x, y, taille, taille/3, 'F');
+                        doc.setFillColor(coul.rouge[0], coul.rouge[1], coul.rouge[2]);
+                        doc.rect(x, y + taille/3, taille, taille/3, 'F');
+                        doc.setFillColor(coul.or[0], coul.or[1], coul.or[2]);
+                        doc.rect(x, y + 2*taille/3, taille, taille/3, 'F');
+                        break;
+                        
+                    case 'BELGIQUE':
+                        doc.setFillColor(coul.noir[0], coul.noir[1], coul.noir[2]);
+                        doc.rect(x, y, taille/3, taille, 'F');
+                        doc.setFillColor(coul.jaune[0], coul.jaune[1], coul.jaune[2]);
+                        doc.rect(x + taille/3, y, taille/3, taille, 'F');
+                        doc.setFillColor(coul.rouge[0], coul.rouge[1], coul.rouge[2]);
+                        doc.rect(x + 2*taille/3, y, taille/3, taille, 'F');
+                        break;
+                        
+                    case 'WALES':
+                        doc.setFillColor(255, 255, 255);
+                        doc.rect(x, y, taille, taille/2, 'F');
+                        doc.setFillColor(coul.vert[0], coul.vert[1], coul.vert[2]);
+                        doc.rect(x, y + taille/2, taille, taille/2, 'F');
+                        doc.setFillColor(coul.rouge[0], coul.rouge[1], coul.rouge[2]);
+                        doc.rect(x + taille/3, y + taille/4, taille/3, taille/2, 'F');
+                        break;
+                        
+                    case 'ANGLETERRE':
+                        doc.setFillColor(coul.bleu[0], coul.bleu[1], coul.bleu[2]);
+                        doc.rect(x, y, taille, taille, 'F');
+                        doc.setFillColor(255, 255, 255);
+                        doc.rect(x + taille/3, y, taille/3, taille, 'F');
+                        doc.rect(x, y + taille/3, taille, taille/3, 'F');
+                        break;
+                        
+                    case 'MADAGASCAR':
+                        doc.setFillColor(255, 255, 255);
+                        doc.rect(x, y, taille/3, taille, 'F');
+                        doc.setFillColor(coul.rouge[0], coul.rouge[1], coul.rouge[2]);
+                        doc.rect(x + taille/3, y, 2*taille/3, taille/2, 'F');
+                        doc.setFillColor(coul.vert[0], coul.vert[1], coul.vert[2]);
+                        doc.rect(x + taille/3, y + taille/2, 2*taille/3, taille/2, 'F');
+                        break;
+                        
+                    default:
+                        doc.setFillColor(150, 150, 150);
+                        doc.rect(x, y, taille, taille, 'F');
+                }
+                
+                doc.setDrawColor(0, 0, 0);
+                doc.setLineWidth(0.1);
+                doc.rect(x, y, taille, taille);
+            }
+            
+            // ===== GÉNÉRER LES 4 PAGES =====
+            for (let page = 0; page < 4; page++) {
+                if (page > 0) {
+                    doc.addPage();
+                }
+                
+                const moisCourant = mois[page];
+                
+                // ===== EN-TÊTE =====
+                doc.setFillColor(45, 55, 72);
+                doc.rect(0, 0, 210, 22, 'F');
+                
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(16);
+                doc.setFont('helvetica', 'bold');
+                doc.text(moisCourant.nom, 105, 14, { align: 'center' });
+                
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'normal');
+                doc.text('Tournée Europe 2026', 105, 20, { align: 'center' });
+                
+                // ===== JOURS DE LA SEMAINE =====
+                const ySemaine = 27;
+                doc.setFillColor(66, 153, 225);
+                doc.rect(margeGauche, ySemaine, largeurDisponible, 7, 'F');
+                
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'bold');
+                
+                for (let j = 0; j < 7; j++) {
+                    const x = margeGauche + (j * largeurCase);
+                    doc.text(joursAbrev[j], x + largeurCase/2, ySemaine + 5, { align: 'center' });
+                }
+                
+                // ===== DÉTERMINER LE PREMIER JOUR =====
+                const premierJour = new Date(2026, moisCourant.index, 1).getDay();
+                const decalage = premierJour === 0 ? 6 : premierJour - 1;
+                
+                let y = ySemaine + 10;
+                let jourActuel = 1;
+                
+                // ===== 6 LIGNES DE CALENDRIER =====
+                for (let ligne = 0; ligne < 6; ligne++) {
+                    for (let col = 0; col < 7; col++) {
+                        const x = margeGauche + (col * largeurCase);
+                        
+                        // Dessiner la case
+                        doc.setDrawColor(200, 200, 200);
+                        doc.setLineWidth(0.2);
+                        doc.rect(x, y, largeurCase, hauteurCase);
+                        
+                        // Couleur week-end
+                        if (col === 5) { // Samedi
+                            doc.setFillColor(254, 243, 226);
+                            doc.rect(x, y, largeurCase, hauteurCase, 'F');
+                        } else if (col === 6) { // Dimanche
+                            doc.setFillColor(252, 228, 228);
+                            doc.rect(x, y, largeurCase, hauteurCase, 'F');
+                        }
+                        
+                        const numJour = (ligne * 7 + col + 1) - decalage;
+                        
+                        if (numJour >= 1 && numJour <= moisCourant.jours) {
+                            // ===== NUMÉRO DU JOUR =====
+                            doc.setFillColor(255, 255, 255);
+                            doc.circle(x + 5, y + 4, 2.5, 'F');
+                            
+                            doc.setTextColor(0, 0, 0);
+                            doc.setFontSize(7);
+                            doc.setFont('helvetica', 'bold');
+                            doc.text(numJour.toString(), x + 5, y + 5, { align: 'center' });
+                            
+                            // ===== RÉCUPÉRER LES PROGRAMMES =====
+                            const programmes = datesWithData.filter(d => 
+                                d.date.getDate() === numJour && 
+                                d.date.getMonth() === moisCourant.index && 
+                                d.date.getFullYear() === 2026
+                            );
+                            
+                            if (programmes.length > 0) {
+                                let yTexte = y + 9;
+                                let paysPrecedent = '';
+                                
+                                programmes.forEach((prog, idx) => {
+                                    const rowData = getRowData(prog.rowIndex);
+                                    const localite = nettoyerTexte(rowData.localite || '');
+                                    const lieu = nettoyerTexte(rowData.lieu || '');
+                                    const heures = nettoyerTexte(rowData.heures || '');
+                                    const pays = rowData.pays || 'FRANCE';
+                                    
+                                    // ===== DRAPEAU =====
+                                    if (pays !== paysPrecedent) {
+                                        dessinerDrapeau(x + 10, yTexte - 2, pays, 4);
+                                        paysPrecedent = pays;
+                                    }
+                                    
+                                    // ===== LOCALITÉ =====
+                                    doc.setTextColor(41, 128, 185);
+                                    doc.setFontSize(6);
+                                    doc.setFont('helvetica', 'bold');
+                                    
+                                    const lignesLoc = couperTexte(localite, largeurCase - 18, 6);
+                                    lignesLoc.forEach(ligne => {
+                                        doc.text(ligne, x + 16, yTexte);
+                                        yTexte += 3;
+                                    });
+                                    
+                                    // ===== HEURE =====
+                                    if (heures) {
+                                        doc.setTextColor(37, 99, 235);
+                                        doc.setFontSize(5);
+                                        doc.setFont('helvetica', 'bold');
+                                        doc.text(heures, x + 16, yTexte);
+                                        yTexte += 3;
+                                    }
+                                    
+                                    // Petit espace
+                                    if (idx < programmes.length - 1) {
+                                        yTexte += 1;
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    
+                    y += hauteurCase;
+                }
+                
+                // ===== LÉGENDE =====
+                const yLegende = 270;
+                
+                doc.setFillColor(245, 245, 245);
+                doc.rect(margeGauche, yLegende, largeurDisponible, 12, 'F');
+                doc.setDrawColor(200, 200, 200);
+                doc.rect(margeGauche, yLegende, largeurDisponible, 12);
+                
+                doc.setFontSize(5);
+                doc.setFont('helvetica', 'bold');
+                
+                // Samedi
+                doc.setFillColor(254, 243, 226);
+                doc.rect(margeGauche + 5, yLegende + 3, 3, 3, 'F');
+                doc.rect(margeGauche + 5, yLegende + 3, 3, 3);
+                doc.text('Sam', margeGauche + 11, yLegende + 5);
+                
+                // Dimanche
+                doc.setFillColor(252, 228, 228);
+                doc.rect(margeGauche + 30, yLegende + 3, 3, 3, 'F');
+                doc.rect(margeGauche + 30, yLegende + 3, 3, 3);
+                doc.text('Dim', margeGauche + 36, yLegende + 5);
+                
+                // Drapeau
+                dessinerDrapeau(margeGauche + 55, yLegende + 2, 'FRANCE', 3);
+                doc.setTextColor(0, 0, 0);
+                doc.text('Pays', margeGauche + 61, yLegende + 5);
+                
+                // Localité
+                doc.setTextColor(41, 128, 185);
+                doc.text('Lieu', margeGauche + 85, yLegende + 5);
+                
+                // Heure
+                doc.setTextColor(37, 99, 235);
+                doc.text('Horaire', margeGauche + 115, yLegende + 5);
+                
+                // Programme (raccourci)
+                doc.setTextColor(100, 100, 100);
+                doc.text('Case vide = pas de programme', margeGauche + 145, yLegende + 5);
+                
+                // Numéro de page
+                doc.setTextColor(150, 150, 150);
+                doc.setFontSize(6);
+                doc.text(`Page ${page + 1}/4`, 190, 285);
+            }
+            
+            // ===== TÉLÉCHARGEMENT =====
+            doc.save('calendrier-programmes.pdf');
+            
+            document.body.removeChild(loading);
+            showNotif('Calendrier PDF téléchargé (4 pages) !');
+            
+        } catch (error) {
+            console.error('Erreur PDF:', error);
+            document.body.removeChild(loading);
+            alert('Erreur: ' + error.message);
+        }
+    }, 1000);
+}
+// ===== NOTIFICATION =====
+function showNotif(msg) {
+    const n = document.createElement('div');
+    n.style.cssText = 'position:fixed; bottom:20px; right:20px; background:#10b981; color:white; padding:12px 20px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15); z-index:10000; font-weight:600; display:flex; align-items:center; gap:10px; transform:translateX(400px); opacity:0; transition:all 0.3s;';
+    n.innerHTML = '<i class="fas fa-check-circle"></i> ' + msg;
+    document.body.appendChild(n);
+    setTimeout(() => { n.style.transform = 'translateX(0)'; n.style.opacity = '1'; }, 10);
+    setTimeout(() => { n.style.transform = 'translateX(400px)'; n.style.opacity = '0'; setTimeout(() => n.remove(), 300); }, 3000);
+}
+</script>
 </body>
 </html>
