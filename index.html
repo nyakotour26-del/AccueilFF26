@@ -5592,7 +5592,31 @@
 <body>
     <div class="container">
         <header>
-            <h1>Tournée Europe 2026</h1>
+         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+    <h1 style="margin: 0; font-size: 2.8rem; color: #2d3748; text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8); background: linear-gradient(135deg, #2d3748, #4a5568); -webkit-background-clip: text; -webkit-text-fill-color: transparent; flex: 1;">
+        Tournée Europe 2026
+    </h1>
+    <div id="tourDayCounter" style="
+        font-size: 2rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+        padding: 8px 25px;
+        border-radius: 50px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        border: 2px solid white;
+        letter-spacing: 1px;
+        position: relative;
+        z-index: 100;
+        transform: translateZ(0);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    "></div>
+</div>
             
                        <!-- BOUTONS DE NAVIGATION RAPIDE POUR DESKTOP -->
             <div class="quick-nav-buttons-desktop">
@@ -5630,7 +5654,7 @@
                         <div class="flower flower-4">🌻</div>
                         <div class="flower flower-5">💮</div>
                         <div class="flower flower-6">🏵️</div>
-                        <div class="theme-text-simple">"Nos sources sont en Toi"</div>
+                        <div class="theme-text-simple">"Toutes nos sources sont en TOI"</div>
                     </div>
                     
                     <!-- Drapeaux sur une ligne -->
@@ -8404,7 +8428,7 @@ function formatLocationWithMapPreview(text, coordText = '', locationName = '') {
         badge.style.boxShadow = '0 2px 6px rgba(72, 187, 120, 0.4)';
         countdown.textContent = '🔴 Maintenant';
     } else {
-        label.innerHTML = '<i class="fas fa-hourglass-half"></i> Prochain';
+        label.innerHTML = '<i class="fas fa-hourglass-half"></i> Programme le plus proche';
         badge.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
         const today = new Date(); today.setHours(0,0,0,0);
         const progDate = new Date(program.date); progDate.setHours(0,0,0,0);
@@ -12278,6 +12302,8 @@ function formatDateToCompare(date) {
                 updateMapWithTourData();
  findNextProgram();
 updateProgramsList();
+// Mettre à jour le compteur de jours
+updateTourDayCounter();
 
 // Ajouter la légende initiale
 setTimeout(() => {
@@ -12845,7 +12871,96 @@ function showProgramsByCountry(country) {
     
     modal.style.display = 'flex';
 }
+// ===== FONCTION POUR CALCULER LE JOUR DE TOURNÉE ACTUEL =====
+function calculateCurrentTourDay() {
+    // Si les données ne sont pas encore chargées
+    if (!datesWithData || datesWithData.length === 0) {
+        return {
+            text: 'Chargement...',
+            color: '#718096',
+            tooltip: 'Calcul en cours...'
+        };
+    }
+    
+    // Trouver la première et dernière date dans les données
+    const sortedDates = [...datesWithData].sort((a, b) => a.date - b.date);
+    const tourStartDate = new Date(sortedDates[0].date);
+    const tourEndDate = new Date(sortedDates[sortedDates.length - 1].date);
+    
+    tourStartDate.setHours(0, 0, 0, 0);
+    tourEndDate.setHours(0, 0, 0, 0);
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    // Calculer le nombre total de jours de tournée
+    const totalDays = Math.round((tourEndDate - tourStartDate) / (1000 * 60 * 60 * 24)) + 1;
+    
+    // AVANT la tournée
+    if (today < tourStartDate) {
+        const daysUntil = Math.round((tourStartDate - today) / (1000 * 60 * 60 * 24));
+        return {
+            text: `J-${daysUntil}`,
+            color: '#4299e1', // Bleu
+            tooltip: `La tournée commence dans ${daysUntil} jours (${formatDateForDisplay(tourStartDate)})`
+        };
+    }
+    
+    // PENDANT la tournée
+    if (today >= tourStartDate && today <= tourEndDate) {
+        const daysSince = Math.round((today - tourStartDate) / (1000 * 60 * 60 * 24));
+        
+        // Jour J (premier jour)
+        if (daysSince === 0) {
+            return {
+                text: 'J',
+                color: '#f59e0b', // Orange
+                tooltip: "C'est le premier jour de la tournée !"
+            };
+        }
+        
+        // J+quelque chose
+        return {
+            text: `J+${daysSince}`,
+            color: '#f59e0b', // Orange
+            tooltip: `${daysSince}ème jour de tournée (sur ${totalDays} jours)`
+        };
+    }
+    
+    // APRÈS la tournée
+    return {
+        text: 'Tournée terminée',
+        color: '#718096', // Gris
+        tooltip: 'La tournée est terminée'
+    };
+}
+// ===== FONCTION POUR METTRE À JOUR L'AFFICHAGE =====
+function updateTourDayCounter() {
+    const counterElement = document.getElementById('tourDayCounter');
+    if (!counterElement) return;
+    
+    const counter = calculateCurrentTourDay();
+    
+    counterElement.textContent = counter.text;
+    counterElement.style.background = `linear-gradient(135deg, ${counter.color}, ${adjustColor(counter.color, -20)})`;
+    counterElement.title = counter.tooltip;
+}
 
+// ===== FONCTION POUR AJUSTER LA COULEUR =====
+function adjustColor(color, percent) {
+    // Version simplifiée - retourne une couleur plus foncée
+    const colors = {
+        '#f59e0b': '#d97706',
+        '#718096': '#4a5568'
+    };
+    return colors[color] || color;
+}
+
+// Appeler la fonction au chargement et toutes les heures
+document.addEventListener('DOMContentLoaded', function() {
+    updateTourDayCounter();
+    setInterval(updateTourDayCounter, 3600000); // Mise à jour toutes les heures
+});
     </script>
 </body>
 </html>
