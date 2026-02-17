@@ -6580,152 +6580,338 @@
         margin-right: 2px !important;
     }
 }
-/* ===== AGRANDIR LES POLICES SUR MOBILE SANS MODIFIER LES INTERLIGNES ===== */
+/* ===== POLICES ENCORE PLUS GRANDES SUR MOBILE ===== */
 @media (max-width: 768px) {
-    /* Police de base de la page */
+    /* Police de base - BEAUCOUP PLUS GRANDE */
     body {
-        font-size: 16px !important; /* Au lieu de 14px par défaut */
+        font-size: 18px !important; /* Au lieu de 16px avant */
     }
     
-    /* Titres principaux */
+    /* Titres TRÈS grands */
     h1 {
-        font-size: 2.2rem !important;
+        font-size: 2.8rem !important;
+        line-height: 1.1 !important;
     }
     
     .theme-text-simple {
-        font-size: 1.6rem !important;
+        font-size: 2rem !important;
     }
     
-    /* Section "Prochain programme" */
+    /* Section "Prochain programme" - TRÈS lisible */
     .next-program-title {
-        font-size: 1.1rem !important;
+        font-size: 1.3rem !important;
+    }
+    
+    .next-program-badge {
+        font-size: 1rem !important;
+        padding: 6px 15px !important;
     }
     
     .next-program-date-text {
-        font-size: 1rem !important;
+        font-size: 1.2rem !important;
     }
     
     .next-program-location-line {
-        font-size: 0.95rem !important;
+        font-size: 1.1rem !important;
+    }
+    
+    .next-program-lieu-mini {
+        font-size: 1rem !important;
     }
     
     .next-program-time,
     .next-program-type {
+        font-size: 1rem !important;
+        padding: 6px 12px !important;
+    }
+    
+    .next-program-coords {
         font-size: 0.9rem !important;
     }
     
-    /* Boutons de navigation rapide */
-    .quick-nav-btn-mobile {
+    .next-program-nav-btn {
+        font-size: 0.95rem !important;
+        padding: 8px 15px !important;
+    }
+    
+    .next-program-counter {
         font-size: 0.9rem !important;
+    }
+    
+    /* Boutons de navigation rapide - PLUS GROS */
+    .quick-nav-btn-mobile {
+        font-size: 1rem !important;
+        height: 75px !important;
     }
     
     .quick-nav-btn-mobile i {
-        font-size: 1.2rem !important;
+        font-size: 1.5rem !important;
     }
     
-    /* Informations générales (mobile) */
+    /* Informations générales (mobile) - TRÈS lisibles */
     .mobile-info-btn {
-        font-size: 0.85rem !important;
+        font-size: 1rem !important;
+        height: 100px !important;
+        padding: 10px 5px !important;
     }
     
     .mobile-info-btn-emoji {
-        font-size: 1.4rem !important;
+        font-size: 1.8rem !important;
     }
     
-    /* Calendrier */
-    .calendar-day-header {
+    .mobile-info-btn-text {
+        font-size: 0.9rem !important;
+    }
+    
+    /* Boutons contributions */
+    .btn {
         font-size: 1rem !important;
+        height: 110px !important;
+    }
+    
+    .btn-emoji {
+        font-size: 2rem !important;
+    }
+    
+    /* Calendrier - BEAUCOUP PLUS GROS */
+    .calendar-day-header {
+        font-size: 1.1rem !important;
+        padding: 12px !important;
+    }
+    
+    .calendar-day {
+        min-height: 100px !important;
+        padding: 8px 4px !important;
     }
     
     .calendar-day .day-number {
-        font-size: 1rem !important;
+        font-size: 1.1rem !important;
+        margin-bottom: 4px !important;
     }
     
     .calendar-day .localite {
-        font-size: 0.85rem !important;
+        font-size: 0.95rem !important;
+        margin-top: 4px !important;
     }
     
     .calendar-emoji {
-        font-size: 18px !important;
+        font-size: 22px !important;
     }
     
-    /* Statistiques */
+    .calendar-more {
+        font-size: 12px !important;
+        padding: 3px 8px !important;
+    }
+    
+    .program-count {
+        width: 26px !important;
+        height: 26px !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* Statistiques - TRÈS grandes */
     .calendar-stat-value {
-        font-size: 1.4rem !important;
+        font-size: 1.8rem !important;
     }
     
     .calendar-stat-label {
-        font-size: 0.9rem !important;
+        font-size: 1.1rem !important;
     }
     
     .program-type-btn {
-        font-size: 0.8rem !important;
+        font-size: 0.95rem !important;
+        padding: 8px 15px !important;
     }
     
-    /* Section récapitulatif par pays */
+    .country-stat-mini {
+        font-size: 0.9rem !important;
+        padding: 6px 10px !important;
+    }
+    
+    /* Section récapitulatif par pays - TRÈS lisible */
     .country-name-compact {
-        font-size: 1.2rem !important;
+        font-size: 1.5rem !important;
     }
     
     .country-stats-compact {
-        font-size: 0.9rem !important;
+        font-size: 1rem !important;
+        padding: 8px 12px !important;
+    }
+    
+    .toggle-dates-btn-compact {
+        font-size: 1rem !important;
+        padding: 10px 18px !important;
+        height: 40px !important;
     }
     
     .country-period-compact {
-        font-size: 0.95rem !important;
+        font-size: 1.1rem !important;
+        padding: 12px 15px !important;
     }
     
-    /* Cartes de programmes */
+    /* Cartes de programmes - TRÈS grosses */
     .date-value-compact {
-        font-size: 0.9rem !important;
+        font-size: 1rem !important;
     }
     
     .date-location-left {
-        font-size: 0.9rem !important;
+        font-size: 1rem !important;
+    }
+    
+    .date-location-left .localite {
+        font-size: 1rem !important;
     }
     
     .date-location-left .lieu {
-        font-size: 0.85rem !important;
+        font-size: 0.95rem !important;
+        padding: 4px 10px !important;
     }
     
     .date-time,
     .date-programme {
-        font-size: 0.85rem !important;
+        font-size: 0.95rem !important;
+        padding: 5px 12px !important;
+    }
+    
+    .date-programme span {
+        font-size: 1rem !important;
     }
     
     .date-details-line-compact {
-        font-size: 0.8rem !important;
+        font-size: 0.9rem !important;
+        margin-top: 8px !important;
     }
     
-    /* STATISTIQUES MENSUELLES - UNIQUEMENT LA TAILLE DES POLICES */
+    /* Dates libres */
+    .free-dates-section {
+        padding: 12px !important;
+        font-size: 0.95rem !important;
+    }
+    
+    .free-dates-title {
+        font-size: 1rem !important;
+    }
+    
+    .toggle-free-dates-btn {
+        font-size: 0.9rem !important;
+        padding: 6px 12px !important;
+    }
+    
+    .free-date-item {
+        font-size: 0.9rem !important;
+        padding: 6px 12px !important;
+    }
+    
+    /* STATISTIQUES MENSUELLES - TRÈS GRANDES */
     .monthly-stats-title {
-        font-size: 1.3rem !important;
+        font-size: 1.6rem !important;
+        margin-bottom: 15px !important;
     }
     
     .month-name {
-        font-size: 1.1rem !important;
+        font-size: 1.4rem !important;
+        padding: 8px 0 !important;
     }
     
-    .month-card [style*="font-weight: 700; font-size: 0.8rem;"] {
+    .month-flag-mini {
+        width: 28px !important;
+        height: 18px !important;
+    }
+    
+    /* Badges dans les stats mensuelles */
+    .month-card [style*="background: #e9d5ff"],
+    .month-card [style*="background: #dbeafe"] {
+        font-size: 0.95rem !important;
+        padding: 5px 10px !important;
+    }
+    
+    .month-card [style*="background: #e9d5ff"] i,
+    .month-card [style*="background: #dbeafe"] i {
         font-size: 0.9rem !important;
     }
     
-    .month-card [style*="background: #e9d5ff"],
-    .month-card [style*="background: #dbeafe"] {
-        font-size: 0.8rem !important;
+    /* Nom du pays dans les stats */
+    .month-card [style*="font-weight: 700; font-size: 0.8rem;"] {
+        font-size: 1rem !important;
     }
     
+    /* Badge du nombre total par pays */
     .month-card [style*="background: white; padding: 2px 8px;"] {
-        font-size: 0.75rem !important;
+        font-size: 0.9rem !important;
+        padding: 4px 10px !important;
     }
     
-    .month-card [style*="background: linear-gradient(135deg, #dbeafe, #bfdbfe)"] {
+    /* Badges des types de programmes */
+    .month-card [style*="background: white; padding: 2px 8px;"] {
+        font-size: 0.85rem !important;
+        padding: 4px 10px !important;
+    }
+    
+    .month-card [style*="background: white; padding: 2px 8px;"] span:first-child {
+        font-size: 1rem !important;
+    }
+    
+    .month-card [style*="background: white; padding: 2px 8px;"] span:last-child {
         font-size: 0.8rem !important;
+        padding: 2px 6px !important;
+    }
+    
+    /* Ligne kilométrage */
+    .month-card [style*="background: linear-gradient(135deg, #dbeafe, #bfdbfe)"] {
+        font-size: 0.95rem !important;
+        padding: 6px 12px !important;
+        margin-top: 8px !important;
+    }
+    
+    .month-card [style*="background: linear-gradient(135deg, #dbeafe, #bfdbfe)"] i {
+        font-size: 0.9rem !important;
+    }
+    
+    /* Modals */
+    .modal-date-title {
+        font-size: 1.3rem !important;
+    }
+    
+    .modal-location-info {
+        font-size: 1.1rem !important;
+        padding: 10px 12px !important;
+    }
+    
+    .modal-flag-small {
+        width: 30px !important;
+        height: 20px !important;
+    }
+    
+    .program-info-large {
+        font-size: 1.1rem !important;
+        padding: 12px !important;
+    }
+    
+    .date-details-title-compact {
+        font-size: 1rem !important;
+        padding: 10px 12px !important;
+    }
+    
+    .date-detail-label-compact {
+        font-size: 0.95rem !important;
+        min-width: 100px !important;
+    }
+    
+    .date-detail-value-compact {
+        font-size: 0.95rem !important;
     }
     
     /* Pied de page */
     footer {
-        font-size: 0.9rem !important;
+        font-size: 1rem !important;
+        padding: 15px !important;
+    }
+    
+    /* Boutons flottants - PLUS GROS */
+    .floating-btn {
+        width: 55px !important;
+        height: 55px !important;
+        font-size: 1.6rem !important;
     }
 }
     </style>
