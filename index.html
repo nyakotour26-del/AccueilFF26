@@ -5587,6 +5587,219 @@
             border-color: rgba(138, 43, 226, 0.4);
             background: rgba(138, 43, 226, 0.15);
         }
+/* ===== TABLEAU COMPACT 4 MOIS ===== */
+.compact-table-section {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    margin: 20px 0;
+    transition: transform 0.3s, box-shadow 0.3s;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.compact-table-section:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.compact-table-title {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 3px solid rgba(255, 193, 7, 0.4);
+    padding-bottom: 8px;
+    color: #2d3748;
+}
+
+.compact-table-container {
+    width: 100%;
+    min-width: 800px;
+    overflow-x: auto;
+    background: white;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.compact-grid {
+    display: grid;
+    grid-template-columns: 50px repeat(4, 1fr);
+    gap: 1px;
+    background: #e2e8f0;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.compact-grid-header {
+    background: #f8fafc;
+    font-weight: 700;
+    padding: 12px 6px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #2d3748;
+    border-bottom: 2px solid #cbd5e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.compact-grid-day {
+    background: white;
+    padding: 6px 4px;
+    min-height: 70px;
+    font-size: 0.65rem;
+    line-height: 1.2;
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    transition: all 0.2s;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.compact-grid-day:hover {
+    background: #f7fafc;
+    transform: scale(1.02);
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.compact-day-number {
+    font-weight: 700;
+    font-size: 0.7rem;
+    color: #4a5568;
+    margin-bottom: 2px;
+    text-align: right;
+    padding-right: 2px;
+}
+
+.compact-day-saturday {
+    background: #fef3e2;  /* Jaune très pâle */
+}
+
+.compact-day-sunday {
+    background: #fce4e4;  /* Rouge très pâle */
+}
+
+.compact-day-empty {
+    background: #f8fafc;
+    color: #a0aec0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: italic;
+    min-height: 70px;
+}
+
+/* Contenu ultra compact d'une case */
+.compact-cell-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    width: 100%;
+}
+
+.compact-flag-emoji-line {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex-wrap: wrap;
+}
+
+.compact-flag-mini {
+    width: 18px;
+    height: 12px;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    flex-shrink: 0;
+}
+
+.compact-emoji-mini {
+    font-size: 12px;
+    line-height: 1;
+}
+
+.compact-localite {
+    font-weight: 600;
+    color: #2980b9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.6rem;
+}
+
+.compact-lieu {
+    font-weight: 500;
+    color: #f97316;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.6rem;
+    background: #fff3e0;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+.compact-heures {
+    font-weight: 600;
+    color: #2563eb;
+    font-size: 0.6rem;
+    white-space: nowrap;
+}
+
+/* Ligne multiple */
+.compact-multiple-indicator {
+    background: #e9d5ff;
+    color: #6b21a8;
+    font-size: 0.55rem;
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 8px;
+    display: inline-block;
+    width: fit-content;
+    margin-top: 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .compact-table-section {
+        padding: 8px;
+    }
+    
+    .compact-grid {
+        grid-template-columns: 30px repeat(4, 1fr);
+    }
+    
+    .compact-grid-header {
+        font-size: 0.7rem;
+        padding: 8px 2px;
+    }
+    
+    .compact-grid-day {
+        min-height: 60px;
+        font-size: 0.55rem;
+        padding: 4px 2px;
+    }
+    
+    .compact-flag-mini {
+        width: 14px;
+        height: 9px;
+    }
+    
+    .compact-emoji-mini {
+        font-size: 10px;
+    }
+}
     </style>
 </head>
 <body>
@@ -5618,29 +5831,34 @@
     "></div>
 </div>
             
-                       <!-- BOUTONS DE NAVIGATION RAPIDE POUR DESKTOP -->
-            <div class="quick-nav-buttons-desktop">
-                <button class="quick-nav-btn-desktop calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fas fa-calendar-alt"></i>
-                    Calendrier
-                </button>
-                <button class="quick-nav-btn-desktop dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fas fa-list-alt"></i>
-                    Dates par pays
-                </button>
-                <button class="quick-nav-btn-desktop stats-btn" onclick="scrollToStats()">
-                    <i class="fas fa-chart-bar"></i>
-                    Statistiques
-                </button>
-                <button class="quick-nav-btn-desktop search-btn" onclick="showProgramsByType()">
-                    <i class="fas fa-search"></i>
-                    Recherche
-                </button>
-                <button class="quick-nav-btn-desktop map-btn" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fas fa-map-marked-alt"></i>
-                    Carte itinéraire
-                </button>
-            </div>
+                      <!-- BOUTONS DE NAVIGATION RAPIDE POUR DESKTOP -->
+<div class="quick-nav-buttons-desktop">
+    <button class="quick-nav-btn-desktop calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-calendar-alt"></i>
+        Calendrier
+    </button>
+    <button class="quick-nav-btn-desktop dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-list-alt"></i>
+        Dates par pays
+    </button>
+    <button class="quick-nav-btn-desktop stats-btn" onclick="scrollToStats()">
+        <i class="fas fa-chart-bar"></i>
+        Statistiques
+    </button>
+    <button class="quick-nav-btn-desktop search-btn" onclick="showProgramsByType()">
+        <i class="fas fa-search"></i>
+        Recherche
+    </button>
+    <button class="quick-nav-btn-desktop map-btn" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-map-marked-alt"></i>
+        Carte itinéraire
+    </button>
+    <!-- ===== NOUVEAU BOUTON : VUE COMPACTE ===== -->
+    <button class="quick-nav-btn-desktop compact-view-btn" onclick="showCompactTableView()" style="border-color: rgba(255, 193, 7, 0.3); background: rgba(255, 193, 7, 0.08);">
+        <i class="fas fa-th"></i>
+        Vue compacte
+    </button>
+</div>
             
             <!-- DISPOSITION POUR DESKTOP -->
             <div class="header-desktop-layout">
@@ -5795,28 +6013,35 @@
             </div>
             
             <!-- BOUTONS DE NAVIGATION RAPIDE POUR MOBILE - DÉPLACÉS SOUS LA PHOTO -->
-            <div class="quick-nav-buttons-mobile">
-                <button class="quick-nav-btn-mobile calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fas fa-calendar-alt"></i>
-                    Calendrier
-                </button>
-                <button class="quick-nav-btn-mobile dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fas fa-list-alt"></i>
-                    Dates par pays
-                </button>
-                <button class="quick-nav-btn-mobile stats-btn" onclick="scrollToStats()">
-                    <i class="fas fa-chart-bar"></i>
-                    Statistiques
-                </button>
-                <button class="quick-nav-btn-mobile search-btn" onclick="showProgramsByType()">
-                    <i class="fas fa-search"></i>
-                    Recherche
-                </button>
-                <button class="quick-nav-btn-mobile map-btn" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fas fa-map-marked-alt"></i>
-                    Carte
-                </button>
-            </div>        </header>
+<div class="quick-nav-buttons-mobile">
+    <button class="quick-nav-btn-mobile calendar-btn" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-calendar-alt"></i>
+        Calendrier
+    </button>
+    <button class="quick-nav-btn-mobile dates-btn" onclick="document.getElementById('recapSection').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-list-alt"></i>
+        Dates par pays
+    </button>
+    <button class="quick-nav-btn-mobile stats-btn" onclick="scrollToStats()">
+        <i class="fas fa-chart-bar"></i>
+        Statistiques
+    </button>
+    <button class="quick-nav-btn-mobile search-btn" onclick="showProgramsByType()">
+        <i class="fas fa-search"></i>
+        Recherche
+    </button>
+    <button class="quick-nav-btn-mobile map-btn" onclick="document.getElementById('mapSection').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-map-marked-alt"></i>
+        Carte
+    </button>
+    <!-- ===== NOUVEAU BOUTON : VUE COMPACTE ===== -->
+    <button class="quick-nav-btn-mobile compact-view-btn" onclick="showCompactTableView()" style="border-color: rgba(255, 193, 7, 0.3); background: rgba(255, 193, 7, 0.08);">
+        <i class="fas fa-th"></i>
+        Vue compacte
+    </button>
+</div>
+
+        </header>
               
        
       <!-- ===== SECTION PROCHAIN PROGRAMME - ULTRA COMPACT ===== -->
@@ -12961,6 +13186,195 @@ document.addEventListener('DOMContentLoaded', function() {
     updateTourDayCounter();
     setInterval(updateTourDayCounter, 3600000); // Mise à jour toutes les heures
 });
-    </script>
+
+// ===== FONCTION POUR AFFICHER LE TABLEAU COMPACT =====
+function showCompactTableView() {
+    // Créer la section si elle n'existe pas
+    let compactSection = document.getElementById('compactTableView');
+    
+    if (!compactSection) {
+        // Créer la section
+        compactSection = document.createElement('div');
+        compactSection.id = 'compactTableView';
+        compactSection.className = 'compact-table-section';
+        
+        // Insérer après la section carte
+        const mapSection = document.getElementById('mapSection');
+        mapSection.parentNode.insertBefore(compactSection, mapSection.nextSibling);
+    }
+    
+    // Générer le contenu
+    compactSection.innerHTML = generateCompactTableHTML();
+    
+    // Faire défiler jusqu'à la section
+    compactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
+    // Animation de mise en évidence
+    compactSection.style.boxShadow = '0 0 0 3px #ffc107, 0 12px 30px rgba(0,0,0,0.15)';
+    setTimeout(() => {
+        compactSection.style.boxShadow = '';
+    }, 2000);
+}
+
+// ===== GÉNÉRER LE TABLEAU COMPACT - VERSION LISIBLE =====
+function generateCompactTableHTML() {
+    if (!datesWithData || datesWithData.length === 0) {
+        return `
+            <div style="text-align: center; padding: 40px; color: #718096;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                <div>Chargement des données...</div>
+            </div>
+        `;
+    }
+    
+    // Mois à afficher (2026)
+    const months = [
+        { name: 'Avril', index: 3, year: 2026 },   // 3 = Avril (0-indexé)
+        { name: 'Mai', index: 4, year: 2026 },
+        { name: 'Juin', index: 5, year: 2026 },
+        { name: 'Juillet', index: 6, year: 2026 }
+    ];
+    
+    // Nombre de jours par mois
+    const daysInMonth = months.map(m => new Date(m.year, m.index + 1, 0).getDate());
+    const maxDays = Math.max(...daysInMonth); // 31 pour Juillet
+    
+    // Commencer la construction HTML
+    let html = `
+        <h2 class="compact-table-title">
+            <i class="fas fa-th" style="color: #ffc107;"></i>
+            Vue compacte des programmes
+            <span style="font-size: 0.8rem; color: #718096; margin-left: auto;">
+                <i class="fas fa-info-circle"></i> Cliquez sur une case pour voir tous les détails
+            </span>
+        </h2>
+        <div class="compact-table-container">
+            <div class="compact-grid">
+                <!-- En-tête -->
+                <div class="compact-grid-header">Jour</div>
+    `;
+    
+    // Ajouter les en-têtes des mois
+    months.forEach(m => {
+        html += `<div class="compact-grid-header">${m.name} <span style="color:#666; font-size:0.7rem;">2026</span></div>`;
+    });
+    
+    // Lignes pour chaque jour
+    for (let day = 1; day <= maxDays; day++) {
+        html += `
+            <!-- Jour ${day} -->
+            <div class="compact-grid-header" style="background: #edf2f7; font-weight: 600;">${day}</div>
+        `;
+        
+        // Pour chaque mois, remplir la case
+        months.forEach((month, monthIndex) => {
+            if (day <= daysInMonth[monthIndex]) {
+                // Date complète pour ce jour/mois
+                const cellDate = new Date(month.year, month.index, day);
+                const dayOfWeek = cellDate.getDay(); // 0 = Dimanche, 6 = Samedi
+                
+                // Récupérer les programmes pour cette date
+                const programsForDate = datesWithData.filter(item => 
+                    item.date.getDate() === day &&
+                    item.date.getMonth() === month.index &&
+                    item.date.getFullYear() === month.year
+                );
+                
+                // Classes CSS pour le week-end
+                let dayClass = 'compact-grid-day';
+                if (dayOfWeek === 6) dayClass += ' compact-day-saturday';
+                if (dayOfWeek === 0) dayClass += ' compact-day-sunday';
+                
+                if (programsForDate.length > 0) {
+                    // Numéro du jour en haut à droite
+                    let cellContent = `<div class="compact-day-number">${day}</div>`;
+                    cellContent += `<div class="compact-cell-content">`;
+                    
+                    // Pour chaque programme
+                    programsForDate.forEach((program, idx) => {
+                        const rowData = getRowData(program.rowIndex);
+                        const localite = rowData.localite || '';
+                        const lieu = rowData.lieu || '';
+                        const heures = rowData.heures || '';
+                        const pays = rowData.pays?.toUpperCase() || '';
+                        const programme = rowData.programme || 'Concert';
+                        
+                        // Drapeau et emoji
+                        const flagClass = countryFlags[pays] || 'flag-france';
+                        const emoji = getProgramEmoji(programme);
+                        
+                        // Ajouter un séparateur entre les programmes
+                        if (idx > 0) {
+                            cellContent += `<div style="border-top: 1px dashed #e2e8f0; margin: 2px 0; width: 100%;"></div>`;
+                        }
+                        
+                        // ===== LIGNE 1 : DRAPEAU + EMOJI + LOCALITÉ (COMPLET) =====
+                        cellContent += `
+                            <div style="display: flex; align-items: center; gap: 3px; flex-wrap: wrap; margin-bottom: 1px;">
+                                <div class="compact-flag-mini ${flagClass}" style="width:18px; height:12px;"></div>
+                                <span style="font-size: 13px;">${emoji}</span>
+                                <span style="font-weight: 600; color: #2980b9; font-size: 0.7rem; white-space: normal; word-break: break-word;">${localite}</span>
+                            </div>
+                        `;
+                        
+                        // ===== LIGNE 2 : LIEU (COMPLET) =====
+                        if (lieu && lieu.trim() !== '') {
+                            cellContent += `
+                                <div style="display: flex; align-items: center; gap: 3px; margin: 1px 0 1px 18px; color: #f97316; font-weight: 500; font-size: 0.7rem; white-space: normal; word-break: break-word;">
+                                    <i class="fas fa-map-marker-alt" style="font-size: 0.65rem; min-width: 12px;"></i>
+                                    <span>${lieu}</span>
+                                </div>
+                            `;
+                        }
+                        
+                        // ===== LIGNE 3 : HEURE (COMPLET) =====
+                        if (heures && heures.trim() !== '') {
+                            cellContent += `
+                                <div style="display: flex; align-items: center; gap: 3px; margin: 1px 0 1px 18px; color: #2563eb; font-weight: 600; font-size: 0.7rem; white-space: normal; word-break: break-word;">
+                                    <i class="fas fa-clock" style="font-size: 0.65rem; min-width: 12px;"></i>
+                                    <span>${heures}</span>
+                                </div>
+                            `;
+                        }
+                    });
+                    
+                    cellContent += `</div>`;
+                    
+                    // Rendre la case cliquable
+                    html += `<div class="${dayClass}" onclick="showDateModal(new Date(${month.year}, ${month.index}, ${day}), '${programsForDate[0].localite || ''}', '${programsForDate[0].pays || ''}')">`;
+                    html += cellContent;
+                    html += `</div>`;
+                    
+                } else {
+                    // Case vide
+                    html += `<div class="compact-grid-day compact-day-empty">`;
+                    html += `<div class="compact-day-number">${day}</div>`;
+                    html += `<div style="color:#cbd5e0; text-align:center; font-style:italic;">—</div>`;
+                    html += `</div>`;
+                }
+            } else {
+                // Jour n'existe pas dans ce mois
+                html += `<div class="compact-grid-day compact-day-empty" style="background:#f1f5f9;">`;
+                html += `<div style="color:#cbd5e0; text-align:center;">—</div>`;
+                html += `</div>`;
+            }
+        });
+    }
+    
+    html += `
+            </div>
+        </div>
+        <div style="margin-top: 12px; font-size: 0.75rem; color: #718096; display: flex; gap: 20px; flex-wrap: wrap; align-items: center;">
+            <span><span style="display:inline-block; width:12px; height:12px; background:#fef3e2; border:1px solid #f59e0b; border-radius:3px;"></span> Samedi</span>
+            <span><span style="display:inline-block; width:12px; height:12px; background:#fce4e4; border:1px solid #ef4444; border-radius:3px;"></span> Dimanche</span>
+            <span><i class="fas fa-flag"></i> Drapeau pays</span>
+            <span><span style="font-size:1rem;">🎵</span> Type de programme</span>
+            <span><i class="fas fa-map-marker-alt" style="color:#f97316;"></i> Lieu</span>
+            <span><i class="fas fa-clock" style="color:#2563eb;"></i> Heure</span>
+        </div>
+    `;
+    
+    return html;
+}    </script>
 </body>
 </html>
