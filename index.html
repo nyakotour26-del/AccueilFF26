@@ -6245,6 +6245,157 @@
         min-height: 80px;
     }
 }
+/* FORCER 1 COLONNE SUR MOBILE - SOLUTION ULTIME */
+@media (max-width: 768px) {
+    .country-programmes-grid,
+    [class*="programmes-grid"],
+    div[style*="grid-template-columns: repeat(2, 1fr)"] {
+        grid-template-columns: 1fr !important;
+        display: grid !important;
+    }
+}
+/* ===== 3. STATISTIQUES MENSUELLES - ULTRA COMPACT ===== */
+.monthly-stats-section {
+    padding: 4px !important;
+    margin-top: 6px !important;
+}
+
+.monthly-stats-title {
+    font-size: 0.8rem !important;
+    margin-bottom: 2px !important;
+    padding-bottom: 2px !important;
+}
+
+.monthly-stats-grid {
+    gap: 4px !important;
+}
+
+.month-card {
+    padding: 3px !important;
+    margin: 0 !important;
+    border-radius: 6px !important;
+}
+
+.month-name {
+    font-size: 0.75rem !important;
+    padding: 2px 0 !important;
+    margin-bottom: 1px !important;
+    line-height: 1 !important;
+}
+
+/* Ligne drapeaux et labels */
+.month-card > div:first-of-type {
+    margin-bottom: 1px !important;
+}
+
+.month-flags {
+    gap: 1px !important;
+}
+
+.month-flag-mini {
+    width: 14px !important;
+    height: 9px !important;
+}
+
+/* Labels "Programmes" et "Pays visités" - SUR LA MÊME LIGNE */
+.month-card > div:first-of-type > div:last-child {
+    gap: 2px !important;
+    font-size: 0.5rem !important;
+}
+
+.month-card > div:first-of-type > div:last-child span {
+    font-size: 0.5rem !important;
+    padding: 1px 3px !important;
+    border-radius: 8px !important;
+    line-height: 1 !important;
+}
+
+/* Section programmes par pays */
+.month-card > div:nth-child(2) {
+    margin: 1px 0 !important;
+}
+
+.month-card > div:nth-child(2) > div {
+    padding: 2px !important;
+    margin-bottom: 2px !important;
+    border-radius: 4px !important;
+}
+
+/* En-tête de chaque pays */
+.month-card > div:nth-child(2) > div > div:first-child {
+    margin-bottom: 1px !important;
+    padding-bottom: 1px !important;
+}
+
+.month-card > div:nth-child(2) > div > div:first-child .flag-class {
+    width: 12px !important;
+    height: 8px !important;
+    margin-right: 2px !important;
+}
+
+.month-card > div:nth-child(2) > div > div:first-child span {
+    font-size: 0.6rem !important;
+    line-height: 1 !important;
+}
+
+.month-card > div:nth-child(2) > div > div:first-child span:last-child {
+    font-size: 0.5rem !important;
+    padding: 0px 3px !important;
+    border-radius: 8px !important;
+    line-height: 1 !important;
+}
+
+/* Badges des programmes par type - EN LIGNE COMPACTE */
+.month-card > div:nth-child(2) > div > div:last-child {
+    gap: 2px !important;
+    flex-wrap: wrap !important;
+}
+
+.month-card > div:nth-child(2) > div > div:last-child span {
+    font-size: 0.5rem !important;
+    padding: 1px 3px !important;
+    border-radius: 4px !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+.month-card > div:nth-child(2) > div > div:last-child span span:first-child {
+    font-size: 0.6rem !important;
+    margin-right: 1px !important;
+}
+
+.month-card > div:nth-child(2) > div > div:last-child span span:last-child {
+    font-size: 0.45rem !important;
+    padding: 0px 2px !important;
+    border-radius: 6px !important;
+    margin-left: 1px !important;
+    line-height: 1 !important;
+}
+
+/* Kilométrage */
+.month-card > div:last-child {
+    margin-top: 1px !important;
+    padding: 2px 4px !important;
+    font-size: 0.55rem !important;
+    border-radius: 8px !important;
+    line-height: 1 !important;
+}
+
+.month-card > div:last-child i {
+    font-size: 0.6rem !important;
+}
+
+/* Supprimer tous les margin et padding inutiles */
+.month-card * {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Réduire les hauteurs de ligne */
+.month-card div {
+    line-height: 1 !important;
+}
     </style>
 </head>
 <body>
@@ -12709,9 +12860,16 @@ function generateRecapByCountry() {
         
         if (datesWithLocation.length > 0) {
             const programCardsGrid = document.createElement('div');
-            programCardsGrid.style.display = 'grid';
-            programCardsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
-            programCardsGrid.style.gap = '10px';
+programCardsGrid.style.display = 'grid';
+
+// Détection du mobile
+if (window.innerWidth <= 768) {
+    programCardsGrid.style.gridTemplateColumns = '1fr'; // 1 colonne sur mobile
+} else {
+    programCardsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)'; // 2 colonnes sur desktop
+}
+
+programCardsGrid.style.gap = '10px';
             
             datesWithLocation.forEach(dateItem => {
                 const programEmoji = getProgramEmoji(dateItem.programme);
