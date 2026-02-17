@@ -3027,12 +3027,10 @@
 .grouped-popup .leaflet-popup-content {
     margin: 0;
     padding: 10px;
-    max-height: 500px;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #4299e1 #f1f1f1;
 }
-
 .grouped-popup .leaflet-popup-content::-webkit-scrollbar {
     width: 8px;
 }
@@ -3234,11 +3232,15 @@
     z-index: 10000 !important; /* Au-dessus de tout */
     margin-bottom: 40px !important; /* Espace en bas */
 }
-
+/* ===== CORRECTIONS POUR LES POPUPS SUR MOBILE ===== */
 .leaflet-popup-content-wrapper {
     border-radius: 6px !important;
     padding: 0 !important;
-    max-height: 220px !important;
+    overflow: hidden !important;
+}
+.leaflet-popup-content-wrapper {
+    border-radius: 6px !important;
+    padding: 0 !important;
     overflow: hidden !important;
 }
 
@@ -3248,7 +3250,6 @@
     line-height: 1.1 !important;
     font-size: 0.75rem !important;
 }
-
 .leaflet-popup-tip-container {
     margin-top: -1px !important;
 }
@@ -3273,13 +3274,11 @@
 @media (max-width: 768px) {
     .leaflet-popup-content-wrapper {
         max-width: 220px !important;
-        max-height: 200px !important;
     }
     
     .leaflet-popup-content {
         font-size: 0.7rem !important;
         margin: 6px !important;
-        max-height: 180px !important;
     }
     
     .leaflet-popup {
@@ -6119,6 +6118,174 @@
         padding: 15px;
     }
 }
+/* ===== STYLES POUR LES MARQUEURS DE ROUTE ===== */
+.arrow-icon, .transition-icon {
+    background: transparent !important;
+    border: none !important;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.15));
+    transition: transform 0.2s ease;
+}
+
+.arrow-icon:hover, .transition-icon:hover {
+    transform: scale(1.1);
+    z-index: 1000 !important;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+}
+
+/* Animation légère au survol */
+.arrow-icon:hover div:first-child, 
+.transition-icon:hover div:first-child {
+    animation: bounce 0.5s ease infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0) rotate(var(--rotation)); }
+    50% { transform: translateY(-3px) rotate(var(--rotation)); }
+}
+/* ===== STYLES POUR LES POPUPS DE SURVOL SUR LA CARTE ===== */
+.map-hover-popup .leaflet-popup-content-wrapper {
+    border-radius: 6px;
+    padding: 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border: 2px solid white;
+    background: white;
+}
+
+.map-hover-popup .leaflet-popup-content {
+    margin: 0;
+    padding: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.map-hover-popup .leaflet-popup-tip {
+    background: white;
+}
+
+/* Version desktop uniquement */
+@media (min-width: 769px) {
+    .map-hover-popup {
+        pointer-events: none; /* Empêche la popup d'interférer avec le survol */
+    }
+}
+
+/* Animation d'apparition */
+.map-hover-popup {
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* ===== AMÉLIORATIONS POUR LES POPUPS DE SURVOL ===== */
+.map-hover-popup .leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    padding: 0;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    border: 2px solid white;
+    background: white;
+    overflow: hidden;
+}
+
+.map-hover-popup .leaflet-popup-content {
+    margin: 0;
+    padding: 0;
+    max-height: 450px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: ${getCountryColor} #f1f1f1;
+}
+
+.map-hover-popup .leaflet-popup-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.map-hover-popup .leaflet-popup-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.map-hover-popup .leaflet-popup-content::-webkit-scrollbar-thumb {
+    background: #4299e1;
+    border-radius: 3px;
+}
+
+.map-hover-popup .leaflet-popup-tip {
+    background: white;
+}
+
+/* Animation d'apparition */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.map-hover-popup {
+    animation: slideUp 0.2s ease-out;
+}
+
+/* Version desktop uniquement */
+@media (min-width: 769px) {
+    .map-hover-popup {
+        pointer-events: none;
+    }
+}
+/* ===== STYLES POUR LA POPUP DE SURVOL ENRICHIE ===== */
+.map-hover-popup-enhanced .leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    padding: 0;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    border: 2px solid white;
+    background: white;
+    overflow: hidden;
+}
+
+.map-hover-popup-enhanced .leaflet-popup-content {
+    margin: 0;
+    padding: 0;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.map-hover-popup-enhanced .leaflet-popup-tip {
+    background: white;
+}
+
+/* Animation d'apparition */
+.map-hover-popup-enhanced {
+    animation: slideUpFade 0.2s ease-out;
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Empêcher l'interaction avec la popup de survol */
+@media (min-width: 769px) {
+    .map-hover-popup-enhanced {
+        pointer-events: none;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -7433,8 +7600,415 @@ minZoom: 4,
                 return null;
             }
         }
+// ===== CRÉER LE CONTENU DE L'INFOBULLE POUR LA CARTE (VERSION DÉTAILLÉE) =====
+function createMapTooltipContent(group) {
+    const { programs, localite, pays, coords } = group;
+    const programCount = programs.length;
+    
+    // Trier les programmes par date
+    const sortedPrograms = [...programs].sort((a, b) => a.date - b.date);
+    
+    // Récupérer le nom complet du pays
+    const countryName = formatCountryName(pays);
+    
+    let html = `
+        <div style="
+            font-family: 'Segoe UI', sans-serif;
+            max-width: 280px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            padding: 0;
+        ">
+            <!-- EN-TÊTE AVEC LOCALITÉ ET PAYS -->
+            <div style="
+                background: ${getCountryColor(pays)};
+                color: white;
+                padding: 10px 12px;
+                border-radius: 6px 6px 0 0;
+                margin: 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            ">
+                <div style="font-weight: 700; font-size: 0.9rem;">
+                    <i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i>
+                    ${localite || 'Lieu non spécifié'}
+                </div>
+                <div style="
+                    background: rgba(255,255,255,0.25);
+                    padding: 4px 10px;
+                    border-radius: 20px;
+                    font-size: 0.7rem;
+                    font-weight: 600;
+                ">
+                    ${countryName}
+                </div>
+            </div>
+            
+            <!-- COORDONNÉES (si disponibles) -->
+            ${coords ? `
+            <div style="
+                background: #f1f5f9;
+                padding: 5px 10px;
+                font-size: 0.65rem;
+                color: #475569;
+                border-bottom: 1px dashed #cbd5e0;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            ">
+                <i class="fas fa-map-pin" style="color: ${getCountryColor(pays)}; font-size: 0.7rem;"></i>
+                <span style="font-family: monospace;">${coords[0].toFixed(5)}, ${coords[1].toFixed(5)}</span>
+            </div>
+            ` : ''}
+            
+            <!-- NOMBRE DE PROGRAMMES -->
+            <div style="
+                background: #f8fafc;
+                padding: 6px 10px;
+                font-weight: 600;
+                color: #2d3748;
+                border-bottom: 2px solid ${getCountryColor(pays)}30;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            ">
+                <i class="fas fa-calendar-alt" style="color: ${getCountryColor(pays)};"></i>
+                ${programCount} programme${programCount > 1 ? 's' : ''} à cet endroit
+            </div>
+            
+            <!-- LISTE DES PROGRAMMES -->
+            <div style="max-height: 300px; overflow-y: auto; padding: 8px;">
+    `;
+    
+    // Afficher TOUS les programmes (pas de limite)
+    sortedPrograms.forEach((program, index) => {
+        const rowData = program.rowData || getRowData(program.rowIndex);
+        const programmeOriginal = (rowData.programmeOriginal || '').trim();
+        const programmeText = rowData.programme || 'Concert';
+        const lieu = rowData.lieu || '';
+        const heures = rowData.heures || '';
+        const adresse = rowData.adresse || '';
+        const trajets = rowData.trajets || '';
+        const hebergement = rowData.hebergement || '';
+        
+        // Déterminer l'emoji
+        const emoji = getProgramEmoji(programmeText);
+        
+        // Formater la date
+        const dateStr = formatDateForDisplay(program.date);
+        const dateShort = `${program.date.getDate()}/${program.date.getMonth()+1}`;
+        
+        // Couleur de bordure selon le type
+        let borderColor = getCountryColor(pays);
+        let bgColor = '#ffffff';
+        
+        const programmeLower = programmeText.toLowerCase();
+        if (programmeLower.includes('vol') || programmeLower.includes('avion')) {
+            borderColor = '#3b82f6';
+            bgColor = '#eff6ff';
+        } else if (programmeLower.includes('repos')) {
+            borderColor = '#10b981';
+            bgColor = '#d1fae5';
+        } else if (programmeLower.includes('repas')) {
+            borderColor = '#e6b800';
+            bgColor = '#fff9e6';
+        }
+        
+        html += `
+            <div style="
+                margin-bottom: 12px;
+                padding: 10px;
+                background: ${bgColor};
+                border-radius: 8px;
+                border-left: 4px solid ${borderColor};
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            ">
+                <!-- LIGNE 1 : DATE ET HEURE -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="font-size: 1.2rem;">${emoji}</span>
+                        <span style="font-weight: 700; color: #059669;">${dateStr}</span>
+                    </div>
+                    ${heures ? `
+                    <span style="
+                        background: ${borderColor};
+                        color: white;
+                        padding: 3px 10px;
+                        border-radius: 20px;
+                        font-size: 0.7rem;
+                        font-weight: 600;
+                    ">
+                        <i class="fas fa-clock" style="margin-right: 3px;"></i>${heures}
+                    </span>` : ''}
+                </div>
+                
+                <!-- LIGNE 2 : LIEU (si présent) -->
+                ${lieu ? `
+                <div style="
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    margin-bottom: 4px;
+                    color: #f97316;
+                    font-weight: 500;
+                    font-size: 0.75rem;
+                ">
+                    <i class="fas fa-map-marker-alt" style="font-size: 0.7rem;"></i>
+                    <span>${lieu}</span>
+                </div>` : ''}
+                
+                <!-- LIGNE 3 : PROGRAMME -->
+                <div style="
+                    font-weight: 700;
+                    color: ${borderColor};
+                    font-size: 0.8rem;
+                    margin-bottom: 4px;
+                    padding-left: 20px;
+                ">
+                    ${programmeText}
+                </div>
+                
+                <!-- LIGNE 4 : ADRESSE/CONTACT (si présent) -->
+                ${adresse ? `
+                <div style="
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    margin-top: 4px;
+                    font-size: 0.7rem;
+                    color: #4a5568;
+                    background: #f8fafc;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                ">
+                    <i class="fas fa-user" style="font-size: 0.7rem;"></i>
+                    <span>${adresse}</span>
+                </div>` : ''}
+                
+                <!-- LIGNE 5 : TRAJET (si présent) -->
+                ${trajets ? `
+                <div style="
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    margin-top: 4px;
+                    font-size: 0.7rem;
+                    color: #7c3aed;
+                    background: #f5f3ff;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                ">
+                    <i class="fas fa-route" style="font-size: 0.7rem;"></i>
+                    <span>${trajets}</span>
+                </div>` : ''}
+                
+                <!-- LIGNE 6 : HÉBERGEMENT (si présent) -->
+                ${hebergement ? `
+                <div style="
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    margin-top: 4px;
+                    font-size: 0.7rem;
+                    color: #059669;
+                    background: #d1fae5;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                ">
+                    <i class="fas fa-bed" style="font-size: 0.7rem;"></i>
+                    <span>${hebergement}</span>
+                </div>` : ''}
+            </div>
+        `;
+    });
+    
+    html += `
+            </div>
+            
+            <!-- PIED DE PAGE -->
+            <div style="
+                background: #f8fafc;
+                padding: 6px 10px;
+                font-size: 0.65rem;
+                color: #64748b;
+                text-align: center;
+                border-top: 1px solid #e2e8f0;
+                border-radius: 0 0 6px 6px;
+            ">
+                <i class="fas fa-info-circle"></i> Cliquez pour plus de détails
+            </div>
+        </div>
+    `;
+    
+    return html;
+}    
+// ===== CRÉER LE CONTENU DE L'INFOBULLE DE SURVOL ENRICHI =====
+function createEnhancedMapTooltipContent(group) {
+    const { programs, localite, pays, coords } = group;
+    const programCount = programs.length;
+    
+    // Trier les programmes par date
+    const sortedPrograms = [...programs].sort((a, b) => a.date - b.date);
+    
+    // Récupérer le nom complet du pays
+    const countryName = formatCountryName(pays);
+    
+    // Calculer les statistiques
+    const uniqueLocalites = new Set();
+    const uniqueLieus = new Set();
+    const programTypes = {};
+    
+    sortedPrograms.forEach(p => {
+        const rowData = p.rowData || getRowData(p.rowIndex);
+        if (rowData.localite) uniqueLocalites.add(rowData.localite);
+        if (rowData.lieu) uniqueLieus.add(rowData.lieu);
+        
+        const type = rowData.programme || 'Concert';
+        programTypes[type] = (programTypes[type] || 0) + 1;
+    });
+    
+    // Créer un résumé des types
+    const typesSummary = Object.entries(programTypes)
+        .map(([type, count]) => `${getProgramEmoji(type)} ${type}${count > 1 ? ` (${count})` : ''}`)
+        .join(' • ');
+    
+    let html = `
+        <div style="
+            font-family: 'Segoe UI', sans-serif;
+            width: 100%;
+            font-size: 0.75rem;
+            line-height: 1.3;
+            padding: 0;
+        ">
+            <!-- EN-TÊTE AVEC LOCALITÉ ET PAYS -->
+            <div style="
+                background: ${getCountryColor(pays)};
+                color: white;
+                padding: 8px 10px;
+                border-radius: 6px 6px 0 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            ">
+                <div style="font-weight: 700; font-size: 0.8rem;">
+                    <i class="fas fa-map-marker-alt" style="margin-right: 4px;"></i>
+                    ${localite || 'Lieu'}
+                </div>
+                <div style="
+                    background: rgba(255,255,255,0.2);
+                    padding: 2px 8px;
+                    border-radius: 12px;
+                    font-size: 0.65rem;
+                ">
+                    ${countryName}
+                </div>
+            </div>
+            
+            <!-- STATISTIQUES RAPIDES -->
+            <div style="
+                background: #f8fafc;
+                padding: 6px 10px;
+                border-bottom: 1px solid #e2e8f0;
+                display: flex;
+                gap: 12px;
+                font-size: 0.65rem;
+            ">
+                <span><i class="fas fa-calendar-alt" style="color: ${getCountryColor(pays)};"></i> ${programCount} prog</span>
+                <span><i class="fas fa-map-pin" style="color: ${getCountryColor(pays)};"></i> ${uniqueLocalites.size} localité${uniqueLocalites.size > 1 ? 's' : ''}</span>
+                <span><i class="fas fa-landmark" style="color: ${getCountryColor(pays)};"></i> ${uniqueLieus.size} lieu${uniqueLieus.size > 1 ? 'x' : ''}</span>
+            </div>
+            
+            <!-- RÉSUMÉ DES TYPES -->
+            <div style="
+                background: #f1f5f9;
+                padding: 5px 10px;
+                font-size: 0.65rem;
+                color: #334155;
+                border-bottom: 1px solid #e2e8f0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            ">
+                <i class="fas fa-tags" style="color: ${getCountryColor(pays)}; margin-right: 4px;"></i>
+                ${typesSummary}
+            </div>
+            
+          <!-- LISTE DES PROGRAMMES -->
+<div style="overflow-y: auto; padding: 6px;">
+    `;
+    
+    // Afficher les 3 premiers programmes
+    const maxToShow = Math.min(programCount, 3);
+    for (let i = 0; i < maxToShow; i++) {
+        const program = sortedPrograms[i];
+        const rowData = program.rowData || getRowData(program.rowIndex);
+        const programmeText = rowData.programme || 'Concert';
+        const emoji = getProgramEmoji(programmeText);
+        const heures = rowData.heures || '';
+        const lieu = rowData.lieu || '';
+        const dateStr = formatDateForDisplay(program.date);
+        
+        html += `
+            <div style="
+                margin-bottom: 6px;
+                padding: 5px;
+                background: white;
+                border-radius: 4px;
+                border-left: 2px solid ${getCountryColor(pays)};
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            ">
+                <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 2px;">
+                    <span style="font-size: 1rem;">${emoji}</span>
+                    <span style="font-weight: 600; color: #059669;">${dateStr}</span>
+                    ${heures ? `<span style="color: #2563eb; font-size: 0.6rem; background: #dbeafe; padding: 1px 5px; border-radius: 10px;">${heures}</span>` : ''}
+                </div>
+                <div style="font-weight: 600; color: ${getCountryColor(pays)}; font-size: 0.7rem; margin-left: 20px;">${programmeText}</div>
+                ${lieu ? `<div style="font-size: 0.65rem; color: #f97316; margin-left: 20px;"><i class="fas fa-map-marker-alt" style="font-size:0.55rem;"></i> ${lieu}</div>` : ''}
+            </div>
+        `;
+    }
+    
+    // Indiquer s'il y a plus de programmes
+    if (programCount > 3) {
+        html += `
+            <div style="
+                text-align: center;
+                font-size: 0.65rem;
+                color: #6b21a8;
+                background: #f3e8ff;
+                padding: 3px;
+                border-radius: 4px;
+                margin-top: 4px;
+            ">
+                <i class="fas fa-chevron-down" style="font-size: 0.55rem;"></i>
+                + ${programCount - 3} autre${programCount - 3 > 1 ? 's' : ''} programme${programCount - 3 > 1 ? 's' : ''}
+            </div>
+        `;
+    }
+    
+    html += `
+            </div>
+            
+            <!-- PIED DE PAGE -->
+            <div style="
+                background: #f8fafc;
+                padding: 4px;
+                font-size: 0.6rem;
+                color: #64748b;
+                text-align: center;
+                border-top: 1px solid #e2e8f0;
+                border-radius: 0 0 6px 6px;
+            ">
+                <i class="fas fa-mouse-pointer"></i> Cliquez pour voir tous les détails
+            </div>
+        </div>
+    `;
+    
+    return html;
+}
 
-        // ===== MODIFICATION AMÉLIORÉE : GÉOCODER UNE LOCALITÉ =====
+    // ===== MODIFICATION AMÉLIORÉE : GÉOCODER UNE LOCALITÉ =====
         async function geocodeLocation(location, country) {
             // Si on a déjà des coordonnées approximatives pour le pays, les utiliser
             const countryCoordinates = {
@@ -7665,21 +8239,78 @@ const markerIcon = L.divIcon({
             icon: markerIcon,
             title: `${group.localite} - ${numPrograms} programme${numPrograms > 1 ? 's' : ''}`
         }).addTo(tourMap);
+     // ===== AJOUTER LE SURVOL SUR DESKTOP UNIQUEMENT =====
+// ===== POPUP AU SURVOL AMÉLIORÉE (uniquement sur desktop) =====
+if (window.innerWidth > 768) {
+    let tooltipTimeout;
+    let hoverPopup = null;
+    
+    marker.on('mouseover', function(e) {
+        if (tooltipTimeout) clearTimeout(tooltipTimeout);
         
+        tooltipTimeout = setTimeout(() => {
+            // Fermer toute autre popup de survol ouverte
+            if (hoverPopup) {
+                tourMap.closePopup(hoverPopup);
+            }
+            
+            // Créer le contenu enrichi
+            const content = createEnhancedMapTooltipContent(group);
+            
+            // Créer et ouvrir la nouvelle popup
+            hoverPopup = L.popup({
+                className: 'map-hover-popup-enhanced',
+                closeButton: false,
+                autoClose: false,
+                closeOnClick: false,
+                offset: [0, -15],
+                maxWidth: 320,
+                minWidth: 280
+            })
+            .setLatLng(marker.getLatLng())
+            .setContent(content)
+            .openOn(tourMap);
+            
+        }, 400);
+    });
+    
+    marker.on('mouseout', function(e) {
+        if (tooltipTimeout) {
+            clearTimeout(tooltipTimeout);
+            tooltipTimeout = null;
+        }
+        
+        setTimeout(() => {
+            if (hoverPopup) {
+                tourMap.closePopup(hoverPopup);
+                hoverPopup = null;
+            }
+        }, 300);
+    });
+    
+    marker.on('click', function() {
+        if (tooltipTimeout) {
+            clearTimeout(tooltipTimeout);
+            tooltipTimeout = null;
+        }
+        if (hoverPopup) {
+            tourMap.closePopup(hoverPopup);
+            hoverPopup = null;
+        }
+    });
+}
         // Créer le contenu de la bulle groupée
         const popupContent = createGroupedPopupContent(group);
-    marker.bindPopup(popupContent, { 
-    maxWidth: 250,       // Réduit à 250px
-    minWidth: 220,       // Réduit à 220px
-    maxHeight: 220,      // Réduit à 220px
-    className: 'grouped-popup',
-    autoPanPaddingTopLeft: [30, 30],  // Plus de marge en haut à gauche
-    autoPanPaddingBottomRight: [30, 30], // Plus de marge en bas à droite
-    keepInView: true,    // Garde la popup dans la vue
-    closeButton: true,   // Bouton de fermeture visible
-    autoClose: false     // Ne pas fermer automatiquement les autres popups
-});
-        
+marker.bindPopup(popupContent, { 
+    maxWidth: 450,
+    minWidth: 350,
+    className: 'grouped-popup-large',
+    autoPanPaddingTopLeft: [20, 20],
+    autoPanPaddingBottomRight: [20, 20],
+    keepInView: true,
+    closeButton: true,
+    autoClose: false
+});        
         // Stocker le marqueur
         mapMarkers.push(marker);
         locations.push(coords);
@@ -7721,7 +8352,7 @@ const markerIcon = L.divIcon({
             }).addTo(tourMap);
             countryRoutes.push(countryRoute);
             
-           // Ajouter des flèches pour la route du pays - VERSION LISIBLE
+          // Ajouter des flèches pour la route du pays - SANS AFFICHAGE PERMANENT
 for (let j = 0; j < countryLocations.length - 1; j++) {
     const start = countryLocations[j];
     const end = countryLocations[j + 1];
@@ -7730,10 +8361,8 @@ for (let j = 0; j < countryLocations.length - 1; j++) {
     const midLat = (start[0] + end[0]) / 2;
     const midLng = (start[1] + end[1]) / 2;
     
-    // ===== RÉCUPÉRER LE TRAJET =====
+    // ===== RÉCUPÉRER LE TRAJET POUR LE TITRE (AU SURVOL) =====
     let trajetText = '';
-    let distanceValue = '';
-    let dureeValue = '';
     
     // Chercher dans les données
     if (datesWithData && datesWithData.length > 0) {
@@ -7747,15 +8376,6 @@ for (let j = 0; j < countryLocations.length - 1; j++) {
                     Math.abs(coords[1] - end[1]) < 0.01) {
                     if (rowData.trajets && rowData.trajets.trim() !== '') {
                         trajetText = rowData.trajets;
-                        
-                        // Extraire la distance (km)
-                        const distanceMatch = trajetText.match(/(\d+[\.,]?\d*)\s*km/i);
-                        if (distanceMatch) distanceValue = distanceMatch[0];
-                        
-                        // Extraire la durée (h/min)
-                        const dureeMatch = trajetText.match(/(\d+h\d*|\d+\s*min|\d+\s*minutes)/i);
-                        if (dureeMatch) dureeValue = dureeMatch[0];
-                        
                         break;
                     }
                 }
@@ -7763,91 +8383,73 @@ for (let j = 0; j < countryLocations.length - 1; j++) {
         }
     }
     
-    // FORMATER LE TEXTE COMPACT MAIS LISIBLE
-    let infoText = '';
-    if (distanceValue && dureeValue) {
-        infoText = `${distanceValue.replace(' ', '')} ${dureeValue.replace(' ', '')}`;
-    } else if (distanceValue) {
-        infoText = distanceValue;
-    } else if (dureeValue) {
-        infoText = dureeValue;
-    } else if (trajetText) {
-        infoText = trajetText.length > 15 ? trajetText.substring(0, 12) + '…' : trajetText;
-    }
-    
-    // CRÉER UN MARQUEUR MICRO MAIS LISIBLE
-    const arrowIcon = L.divIcon({
-        className: 'arrow-icon',
-        html: `<div style="
+    // CRÉER UN MARQUEUR SIMPLE (juste le rond avec numéro)
+    // CRÉER UN MARQUEUR EN TRIANGLE AVEC R1, R2, etc.
+const arrowIcon = L.divIcon({
+    className: 'arrow-icon',
+    html: `<div style="
+        position: relative;
+        width: 40px;
+        height: 45px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    ">
+        <!-- TRIANGLE (FLÈCHE) -->
+        <div style="
+            width: 0; 
+            height: 0; 
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 18px solid ${routeColor};
+            opacity: 0.9;
+            transform: rotate(${calculateBearing(start, end)}deg);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            margin-top: 5px;
             position: relative;
-            width: 30px;
-            height: 40px;
+        "></div>
+        
+        <!-- ROND BLANC AVEC TEXTE "R1", "R2", etc. -->
+        <div style="
+            position: absolute;
+            top: 0px;
+            background: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-        ">
-            <!-- PETIT ROND AVEC NUMÉRO (comme les ronds date) -->
-            <div style="
-                position: absolute;
-                top: -12px;
-                background: ${routeColor};
-                color: white;
-                border-radius: 50%;
-                width: 20px;
-                height: 20px;
-                font-size: 10px;
-                font-weight: 800;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border: 2px solid white;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-                z-index: 10;
-            ">${j+1}</div>
-            
-            <!-- FLÈCHE MICRO -->
-            <div style="
-                width: 0; 
-                height: 0; 
-                border-left: 7px solid transparent;
-                border-right: 7px solid transparent;
-                border-bottom: 12px solid ${routeColor};
-                opacity: 0.8;
-                transform: rotate(${calculateBearing(start, end)}deg);
-                filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
-                margin-top: 5px;
-            "></div>
-            
-            <!-- INFO TRAJET LISIBLE -->
-            ${infoText ? `
-            <div style="
-                position: absolute;
-                top: 22px;
-                background: white;
-                border-radius: 12px;
-                padding: 3px 8px;
-                border: 1.5px solid ${routeColor};
-                font-size: 9px;
-                font-weight: 700;
-                color: #2d3748;
-                white-space: nowrap;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-                line-height: 1.2;
-                letter-spacing: normal;
-            ">
-                ${infoText}
-            </div>` : ''}
-        </div>`,
-        iconSize: [30, 50],
-        iconAnchor: [15, 30]
-    });
+            border: 2px solid ${routeColor};
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            font-weight: 900;
+            font-size: 11px;
+            color: ${routeColor};
+            z-index: 10;
+        ">R${j+1}</div>
+    </div>`,
+    iconSize: [40, 45],
+    iconAnchor: [20, 28]
+});
     
-    L.marker([midLat, midLng], { 
+    const arrowMarker = L.marker([midLat, midLng], { 
         icon: arrowIcon,
         interactive: true,
         title: trajetText || `Trajet ${j+1} → ${j+2}`
     }).addTo(tourMap);
+    
+    // Ajouter une popup au clic pour voir les détails du trajet
+    if (trajetText) {
+        arrowMarker.bindPopup(`
+            <div style="font-size: 0.7rem; padding: 4px;">
+                <div style="font-weight: 700; color: ${routeColor};">Trajet ${j+1} → ${j+2}</div>
+                <div style="margin-top: 4px;">${trajetText}</div>
+            </div>
+        `);
+    }
+    
+    mapMarkers.push(arrowMarker);
 }
         }
     });
@@ -7869,143 +8471,172 @@ addItineraryLegend();
 function createGroupedPopupContent(group) {
     const { coords, programs, localite, pays } = group;
     const numPrograms = programs.length;
+
+    // Formater la date du premier programme (dd/mm)
     const firstDate = programs[0].date;
-    
-    // Formater la date dd-mm
     const day = firstDate.getDate().toString().padStart(2, '0');
     const month = (firstDate.getMonth() + 1).toString().padStart(2, '0');
-    const dateText = `${day}-${month}`;
-    
+    const dateText = `${day}/${month}`;
+
+    // Compter les statistiques
+    const uniqueLocalites = new Set();
+    const uniqueLieus = new Set();
+    const programTypes = {};
+    const heuresList = [];
+
+    programs.forEach(p => {
+        if (p.localite && p.localite.trim() !== '') uniqueLocalites.add(p.localite);
+        if (p.lieu && p.lieu.trim() !== '') uniqueLieus.add(p.lieu);
+        if (p.heures && p.heures.trim() !== '') heuresList.push(p.heures);
+
+        const programmeLower = (p.programme || 'Concert').toLowerCase();
+        programTypes[programmeLower] = (programTypes[programmeLower] || 0) + 1;
+    });
+
+    // Formater les types de programmes
+    const typesDisplay = Object.keys(programTypes).map(type => {
+        const count = programTypes[type];
+        const emoji = getProgramEmoji(type);
+        return `${emoji} ${type.charAt(0).toUpperCase() + type.slice(1)}${count > 1 ? ` (${count})` : ''}`;
+    }).join(' • ');
+
+    // Début de la construction HTML
     let html = `
         <div style="
-            max-width: 250px; 
-            font-family: 'Segoe UI', sans-serif; 
-            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            max-width: 280px;
             font-size: 0.75rem;
-            line-height: 1.1;
+            line-height: 1.2;
         ">
-            <!-- En-tête MINI -->
+            <!-- EN-TÊTE (comme le tooltip) -->
             <div style="
                 background: ${getCountryColor(pays)};
                 color: white;
-                padding: 4px 6px;
-                border-radius: 4px 4px 0 0;
-                margin: -6px -6px 4px -6px;
+                padding: 8px 10px;
+                border-radius: 6px 6px 0 0;
+                margin: 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
             ">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div style="font-weight: 700; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                        <i class="fas fa-map-marker-alt" style="margin-right: 3px; font-size: 0.7rem;"></i>${localite}
-                    </div>
-                    <div style="
-                        background: rgba(255,255,255,0.25);
-                        padding: 1px 4px;
-                        border-radius: 8px;
-                        font-size: 0.6rem;
-                        font-weight: 600;
-                        flex-shrink: 0;
-                        margin-left: 4px;
-                    ">
-                        ${formatCountryName(pays)}
-                    </div>
-                </div>
-                <div style="font-size: 0.65rem; opacity: 0.9; margin-top: 2px; display: flex; justify-content: space-between;">
-                    <span style="display: flex; align-items: center; gap: 2px;">
-                        <i class="fas fa-calendar-day" style="font-size: 0.6rem;"></i> ${dateText}
-                    </span>
-                    <span style="display: flex; align-items: center; gap: 2px;">
-                        <i class="fas fa-music" style="font-size: 0.6rem;"></i> ${numPrograms}
-                    </span>
-                </div>
-            </div>
-            
-            <!-- Liste ULTRA compacte des programmes -->
-            <div style="max-height: 180px; overflow-y: auto; padding-right: 2px;">
-    `;
-    
-    // Ajouter chaque programme de façon MINI
-    programs.forEach((program, index) => {
-        const programDate = formatDateShort(program.date);
-        const isFirst = index === 0;
-        
-        html += `
-            <div class="program-item-compact" style="
-                margin-bottom: ${index === programs.length - 1 ? '0' : '3px'};
-                padding: 4px;
-                background: ${isFirst ? '#f0fdf4' : '#f8fafc'};
-                border-radius: 3px;
-                border-left: 2px solid ${getCountryColor(pays)};
-                cursor: pointer;
-                transition: all 0.2s;
-            " onclick="showSpecificProgramModal(${program.date.getTime()}, '${localite.replace(/'/g, "\\'")}')"
-             onmouseover="this.style.background='#e0f2fe';"
-             onmouseout="this.style.background='${isFirst ? '#f0fdf4' : '#f8fafc'}';">
-                
-                <!-- Ligne 1 : Date et Heure sur une ligne TINY -->
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
-                    <div style="font-weight: 700; color: #059669; font-size: 0.7rem; display: flex; align-items: center; gap: 2px;">
-                        <i class="fas fa-calendar" style="font-size: 0.6rem;"></i>${programDate}
-                    </div>
-                    ${program.heures ? `
-                    <div style="
-                        background: #dbeafe;
-                        color: #1e40af;
-                        padding: 1px 3px;
-                        border-radius: 6px;
-                        font-size: 0.65rem;
-                        font-weight: 600;
-                        display: flex;
-                        align-items: center;
-                        gap: 1px;
-                        white-space: nowrap;
-                    ">
-                        <i class="fas fa-clock" style="font-size: 0.55rem;"></i> ${program.heures.length > 8 ? program.heures.substring(0, 8) + '...' : program.heures}
-                    </div>` : ''}
-                </div>
-                
-                <!-- Ligne 2 : Lieu (MINI) -->
-                ${program.lieu ? `
-                <div style="font-weight: 600; color: #f97316; margin-bottom: 1px; font-size: 0.7rem; display: flex; align-items: center; gap: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    <i class="fas fa-landmark" style="font-size: 0.6rem; flex-shrink: 0;"></i>
-                    ${program.lieu.length > 18 ? program.lieu.substring(0, 18) + '...' : program.lieu}
-                </div>` : ''}
-                
-                <!-- Ligne 3 : Programme (MINI) -->
-                               <div style="font-weight: 700; color: #f97316; font-size: 0.7rem; display: flex; align-items: center; gap: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    <i class="fas fa-music" style="font-size: 0.6rem; flex-shrink: 0; color: #f97316;"></i>
-                    <span style="color: #f97316;">${program.programme.length > 20 ? program.programme.substring(0, 20) + '...' : program.programme}</span>
-                </div>
-                
-                <!-- Indicateur cliquable (MICRO) -->
+                <span style="font-weight: 700; font-size: 0.85rem;">
+                    <i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i>
+                    ${localite || 'Lieu non spécifié'}
+                </span>
                 <div style="
-                    text-align: right;
-                    margin-top: 2px;
-                    font-size: 0.6rem;
-                    color: #4299e1;
+                    background: rgba(255,255,255,0.25);
+                    padding: 2px 6px;
+                    border-radius: 20px;
+                    font-size: 0.65rem;
                     font-weight: 600;
                 ">
-                    <i class="fas fa-chevron-right" style="font-size: 0.5rem;"></i> Détails
+                    ${formatCountryName(pays)} | ${dateText}
                 </div>
+            </div>
+
+            <!-- STATS (comme le tooltip) -->
+            <div style="
+                background: #f8fafc;
+                padding: 6px 10px;
+                border-bottom: 1px solid #e2e8f0;
+                display: flex;
+                justify-content: space-around;
+            ">
+                <div style="display: flex; align-items: center; gap: 2px;">
+                    <i class="fas fa-map-pin" style="color: #4299e1; font-size: 0.7rem;"></i>
+                    <span style="font-weight: 700; color: #2d3748;">${uniqueLocalites.size}</span>
+                    <span style="font-size: 0.65rem; color: #718096;">loc.</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 2px;">
+                    <i class="fas fa-landmark" style="color: #f97316; font-size: 0.7rem;"></i>
+                    <span style="font-weight: 700; color: #2d3748;">${uniqueLieus.size}</span>
+                    <span style="font-size: 0.65rem; color: #718096;">lieux</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 2px;">
+                    <i class="fas fa-clock" style="color: #10b981; font-size: 0.7rem;"></i>
+                    <span style="font-weight: 700; color: #2d3748;">${heuresList.length}</span>
+                    <span style="font-size: 0.65rem; color: #718096;">hor.</span>
+                </div>
+            </div>
+
+            <!-- TYPES DE PROGRAMMES (comme le tooltip) -->
+            <div style="
+                background: #f0f9ff;
+                padding: 6px 8px;
+                border-bottom: 1px solid #e2e8f0;
+            ">
+                <div style="font-size: 0.7rem; font-weight: 600; color: #2d3748; margin-bottom: 2px;">
+                    <i class="fas fa-tags" style="margin-right: 4px;"></i> Types :
+                </div>
+                <div style="font-size: 0.65rem; color: #4a5568; line-height: 1.3;">
+                    ${typesDisplay}
+                </div>
+            </div>
+
+           <!-- LISTE DES PROGRAMMES -->
+<div style="overflow-y: auto; padding: 8px;">
+    `;
+
+    // Afficher tous les programmes de manière détaillée
+    const sortedPrograms = [...programs].sort((a, b) => a.date - b.date);
+    sortedPrograms.forEach((program, index) => {
+        const programmeText = program.programme || 'Concert';
+        const emoji = getProgramEmoji(programmeText);
+        const dateStr = formatDateForDisplay(program.date);
+        const localiteProg = program.localite || '—';
+        const lieuProg = program.lieu || '';
+        const heuresProg = program.heures || '';
+
+        // Déterminer la couleur de bordure selon le type
+        let borderColor = '#f97316';
+        const programmeLower = programmeText.toLowerCase();
+        if (programmeLower.includes('vol') || programmeLower.includes('avion')) borderColor = '#3b82f6';
+        else if (programmeLower.includes('repos')) borderColor = '#10b981';
+        else if (programmeLower.includes('repas')) borderColor = '#e6b800';
+        else if (programmeLower.includes('visite')) borderColor = '#ff8c00';
+        else if (programmeLower.includes('eglise') || programmeLower.includes('culte')) borderColor = '#6b21a8';
+
+        html += `
+            <div style="
+                margin-bottom: 8px;
+                padding: 6px 8px;
+                background: #ffffff;
+                border-radius: 4px;
+                border-left: 3px solid ${borderColor};
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            ">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                    <span style="font-weight: 700; color: #059669; font-size: 0.7rem;">
+                        <i class="fas fa-calendar-alt" style="font-size: 0.65rem;"></i> ${dateStr}
+                    </span>
+                    <span style="font-size: 1rem;">${emoji}</span>
+                </div>
+                <div style="font-weight: 600; color: #2d3748; font-size: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    📍 ${localiteProg}
+                </div>
+                ${lieuProg ? `<div style="color: #f97316; font-size: 0.65rem; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">🏛️ ${lieuProg}</div>` : ''}
+                ${heuresProg ? `<div style="color: #2563eb; font-size: 0.65rem; margin-top: 1px;"><i class="fas fa-clock" style="font-size: 0.6rem;"></i> ${heuresProg}</div>` : ''}
             </div>
         `;
     });
-    
+
+    // Pied de page (comme le tooltip)
     html += `
             </div>
-            
-            <!-- Pied de page MICRO -->
             <div style="
-                margin-top: 4px;
-                padding-top: 3px;
-                border-top: 1px solid #e2e8f0;
+                background: #f8fafc;
+                padding: 5px 8px;
                 font-size: 0.6rem;
                 color: #718096;
                 text-align: center;
+                border-top: 1px solid #e2e8f0;
+                border-radius: 0 0 6px 6px;
             ">
-                <i class="fas fa-info-circle" style="font-size: 0.55rem;"></i> Cliquez sur un programme pour plus de détails
+                <i class="fas fa-info-circle"></i> ${numPrograms} programme${numPrograms > 1 ? 's' : ''} à cet endroit
             </div>
         </div>
     `;
-    
+
     return html;
 }
 // ===== NOUVELLE FONCTION : OUVRIRE LE MODAL POUR UN PROGRAMME SPÉCIFIQUE =====
@@ -8606,8 +9237,7 @@ function addLegendStyles() {
             }
         }
         
-        // ===== NOUVELLE FONCTION : CRÉER UNE FLÈCHE DE TRANSITION ENTRE PAYS =====
-        // Créer une flèche de transition entre pays - VERSION LISIBLE
+       // Créer une flèche de transition entre pays - SANS AFFICHAGE PERMANENT
 function createCountryTransitionArrow(start, end, transitionNumber, fromCountry, toCountry) {
     // Calculer le point milieu
     const midLat = (start[0] + end[0]) / 2;
@@ -8622,10 +9252,8 @@ function createCountryTransitionArrow(start, end, transitionNumber, fromCountry,
     }).addTo(tourMap);
     interCountryRoutes.push(transitionLine);
     
-    // Récupérer les infos de trajet
+    // Récupérer les infos de trajet pour le titre
     let trajetText = '';
-    let distanceValue = '';
-    let dureeValue = '';
     
     if (window.programsByCoordinates) {
         const toCountryGroups = Object.values(window.programsByCoordinates).filter(g => 
@@ -8633,117 +9261,83 @@ function createCountryTransitionArrow(start, end, transitionNumber, fromCountry,
         );
         if (toCountryGroups.length > 0) {
             trajetText = toCountryGroups[0].programs[0].rowData.trajets;
-            
-            const distanceMatch = trajetText.match(/(\d+[\.,]?\d*)\s*km/i);
-            if (distanceMatch) distanceValue = distanceMatch[0];
-            
-            const dureeMatch = trajetText.match(/(\d+h\d*|\d+\s*min|\d+\s*minutes)/i);
-            if (dureeMatch) dureeValue = dureeMatch[0];
         }
-    }
-    
-    // FORMATER LE TEXTE COMPACT MAIS LISIBLE
-    let infoText = '';
-    if (distanceValue && dureeValue) {
-        infoText = `${distanceValue.replace(' ', '')} ${dureeValue.replace(' ', '')}`;
-    } else if (distanceValue) {
-        infoText = distanceValue;
-    } else if (dureeValue) {
-        infoText = dureeValue;
-    } else if (trajetText) {
-        infoText = trajetText.length > 15 ? trajetText.substring(0, 12) + '…' : trajetText;
     }
     
     // Couleur spécifique par pays
     const getCountryColor = (country) => {
-        if (country === 'BELGIQUE') return '#6A0DAD'; // Violet
-        if (country === 'SUISSE') return '#2E7D32';   // Vert foncé
+        if (country === 'BELGIQUE') return '#FDDA0D'; // Jaune
+        if (country === 'SUISSE') return '#D52B1E';   // Rouge
+        if (country === 'WALES') return '#8B5CF6';    // Violet
         return '#f59e0b'; // Orange par défaut
     };
     
     const transitionColor = getCountryColor(toCountry);
     
-    // CRÉER UN MARQUEUR POUR TRANSITION
+    // CRÉER UN MARQUEUR EN TRIANGLE AVEC T1, T2, etc. (NUMÉROS VERTS)
     const transitionIcon = L.divIcon({
         className: 'transition-icon',
         html: `<div style="
             position: relative;
-            width: 35px;
-            height: 45px;
+            width: 45px;
+            height: 50px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
         ">
-            <!-- PETIT ROND NUMÉROTÉ -->
-            <div style="
-                position: absolute;
-                top: -15px;
-                background: ${transitionColor};
-                color: white;
-                border-radius: 50%;
-                width: 22px;
-                height: 22px;
-                font-size: 11px;
-                font-weight: 800;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border: 2px solid white;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-                z-index: 10;
-            ">${transitionNumber}</div>
-            
-            <!-- PETITE FLÈCHE -->
+            <!-- TRIANGLE (FLÈCHE) PLUS GRAND POUR TRANSITION -->
             <div style="
                 width: 0; 
                 height: 0; 
-                border-left: 7px solid transparent;
-                border-right: 7px solid transparent;
-                border-bottom: 12px solid ${transitionColor};
-                opacity: 0.8;
-                filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+                border-left: 12px solid transparent;
+                border-right: 12px solid transparent;
+                border-bottom: 22px solid ${transitionColor};
+                opacity: 0.9;
+                filter: drop-shadow(0 2px 5px rgba(0,0,0,0.25));
                 margin-top: 5px;
+                position: relative;
             "></div>
             
-            <!-- INFO TRAJET LISIBLE -->
+            <!-- ROND BLANC AVEC TEXTE "T1", "T2", etc. (NUMÉRO VERT) -->
             <div style="
                 position: absolute;
-                top: 22px;
+                top: -2px;
                 background: white;
-                border-radius: 14px;
-                padding: 3px 10px;
-                border: 1.5px solid ${transitionColor};
-                font-size: 9px;
-                font-weight: 700;
-                color: #2d3748;
-                white-space: nowrap;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-                line-height: 1.2;
+                border-radius: 50%;
+                width: 26px;
+                height: 26px;
                 display: flex;
-                gap: 4px;
-            ">
-                <span style="color: ${transitionColor};">${fromCountry.substring(0,2)}→${toCountry.substring(0,2)}</span>
-                <span>${infoText || ''}</span>
-            </div>
+                align-items: center;
+                justify-content: center;
+                border: 2px solid #10b981; /* BORDURE VERTE */
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                font-weight: 900;
+                font-size: 12px;
+                color: #10b981; /* TEXTE VERT */
+                z-index: 10;
+            ">T${transitionNumber}</div>
         </div>`,
-        iconSize: [35, 55],
-        iconAnchor: [17, 35]
+        iconSize: [45, 50],
+        iconAnchor: [22, 30]
     });
     
     const transitionMarker = L.marker([midLat, midLng], { 
         icon: transitionIcon,
-        interactive: true
+        interactive: true,
+        title: trajetText || `Transition ${fromCountry} → ${toCountry}`
     }).addTo(tourMap);
     
     // Popup au clic
-    transitionMarker.bindPopup(`
-        <div style="font-size: 0.8rem; padding: 6px;">
-            <div style="font-weight: 800; color: ${transitionColor};">Transition #${transitionNumber}</div>
-            <div style="margin: 4px 0;">${formatCountryName(fromCountry)} → ${formatCountryName(toCountry)}</div>
-            ${trajetText ? `<div style="margin-top: 4px; color: #4a5568; background: #f7fafc; padding: 4px; border-radius: 4px;">${trajetText}</div>` : ''}
-        </div>
-    `);
+    if (trajetText) {
+        transitionMarker.bindPopup(`
+            <div style="font-size: 0.7rem; padding: 4px;">
+                <div style="font-weight: 700; color: ${transitionColor};">Transition #${transitionNumber}</div>
+                <div style="margin: 4px 0;">${formatCountryName(fromCountry)} → ${formatCountryName(toCountry)}</div>
+                <div style="margin-top: 4px; color: #4a5568; background: #f7fafc; padding: 4px; border-radius: 4px;">${trajetText}</div>
+            </div>
+        `);
+    }
     
     mapMarkers.push(transitionMarker);
 }
@@ -8766,15 +9360,15 @@ function createCountryTransitionArrow(start, end, transitionNumber, fromCountry,
             return bearing;
         }
         
-       function getCountryColor(country) {
+      function getCountryColor(country) {
     const colors = {
-        'SUISSE': '#2E7D32',      // Vert foncé (plus visible)
-        'FRANCE': '#002395',       // Bleu foncé
-        'ALLEMAGNE': '#000000',    // Noir
-        'BELGIQUE': '#6A0DAD',     // VIOLET (Belgique)
-        'WALES': '#D21034',        // Rouge
-        'ANGLETERRE': '#012169',   // Bleu marine
-        'MADAGASCAR': '#FC3D32'    // Rouge
+        'SUISSE': '#D52B1E',      // Rouge suisse
+        'FRANCE': '#002395',       // Bleu France
+        'ALLEMAGNE': '#000000',    // Noir Allemagne
+        'BELGIQUE': '#FDDA0D',     // Jaune Belgique (plus vif)
+        'WALES': '#8B5CF6',        // Violet (pour différencier de la Suisse)
+        'ANGLETERRE': '#012169',   // Bleu marine Angleterre
+        'MADAGASCAR': '#2E7D32'    // Vert Madagascar
     };
     return colors[country] || '#4299e1';
 }
@@ -11688,12 +12282,14 @@ function getCountryGradient(country) {
         'FRANCE': '#002395, #000080',
         'ALLEMAGNE': '#000000, #2d3748',
         'BELGIQUE': '#FFD700, #FFA500',
-        'WALES': '#D21034, #9b1c2c',
+        'WALES': '#8B5CF6, #6D28D9', // Violet foncé
         'ANGLETERRE': '#012169, #001b4d',
-        'MADAGASCAR': '#2E7D32, #1B5E20' // Vert pour Madagascar
+        'MADAGASCAR': '#2E7D32, #1B5E20'
     };
     return gradients[country] || '#4299e1, #3182ce';
-}       // ===== GÉNÉRER LE RÉCAPITULATIF PAR PAYS (VERSION AVEC NOMBRE PAR TYPE) =====
+}    
+
+  // ===== GÉNÉRER LE RÉCAPITULATIF PAR PAYS (VERSION AVEC NOMBRE PAR TYPE) =====
 function generateRecapByCountry() {
     const recapContainer = document.getElementById('recapContainer');
     const noDatesMessage = document.getElementById('noDatesMessage');
