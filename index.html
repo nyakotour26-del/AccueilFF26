@@ -5570,6 +5570,308 @@
     justify-content: center;
     gap: 4px;
 }
+/* ===== BARRE DE RECHERCHE GLOBALE ===== */
+.search-container {
+    margin: 20px 0 30px 0;
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 60px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(66, 153, 225, 0.2);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.search-wrapper:focus-within {
+    box-shadow: 0 15px 40px rgba(66, 153, 225, 0.25), 0 0 0 3px #4299e1;
+    transform: translateY(-2px);
+}
+
+.search-icon {
+    position: absolute;
+    left: 20px;
+    color: #718096;
+    font-size: 1.1rem;
+    z-index: 2;
+}
+
+.search-input {
+    width: 100%;
+    padding: 16px 20px 16px 55px;
+    border: none;
+    border-radius: 60px;
+    font-size: 1rem;
+    outline: none;
+    background: transparent;
+    color: #2d3748;
+    font-weight: 500;
+}
+
+.search-input::placeholder {
+    color: #a0aec0;
+    font-weight: 400;
+}
+
+.clear-search-btn {
+    position: absolute;
+    right: 20px;
+    background: #edf2f7;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.2s;
+    z-index: 2;
+    border: 1px solid #cbd5e0;
+}
+
+.clear-search-btn:hover {
+    background: #e2e8f0;
+    color: #2d3748;
+    transform: scale(1.1);
+}
+
+.clear-search-btn i {
+    font-size: 0.9rem;
+}
+
+/* ===== RÉSULTATS DE RECHERCHE ===== */
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 10px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    max-height: 450px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    border: 2px solid #4299e1;
+    padding: 10px;
+}
+
+.search-results.show {
+    display: block;
+}
+
+/* Résultat individuel */
+.search-result-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e2e8f0;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 12px;
+    margin-bottom: 5px;
+}
+
+.search-result-item:hover {
+    background: linear-gradient(135deg, #f7fafc, #ebf8ff);
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2);
+}
+
+/* En-tête du résultat (date + pays) */
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.result-date {
+    font-weight: 800;
+    color: #059669;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #f0fdf4;
+    padding: 3px 10px;
+    border-radius: 30px;
+}
+
+.result-country {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #e2e8f0;
+    padding: 3px 10px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.result-flag {
+    width: 18px;
+    height: 12px;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Corps du résultat */
+.result-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+
+.result-location {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+}
+
+.result-location i {
+    color: #f97316;
+    width: 16px;
+}
+
+.result-location span {
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.result-lieu {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    background: #fff4e6;
+    padding: 2px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.result-lieu i {
+    color: #f97316;
+}
+
+/* Programme */
+.result-programme {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.result-emoji {
+    font-size: 1.2rem;
+    background: #f1f5f9;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-text {
+    font-weight: 600;
+    color: #f97316;
+    font-size: 0.85rem;
+    flex: 1;
+}
+
+.result-time {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 3px 10px;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    white-space: nowrap;
+}
+
+/* Pied de page des résultats */
+.search-results-footer {
+    padding: 10px;
+    text-align: center;
+    color: #718096;
+    font-size: 0.75rem;
+    border-top: 1px solid #e2e8f0;
+    margin-top: 5px;
+}
+
+.search-results-footer i {
+    color: #f97316;
+}
+
+/* Message aucun résultat */
+.no-results {
+    padding: 40px 20px;
+    text-align: center;
+    color: #a0aec0;
+    font-size: 0.9rem;
+}
+
+.no-results i {
+    font-size: 3rem;
+    opacity: 0.3;
+    margin-bottom: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-container {
+        margin: 15px 0 20px 0;
+        max-width: 100%;
+        padding: 0 10px;
+    }
+    
+    .search-input {
+        padding: 12px 15px 12px 45px;
+        font-size: 0.9rem;
+    }
+    
+    .search-icon {
+        left: 15px;
+        font-size: 1rem;
+    }
+    
+    .search-results {
+        max-height: 350px;
+    }
+    
+    .result-body {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .result-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}
     </style>
 </head>
 <body>
@@ -5770,7 +6072,17 @@
             </div>
         </header>
               
-       
+      <!-- ===== BARRE DE RECHERCHE GLOBALE ===== -->
+<div class="search-container">
+    <div class="search-wrapper">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="globalSearchInput" class="search-input" placeholder="Rechercher un programme, lieu, localité, pays...">
+        <button id="clearSearchBtn" class="clear-search-btn" style="display: none;">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div id="searchResults" class="search-results"></div>
+</div> 
       <!-- ===== SECTION PROCHAIN PROGRAMME - ULTRA COMPACT ===== -->
 <div class="next-program-section" id="nextProgramSection" style="display: none;">
     <div class="next-program-header">
@@ -6298,6 +6610,11 @@
         let selectedDate = null;
         let secretariatAccess = false;
         
+// ===== DÉTECTION DE L'APPAREIL =====
+function isDesktop() {
+    return window.innerWidth > 768; // Retourne true si écran > 768px (desktop)
+}
+
         // Variables pour la navigation entre programmes
         let currentProgramIndex = 0;
         let allProgramsForDate = [];
@@ -8609,7 +8926,316 @@ function findNextProgram() {
             if (emptySection) emptySection.style.display = 'block';
         }
 
-      
+   // ===== FONCTION DE RECHERCHE GLOBALE =====
+let searchTimeout = null;
+let allProgramsForSearch = [];
+// ===== FONCTION POUR FORCER LA MISE À JOUR DE LA RECHERCHE =====
+function refreshSearchDatabase() {
+    console.log("🔄 Mise à jour forcée de la base de recherche...");
+    allProgramsForSearch = [];
+    initSearchDatabase();
+    console.log(`✅ Base de recherche mise à jour : ${allProgramsForSearch.length} programmes`);
+}
+
+// Appeler cette fonction après le chargement des données
+setTimeout(refreshSearchDatabase, 500);
+// ===== INITIALISER LA BASE DE DONNÉES DE RECHERCHE =====
+function initSearchDatabase() {
+    allProgramsForSearch = [];
+    
+    console.log("📊 DatesWithData:", datesWithData.length);
+    
+    datesWithData.forEach(item => {
+        const rowData = getRowData(item.rowIndex);
+        const programme = rowData.programme && rowData.programme.trim() !== '' 
+            ? rowData.programme 
+            : 'Concert';
+        
+        // Ignorer les retours Madagascar
+        if (rowData.localite && rowData.localite.toUpperCase().includes('RETOUR MADAGASCAR')) {
+            return;
+        }
+        
+        allProgramsForSearch.push({
+            date: item.date,
+            dateFormatted: formatDateForDisplay(item.date),
+            dateShort: formatDateShort(item.date),
+            localite: rowData.localite || '',
+            lieu: rowData.lieu || '',
+            pays: rowData.pays || '',
+            paysFormatted: formatCountryName(rowData.pays || ''),
+            programme: programme,
+            heures: rowData.heures || '',
+            adresse: rowData.adresse || '',
+            trajets: rowData.trajets || '',
+            rowData: rowData,
+            item: item
+        });
+    });
+    
+    console.log(`📚 Base de recherche initialisée : ${allProgramsForSearch.length} programmes`);
+    console.log("Premier programme exemple:", allProgramsForSearch[0]); // Vérifier le contenu
+}// ===== FONCTION DE RECHERCHE =====
+function searchPrograms(query) {
+    if (!query || query.trim() === '') {
+        return [];
+    }
+    
+    const searchTerm = query.toLowerCase().trim();
+    const terms = searchTerm.split(/\s+/).filter(t => t.length > 0);
+    
+    const results = allProgramsForSearch.filter(program => {
+        // Créer une chaîne de recherche combinée
+        const searchableText = `
+            ${program.localite} 
+            ${program.lieu} 
+            ${program.pays} 
+            ${program.paysFormatted} 
+            ${program.programme} 
+            ${program.dateFormatted} 
+            ${program.dateShort}
+            ${program.heures}
+            ${program.adresse}
+        `.toLowerCase();
+        
+        // Vérifier si tous les termes sont présents
+        return terms.every(term => searchableText.includes(term));
+    });
+    
+    // Trier les résultats par date
+    return results.sort((a, b) => a.date - b.date);
+}
+
+// ===== AFFICHER LES RÉSULTATS DE RECHERCHE =====
+function displaySearchResults(results) {
+    const resultsContainer = document.getElementById('searchResults');
+    const clearBtn = document.getElementById('clearSearchBtn');
+    
+    if (!resultsContainer) return;
+    
+    resultsContainer.innerHTML = '';
+    
+    if (results.length === 0) {
+        // Afficher "aucun résultat"
+        const noResults = document.createElement('div');
+        noResults.className = 'no-results';
+        noResults.innerHTML = `
+            <i class="fas fa-search"></i>
+            <div>Aucun programme trouvé</div>
+            <div style="font-size: 0.7rem; margin-top: 5px;">Essayez d'autres mots-clés</div>
+        `;
+        resultsContainer.appendChild(noResults);
+        resultsContainer.classList.add('show');
+        return;
+    }
+    
+    // Limiter l'affichage à 20 résultats pour éviter la surcharge
+    const resultsToShow = results.slice(0, 20);
+    
+    resultsToShow.forEach(program => {
+        const resultItem = document.createElement('div');
+        resultItem.className = 'search-result-item';
+        
+        // Déterminer l'emoji du programme
+        const emoji = getProgramEmoji(program.programme);
+        
+        // Couleur de bordure selon le type
+        let borderColor = '#f97316';
+        if (program.programme.toLowerCase().includes('vol')) borderColor = '#2563eb';
+        else if (program.programme.toLowerCase().includes('repos')) borderColor = '#10b981';
+        else if (program.programme.toLowerCase().includes('repas')) borderColor = '#f97316';
+        
+        resultItem.style.borderLeft = `4px solid ${borderColor}`;
+        
+        // Drapeau
+        const flagClass = countryFlags[program.pays.toUpperCase()] || 'flag-france';
+        
+        resultItem.innerHTML = `
+            <div class="result-header">
+                <div class="result-date">
+                    <i class="fas fa-calendar-alt"></i> ${program.dateFormatted}
+                </div>
+                <div class="result-country">
+                    <div class="result-flag ${flagClass}"></div>
+                    <span>${program.paysFormatted}</span>
+                </div>
+            </div>
+            
+            <div class="result-body">
+                <div class="result-location">
+                    <i class="fas fa-map-pin"></i>
+                    <span>${program.localite || 'Localité non spécifiée'}</span>
+                </div>
+                
+                ${program.lieu ? `
+                <div class="result-lieu">
+                    <i class="fas fa-landmark"></i>
+                    <span>${program.lieu}</span>
+                </div>
+                ` : ''}
+            </div>
+            
+            <div class="result-programme">
+                <div class="result-emoji">${emoji}</div>
+                <div class="result-text">${program.programme}</div>
+                ${program.heures ? `
+                <div class="result-time">
+                    <i class="fas fa-clock"></i> ${program.heures}
+                </div>
+                ` : ''}
+            </div>
+        `;
+        
+        // Au clic, ouvrir le modal du programme
+        resultItem.onclick = () => {
+            showRecapDateModal(program.item);
+            document.getElementById('searchResults').classList.remove('show');
+            document.getElementById('globalSearchInput').value = '';
+            document.getElementById('clearSearchBtn').style.display = 'none';
+        };
+        
+        resultsContainer.appendChild(resultItem);
+    });
+    
+    // Si plus de 20 résultats, afficher un message
+    if (results.length > 20) {
+        const footer = document.createElement('div');
+        footer.className = 'search-results-footer';
+        footer.innerHTML = `<i class="fas fa-info-circle"></i> ${results.length - 20} résultat(s) supplémentaire(s) non affiché(s)`;
+        resultsContainer.appendChild(footer);
+    }
+    
+    resultsContainer.classList.add('show');
+    
+    // Afficher le bouton clear
+    if (clearBtn) {
+        clearBtn.style.display = 'flex';
+    }
+}
+
+// ===== CONFIGURER LA BARRE DE RECHERCHE =====
+function setupSearchBar() {
+    const searchInput = document.getElementById('globalSearchInput');
+    const searchResults = document.getElementById('searchResults');
+    const clearBtn = document.getElementById('clearSearchBtn');
+    
+    if (!searchInput) return;
+    
+    // Initialiser la base de données de recherche
+    if (allProgramsForSearch.length === 0) {
+        initSearchDatabase();
+    }
+    
+    // Écouter la saisie
+    searchInput.addEventListener('input', function(e) {
+        const query = e.target.value;
+        
+        // Gérer le délai pour éviter trop de recherches
+        if (searchTimeout) {
+            clearTimeout(searchTimeout);
+        }
+        
+        if (query.length < 2) {
+            // Moins de 2 caractères, cacher les résultats
+            searchResults.classList.remove('show');
+            if (clearBtn) clearBtn.style.display = 'none';
+            return;
+        }
+        
+        searchTimeout = setTimeout(() => {
+            const results = searchPrograms(query);
+            displaySearchResults(results);
+        }, 300);
+    });
+    
+    // Focus sur l'input
+    searchInput.addEventListener('focus', function() {
+        if (this.value.length >= 2) {
+            const results = searchPrograms(this.value);
+            displaySearchResults(results);
+        }
+    });
+    
+    // Clic en dehors pour fermer
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.search-container')) {
+            searchResults.classList.remove('show');
+        }
+    });
+    
+    // Bouton clear
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            searchResults.classList.remove('show');
+            this.style.display = 'none';
+            searchInput.focus();
+        });
+    }
+    
+    // Touche Echap pour fermer
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            searchResults.classList.remove('show');
+            searchInput.blur();
+        }
+    });
+}
+// ===== FONCTION DE FORCE POUR LA RECHERCHE =====
+function forceRefreshSearch() {
+    console.log("🔄 Force refresh search database...");
+    
+    // Réinitialiser
+    allProgramsForSearch = [];
+    
+    // Reconstruire la base
+    if (datesWithData && datesWithData.length > 0) {
+        datesWithData.forEach(item => {
+            const rowData = getRowData(item.rowIndex);
+            const programme = rowData.programme && rowData.programme.trim() !== '' 
+                ? rowData.programme 
+                : 'Concert';
+            
+            // Ignorer les retours Madagascar
+            if (rowData.localite && rowData.localite.toUpperCase().includes('RETOUR MADAGASCAR')) {
+                return;
+            }
+            
+            allProgramsForSearch.push({
+                date: item.date,
+                dateFormatted: formatDateForDisplay(item.date),
+                dateShort: formatDateShort(item.date),
+                localite: rowData.localite || '',
+                lieu: rowData.lieu || '',
+                pays: rowData.pays || '',
+                paysFormatted: formatCountryName(rowData.pays || ''),
+                programme: programme,
+                heures: rowData.heures || '',
+                adresse: rowData.adresse || '',
+                trajets: rowData.trajets || '',
+                rowData: rowData,
+                item: item
+            });
+        });
+        
+        console.log(`✅ Base forcée : ${allProgramsForSearch.length} programmes`);
+        
+        // Réattacher l'événement de recherche
+        const searchInput = document.getElementById('globalSearchInput');
+        if (searchInput) {
+            searchInput.dispatchEvent(new Event('input'));
+        }
+    } else {
+        console.log("❌ datesWithData est vide");
+    }
+}
+
+// Appeler cette fonction après le chargement
+setTimeout(forceRefreshSearch, 1000);
+// ===== METTRE À JOUR LA BASE DE RECHERCHE =====
+function updateSearchDatabase() {
+    initSearchDatabase();
+}   
         // Initialisation et autres fonctions existantes...
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('prevMonth').addEventListener('click', prevMonth);
@@ -11846,7 +12472,7 @@ function renderCalendar() {
         );
         
         // ===== NOUVEAU : Tooltip au survol =====
-        if (programsForDate.length > 0) {
+               if (programsForDate.length > 0 && isDesktop()) {
             let tooltip = null;
             let hideTimeout = null;
             let showTimeout = null;
@@ -12006,7 +12632,8 @@ function renderCalendar() {
 function formatDateToCompare(date) {
     return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
 }
-       async function loadDataFromGoogleSheets(method = 'direct') {
+       // ===== CHARGER LES DONNÉES DEPUIS GOOGLE SHEETS =====
+async function loadDataFromGoogleSheets(method = 'direct') {
     document.getElementById('loadingIndicator').style.display = 'block';
     document.getElementById('retryOptions').style.display = 'none';
     clearErrorMessages();
@@ -12063,8 +12690,22 @@ function formatDateToCompare(date) {
                 if (csvText && csvText.trim().length > 100 && csvText.includes(',')) {
                     console.log(`✅ Succès avec ${methods[i].name}`);
                     processCSVData(csvText);
-                    document.getElementById('loadingIndicator').style.display = 'none';
-                    return;
+document.getElementById('loadingIndicator').style.display = 'none';
+
+// ===== METTRE À JOUR LA BASE DE RECHERCHE =====
+if (typeof updateSearchDatabase === 'function') {
+    updateSearchDatabase();
+}
+
+// ===== RÉINITIALISER LA BASE DE RECHERCHE =====
+allProgramsForSearch = [];
+initSearchDatabase();
+
+// ===== METTRE À JOUR LA LISTE DES PROGRAMMES =====
+updateProgramsList();
+findNextProgram();
+
+return;
                 }
             }
         } catch (error) {
@@ -12101,19 +12742,24 @@ function formatDateToCompare(date) {
                     row && row.some(cell => cell && cell.trim() !== '')
                 );
                 
-                extractDatesWithData();
-                renderCalendar();
-                updateCalendarStats();
-                updateMapWithTourData();
- findNextProgram();
+               extractDatesWithData();
+renderCalendar();
+updateCalendarStats();
+updateMapWithTourData();
+findNextProgram();
 updateProgramsList();
+
+// ===== AJOUTER CETTE LIGNE POUR RÉINITIALISER LA RECHERCHE =====
+allProgramsForSearch = [];
+initSearchDatabase();
 
 // Ajouter la légende initiale
 setTimeout(() => {
     if (typeof addItineraryLegend === 'function') {
         addItineraryLegend();
     }
-}, 1000); // 1 seconde de délai pour être sûr que la carte est chargée
+}, 1000);
+ // 1 seconde de délai pour être sûr que la carte est chargée
             } catch (error) {
                 showError(`Erreur de traitement des données: ${error.message}`);
                 showRetryOptions();
