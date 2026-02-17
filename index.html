@@ -1724,10 +1724,10 @@
         
         /* ===== STATISTIQUES AMÉLIORÉES - NOUVEAUX STYLES ===== */
         .calendar-stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
         
         .calendar-stat-item {
             text-align: center;
@@ -5874,6 +5874,241 @@
         font-size: 1.1rem !important;
     }
 }
+/* ===== NOUVELLE SECTION : STATISTIQUES MENSUELLES ===== */
+.monthly-stats-section {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(255, 193, 7, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.monthly-stats-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.monthly-stats-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 3px solid rgba(255, 193, 7, 0.4);
+    padding-bottom: 12px;
+    color: #2d3748;
+}
+
+.monthly-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.month-card {
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-radius: 16px;
+    padding: 18px 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.month-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+    border-color: #ffc107;
+}
+
+.month-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, #ffc107, #f59e0b);
+}
+
+.month-name {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1a202c;
+    text-align: center;
+    background: #fef3c7;
+    padding: 6px 0;
+    border-radius: 30px;
+    margin-bottom: 5px;
+    border: 2px solid #fde68a;
+    letter-spacing: 0.5px;
+}
+
+.month-flags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 2px dashed #e2e8f0;
+    border-top: 2px dashed #e2e8f0;
+    min-height: 45px;
+}
+
+.month-flag-mini {
+    width: 30px;
+    height: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+    border: 1px solid white;
+}
+
+.month-flag-mini:hover {
+    transform: scale(1.1) translateY(-2px);
+}
+
+.month-stats-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.month-stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    padding: 5px 8px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.month-stat-label {
+    font-weight: 600;
+    color: #4a5568;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.month-stat-label i {
+    color: #f59e0b;
+    font-size: 0.9rem;
+}
+
+.month-stat-number {
+    font-weight: 800;
+    color: #2d3748;
+    background: white;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    border: 1px solid #cbd5e0;
+}
+
+.month-programs-list {
+    margin-top: 5px;
+    padding: 8px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    border-left: 4px solid #f59e0b;
+    font-size: 0.75rem;
+}
+
+.month-programs-list strong {
+    color: #f97316;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.month-programs-list ul {
+    list-style: none;
+    padding-left: 5px;
+    margin: 0;
+}
+
+.month-programs-list li {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 0;
+    color: #2d3748;
+    border-bottom: 1px dashed #cbd5e0;
+}
+
+.month-programs-list li:last-child {
+    border-bottom: none;
+}
+
+.month-programs-list .program-emoji {
+    font-size: 0.9rem;
+    min-width: 20px;
+    text-align: center;
+}
+
+.month-programs-list .program-count {
+    margin-left: auto;
+    font-weight: 700;
+    color: #059669;
+    background: #e6fffa;
+    padding: 0 5px;
+    border-radius: 10px;
+}
+
+.month-total-km {
+    margin-top: 8px;
+    padding: 8px;
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    border-radius: 30px;
+    text-align: center;
+    font-weight: 800;
+    color: #1e3a8a;
+    border: 2px solid #60a5fa;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.month-total-km i {
+    font-size: 1rem;
+}
+
+.loading-spinner {
+    text-align: center;
+    padding: 40px;
+    color: #718096;
+    font-style: italic;
+    grid-column: 1 / -1;
+}
+
+/* Responsive pour mobile */
+@media (max-width: 992px) {
+    .monthly-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .monthly-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .month-card {
+        padding: 15px;
+    }
+}
     </style>
 </head>
 <body>
@@ -6285,6 +6520,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     
                     <!-- Section des statistiques sous le calendrier -->
@@ -6300,35 +6536,52 @@
                                     <!-- Les drapeaux seront ajoutés ici -->
                                 </div>
                             </div>
-                            <div class="calendar-stat-item" id="programmesStatItem">
-                                <div class="calendar-stat-value">
-                                    <i class="fas fa-calendar-check"></i>
-                                    <span id="statsProgrammesTotal">0</span>
-                                </div>
-                                <div class="calendar-stat-label">Programmes total</div>
-                                <div class="calendar-stat-details" id="statsProgrammesDetails">
-                                    <!-- Détails des types de programmes -->
-                                </div>
-                            </div>
-                            <div class="calendar-stat-item">
+ <div class="calendar-stat-item">
                                 <div class="calendar-stat-value">
                                     <i class="fas fa-sun"></i>
                                     <span id="statsJoursTournee">0</span>
                                 </div>
                                 <div class="calendar-stat-label">Jours de tournée</div>
                             </div>
-                            <div class="calendar-stat-item" id="paysPlusProgrammesItem">
-                                <div class="calendar-stat-value" id="topCountryValue">
-                                    <i class="fas fa-flag"></i>
-                                    <span id="statsPaysPlusProgrammes">-</span>
+                            <div class="calendar-stat-item" id="programmesStatItem">
+                                <div class="calendar-stat-value">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span id="statsProgrammesTotal">0</span>
                                 </div>
-                                <div class="calendar-stat-label">Pays avec le plus de programmes</div>
-                                <div class="calendar-stat-details" id="statsPaysDetails">
-                                    <!-- Détails par pays seront ajoutés ici -->
+
+                                <div class="calendar-stat-label">Programmes total</div>
+                                <div class="calendar-stat-details" id="statsProgrammesDetails">
+                                    <!-- Détails des types de programmes -->
                                 </div>
                             </div>
-                        </div>
-                        
+                           
+                           <!-- On garde les 3 premières cartes mais on enlève la 4ème -->
+
+                    
+                
+                <!-- Statistiques détaillées par pays -->
+                <div class="country-stats-section" id="countryStatsSection" style="display: none;">
+                    <div class="country-stats-title">
+                        <i class="fas fa-chart-bar"></i>
+                        Statistiques détaillées par pays
+                    </div>
+                    <div class="country-stats-grid" id="countryStatsGrid">
+                        <!-- Les statistiques par pays seront ajoutées ici -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== NOUVELLE SECTION : STATISTIQUES MENSUELLES (AVRIL - JUILLET) - 2 COLONNES ===== -->
+            <div class="monthly-stats-section">
+                <h2 class="monthly-stats-title">
+                    <i class="fas fa-chart-line"></i>
+                    Récapitulatif par mois (Avril - Juillet 2026)
+                </h2>
+                <div class="monthly-stats-grid" id="monthlyStatsContainer">
+                    <!-- Le contenu sera généré automatiquement par JavaScript -->
+                    <div class="loading-spinner">Chargement des statistiques...</div>
+                </div>
+            </div>               
                         <!-- NOUVEAU : Statistiques détaillées par pays -->
                         <div class="country-stats-section" id="countryStatsSection" style="display: none;">
                             <div class="country-stats-title">
@@ -13998,6 +14251,338 @@ function showNotif(msg) {
     setTimeout(() => { n.style.transform = 'translateX(0)'; n.style.opacity = '1'; }, 10);
     setTimeout(() => { n.style.transform = 'translateX(400px)'; n.style.opacity = '0'; setTimeout(() => n.remove(), 300); }, 3000);
 }
+</script>
+    <script>
+        // ===== FONCTIONS POUR LES STATISTIQUES MENSUELLES =====
+        
+        // Mois à analyser (Avril à Juillet 2026)
+        const MONTHS_TO_ANALYZE = [
+            { name: 'Avril', index: 3, year: 2026 },   // 3 = Avril (0-indexé)
+            { name: 'Mai', index: 4, year: 2026 },
+            { name: 'Juin', index: 5, year: 2026 },
+            { name: 'Juillet', index: 6, year: 2026 }
+        ];
+
+        /**
+         * Calcule la distance en kilomètres à partir d'un texte de trajet.
+         * Exemple: "120 km, 2h30" -> 120
+         */
+        function extractDistanceFromTrajet(trajetText) {
+            if (!trajetText) return 0;
+            
+            // Cherche un nombre suivi de "km" (insensible à la casse)
+            const match = trajetText.match(/(\d+[\.,]?\d*)\s*km/i);
+            if (match) {
+                // Remplacer la virgule par un point pour les décimaux
+                let distance = match[1].replace(',', '.');
+                return parseFloat(distance) || 0;
+            }
+            return 0;
+        }
+
+        /**
+         * Calcule le kilométrage total pour un mois donné.
+         */
+        function calculateMonthlyKilometers(monthIndex, year) {
+            let totalKm = 0;
+            
+            if (!datesWithData || datesWithData.length === 0) return 0;
+            
+            datesWithData.forEach(item => {
+                const rowData = getRowData(item.rowIndex);
+                // Vérifie si la date correspond au mois et à l'année
+                if (item.date.getMonth() === monthIndex && item.date.getFullYear() === year) {
+                    // Ajoute la distance du trajet pour cette date
+                    totalKm += extractDistanceFromTrajet(rowData.trajets);
+                }
+            });
+            
+            return Math.round(totalKm); // Arrondi à l'entier
+        }
+
+        /**
+         * Récupère les pays visités pour un mois donné.
+         */
+        function getCountriesForMonth(monthIndex, year) {
+            const countriesSet = new Set();
+            
+            if (!datesWithData || datesWithData.length === 0) return [];
+            
+            datesWithData.forEach(item => {
+                const pays = item.pays?.toUpperCase();
+                const localite = item.localite?.toUpperCase() || '';
+                // On exclut Madagascar et les retours
+                if (item.date.getMonth() === monthIndex && 
+                    item.date.getFullYear() === year && 
+                    pays && 
+                    pays !== 'MADAGASCAR' && 
+                    !localite.includes('RETOUR MADAGASCAR')) {
+                    countriesSet.add(pays);
+                }
+            });
+            
+            // Trier les pays dans un ordre logique
+            const order = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
+            return Array.from(countriesSet).sort((a, b) => {
+                const indexA = order.indexOf(a);
+                const indexB = order.indexOf(b);
+                if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+                if (indexA !== -1) return -1;
+                if (indexB !== -1) return 1;
+                return a.localeCompare(b);
+            });
+        }
+
+        /**
+         * Récupère le détail des programmes (par type et effectif) pour un mois donné.
+         */
+        function getProgramsDetailForMonth(monthIndex, year) {
+            const programsDetail = {};
+            
+            if (!datesWithData || datesWithData.length === 0) return programsDetail;
+            
+            datesWithData.forEach(item => {
+                const rowData = getRowData(item.rowIndex);
+                const pays = item.pays?.toUpperCase();
+                const localite = item.localite?.toUpperCase() || '';
+                // On exclut Madagascar et les retours
+                if (item.date.getMonth() === monthIndex && 
+                    item.date.getFullYear() === year && 
+                    pays && 
+                    pays !== 'MADAGASCAR' && 
+                    !localite.includes('RETOUR MADAGASCAR')) {
+                    
+                    // Type de programme (ou "Concert" par défaut)
+                    let programme = (rowData.programme || 'Concert').trim();
+                    if (programme === '') programme = 'Concert';
+                    
+                    // Initialiser le compteur pour ce pays si besoin
+                    if (!programsDetail[pays]) {
+                        programsDetail[pays] = {};
+                    }
+                    
+                    // Incrémenter le compteur pour ce type de programme
+                    programsDetail[pays][programme] = (programsDetail[pays][programme] || 0) + 1;
+                }
+            });
+            
+            return programsDetail;
+        }
+
+        /**
+         * Fonction principale pour générer et afficher les statistiques mensuelles.
+         */
+        function generateMonthlyStats() {
+            const container = document.getElementById('monthlyStatsContainer');
+            if (!container) return;
+            
+            // Si les données ne sont pas encore chargées, on affiche un message
+            if (!datesWithData || datesWithData.length === 0) {
+                container.innerHTML = '<div class="loading-spinner">Veuillez d\'abord charger les données du calendrier.</div>';
+                return;
+            }
+            
+            let html = '';
+            
+            MONTHS_TO_ANALYZE.forEach(month => {
+                // 1. Pays visités
+                const countries = getCountriesForMonth(month.index, month.year);
+                
+                // 2. Détail des programmes par pays
+                const programsDetail = getProgramsDetailForMonth(month.index, month.year);
+                
+                // 3. Kilométrage total
+                const totalKm = calculateMonthlyKilometers(month.index, month.year);
+                
+                // Construction de la carte HTML pour ce mois
+                html += `
+                    <div class="month-card">
+                        <div class="month-name">${month.name} 2026</div>
+                        
+                        <!-- Drapeaux des pays visités -->
+                        <div class="month-flags">
+                `;
+                
+                // Ajouter les drapeaux des pays
+                if (countries.length > 0) {
+                    countries.forEach(country => {
+                        const flagClass = countryFlags[country] || 'flag-france';
+                        html += `<div class="month-flag-mini ${flagClass}" title="${formatCountryName(country)}"></div>`;
+                    });
+                } else {
+                    html += `<span style="color: #94a3b8; font-size: 0.75rem; width:100%; text-align:center;">Aucun pays</span>`;
+                }
+                
+                html += `</div>`; // Fermeture month-flags
+                
+                // Section des statistiques détaillées
+                html += `<div class="month-stats-detail">`;
+                
+                // Compter le nombre total de programmes (tous pays confondus)
+                let totalPrograms = 0;
+                for (let country in programsDetail) {
+                    for (let prog in programsDetail[country]) {
+                        totalPrograms += programsDetail[country][prog];
+                    }
+                }
+                
+                html += `
+                    <div class="month-stat-item">
+                        <span class="month-stat-label"><i class="fas fa-calendar-check"></i> Programmes</span>
+                        <span class="month-stat-number">${totalPrograms}</span>
+                    </div>
+                    <div class="month-stat-item">
+                        <span class="month-stat-label"><i class="fas fa-globe"></i> Pays</span>
+                        <span class="month-stat-number">${countries.length}</span>
+                    </div>
+                `;
+                
+                // Détail des programmes par pays
+                if (Object.keys(programsDetail).length > 0) {
+                    html += `<div class="month-programs-list">`;
+                    html += `<strong><i class="fas fa-list-ul"></i> Programmes par pays :</strong>`;
+                    html += `<ul>`;
+                    
+                    // Trier les pays pour un affichage cohérent
+                    const sortedCountries = countries.sort((a, b) => {
+                        const order = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
+                        return order.indexOf(a) - order.indexOf(b);
+                    });
+                    
+                    sortedCountries.forEach(country => {
+                        if (programsDetail[country]) {
+                            const flagClass = countryFlags[country] || 'flag-france';
+                            const countryName = formatCountryName(country);
+                            
+                            // Compter le nombre total de programmes pour ce pays
+                            let countryTotal = 0;
+                            let details = '';
+                            for (let prog in programsDetail[country]) {
+                                const count = programsDetail[country][prog];
+                                countryTotal += count;
+                                const emoji = getProgramEmoji(prog);
+                                details += `<li><span class="program-emoji">${emoji}</span> ${prog} <span class="program-count">${count}</span></li>`;
+                            }
+                            
+                            html += `<li style="flex-direction:column; align-items:flex-start; gap:2px;">`;
+                            html += `<div style="display:flex; align-items:center; gap:5px; width:100%;">`;
+                            html += `<div class="month-flag-mini ${flagClass}" style="width:18px; height:12px;"></div>`;
+                            html += `<span style="font-weight:700;">${countryName}</span>`;
+                            html += `<span style="margin-left:auto; font-weight:800; color:#059669;">${countryTotal}</span>`;
+                            html += `</div>`;
+                            html += `<ul style="width:100%; padding-left:25px;">${details}</ul>`;
+                            html += `</li>`;
+                        }
+                    });
+                    
+                    html += `</ul>`;
+                    html += `</div>`;
+                }
+                
+                // Affichage du kilométrage
+                if (totalKm > 0) {
+                    html += `
+                        <div class="month-total-km">
+                            <i class="fas fa-road"></i> ${totalKm} km parcourus
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="month-total-km" style="background:#e2e8f0; color:#4a5568;">
+                            <i class="fas fa-road"></i> Aucune distance calculée
+                        </div>
+                    `;
+                }
+                
+                html += `</div>`; // Fermeture month-stats-detail
+                html += `</div>`; // Fermeture month-card
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // ===== MODIFICATION DE LA FONCTION DE CHARGEMENT =====
+        // On va modifier la fonction processCSVData pour qu'elle appelle generateMonthlyStats
+        // une fois que les données sont traitées.
+        
+        // Sauvegarde de la fonction originale (si elle existe)
+        const originalProcessCSVData = window.processCSVData;
+        
+        // On redéfinit processCSVData pour y ajouter notre appel
+        window.processCSVData = function(csvText) {
+            // Appel de la fonction originale (si elle existe)
+            if (originalProcessCSVData) {
+                originalProcessCSVData(csvText);
+            } else {
+                // Si elle n'existe pas, on la recrée (cas où on ajoute ce code en premier)
+                try {
+                    if (!csvText || csvText.trim().length === 0) {
+                        throw new Error('Le fichier CSV est vide');
+                    }
+                    
+                    const lines = parseCSV(csvText);
+                    
+                    if (!lines || lines.length < 5) {
+                        throw new Error('Format de données invalide');
+                    }
+                    
+                    const headerRow = lines[3];
+                    
+                    sheetData = lines.slice(4).filter(row => 
+                        row && row.some(cell => cell && cell.trim() !== '')
+                    );
+                    
+                    extractDatesWithData();
+                    renderCalendar();
+                    updateCalendarStats();
+                    updateMapWithTourData();
+                    findNextProgram();
+                    updateProgramsList();
+                    setTimeout(() => {
+                        if (typeof addItineraryLegend === 'function') {
+                            addItineraryLegend();
+                        }
+                    }, 1000);
+                } catch (error) {
+                    showError(`Erreur de traitement des données: ${error.message}`);
+                    showRetryOptions();
+                } finally {
+                    document.getElementById('loadingIndicator').style.display = 'none';
+                }
+            }
+            
+            // ===== NOUVEL APPEL : Générer les stats mensuelles =====
+            // On met un petit délai pour être sûr que les données sont bien traitées
+            setTimeout(generateMonthlyStats, 200);
+        };
+        
+        // On appelle aussi la fonction si les données sont déjà chargées (cas de rechargement)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Si les données existent déjà, on génère les stats
+            if (datesWithData && datesWithData.length > 0) {
+                setTimeout(generateMonthlyStats, 500);
+            }
+        });
+    </script>
+<script>
+// ===== RÉINITIALISATION DE LA CARTE =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Réinitialiser la carte si elle existe déjà
+    if (typeof tourMap !== 'undefined' && tourMap) {
+        tourMap.remove();
+        tourMap = null;
+    }
+    
+    // Initialiser la carte
+    initMap();
+    
+    // Mettre à jour la carte avec les données après un court délai
+    setTimeout(() => {
+        if (datesWithData && datesWithData.length > 0) {
+            updateMapWithTourData();
+        }
+    }, 1000);
+});
 </script>
 </body>
 </html>
