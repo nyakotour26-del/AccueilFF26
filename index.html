@@ -6914,6 +6914,17 @@
         font-size: 1.6rem !important;
     }
 }
+/* Bouton Rechercher - Jaune */
+.floating-btn-search {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b) !important; /* Jaune/orange */
+    color: white !important;
+}
+
+.floating-btn-search:hover {
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    transform: translateY(-3px) scale(1.1) !important;
+    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4) !important;
+}
     </style>
 </head>
 <body>
@@ -7463,7 +7474,7 @@
         </div>
         
         <!-- ===== MODIFICATION : BOUTONS FLOTTANTS AVEC NOUVEAU BOUTON SHEET ===== -->
-       <!-- ===== BOUTONS FLOTTANTS AVEC EMOJIS DIFFÉRENCIÉS ===== -->
+      <!-- ===== BOUTONS FLOTTANTS AVEC EMOJIS DIFFÉRENCIÉS ===== -->
 <div class="floating-buttons">
     <button class="floating-btn floating-btn-calendar" onclick="document.querySelector('.calendar-section').scrollIntoView({behavior: 'smooth'})" title="Calendrier">
         📅
@@ -7480,10 +7491,12 @@
     <button class="floating-btn floating-btn-info" onclick="scrollToGeneralInfo()" title="Informations générales">
         ℹ️
     </button>
+   <button class="floating-btn floating-btn-search" onclick="showSearchModal()" title="Rechercher un programme">
+    🔍
+</button>
     <button class="floating-btn floating-btn-sheet" onclick="window.open('https://docs.google.com/spreadsheets/d/1w5M9d6tXECriMwMP7Oq7QaJtWGf7RsTT_9vl34mqwHA/edit?gid=0#gid=0', '_blank')" title="Sheet des programmes">
         📊
     </button>
-    <!-- ===== NOUVEAU BOUTON TABLEAU PROG (ROSE) ===== -->
     <button class="floating-btn floating-btn-tableau" onclick="showCompactTableView()" title="Tableau des programmes">
         📋
     </button>
@@ -15090,7 +15103,239 @@ function generateCompactTableHTML() {
     `;
     
     return html;
-}   
+} 
+// ===== FONCTION SPÉCIALE POUR LA RECHERCHE =====
+function showSearchModal() {
+    const modal = document.getElementById('programTypeModal');
+    const listContainer = document.getElementById('programTypeList');
+    
+    if (Object.keys(programsByType).length === 0) {
+        alert('Aucun programme disponible');
+        return;
+    }
+    
+    listContainer.innerHTML = '';
+    
+    // Configuration du MODAL
+    const modalContent = document.querySelector('.program-type-modal-content');
+    if (modalContent) {
+        modalContent.style.maxWidth = '700px';
+        modalContent.style.maxHeight = '80vh';
+        modalContent.style.overflowY = 'hidden';
+        modalContent.style.display = 'flex';
+        modalContent.style.flexDirection = 'column';
+        modalContent.style.borderRadius = '12px';
+        modalContent.style.padding = '0';
+    }
+    
+    // Style du conteneur de liste
+    listContainer.style.display = 'flex';
+    listContainer.style.flexDirection = 'column';
+    listContainer.style.height = '100%';
+    listContainer.style.overflow = 'hidden';
+    listContainer.style.padding = '0';
+    
+    const totalPrograms = Object.values(programsByType).reduce((acc, val) => acc + val.length, 0);
+    
+    // ===== ZONE FIXE EN HAUT =====
+    const fixedHeader = document.createElement('div');
+    fixedHeader.style.flexShrink = '0';
+    fixedHeader.style.backgroundColor = 'white';
+    fixedHeader.style.borderBottom = '2px solid #f59e0b';
+    fixedHeader.style.boxShadow = '0 2px 8px rgba(0,0,0,0.05)';
+    fixedHeader.style.width = '100%';
+    
+    // ----- TITRE -----
+    const titleSection = document.createElement('div');
+    titleSection.style.padding = '15px 20px 10px';
+    titleSection.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-search" style="color:#f59e0b; font-size:1.3rem;"></i>
+            <h3 style="margin:0; color:#f59e0b; font-size:1.2rem;">Rechercher un programme</h3>
+        </div>
+    `;
+    fixedHeader.appendChild(titleSection);
+    
+    // ----- BARRE DE RECHERCHE -----
+    const searchSection = document.createElement('div');
+    searchSection.style.padding = '0 20px 15px';
+    searchSection.innerHTML = `
+        <div style="display: flex; gap: 8px;">
+            <div style="flex:1; position:relative;">
+                <i class="fas fa-search" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94a3b8;"></i>
+                <input type="text" id="searchInput" placeholder="Rechercher (lieu, date, programme...)" style="
+                    width:100%;
+                    padding:12px 15px 12px 40px;
+                    border:2px solid #f59e0b;
+                    border-radius:30px;
+                    font-size:0.9rem;
+                    outline:none;
+                    box-sizing:border-box;
+                " autofocus>
+            </div>
+            <button id="searchClearBtn" style="
+                background:#f59e0b;
+                color:white;
+                border:none;
+                border-radius:30px;
+                padding:0 20px;
+                font-size:0.9rem;
+                font-weight:600;
+                cursor:pointer;
+                white-space:nowrap;
+            ">Effacer</button>
+        </div>
+        <div id="searchResultCount" style="font-size:0.8rem; color:#64748b; margin-top:8px; text-align:right;">
+            ${totalPrograms} programmes
+        </div>
+    `;
+    fixedHeader.appendChild(searchSection);
+    
+    listContainer.appendChild(fixedHeader);
+    
+    // ===== ZONE SCROLLABLE DES RÉSULTATS =====
+    const scrollableContent = document.createElement('div');
+    scrollableContent.style.flex = '1';
+    scrollableContent.style.overflowY = 'auto';
+    scrollableContent.style.padding = '15px';
+    scrollableContent.style.backgroundColor = '#ffffff';
+    
+    function performSearch(searchTerm) {
+        scrollableContent.innerHTML = '';
+        
+        if (!searchTerm || searchTerm.trim() === '') {
+            scrollableContent.innerHTML = `
+                <div style="padding:60px 20px; text-align:center;">
+                    <i class="fas fa-search" style="font-size:3rem; color:#cbd5e0; margin-bottom:20px;"></i>
+                    <div style="font-size:1rem; color:#64748b;">Tapez votre recherche</div>
+                    <div style="font-size:0.8rem; color:#94a3b8; margin-top:10px;">
+                        Ex: "Paris", "concert", "Suisse", "15 avril"...
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        
+        const term = searchTerm.toLowerCase().trim();
+        const results = [];
+        
+        // Parcourir tous les programmes
+        Object.keys(programsByType).forEach(type => {
+            programsByType[type].forEach(program => {
+                const searchableText = `
+                    ${program.programme || ''} 
+                    ${program.localite || ''} 
+                    ${program.lieu || ''} 
+                    ${program.pays || ''} 
+                    ${formatDateForDisplay(program.date)} 
+                    ${program.heures || ''}
+                `.toLowerCase();
+                
+                if (searchableText.includes(term)) {
+                    results.push({
+                        ...program,
+                        typeName: type
+                    });
+                }
+            });
+        });
+        
+        results.sort((a, b) => a.date - b.date);
+        
+        const counter = document.getElementById('searchResultCount');
+        if (counter) {
+            counter.innerHTML = `${results.length} résultat${results.length > 1 ? 's' : ''}`;
+        }
+        
+        if (results.length === 0) {
+            scrollableContent.innerHTML = `
+                <div style="padding:60px 20px; text-align:center;">
+                    <i class="fas fa-frown" style="font-size:3rem; color:#cbd5e0; margin-bottom:20px;"></i>
+                    <div style="font-size:1rem; color:#64748b;">Aucun résultat pour "${searchTerm}"</div>
+                </div>
+            `;
+            return;
+        }
+        
+        results.forEach(program => {
+            const item = document.createElement('div');
+            const isConcert = program.programme?.toLowerCase().includes('concert');
+            const borderColor = isConcert ? '#f97316' : '#10b981';
+            
+            item.style.padding = '15px';
+            item.style.margin = '0 0 10px 0';
+            item.style.borderRadius = '8px';
+            item.style.backgroundColor = '#ffffff';
+            item.style.border = `1px solid ${borderColor}30`;
+            item.style.borderLeft = `4px solid ${borderColor}`;
+            item.style.cursor = 'pointer';
+            item.style.transition = 'all 0.2s';
+            item.style.boxShadow = '0 2px 5px rgba(0,0,0,0.05)';
+            
+            item.onmouseover = () => {
+                item.style.transform = 'translateX(5px)';
+                item.style.boxShadow = `0 4px 10px ${borderColor}40`;
+            };
+            item.onmouseout = () => {
+                item.style.transform = 'translateX(0)';
+                item.style.boxShadow = '0 2px 5px rgba(0,0,0,0.05)';
+            };
+            
+            const dateStr = formatDateForDisplay(program.date);
+            const emoji = getProgramEmoji(program.programme);
+            
+            item.innerHTML = `
+                <div style="display:flex; gap:15px;">
+                    <div style="font-size:2rem; min-width:50px; text-align:center;">${emoji}</div>
+                    <div style="flex:1;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                            <span style="font-weight:700; color:#059669;">📅 ${dateStr}</span>
+                            <span style="background:#f1f5f9; padding:2px 10px; border-radius:20px; font-size:0.7rem;">${program.typeName}</span>
+                        </div>
+                        <div style="margin-bottom:5px;">
+                            <span style="color:#2d3748; margin-right:15px;">📍 ${program.localite || '?'}</span>
+                            <span style="color:#f97316;">🏛️ ${program.lieu || '?'}</span>
+                        </div>
+                        ${program.heures ? `<span style="color:#2563eb;">🕐 ${program.heures}</span>` : ''}
+                    </div>
+                </div>
+            `;
+            
+            item.onclick = () => {
+                closeProgramTypeModal();
+                showRecapDateModal(program);
+            };
+            
+            scrollableContent.appendChild(item);
+        });
+    }
+    
+    performSearch('');
+    listContainer.appendChild(scrollableContent);
+    
+    // Gestionnaires d'événements
+    setTimeout(() => {
+        const input = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('searchClearBtn');
+        
+        if (input) {
+            input.addEventListener('input', (e) => performSearch(e.target.value));
+            input.focus();
+        }
+        
+        if (clearBtn) {
+            clearBtn.addEventListener('click', () => {
+                if (input) {
+                    input.value = '';
+                    performSearch('');
+                    input.focus();
+                }
+            });
+        }
+    }, 100);
+    
+    modal.style.display = 'flex';
+}  
  </script>
 <script>
 // ===== CHARGEMENT DES BIBLIOTHÈQUES =====
