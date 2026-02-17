@@ -7115,34 +7115,54 @@ function createCalendarTooltip(date, programs) {
     tooltip.style.position = 'absolute';
     document.body.appendChild(tooltip);
     
-    // Récupérer le pays (prendre le premier programme)
-    const firstProgram = programs[0];
-    const pays = firstProgram.pays || '';
+    // ===== FILTRER : GARDER UNIQUEMENT LES PROGRAMMES AVEC CONTENU =====
+    const programsAvecContenu = programs.filter(program => {
+        const rowData = getRowData(program.rowIndex);
+        const programmeOriginal = (rowData.programmeOriginal || '').trim();
+        const localite = (rowData.localite || '').trim();
+        const lieu = (rowData.lieu || '').trim();
+        
+        return programmeOriginal !== '' || localite !== '' || lieu !== '';
+    });
+    
+    if (programsAvecContenu.length === 0) return null;
+    
+    // Récupérer le pays (prendre le premier programme avec contenu)
+    const firstProgram = programsAvecContenu[0];
+    const rowDataFirst = getRowData(firstProgram.rowIndex);
+    const pays = rowDataFirst.pays || '';
     const flagClass = countryFlags[pays.toUpperCase()] || 'flag-france';
     
-    // Compter les statistiques
+    // Compter les statistiques (uniquement sur les programmes avec contenu)
     const uniqueLocalites = new Set();
     const uniqueLieus = new Set();
     const programTypes = {};
     const heuresList = [];
     
-    programs.forEach(p => {
+    programsAvecContenu.forEach(p => {
         const rowData = getRowData(p.rowIndex);
-        if (rowData.localite && rowData.localite.trim() !== '') {
-            uniqueLocalites.add(rowData.localite);
+        const programmeOriginal = (rowData.programmeOriginal || '').trim();
+        const localite = rowData.localite || '';
+        const lieu = rowData.lieu || '';
+        
+        // Déterminer le type à afficher
+        let typePourAffichage = programmeOriginal;
+        if (programmeOriginal === '' && (localite.trim() !== '' || lieu.trim() !== '')) {
+            typePourAffichage = 'Concert';
         }
-        if (rowData.lieu && rowData.lieu.trim() !== '') {
-            uniqueLieus.add(rowData.lieu);
+        
+        if (localite && localite.trim() !== '') {
+            uniqueLocalites.add(localite);
+        }
+        if (lieu && lieu.trim() !== '') {
+            uniqueLieus.add(lieu);
         }
         if (rowData.heures && rowData.heures.trim() !== '') {
             heuresList.push(rowData.heures);
         }
         
-        const programmeText = rowData.programme && rowData.programme.trim() !== '' 
-            ? rowData.programme 
-            : 'Concert';
-        const type = programmeText.toLowerCase();
-        programTypes[type] = (programTypes[type] || 0) + 1;
+        const programmeLower = typePourAffichage.toLowerCase();
+        programTypes[programmeLower] = (programTypes[programmeLower] || 0) + 1;
     });
     
     // Formater les types de programmes
@@ -7152,13 +7172,13 @@ function createCalendarTooltip(date, programs) {
         return `${emoji} ${type.charAt(0).toUpperCase() + type.slice(1)}${count > 1 ? ` (${count})` : ''}`;
     }).join(' • ');
     
-    // En-tête du tooltip avec plus d'infos
+    // En-tête du tooltip
     let html = `
         <div class="calendar-tooltip-header">
             <span class="calendar-tooltip-date">${formatDateForDisplay(date)}</span>
             <div class="calendar-tooltip-country">
                 <div class="calendar-tooltip-flag ${flagClass}"></div>
-                <span class="calendar-tooltip-badge">${programs.length} prog</span>
+                <span class="calendar-tooltip-badge">${programsAvecContenu.length} prog</span>
             </div>
         </div>
         
@@ -7190,9 +7210,8 @@ function createCalendarTooltip(date, programs) {
         </div>
     `;
     
-    // Afficher tous les programmes (pas de limite)
-    const sortedPrograms = [...programs].sort((a, b) => {
-        // Trier par localité puis par heure
+    // Afficher tous les programmes (filtrés)
+    const sortedPrograms = [...programsAvecContenu].sort((a, b) => {
         const rowA = getRowData(a.rowIndex);
         const rowB = getRowData(b.rowIndex);
         return (rowA.localite || '').localeCompare(rowB.localite || '');
@@ -7200,38 +7219,45 @@ function createCalendarTooltip(date, programs) {
     
     sortedPrograms.forEach((program, index) => {
         const rowData = getRowData(program.rowIndex);
-        const programmeText = rowData.programme && rowData.programme.trim() !== '' 
-            ? rowData.programme 
-            : 'Concert';
-        const emoji = getProgramEmoji(programmeText);
+        const programmeOriginal = (rowData.programmeOriginal || '').trim();
         const localite = rowData.localite || 'Localité';
         const lieu = rowData.lieu || '';
         const heures = rowData.heures || '';
         const trajets = rowData.trajets || '';
         
+        // ===== DÉTERMINER LE TEXTE DU PROGRAMME À AFFICHER =====
+        let programmeText = programmeOriginal;
+        if (programmeOriginal === '' && (localite.trim() !== '' || lieu.trim() !== '')) {
+            programmeText = 'Concert';
+        }
+        
+        const emoji = getProgramEmoji(programmeText);
+        
         // Déterminer la couleur de bordure selon le type
         let borderColor = '#f97316'; // Orange (concert)
         let bgColor = '#fff4e6';
         
-        if (programmeText.toLowerCase().includes('vol') || programmeText.toLowerCase().includes('avion')) {
+        const programmeLower = programmeText.toLowerCase();
+        
+        if (programmeLower.includes('vol') || programmeLower.includes('avion')) {
             borderColor = '#3b82f6'; // Bleu
             bgColor = '#eff6ff';
-        } else if (programmeText.toLowerCase().includes('repos')) {
+        } else if (programmeLower.includes('repos')) {
             borderColor = '#10b981'; // Vert
             bgColor = '#d1fae5';
-        } else if (programmeText.toLowerCase().includes('repas')) {
+        } else if (programmeLower.includes('repas')) {
             borderColor = '#e6b800'; // Jaune
             bgColor = '#fff9e6';
-        } else if (programmeText.toLowerCase().includes('visite')) {
+        } else if (programmeLower.includes('visite')) {
             borderColor = '#ff8c00'; // Orange
             bgColor = '#fff4e6';
-        } else if (programmeText.toLowerCase().includes('eglise') || programmeText.toLowerCase().includes('culte')) {
+        } else if (programmeLower.includes('eglise') || programmeLower.includes('culte')) {
             borderColor = '#6b21a8'; // Violet
             bgColor = '#f3e8ff';
-        } else if (programmeText.toLowerCase().includes('animation')) {
+        } else if (programmeLower.includes('animation')) {
             borderColor = '#ec4899'; // Rose
             bgColor = '#fce7f3';
-        } else if (programmeText.toLowerCase().includes('rencontre')) {
+        } else if (programmeLower.includes('rencontre')) {
             borderColor = '#0ea5e9'; // Bleu ciel
             bgColor = '#e0f2fe';
         }
@@ -7262,7 +7288,7 @@ function createCalendarTooltip(date, programs) {
     
     // Pied de page avec résumé
     const totalLocalites = uniqueLocalites.size;
-    const totalPrograms = programs.length;
+    const totalPrograms = programsAvecContenu.length;
     
     html += `
         <div class="calendar-tooltip-footer">
@@ -7278,8 +7304,7 @@ function createCalendarTooltip(date, programs) {
     
     tooltip.innerHTML = html;
     return tooltip;
-}
-        // ===== FONCTIONS POUR LA CARTE =====
+}        // ===== FONCTIONS POUR LA CARTE =====
         function initMap() {
             // Initialiser la carte centrée sur l'Europe
             tourMap = L.map('tourMap', { maxBounds: L.latLngBounds(L.latLng(35, -15), L.latLng(60, 30)), maxBoundsViscosity: 1.0 }).setView([48.8566, 2.3522], 5); // Centre sur Paris, zoom 5
@@ -10146,24 +10171,24 @@ function showProgramsByType(selectedType = null) {
         }
 
         function showProgramData(programIndex) {
-            const programData = allProgramsForDate[programIndex];
-            const modalLocationText = document.getElementById('modalLocationText');
-            const programInfoCentered = document.getElementById('programInfoCentered');
-            const dateDetailsGrid = document.getElementById('dateDetailsGrid');
-            
-            const localite = programData.localite || 'Localité non spécifiée';
-            const pays = programData.pays || 'Pays non spécifié';
-            modalLocationText.textContent = `${localite} / ${pays}`;
-            
-            const flagDiv = document.getElementById('modalFlag');
-            const flagClass = countryFlags[pays.toUpperCase()] || 'flag-france';
-            flagDiv.className = 'modal-flag-small';
-            flagDiv.classList.add(flagClass);
-            
-            // ===== MODIFICATION : AFFICHAGE DES INFOS PROGRAMME COMPACT =====
-            displayProgramInfoCompact(programInfoCentered, programData);
-            displayDateDetailsCompact(dateDetailsGrid, programData);
-        }
+    const programData = allProgramsForDate[programIndex];
+    const modalLocationText = document.getElementById('modalLocationText');
+    const programInfoCentered = document.getElementById('programInfoCentered');
+    const dateDetailsGrid = document.getElementById('dateDetailsGrid');
+    
+    const localite = programData.localite || 'Localité non spécifiée';
+    const pays = programData.pays || 'Pays non spécifié';
+    modalLocationText.textContent = `${localite} / ${pays}`;
+    
+    const flagDiv = document.getElementById('modalFlag');
+    const flagClass = countryFlags[pays.toUpperCase()] || 'flag-france';
+    flagDiv.className = 'modal-flag-small';
+    flagDiv.classList.add(flagClass);
+    
+    // ===== AFFICHAGE DES INFOS PROGRAMME AVEC GESTION DES CAS VIDES =====
+    displayProgramInfoCompact(programInfoCentered, programData);
+    displayDateDetailsCompact(dateDetailsGrid, programData);
+}
 
 // ===== VERSION AVEC POLICE SPÉCIALE POUR LE PROGRAMME =====
 function displayProgramInfoCompact(container, programData) {
@@ -10175,57 +10200,89 @@ function displayProgramInfoCompact(container, programData) {
     mainContainer.style.flexDirection = 'column';
     mainContainer.style.gap = '8px';
     
-    // Récupérer l'emoji correspondant au programme
-    const programEmoji = getProgramEmoji(programData.programme);
+    const programmeOriginal = (programData.programmeOriginal || '').trim();
+    const localite = (programData.localite || '').trim();
+    const lieu = (programData.lieu || '').trim();
     
-    // Déterminer la couleur du cadre en fonction du type de programme
-let borderColor = '#000000'; // NOIR pour les concerts (par défaut)
-let bgColor = '#f5f5f5'; // Fond gris très clair pour les concerts
-let emojiBgColor = '#000000';
-
-const programmeLower = (programData.programme || '').toLowerCase();
-
-if (programmeLower.includes('vol') || programmeLower.includes('avion') || 
-    programmeLower.includes('départ') || programmeLower.includes('retour') ||
-    programmeLower.includes('depart')) {
-    borderColor = '#3b82f6'; // Bleu pour les vols
-    bgColor = '#eff6ff'; // Fond bleu clair
-    emojiBgColor = '#3b82f6';
-} else if (programmeLower.includes('repos') || programmeLower.includes('rest') || 
-           programmeLower.includes('détente') || programmeLower.includes('relax')) {
-    borderColor = '#10b981'; // Vert pour le repos
-    bgColor = '#d1fae5'; // Fond vert clair
-    emojiBgColor = '#10b981';
-} else if (programmeLower.includes('repas') || programmeLower.includes('restaurant') || 
-           programmeLower.includes('apéro') || programmeLower.includes('marché') ||
-           programmeLower.includes('shopping')) {
-    borderColor = '#e6b800'; // JAUNE PLUS FONCÉ (ocre/jaune foncé)
-    bgColor = '#fff9e6'; // Fond jaune très clair
-    emojiBgColor = '#e6b800';
-} else if (programmeLower.includes('visite') || programmeLower.includes('tourisme') || 
-           programmeLower.includes('sortie')) {
-    borderColor = '#ff8c00'; // ORANGE pour les visites
-    bgColor = '#fff4e6'; // Fond orange clair
-    emojiBgColor = '#ff8c00';
-} else if (programmeLower.includes('eglise') || programmeLower.includes('église') || 
-           programmeLower.includes('culte') || programmeLower.includes('mfm') ||
-           programmeLower.includes('celebration') || programmeLower.includes('célébration')) {
-    borderColor = '#6b21a8'; // Violet foncé pour les cultes
-    bgColor = '#f3e8ff'; // Fond violet très clair
-    emojiBgColor = '#6b21a8';
-} else if (programmeLower.includes('animation') || programmeLower.includes('enfant') || 
-           programmeLower.includes('jeux') || programmeLower.includes('sport') ||
-           programmeLower.includes('jeu')) {
-    borderColor = '#ec4899'; // Rose pour les animations
-    bgColor = '#fce7f3'; // Fond rose clair
-    emojiBgColor = '#ec4899';
-} else if (programmeLower.includes('rencontre') || programmeLower.includes('invitation')) {
-    borderColor = '#0ea5e9'; // BLEU CIEL pour les rencontres
-    bgColor = '#e0f2fe'; // Fond bleu ciel clair
-    emojiBgColor = '#0ea5e9';
-}
+    // ===== DÉTERMINER CE QU'ON AFFICHE =====
+    let aUnProgramme = programmeOriginal !== '';
+    let aDesInfos = localite !== '' || lieu !== '' || 
+                    (programData.heures || '').trim() !== '' ||
+                    (programData.adresse || '').trim() !== '' ||
+                    (programData.hebergement || '').trim() !== '' ||
+                    (programData.trajets || '').trim() !== '' ||
+                    (programData.localisation || '').trim() !== '' ||
+                    (programData.site || '').trim() !== '';
     
-    // ===== NOUVEAU CADRE STYLISÉ =====
+    if (!aUnProgramme && !aDesInfos) {
+        // Rien du tout
+        container.innerHTML = '<div style="text-align: center; padding: 20px; color: #94a3b8; font-style: italic;">Aucune information disponible pour cette date</div>';
+        return;
+    }
+    
+    // Récupérer l'emoji
+    let programEmoji = '';
+    let programText = '';
+    let borderColor = '#94a3b8'; // Gris par défaut
+    let bgColor = '#f8fafc';
+    let emojiBgColor = '#94a3b8';
+    
+    if (aUnProgramme) {
+        programText = programmeOriginal;
+        programEmoji = getProgramEmoji(programmeOriginal);
+        
+        // Déterminer la couleur selon le type
+        const programmeLower = programmeOriginal.toLowerCase();
+        
+        if (programmeLower.includes('vol') || programmeLower.includes('avion') || 
+            programmeLower.includes('départ') || programmeLower.includes('retour') ||
+            programmeLower.includes('depart')) {
+            borderColor = '#3b82f6';
+            bgColor = '#eff6ff';
+            emojiBgColor = '#3b82f6';
+        } else if (programmeLower.includes('repos') || programmeLower.includes('rest') || 
+                   programmeLower.includes('détente') || programmeLower.includes('relax')) {
+            borderColor = '#10b981';
+            bgColor = '#d1fae5';
+            emojiBgColor = '#10b981';
+        } else if (programmeLower.includes('repas') || programmeLower.includes('restaurant') || 
+                   programmeLower.includes('apéro') || programmeLower.includes('marché') ||
+                   programmeLower.includes('shopping')) {
+            borderColor = '#e6b800';
+            bgColor = '#fff9e6';
+            emojiBgColor = '#e6b800';
+        } else if (programmeLower.includes('visite') || programmeLower.includes('tourisme') || 
+                   programmeLower.includes('sortie')) {
+            borderColor = '#ff8c00';
+            bgColor = '#fff4e6';
+            emojiBgColor = '#ff8c00';
+        } else if (programmeLower.includes('eglise') || programmeLower.includes('église') || 
+                   programmeLower.includes('culte') || programmeLower.includes('mfm') ||
+                   programmeLower.includes('celebration') || programmeLower.includes('célébration')) {
+            borderColor = '#6b21a8';
+            bgColor = '#f3e8ff';
+            emojiBgColor = '#6b21a8';
+        } else if (programmeLower.includes('animation') || programmeLower.includes('enfant') || 
+                   programmeLower.includes('jeux') || programmeLower.includes('sport') ||
+                   programmeLower.includes('jeu')) {
+            borderColor = '#ec4899';
+            bgColor = '#fce7f3';
+            emojiBgColor = '#ec4899';
+        } else if (programmeLower.includes('rencontre') || programmeLower.includes('invitation')) {
+            borderColor = '#0ea5e9';
+            bgColor = '#e0f2fe';
+            emojiBgColor = '#0ea5e9';
+        }
+    } else {
+        // Pas de programme mais peut-être d'autres infos
+        programText = 'Informations seulement';
+        programEmoji = '📋';
+        borderColor = '#94a3b8';
+        bgColor = '#f8fafc';
+        emojiBgColor = '#94a3b8';
+    }
+    
+    // ===== CADRE PRINCIPAL =====
     const programCard = document.createElement('div');
     programCard.style.display = 'flex';
     programCard.style.flexDirection = 'column';
@@ -10236,17 +10293,6 @@ if (programmeLower.includes('vol') || programmeLower.includes('avion') ||
     programCard.style.padding = '16px';
     programCard.style.position = 'relative';
     programCard.style.overflow = 'hidden';
-    programCard.style.transition = 'all 0.3s ease';
-    
-    // Effet de survol
-    programCard.onmouseover = () => {
-        programCard.style.transform = 'translateY(-3px)';
-        programCard.style.boxShadow = `0 8px 20px ${borderColor}50`;
-    };
-    programCard.onmouseout = () => {
-        programCard.style.transform = 'translateY(0)';
-        programCard.style.boxShadow = `0 4px 10px ${borderColor}30`;
-    };
     
     // Bande décorative en haut
     const topBand = document.createElement('div');
@@ -10264,41 +10310,52 @@ if (programmeLower.includes('vol') || programmeLower.includes('avion') ||
     contentRow.style.gap = '16px';
     contentRow.style.alignItems = 'flex-start';
     
-    // Cercle emoji à gauche
+    // Cercle emoji
     const emojiCircle = document.createElement('div');
-    emojiCircle.style.width = '60px';
-    emojiCircle.style.height = '60px';
+    emojiCircle.style.width = '50px';
+    emojiCircle.style.height = '50px';
     emojiCircle.style.borderRadius = '50%';
     emojiCircle.style.backgroundColor = emojiBgColor;
     emojiCircle.style.display = 'flex';
     emojiCircle.style.alignItems = 'center';
     emojiCircle.style.justifyContent = 'center';
-    emojiCircle.style.fontSize = '2rem';
+    emojiCircle.style.fontSize = '1.8rem';
     emojiCircle.style.color = 'white';
     emojiCircle.style.boxShadow = `0 4px 8px ${borderColor}80`;
     emojiCircle.style.flexShrink = '0';
     emojiCircle.textContent = programEmoji;
     
-    // Informations programme à droite
+    // Infos à droite
     const infoRight = document.createElement('div');
     infoRight.style.flex = '1';
     infoRight.style.display = 'flex';
     infoRight.style.flexDirection = 'column';
     infoRight.style.gap = '8px';
     
-    // Titre du programme
-    const programTitle = document.createElement('div');
-    programTitle.style.fontFamily = "'Montserrat', 'Arial Black', sans-serif";
-    programTitle.style.fontWeight = '900';
-    programTitle.style.fontSize = '1.2rem';
-    programTitle.style.color = borderColor;
-    programTitle.style.letterSpacing = '-0.3px';
-    programTitle.style.textTransform = 'uppercase';
-    programTitle.style.textShadow = '1px 1px 0 rgba(0,0,0,0.05)';
-    programTitle.style.lineHeight = '1.3';
-    programTitle.textContent = programData.programme && programData.programme.trim() !== '' 
-        ? programData.programme 
-        : 'Concert';
+    if (aUnProgramme) {
+        // Titre du programme
+        const programTitle = document.createElement('div');
+        programTitle.style.fontFamily = "'Montserrat', 'Arial Black', sans-serif";
+        programTitle.style.fontWeight = '900';
+        programTitle.style.fontSize = '1.2rem';
+        programTitle.style.color = borderColor;
+        programTitle.style.letterSpacing = '-0.3px';
+        programTitle.style.textTransform = 'uppercase';
+        programTitle.style.lineHeight = '1.3';
+        programTitle.textContent = programText;
+        infoRight.appendChild(programTitle);
+    } else {
+        // Message "Pas de programme"
+        const noProgramMsg = document.createElement('div');
+        noProgramMsg.style.fontFamily = "'Montserrat', 'Arial Black', sans-serif";
+        noProgramMsg.style.fontWeight = '700';
+        noProgramMsg.style.fontSize = '1rem';
+        noProgramMsg.style.color = borderColor;
+        noProgramMsg.style.letterSpacing = '-0.2px';
+        noProgramMsg.style.fontStyle = 'italic';
+        noProgramMsg.textContent = 'Aucun programme spécifié';
+        infoRight.appendChild(noProgramMsg);
+    }
     
     // Badges pour heure et lieu
     const badgesRow = document.createElement('div');
@@ -10307,7 +10364,6 @@ if (programmeLower.includes('vol') || programmeLower.includes('avion') ||
     badgesRow.style.gap = '10px';
     badgesRow.style.marginTop = '4px';
     
-    // Badge heure
     if (programData.heures && programData.heures.trim() !== '') {
         const timeBadge = document.createElement('div');
         timeBadge.style.display = 'flex';
@@ -10320,12 +10376,10 @@ if (programmeLower.includes('vol') || programmeLower.includes('avion') ||
         timeBadge.style.color = '#1e40af';
         timeBadge.style.fontWeight = '600';
         timeBadge.style.fontSize = '0.9rem';
-        timeBadge.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
         timeBadge.innerHTML = `<i class="fas fa-clock" style="color: ${borderColor};"></i> ${programData.heures}`;
         badgesRow.appendChild(timeBadge);
     }
     
-    // Badge lieu
     if (programData.lieu && programData.lieu.trim() !== '') {
         const lieuBadge = document.createElement('div');
         lieuBadge.style.display = 'flex';
@@ -10338,72 +10392,18 @@ if (programmeLower.includes('vol') || programmeLower.includes('avion') ||
         lieuBadge.style.color = '#f97316';
         lieuBadge.style.fontWeight = '600';
         lieuBadge.style.fontSize = '0.9rem';
-        lieuBadge.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
         lieuBadge.innerHTML = `<i class="fas fa-map-marker-alt" style="color: ${borderColor};"></i> ${programData.lieu}`;
         badgesRow.appendChild(lieuBadge);
     }
     
-    infoRight.appendChild(programTitle);
     infoRight.appendChild(badgesRow);
-    
     contentRow.appendChild(emojiCircle);
     contentRow.appendChild(infoRight);
-    
     programCard.appendChild(contentRow);
-    
-    // Ligne décorative si d'autres infos existent
-    if ((programData.adresse && programData.adresse.trim() !== '') || 
-        (programData.trajets && programData.trajets.trim() !== '')) {
-        
-        const separator = document.createElement('div');
-        separator.style.height = '1px';
-        separator.style.background = borderColor;
-        separator.style.opacity = '0.3';
-        separator.style.margin = '12px 0 8px 0';
-        programCard.appendChild(separator);
-        
-        // Infos supplémentaires en mini badges
-        const extraRow = document.createElement('div');
-        extraRow.style.display = 'flex';
-        extraRow.style.flexWrap = 'wrap';
-        extraRow.style.gap = '8px';
-        extraRow.style.marginTop = '4px';
-        
-        if (programData.adresse && programData.adresse.trim() !== '') {
-            const contactBadge = document.createElement('div');
-            contactBadge.style.display = 'flex';
-            contactBadge.style.alignItems = 'center';
-            contactBadge.style.gap = '4px';
-            contactBadge.style.backgroundColor = 'white';
-            contactBadge.style.padding = '3px 10px';
-            contactBadge.style.borderRadius = '20px';
-            contactBadge.style.fontSize = '0.8rem';
-            contactBadge.style.color = '#4a5568';
-            contactBadge.innerHTML = `<span style="font-size: 1rem;">👤</span> ${programData.adresse.substring(0, 25)}${programData.adresse.length > 25 ? '...' : ''}`;
-            extraRow.appendChild(contactBadge);
-        }
-        
-        if (programData.trajets && programData.trajets.trim() !== '') {
-            const trajetBadge = document.createElement('div');
-            trajetBadge.style.display = 'flex';
-            trajetBadge.style.alignItems = 'center';
-            trajetBadge.style.gap = '4px';
-            trajetBadge.style.backgroundColor = 'white';
-            trajetBadge.style.padding = '3px 10px';
-            trajetBadge.style.borderRadius = '20px';
-            trajetBadge.style.fontSize = '0.8rem';
-            trajetBadge.style.color = '#7c3aed';
-            trajetBadge.innerHTML = `<span style="font-size: 1rem;">🚗</span> ${programData.trajets.substring(0, 25)}${programData.trajets.length > 25 ? '...' : ''}`;
-            extraRow.appendChild(trajetBadge);
-        }
-        
-        programCard.appendChild(extraRow);
-    }
     
     mainContainer.appendChild(programCard);
     container.appendChild(mainContainer);
-}   
-
+}
 
            function displayDateDetailsCompact(container, programData) {
             container.innerHTML = '';
@@ -10528,7 +10528,7 @@ if (programmeLower.includes('vol') || programmeLower.includes('avion') ||
             return text;
         }
 
-        function showDateModal(date, location, country) {
+       function showDateModal(date, location, country) {
     const modal = document.getElementById('dateModal');
     const modalContent = document.getElementById('dateModalContent');
     const modalTitle = document.getElementById('modalDateTitle');
@@ -10539,10 +10539,18 @@ if (programmeLower.includes('vol') || programmeLower.includes('avion') ||
     const programmesList = document.getElementById('programmesList');
     const programmesListContent = document.getElementById('programmesListContent');
     
+    // ===== RÉCUPÉRER TOUS LES PROGRAMMES (MÊCEUX SANS PROGRAMME) =====
     allProgramsForDate = getMatchingDates(date);
     currentDateForNavigation = date;
     
     const programCount = allProgramsForDate.length;
+    
+    // ===== SI AUCUNE LIGNE DU TOUT, ON FERME =====
+    if (programCount === 0) {
+        alert('Aucune donnée pour cette date');
+        return;
+    }
+    
     modalTitle.textContent = `${formatDateForDisplay(date)} (${programCount})`;
     
     const firstProgram = allProgramsForDate.length > 0 ? allProgramsForDate[0] : null;
@@ -10554,132 +10562,143 @@ if (programmeLower.includes('vol') || programmeLower.includes('avion') ||
     modalFlag.className = 'modal-flag-small';
     modalFlag.classList.add(flagClass);
 
-    // ===== ⭐ NOUVEAU : LISTE DES PROGRAMMES DANS LE TITRE =====
-    // À PLACER EXACTEMENT ICI - APRÈS LE DRAPEAU, AVANT programmesList.style.display
-    
-  // ===== NOUVEAU : LISTE DES PROGRAMMES DANS LE TITRE AVEC EMOJIS =====
-const modalHeader = document.querySelector('.modal-compact-title');
-const modalLocationInfo = document.getElementById('modalLocationInfo');
+    // ===== LISTE DES PROGRAMMES DANS LE TITRE (AVEC GESTION DES CAS VIDES) =====
+    const modalHeader = document.querySelector('.modal-compact-title');
+    const modalLocationInfo = document.getElementById('modalLocationInfo');
 
-// Créer ou trouver le conteneur pour la liste des programmes
-let programListHeader = document.getElementById('programListHeader');
-if (!programListHeader) {
-    programListHeader = document.createElement('div');
-    programListHeader.id = 'programListHeader';
-    programListHeader.style.marginTop = '4px';
-    programListHeader.style.marginBottom = '2px';
-    programListHeader.style.padding = '4px 8px';
-    programListHeader.style.background = '#f8f9fa';
-    programListHeader.style.borderRadius = '4px';
-    programListHeader.style.borderLeft = '3px solid #8A2BE2';
-    programListHeader.style.fontSize = '0.7rem';
-    programListHeader.style.lineHeight = '1.2';
-    
-    // Insérer après modalLocationInfo
-    modalLocationInfo.parentNode.insertBefore(programListHeader, modalLocationInfo.nextSibling);
-}
+    let programListHeader = document.getElementById('programListHeader');
+    if (!programListHeader) {
+        programListHeader = document.createElement('div');
+        programListHeader.id = 'programListHeader';
+        programListHeader.style.marginTop = '4px';
+        programListHeader.style.marginBottom = '2px';
+        programListHeader.style.padding = '4px 8px';
+        programListHeader.style.background = '#f8f9fa';
+        programListHeader.style.borderRadius = '4px';
+        programListHeader.style.borderLeft = '3px solid #8A2BE2';
+        programListHeader.style.fontSize = '0.7rem';
+        programListHeader.style.lineHeight = '1.2';
+        
+        modalLocationInfo.parentNode.insertBefore(programListHeader, modalLocationInfo.nextSibling);
+    }
 
-// Remplir la liste des programmes avec POLICE SPÉCIALE pour le texte
-let programListHtml = '<div style="display: flex; flex-wrap: wrap; gap: 4px;">';
-allProgramsForDate.forEach((program, index) => {
-    const programmeText = program.programme && program.programme.trim() !== '' 
-        ? program.programme 
-        : 'Concert';
+    let programListHtml = '<div style="display: flex; flex-wrap: wrap; gap: 4px;">';
     
-    // Récupérer l'emoji pour ce programme
-    const emoji = getProgramEmoji(programmeText);
+    allProgramsForDate.forEach((program, index) => {
+        const rowData = getRowData(program.rowIndex);
+        const programmeOriginal = (rowData.programmeOriginal || '').trim();
+        const localite = (rowData.localite || '').trim();
+        const lieu = (rowData.lieu || '').trim();
+        
+        // ===== DÉTERMINER LE TEXTE À AFFICHER =====
+        let texteAffiche = '';
+        let emoji = '';
+        
+        if (programmeOriginal !== '') {
+            // Cas 1 : Programme spécifié
+            texteAffiche = programmeOriginal;
+            emoji = getProgramEmoji(programmeOriginal);
+        } else if (localite !== '' || lieu !== '') {
+            // Cas 2 : Pas de programme mais lieu/localité existent
+            texteAffiche = 'Aucun programme';
+            emoji = '📋'; // Emoji "info" ou "document"
+        } else {
+            // Cas 3 : Rien du tout (juste pays)
+            texteAffiche = 'Aucune info';
+            emoji = 'ℹ️';
+        }
+        
+        const shortText = texteAffiche.length > 15 ? texteAffiche.substring(0, 13) + '…' : texteAffiche;
+        
+        // Choisir la couleur de fond selon le cas
+        let bgColor = '#e9d5ff'; // Violet par défaut
+        let textColor = '#6b21a8';
+        
+        if (programmeOriginal === '') {
+            bgColor = '#f1f5f9'; // Gris clair
+            textColor = '#475569';
+        }
+        
+        programListHtml += `<span style="
+            background: ${bgColor}; 
+            padding: 3px 10px; 
+            border-radius: 20px; 
+            font-weight: 700; 
+            color: ${textColor}; 
+            font-size: 0.7rem; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 4px;
+            font-family: 'Montserrat', 'Arial Black', sans-serif;
+            letter-spacing: -0.2px;
+        ">
+            ${emoji} ${index + 1}. ${shortText}
+        </span>`;
+    });
     
-    // Version tronquée
-    const shortText = programmeText.length > 12 ? programmeText.substring(0, 10) + '…' : programmeText;
+    programListHtml += '</div>';
+    programListHeader.innerHTML = programListHtml;
     
-    programListHtml += `<span style="
-        background: #e9d5ff; 
-        padding: 3px 10px; 
-        border-radius: 20px; 
-        font-weight: 700; 
-        color: #6b21a8; 
-        font-size: 0.7rem; 
-        display: inline-flex; 
-        align-items: center; 
-        gap: 4px;
-        font-family: 'Montserrat', 'Arial Black', sans-serif;
-        letter-spacing: -0.2px;
-    ">
-        ${emoji} ${index + 1}. ${shortText}
-    </span>`;
-});
-programListHtml += '</div>';
-programListHeader.innerHTML = programListHtml;    // CACHER l'ancienne liste de programmes
     programmesList.style.display = 'none';
     
-   // ===== CRÉER UN CONTENEUR FIXE POUR HEURE/LIEU/PROGRAMME DANS LE TITRE =====
-const modalHeaderContainer = document.querySelector('.date-modal-header .modal-compact-title');
-const modalHeaderParent = modalHeaderContainer?.parentNode;
+    // ===== BARRE DE NAVIGATION FIXE =====
+    const modalHeaderContainer = document.querySelector('.date-modal-header .modal-compact-title');
+    const modalHeaderParent = modalHeaderContainer?.parentNode;
 
-// Créer le conteneur fixe pour les infos programme (toujours visible)
-let fixedProgramBar = document.getElementById('fixedProgramBar');
-if (!fixedProgramBar) {
-    fixedProgramBar = document.createElement('div');
-    fixedProgramBar.id = 'fixedProgramBar';
-    fixedProgramBar.style.position = 'sticky';
-    fixedProgramBar.style.top = '0';
-    fixedProgramBar.style.zIndex = '20';
-    fixedProgramBar.style.backgroundColor = 'white';
-    fixedProgramBar.style.padding = '8px 0';
-    fixedProgramBar.style.borderBottom = '2px solid #e2e8f0';
-    fixedProgramBar.style.marginBottom = '10px';
-    
-    // Insérer APRÈS modalLocationInfo et programListHeader
-    const modalLocationInfo = document.getElementById('modalLocationInfo');
-    const programListHeader = document.getElementById('programListHeader');
-    
-    if (programListHeader) {
-        programListHeader.parentNode.insertBefore(fixedProgramBar, programListHeader.nextSibling);
-    } else if (modalLocationInfo) {
-        modalLocationInfo.parentNode.insertBefore(fixedProgramBar, modalLocationInfo.nextSibling);
+    let fixedProgramBar = document.getElementById('fixedProgramBar');
+    if (!fixedProgramBar) {
+        fixedProgramBar = document.createElement('div');
+        fixedProgramBar.id = 'fixedProgramBar';
+        fixedProgramBar.style.position = 'sticky';
+        fixedProgramBar.style.top = '0';
+        fixedProgramBar.style.zIndex = '20';
+        fixedProgramBar.style.backgroundColor = 'white';
+        fixedProgramBar.style.padding = '8px 0';
+        fixedProgramBar.style.borderBottom = '2px solid #e2e8f0';
+        fixedProgramBar.style.marginBottom = '10px';
+        
+        const modalLocationInfo = document.getElementById('modalLocationInfo');
+        const programListHeader = document.getElementById('programListHeader');
+        
+        if (programListHeader) {
+            programListHeader.parentNode.insertBefore(fixedProgramBar, programListHeader.nextSibling);
+        } else if (modalLocationInfo) {
+            modalLocationInfo.parentNode.insertBefore(fixedProgramBar, modalLocationInfo.nextSibling);
+        }
     }
-}
 
-// ===== NAVIGATION EN HAUT - MAINTENANT DANS fixedProgramBar =====
-if (allProgramsForDate.length > 1) {
-    dateNavigation.style.display = 'flex';
-    currentProgramIndex = 0;
-    updateProgramNavigation();
-    // DÉPLACER la navigation dans fixedProgramBar
-    fixedProgramBar.innerHTML = '';
-    fixedProgramBar.appendChild(dateNavigation.cloneNode(true));
-} else {
+    if (allProgramsForDate.length > 1) {
+        dateNavigation.style.display = 'flex';
+        currentProgramIndex = 0;
+        updateProgramNavigation();
+        fixedProgramBar.innerHTML = '';
+        fixedProgramBar.appendChild(dateNavigation.cloneNode(true));
+    } else {
+        dateNavigation.style.display = 'none';
+        fixedProgramBar.innerHTML = '<div style="height: 10px;"></div>';
+    }
+    
+    const newPrevBtn = fixedProgramBar.querySelector('.nav-arrow-slim.prev');
+    const newNextBtn = fixedProgramBar.querySelector('.nav-arrow-slim.next');
+    
+    if (newPrevBtn) {
+        newPrevBtn.onclick = function(e) {
+            e.stopPropagation();
+            navigateProgram(-1);
+        };
+    }
+    if (newNextBtn) {
+        newNextBtn.onclick = function(e) {
+            e.stopPropagation();
+            navigateProgram(1);
+        };
+    }
+    
     dateNavigation.style.display = 'none';
-    fixedProgramBar.innerHTML = '<div style="height: 10px;"></div>'; // Espace vide
-}
-// Réattacher les événements des boutons de navigation après clonage
-const newPrevBtn = fixedProgramBar.querySelector('.nav-arrow-slim.prev');
-const newNextBtn = fixedProgramBar.querySelector('.nav-arrow-slim.next');
-const newCounter = fixedProgramBar.querySelector('.program-counter-slim');
-
-if (newPrevBtn) {
-    newPrevBtn.onclick = function(e) {
-        e.stopPropagation();
-        navigateProgram(-1);
-    };
-}
-if (newNextBtn) {
-    newNextBtn.onclick = function(e) {
-        e.stopPropagation();
-        navigateProgram(1);
-    };
-}
-
-// CACHER l'ancienne navigation
-dateNavigation.style.display = 'none';
 
     // ===== AFFICHAGE DU PREMIER PROGRAMME =====
     if (allProgramsForDate.length > 0) {
         showProgramData(0);
-    } else {
-        programInfoCentered.innerHTML = '<div class="program-info-large" style="color: #718096; font-style: italic;">Aucun concert prévu pour cette date</div>';
-        const dateDetailsGrid = document.getElementById('dateDetailsGrid');
-        dateDetailsGrid.innerHTML = '<div class="date-detail-item-compact"><div class="date-detail-value-compact green-text" style="text-align: center; font-style: italic; font-size: 0.65rem;">Aucun détail disponible</div></div>';
     }
     
     if (secretariatAccess) {
@@ -10712,18 +10731,26 @@ dateNavigation.style.display = 'none';
         }
         
         // ===== MODIFICATION : AJOUT DE LA COLONNE COORDONNÉES =====
-       function getRowData(rowIndex) {
+      function getRowData(rowIndex) {
     const row = sheetData[rowIndex];
     const programme = row[columnMapping['PROGRAMME']] || '';
+    const localite = row[columnMapping['LOCALITE']] || '';
+    const lieu = row[columnMapping['LIEU']] || '';
+    
+    // ===== LOGIQUE CORRIGÉE : "Concert" SEULEMENT si programme vide MAIS localité ou lieu rempli =====
+    let programmeAffiche = programme;
+    if (programme.trim() === '' && (localite.trim() !== '' || lieu.trim() !== '')) {
+        programmeAffiche = 'Concert';
+    }
     
     return {
-        localite: row[columnMapping['LOCALITE']] || '',
+        localite: localite,
         pays: row[columnMapping['PAYS']] || '',
-        lieu: row[columnMapping['LIEU']] || '',
+        lieu: lieu,
         heures: row[columnMapping['HEURES']] || '',
         adresse: row[columnMapping['ADRESSE ET/OU CONTACT']] || '',
         hebergement: row[columnMapping['HEBERGEMENT']] || '',
-        programme: programme || 'Concert', // Par défaut "Concert"
+        programme: programmeAffiche, // Ici on met le résultat corrigé
         programmeOriginal: programme, // Garder la valeur originale
         localisation: row[columnMapping['LOCALISATION']] || '',
         site: row[columnMapping['SITE']] || '',
@@ -11051,33 +11078,39 @@ dateNavigation.style.display = 'none';
             return malagasyHolidays2026[dateStr] || null;
         }
 
-        function countLocalitesForDate(date) {
-            const matchingDates = datesWithData.filter(item => 
-                item.date.getDate() === date.getDate() &&
-                item.date.getMonth() === date.getMonth() &&
-                item.date.getFullYear() === date.getFullYear()
-            );
+       function countLocalitesForDate(date) {
+    const matchingDates = datesWithData.filter(item => 
+        item.date.getDate() === date.getDate() &&
+        item.date.getMonth() === date.getMonth() &&
+        item.date.getFullYear() === date.getFullYear()
+    );
+    
+    let localiteCount = 0;
+    matchingDates.forEach(item => {
+        const rowIndex = item.rowIndex;
+        if (sheetData[rowIndex]) {
+            const rowData = getRowData(rowIndex);
+            const localite = rowData.localite || '';
+            const lieu = rowData.lieu || '';
+            const programmeOriginal = rowData.programmeOriginal || '';
+            const pays = rowData.pays || '';
             
-            let localiteCount = 0;
-            matchingDates.forEach(item => {
-                const rowIndex = item.rowIndex;
-                if (sheetData[rowIndex]) {
-                    const localite = sheetData[rowIndex][columnMapping['LOCALITE']] || '';
-                    const pays = sheetData[rowIndex][columnMapping['PAYS']] || '';
-                    
-                    if (localite.trim() !== '' && 
-                        !localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
-                        !localite.toUpperCase().includes('MADAGASCAR') &&
-                        pays.toUpperCase() !== 'MADAGASCAR') {
-                        localiteCount++;
-                    }
-                }
-            });
+            // ===== CORRECTION : On compte seulement si quelque chose existe =====
+            const aQuelqueChose = programmeOriginal.trim() !== '' || localite.trim() !== '' || lieu.trim() !== '';
             
-            return localiteCount;
+            if (aQuelqueChose && 
+                !localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
+                !localite.toUpperCase().includes('MADAGASCAR') &&
+                pays.toUpperCase() !== 'MADAGASCAR') {
+                localiteCount++;
+            }
         }
+    });
+    
+    return localiteCount;
+}
 
-      function calculateProgrammeStats() {
+     function calculateProgrammeStats() {
     programmeStats = {
         total: 0,
         byType: {},
@@ -11109,83 +11142,98 @@ dateNavigation.style.display = 'none';
         const rowIndex = item.rowIndex;
         if (sheetData[rowIndex]) {
             const rowData = getRowData(rowIndex);
-            const programme = rowData.programme && rowData.programme.trim() !== '' 
-                ? rowData.programme 
-                : 'Concert';
-            
+            const programmeOriginal = rowData.programmeOriginal || ''; // Valeur originale
+            const programmeAffiche = rowData.programme || ''; // Valeur affichée (peut être "Concert")
             const pays = rowData.pays.toUpperCase() || '';
             const localite = rowData.localite || '';
+            const lieu = rowData.lieu || '';
             
-            // Ignorer les retours à Madagascar ET Madagascar lui-même
+            // Ignorer les retours à Madagascar
             if (localite.toUpperCase().includes('RETOUR MADAGASCAR') || 
                 localite.toUpperCase().includes('MADAGASCAR') ||
-                pays === 'MADAGASCAR') { // ← AJOUT DE CETTE CONDITION
+                pays === 'MADAGASCAR') {
                 return;
             }
             
-            if (localite !== '' && localite.toLowerCase() !== 'localité non spécifiée' &&
-                pays !== '' && pays.toLowerCase() !== 'pays non spécifié') {
+            // ===== LOGIQUE DE COMPTAGE POUR STATISTIQUES =====
+            // On utilise le programme ORIGINAL pour déterminer si c'est un concert ou non
+            // et pour savoir si c'est exclu ou non
+            
+            // Déterminer si cette ligne compte comme un programme
+            const aUnProgramme = programmeOriginal.trim() !== '' || localite.trim() !== '' || lieu.trim() !== '';
+            
+            if (!aUnProgramme) {
+                return; // NE RIEN COMPTER DU TOUT
+            }
+            
+            // Déterminer le type pour les statistiques (toujours basé sur l'original)
+            let typePourStat = programmeOriginal;
+            if (programmeOriginal.trim() === '' && (localite.trim() !== '' || lieu.trim() !== '')) {
+                typePourStat = 'Concert';
+            }
+            
+            const programmeLower = typePourStat.toLowerCase();
+            const isExcluded = excludedTypes.some(type => programmeLower.includes(type));
+            
+            // ===== TOUJOURS STOCKER DANS programsByType POUR L'AFFICHAGE =====
+            if (!programsByType[programmeLower]) {
+                programsByType[programmeLower] = [];
+            }
+            
+            // Créer l'objet programme avec les bonnes infos
+            const programObject = {
+                ...item,
+                ...rowData,
+                programme: typePourStat, // Utiliser le type déterminé
+                programmeOriginal: programmeOriginal,
+                isExcluded: isExcluded
+            };
+            
+            programsByType[programmeLower].push(programObject);
+            
+            if (!isExcluded) {
+                // ===== COMPTER UNIQUEMENT LES ACTIVITÉS NON EXCLUES =====
+                programmeStats.total++;
                 
-                const programmeLower = programme.toLowerCase();
-                const isExcluded = excludedTypes.some(type => programmeLower.includes(type));
+                // Statistiques par type
+                programmeStats.byType[programmeLower] = (programmeStats.byType[programmeLower] || 0) + 1;
                 
-                // ===== TOUJOURS STOCKER DANS programsByType POUR L'AFFICHAGE =====
-                if (!programsByType[programmeLower]) {
-                    programsByType[programmeLower] = [];
+                // Statistiques par pays
+                if (pays !== 'MADAGASCAR') {
+                    if (!programmeStats.byCountry[pays]) {
+                        programmeStats.byCountry[pays] = {
+                            total: 0,
+                            byType: {},
+                            days: new Set(),
+                            excludedTotal: 0,
+                            excludedByType: {}
+                        };
+                    }
+                    programmeStats.byCountry[pays].total++;
+                    programmeStats.byCountry[pays].byType[programmeLower] = (programmeStats.byCountry[pays].byType[programmeLower] || 0) + 1;
+                    programmeStats.byCountry[pays].days.add(item.date.getTime());
                 }
-                programsByType[programmeLower].push({
-                    ...item,
-                    ...rowData,
-                    isExcluded: isExcluded
-                });
+            } else {
+                // ===== STOCKER LES EXCLUS =====
+                window.excludedPrograms.total++;
+                window.excludedPrograms.byType[programmeLower] = (window.excludedPrograms.byType[programmeLower] || 0) + 1;
+                window.excludedPrograms.list.push(programObject);
                 
-                if (!isExcluded) {
-                    // ===== COMPTER UNIQUEMENT LES ACTIVITÉS NON EXCLUES =====
-                    programmeStats.total++;
-                    
-                    // Statistiques par type
-                    programmeStats.byType[programmeLower] = (programmeStats.byType[programmeLower] || 0) + 1;
-                    
-                    // Statistiques par pays (mais pas Madagascar)
-                    if (pays !== 'MADAGASCAR') { // ← AJOUT DE CETTE CONDITION
-                        if (!programmeStats.byCountry[pays]) {
-                            programmeStats.byCountry[pays] = {
-                                total: 0,
-                                byType: {},
-                                days: new Set(),
-                                excludedTotal: 0,
-                                excludedByType: {}
-                            };
-                        }
-                        programmeStats.byCountry[pays].total++;
-                        programmeStats.byCountry[pays].byType[programmeLower] = (programmeStats.byCountry[pays].byType[programmeLower] || 0) + 1;
-                        programmeStats.byCountry[pays].days.add(item.date.getTime());
+                // ===== DANS LES STATS PAR PAYS (À PART) =====
+                if (pays !== 'MADAGASCAR') {
+                    if (!programmeStats.byCountry[pays]) {
+                        programmeStats.byCountry[pays] = {
+                            total: 0,
+                            byType: {},
+                            days: new Set(),
+                            excludedTotal: 0,
+                            excludedByType: {}
+                        };
                     }
-                } else {
-                    // ===== STOCKER LES EXCLUS =====
-                    window.excludedPrograms.total++;
-                    window.excludedPrograms.byType[programmeLower] = (window.excludedPrograms.byType[programmeLower] || 0) + 1;
-                    window.excludedPrograms.list.push({
-                        ...item,
-                        ...rowData
-                    });
-                    
-                    // ===== DANS LES STATS PAR PAYS (À PART) MAIS PAS MADAGASCAR =====
-                    if (pays !== 'MADAGASCAR') { // ← AJOUT DE CETTE CONDITION
-                        if (!programmeStats.byCountry[pays]) {
-                            programmeStats.byCountry[pays] = {
-                                total: 0,
-                                byType: {},
-                                days: new Set(),
-                                excludedTotal: 0,
-                                excludedByType: {}
-                            };
-                        }
-                        programmeStats.byCountry[pays].excludedTotal++;
-                        programmeStats.byCountry[pays].excludedByType[programmeLower] = 
-                            (programmeStats.byCountry[pays].excludedByType[programmeLower] || 0) + 1;
-                        programmeStats.byCountry[pays].days.add(item.date.getTime());
-                    }
+                    programmeStats.byCountry[pays].excludedTotal++;
+                    programmeStats.byCountry[pays].excludedByType[programmeLower] = 
+                        (programmeStats.byCountry[pays].excludedByType[programmeLower] || 0) + 1;
+                    programmeStats.byCountry[pays].days.add(item.date.getTime());
                 }
             }
         }
@@ -12674,29 +12722,49 @@ if (programsForDate.length > 0 && isDesktop()) {
             day.classList.add('has-data');
             dayContent += `<div class="calendar-flag-emoji-line">`;
             dayContent += `<div class="calendar-day-flag ${countryFlags[foundPays]}" style="width:22px; height:15px; display:inline-block;" title="${foundPays}"></div>`;
-            
-            if (programsForDate.length > 0) {
-                const maxEmojis = 3;
-                const emojisToShow = programsForDate.slice(0, maxEmojis);
-                
-                emojisToShow.forEach(program => {
-                    const rowData = getRowData(program.rowIndex);
-                    const programmeOriginal = rowData.programmeOriginal || '';
-                    
-                    let emoji = '';
-                    if (programmeOriginal.trim() !== '') {
-                        emoji = getProgramEmoji(programmeOriginal);
-                    } else {
-                        emoji = '🎵';
-                    }
-                    
-                    dayContent += `<span class="calendar-emoji" style="font-size:14px; margin:0 1px; display:inline-block;">${emoji}</span>`;
-                });
-                
-                if (programsForDate.length > maxEmojis) {
-                    dayContent += `<span class="calendar-more" style="font-size:9px; font-weight:bold; color:#6b21a8; background:#e9d5ff; border-radius:10px; padding:1px 5px; margin-left:2px; display:inline-block;">+${programsForDate.length - maxEmojis}</span>`;
-                }
-            }
+           // ===== NOUVELLE LOGIQUE : N'afficher les emojis que si la ligne a du contenu =====
+const programsAvecContenu = programsForDate.filter(program => {
+    const rowData = getRowData(program.rowIndex);
+    const programmeOriginal = (rowData.programmeOriginal || '').trim();
+    const localite = (rowData.localite || '').trim();
+    const lieu = (rowData.lieu || '').trim();
+    
+    // On garde seulement les programmes qui ont AU MOINS un des trois champs rempli
+    return programmeOriginal !== '' || localite !== '' || lieu !== '';
+});
+
+if (programsAvecContenu.length > 0) {
+    const maxEmojis = 3;
+    const emojisToShow = programsAvecContenu.slice(0, maxEmojis);
+    
+    emojisToShow.forEach(program => {
+        const rowData = getRowData(program.rowIndex);
+        const programmeOriginal = (rowData.programmeOriginal || '').trim();
+        const localite = (rowData.localite || '').trim();
+        const lieu = (rowData.lieu || '').trim();
+        
+        let emoji = '';
+        
+        // CAS 1 : Programme spécifié
+        if (programmeOriginal !== '') {
+            emoji = getProgramEmoji(programmeOriginal);
+        }
+        // CAS 2 : Pas de programme mais localité OU lieu rempli
+        else if (localite !== '' || lieu !== '') {
+            emoji = '🎵'; // Concert par défaut
+        }
+        // CAS 3 : Rien du tout → on n'affiche pas d'emoji (normalement ce cas est filtré)
+        
+        if (emoji !== '') {
+            dayContent += `<span class="calendar-emoji" style="font-size:14px; margin:0 1px; display:inline-block;" title="${programmeOriginal || 'Concert'}">${emoji}</span>`;
+        }
+    });
+    
+    if (programsAvecContenu.length > maxEmojis) {
+        dayContent += `<span class="calendar-more" style="font-size:9px; font-weight:bold; color:#6b21a8; background:#e9d5ff; border-radius:10px; padding:1px 5px; margin-left:2px; display:inline-block;">+${programsAvecContenu.length - maxEmojis}</span>`;
+    }
+}
+// Si programsAvecContenu.length === 0, on n'affiche AUCUN emoji (juste le drapeau)
             
             dayContent += `</div>`;
             
@@ -14254,252 +14322,305 @@ function showNotif(msg) {
 </script>
     <script>
         // ===== FONCTIONS POUR LES STATISTIQUES MENSUELLES =====
+      // ===== FONCTIONS POUR LES STATISTIQUES MENSUELLES =====
+
+// Mois à analyser (Avril à Juillet 2026)
+const MONTHS_TO_ANALYZE = [
+    { name: 'Avril', index: 3, year: 2026 },   // 3 = Avril (0-indexé)
+    { name: 'Mai', index: 4, year: 2026 },
+    { name: 'Juin', index: 5, year: 2026 },
+    { name: 'Juillet', index: 6, year: 2026 }
+];
+
+/**
+ * Calcule la distance en kilomètres à partir d'un texte de trajet.
+ */
+function extractDistanceFromTrajet(trajetText) {
+    if (!trajetText) return 0;
+    const match = trajetText.match(/(\d+[\.,]?\d*)\s*km/i);
+    if (match) {
+        let distance = match[1].replace(',', '.');
+        return parseFloat(distance) || 0;
+    }
+    return 0;
+}
+
+/**
+ * Calcule le kilométrage total pour un mois donné.
+ */
+function calculateMonthlyKilometers(monthIndex, year) {
+    let totalKm = 0;
+    if (!datesWithData || datesWithData.length === 0) return 0;
+    
+    datesWithData.forEach(item => {
+        const rowData = getRowData(item.rowIndex);
+        if (item.date.getMonth() === monthIndex && item.date.getFullYear() === year) {
+            totalKm += extractDistanceFromTrajet(rowData.trajets);
+        }
+    });
+    return Math.round(totalKm);
+}
+
+/**
+ * Récupère les pays visités pour un mois donné.
+ */
+function getCountriesForMonth(monthIndex, year) {
+    const countriesSet = new Set();
+    if (!datesWithData || datesWithData.length === 0) return [];
+    
+    datesWithData.forEach(item => {
+        const pays = item.pays?.toUpperCase();
+        const localite = item.localite?.toUpperCase() || '';
+        if (item.date.getMonth() === monthIndex && 
+            item.date.getFullYear() === year && 
+            pays && pays !== 'MADAGASCAR' && 
+            !localite.includes('RETOUR MADAGASCAR')) {
+            countriesSet.add(pays);
+        }
+    });
+    
+    const order = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
+    return Array.from(countriesSet).sort((a, b) => {
+        const indexA = order.indexOf(a);
+        const indexB = order.indexOf(b);
+        if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+        if (indexA !== -1) return -1;
+        if (indexB !== -1) return 1;
+        return a.localeCompare(b);
+    });
+}
+
+/**
+ * Récupère le détail des programmes par pays avec leurs nombres
+ * RÈGLES DE COMPTAGE :
+ * - Si programme spécifié → on utilise ce programme
+ * - Si pas de programme mais localité OU lieu non vide → on compte comme "Concert"
+ * - Si seulement pays (sans localité, sans lieu, sans programme) → on ne compte PAS
+ */
+function getProgramsDetailForMonth(monthIndex, year) {
+    const programsByCountry = {};
+    
+    if (!datesWithData || datesWithData.length === 0) return {};
+    
+    datesWithData.forEach(item => {
+        const rowData = getRowData(item.rowIndex);
+        const pays = item.pays?.toUpperCase();
+        const localite = (rowData.localite || '').trim();
+        const lieu = (rowData.lieu || '').trim();
+        const programmeOriginal = (rowData.programmeOriginal || '').trim();
         
-        // Mois à analyser (Avril à Juillet 2026)
-        const MONTHS_TO_ANALYZE = [
-            { name: 'Avril', index: 3, year: 2026 },   // 3 = Avril (0-indexé)
-            { name: 'Mai', index: 4, year: 2026 },
-            { name: 'Juin', index: 5, year: 2026 },
-            { name: 'Juillet', index: 6, year: 2026 }
-        ];
-
-        /**
-         * Calcule la distance en kilomètres à partir d'un texte de trajet.
-         * Exemple: "120 km, 2h30" -> 120
-         */
-        function extractDistanceFromTrajet(trajetText) {
-            if (!trajetText) return 0;
-            
-            // Cherche un nombre suivi de "km" (insensible à la casse)
-            const match = trajetText.match(/(\d+[\.,]?\d*)\s*km/i);
-            if (match) {
-                // Remplacer la virgule par un point pour les décimaux
-                let distance = match[1].replace(',', '.');
-                return parseFloat(distance) || 0;
+        // Ignorer Madagascar et les retours
+        if (item.date.getMonth() !== monthIndex || 
+            item.date.getFullYear() !== year || 
+            !pays || pays === 'MADAGASCAR' || 
+            localite.toUpperCase().includes('RETOUR MADAGASCAR')) {
+            return;
+        }
+        
+        // ===== LOGIQUE DE COMPTAGE =====
+        let typeACompter = null;
+        
+        // CAS 1 : Programme spécifié
+        if (programmeOriginal !== '') {
+            typeACompter = programmeOriginal;
+        }
+        // CAS 2 : Pas de programme mais localité OU lieu non vide
+        else if (localite !== '' || lieu !== '') {
+            typeACompter = 'Concert';
+        }
+        // CAS 3 : Ni programme, ni localité, ni lieu → on ne compte pas
+        else {
+            return; // On ne compte pas cette ligne
+        }
+        
+        // Initialiser le pays si nécessaire
+        if (!programsByCountry[pays]) {
+            programsByCountry[pays] = {};
+        }
+        
+        // Incrémenter le compteur
+        programsByCountry[pays][typeACompter] = (programsByCountry[pays][typeACompter] || 0) + 1;
+    });
+    
+    return programsByCountry;
+}
+/**
+ * Fonction principale pour générer et afficher les statistiques mensuelles
+ */
+function generateMonthlyStats() {
+    const container = document.getElementById('monthlyStatsContainer');
+    if (!container) return;
+    
+    if (!datesWithData || datesWithData.length === 0) {
+        container.innerHTML = '<div class="loading-spinner">Chargement des données...</div>';
+        return;
+    }
+    
+    let html = '';
+    
+    MONTHS_TO_ANALYZE.forEach(month => {
+        const countries = getCountriesForMonth(month.index, month.year);
+        const programsByCountry = getProgramsDetailForMonth(month.index, month.year);
+        const totalKm = calculateMonthlyKilometers(month.index, month.year);
+        
+        // Calculer le total des programmes
+        let totalPrograms = 0;
+        for (let country in programsByCountry) {
+            for (let prog in programsByCountry[country]) {
+                totalPrograms += programsByCountry[country][prog];
             }
-            return 0;
         }
-
-        /**
-         * Calcule le kilométrage total pour un mois donné.
-         */
-        function calculateMonthlyKilometers(monthIndex, year) {
-            let totalKm = 0;
-            
-            if (!datesWithData || datesWithData.length === 0) return 0;
-            
-            datesWithData.forEach(item => {
-                const rowData = getRowData(item.rowIndex);
-                // Vérifie si la date correspond au mois et à l'année
-                if (item.date.getMonth() === monthIndex && item.date.getFullYear() === year) {
-                    // Ajoute la distance du trajet pour cette date
-                    totalKm += extractDistanceFromTrajet(rowData.trajets);
-                }
+        
+        // Début de la carte
+        html += `
+            <div class="month-card" style="padding: 12px;">
+                <div class="month-name" style="font-size: 1.2rem; padding: 4px 0; margin-bottom: 8px;">${month.name} 2026</div>
+                
+                <!-- Ligne 1 : Drapeaux et labels -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+                    <div class="month-flags" style="display: flex; gap: 4px; padding: 0;">
+        `;
+        
+        // Drapeaux
+        if (countries.length > 0) {
+            countries.forEach(country => {
+                const flagClass = countryFlags[country] || 'flag-france';
+                html += `<div class="month-flag-mini ${flagClass}" style="width: 24px; height: 16px;" title="${formatCountryName(country)}"></div>`;
+            });
+        } else {
+            html += `<span style="color: #94a3b8; font-size: 0.7rem;">Aucun pays</span>`;
+        }
+        
+        html += `</div>`;
+        
+        // Labels "Nb pays visités" et "Nb programmes"
+        html += `
+                    <div style="display: flex; gap: 12px; font-size: 0.75rem;">
+                        <span style="background: #e9d5ff; padding: 3px 8px; border-radius: 20px; display: flex; align-items: center; gap: 4px;">
+                            <i class="fas fa-calendar-check" style="color: #6b21a8;"></i> 
+                            <span>Programmes: <strong>${totalPrograms}</strong></span>
+                        </span>
+                        <span style="background: #dbeafe; padding: 3px 8px; border-radius: 20px; display: flex; align-items: center; gap: 4px;">
+                            <i class="fas fa-globe" style="color: #1e40af;"></i> 
+                            <span>Pays visités: <strong>${countries.length}</strong></span>
+                        </span>
+                    </div>
+                </div>
+        `;
+        
+        // ===== SECTION PROGRAMMES PAR PAYS AVEC NOMBRES =====
+        html += `<div style="margin: 8px 0;">`;
+        
+        if (Object.keys(programsByCountry).length > 0) {
+            // Trier les pays
+            const sortedCountries = countries.sort((a, b) => {
+                const order = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
+                return order.indexOf(a) - order.indexOf(b);
             });
             
-            return Math.round(totalKm); // Arrondi à l'entier
-        }
-
-        /**
-         * Récupère les pays visités pour un mois donné.
-         */
-        function getCountriesForMonth(monthIndex, year) {
-            const countriesSet = new Set();
-            
-            if (!datesWithData || datesWithData.length === 0) return [];
-            
-            datesWithData.forEach(item => {
-                const pays = item.pays?.toUpperCase();
-                const localite = item.localite?.toUpperCase() || '';
-                // On exclut Madagascar et les retours
-                if (item.date.getMonth() === monthIndex && 
-                    item.date.getFullYear() === year && 
-                    pays && 
-                    pays !== 'MADAGASCAR' && 
-                    !localite.includes('RETOUR MADAGASCAR')) {
-                    countriesSet.add(pays);
-                }
-            });
-            
-            // Trier les pays dans un ordre logique
-            const order = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
-            return Array.from(countriesSet).sort((a, b) => {
-                const indexA = order.indexOf(a);
-                const indexB = order.indexOf(b);
-                if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-                if (indexA !== -1) return -1;
-                if (indexB !== -1) return 1;
-                return a.localeCompare(b);
-            });
-        }
-
-        /**
-         * Récupère le détail des programmes (par type et effectif) pour un mois donné.
-         */
-        function getProgramsDetailForMonth(monthIndex, year) {
-            const programsDetail = {};
-            
-            if (!datesWithData || datesWithData.length === 0) return programsDetail;
-            
-            datesWithData.forEach(item => {
-                const rowData = getRowData(item.rowIndex);
-                const pays = item.pays?.toUpperCase();
-                const localite = item.localite?.toUpperCase() || '';
-                // On exclut Madagascar et les retours
-                if (item.date.getMonth() === monthIndex && 
-                    item.date.getFullYear() === year && 
-                    pays && 
-                    pays !== 'MADAGASCAR' && 
-                    !localite.includes('RETOUR MADAGASCAR')) {
+            sortedCountries.forEach(country => {
+                if (programsByCountry[country]) {
+                    const flagClass = countryFlags[country] || 'flag-france';
+                    const countryName = formatCountryName(country);
                     
-                    // Type de programme (ou "Concert" par défaut)
-                    let programme = (rowData.programme || 'Concert').trim();
-                    if (programme === '') programme = 'Concert';
-                    
-                    // Initialiser le compteur pour ce pays si besoin
-                    if (!programsDetail[pays]) {
-                        programsDetail[pays] = {};
+                    // Compter le total pour ce pays
+                    let countryTotal = 0;
+                    for (let prog in programsByCountry[country]) {
+                        countryTotal += programsByCountry[country][prog];
                     }
                     
-                    // Incrémenter le compteur pour ce type de programme
-                    programsDetail[pays][programme] = (programsDetail[pays][programme] || 0) + 1;
-                }
-            });
-            
-            return programsDetail;
-        }
-
-        /**
-         * Fonction principale pour générer et afficher les statistiques mensuelles.
-         */
-        function generateMonthlyStats() {
-            const container = document.getElementById('monthlyStatsContainer');
-            if (!container) return;
-            
-            // Si les données ne sont pas encore chargées, on affiche un message
-            if (!datesWithData || datesWithData.length === 0) {
-                container.innerHTML = '<div class="loading-spinner">Veuillez d\'abord charger les données du calendrier.</div>';
-                return;
-            }
-            
-            let html = '';
-            
-            MONTHS_TO_ANALYZE.forEach(month => {
-                // 1. Pays visités
-                const countries = getCountriesForMonth(month.index, month.year);
-                
-                // 2. Détail des programmes par pays
-                const programsDetail = getProgramsDetailForMonth(month.index, month.year);
-                
-                // 3. Kilométrage total
-                const totalKm = calculateMonthlyKilometers(month.index, month.year);
-                
-                // Construction de la carte HTML pour ce mois
-                html += `
-                    <div class="month-card">
-                        <div class="month-name">${month.name} 2026</div>
+                    // Carte pays (compacte)
+                    html += `
+                        <div style="
+                            background: #f8fafc;
+                            border-radius: 8px;
+                            padding: 8px;
+                            margin-bottom: 8px;
+                            border-left: 3px solid ${countryColors[country] || '#4299e1'};
+                        ">
+                            <!-- En-tête pays avec drapeau et total -->
+                            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                                <div class="${flagClass}" style="width: 20px; height: 13px; border-radius: 2px;"></div>
+                                <span style="font-weight: 700; font-size: 0.8rem; color: #1e293b;">${countryName}</span>
+                                <span style="margin-left: auto; background: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; border: 1px solid #e2e8f0;">
+                                    ${countryTotal}
+                                </span>
+                            </div>
+                            
+                            <!-- Liste des programmes avec nombres -->
+                            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    `;
+                    
+                    // Trier les programmes par ordre alphabétique
+                    const sortedPrograms = Object.keys(programsByCountry[country]).sort();
+                    
+                    sortedPrograms.forEach(prog => {
+                        const count = programsByCountry[country][prog];
+                        const emoji = getProgramEmoji(prog);
                         
-                        <!-- Drapeaux des pays visités -->
-                        <div class="month-flags">
-                `;
-                
-                // Ajouter les drapeaux des pays
-                if (countries.length > 0) {
-                    countries.forEach(country => {
-                        const flagClass = countryFlags[country] || 'flag-france';
-                        html += `<div class="month-flag-mini ${flagClass}" title="${formatCountryName(country)}"></div>`;
-                    });
-                } else {
-                    html += `<span style="color: #94a3b8; font-size: 0.75rem; width:100%; text-align:center;">Aucun pays</span>`;
-                }
-                
-                html += `</div>`; // Fermeture month-flags
-                
-                // Section des statistiques détaillées
-                html += `<div class="month-stats-detail">`;
-                
-                // Compter le nombre total de programmes (tous pays confondus)
-                let totalPrograms = 0;
-                for (let country in programsDetail) {
-                    for (let prog in programsDetail[country]) {
-                        totalPrograms += programsDetail[country][prog];
-                    }
-                }
-                
-                html += `
-                    <div class="month-stat-item">
-                        <span class="month-stat-label"><i class="fas fa-calendar-check"></i> Programmes</span>
-                        <span class="month-stat-number">${totalPrograms}</span>
-                    </div>
-                    <div class="month-stat-item">
-                        <span class="month-stat-label"><i class="fas fa-globe"></i> Pays</span>
-                        <span class="month-stat-number">${countries.length}</span>
-                    </div>
-                `;
-                
-                // Détail des programmes par pays
-                if (Object.keys(programsDetail).length > 0) {
-                    html += `<div class="month-programs-list">`;
-                    html += `<strong><i class="fas fa-list-ul"></i> Programmes par pays :</strong>`;
-                    html += `<ul>`;
-                    
-                    // Trier les pays pour un affichage cohérent
-                    const sortedCountries = countries.sort((a, b) => {
-                        const order = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
-                        return order.indexOf(a) - order.indexOf(b);
+                        html += `
+                            <span style="
+                                background: white;
+                                padding: 2px 8px;
+                                border-radius: 16px;
+                                font-size: 0.7rem;
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 3px;
+                                border: 1px solid #e2e8f0;
+                                box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+                            ">
+                                <span style="font-size: 0.8rem;">${emoji}</span>
+                                <span style="color: #4a5568;">${prog}</span>
+                                <span style="
+                                    background: #10b981;
+                                    color: white;
+                                    padding: 1px 5px;
+                                    border-radius: 12px;
+                                    font-size: 0.6rem;
+                                    font-weight: 700;
+                                    margin-left: 2px;
+                                ">${count}</span>
+                            </span>
+                        `;
                     });
                     
-                    sortedCountries.forEach(country => {
-                        if (programsDetail[country]) {
-                            const flagClass = countryFlags[country] || 'flag-france';
-                            const countryName = formatCountryName(country);
-                            
-                            // Compter le nombre total de programmes pour ce pays
-                            let countryTotal = 0;
-                            let details = '';
-                            for (let prog in programsDetail[country]) {
-                                const count = programsDetail[country][prog];
-                                countryTotal += count;
-                                const emoji = getProgramEmoji(prog);
-                                details += `<li><span class="program-emoji">${emoji}</span> ${prog} <span class="program-count">${count}</span></li>`;
-                            }
-                            
-                            html += `<li style="flex-direction:column; align-items:flex-start; gap:2px;">`;
-                            html += `<div style="display:flex; align-items:center; gap:5px; width:100%;">`;
-                            html += `<div class="month-flag-mini ${flagClass}" style="width:18px; height:12px;"></div>`;
-                            html += `<span style="font-weight:700;">${countryName}</span>`;
-                            html += `<span style="margin-left:auto; font-weight:800; color:#059669;">${countryTotal}</span>`;
-                            html += `</div>`;
-                            html += `<ul style="width:100%; padding-left:25px;">${details}</ul>`;
-                            html += `</li>`;
-                        }
-                    });
-                    
-                    html += `</ul>`;
-                    html += `</div>`;
+                    html += `</div></div>`;
                 }
-                
-                // Affichage du kilométrage
-                if (totalKm > 0) {
-                    html += `
-                        <div class="month-total-km">
-                            <i class="fas fa-road"></i> ${totalKm} km parcourus
-                        </div>
-                    `;
-                } else {
-                    html += `
-                        <div class="month-total-km" style="background:#e2e8f0; color:#4a5568;">
-                            <i class="fas fa-road"></i> Aucune distance calculée
-                        </div>
-                    `;
-                }
-                
-                html += `</div>`; // Fermeture month-stats-detail
-                html += `</div>`; // Fermeture month-card
             });
-            
-            container.innerHTML = html;
+        } else {
+            html += `<div style="text-align: center; color: #94a3b8; font-size: 0.75rem; padding: 12px;">Aucun programme ce mois-ci</div>`;
         }
+        
+        html += `</div>`;
+        
+        // Kilométrage
+        if (totalKm > 0) {
+            html += `
+                <div style="
+                    margin-top: 8px;
+                    padding: 6px 10px;
+                    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+                    border-radius: 20px;
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                    color: #1e3a8a;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 6px;
+                ">
+                    <i class="fas fa-road" style="font-size: 0.8rem;"></i>
+                    ${totalKm} km
+                </div>
+            `;
+        }
+        
+        html += `</div>`;
+    });
+    
+    container.innerHTML = html;
+}
 
         // ===== MODIFICATION DE LA FONCTION DE CHARGEMENT =====
         // On va modifier la fonction processCSVData pour qu'elle appelle generateMonthlyStats
