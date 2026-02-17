@@ -6433,6 +6433,301 @@
         -moz-transform-origin: 0 0 !important;
     }
 }
+/* ===== STATISTIQUES MENSUELLES - SUPPRESSION DES INTERLIGNES ===== */
+@media (max-width: 768px) {
+    /* Cibler la section entière */
+    .monthly-stats-section {
+        padding: 5px !important;
+        margin-top: 10px !important;
+    }
+    
+    /* Supprimer l'espace sous le titre */
+    .monthly-stats-title {
+        margin-bottom: 5px !important;
+        padding-bottom: 3px !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* Grille des mois - COLLÉE */
+    .monthly-stats-grid {
+        grid-template-columns: 1fr !important;
+        gap: 3px !important; /* Espace MINIMAL entre les mois */
+        margin: 0 !important;
+    }
+    
+    /* Carte de chaque mois - PLUS D'ESPACE VIDE */
+    .month-card {
+        padding: 5px !important;
+        margin: 0 !important;
+        gap: 2px !important; /* Espace entre les éléments internes */
+    }
+    
+    /* Supprimer l'espace sous le nom du mois */
+    .month-name {
+        margin-bottom: 2px !important;
+        padding: 2px 0 !important;
+        font-size: 0.8rem !important;
+        line-height: 1 !important;
+    }
+    
+    /* Ligne drapeaux + badges - COLLÉE */
+    .month-card > div:first-of-type {
+        margin-bottom: 2px !important;
+        padding: 0 !important;
+    }
+    
+    /* Drapeaux - sans marge */
+    .month-flags {
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 2px !important;
+    }
+    
+    .month-flag-mini {
+        width: 16px !important;
+        height: 11px !important;
+        margin: 0 !important;
+    }
+    
+    /* Badges programmes/pays - PLUS COMPACTS */
+    .month-card [style*="background: #e9d5ff"],
+    .month-card [style*="background: #dbeafe"] {
+        padding: 1px 4px !important;
+        margin: 0 !important;
+        font-size: 0.6rem !important;
+        line-height: 1.2 !important;
+    }
+    
+    /* Supprimer les marges des icônes dans les badges */
+    .month-card [style*="background: #e9d5ff"] i,
+    .month-card [style*="background: #dbeafe"] i {
+        margin-right: 2px !important;
+    }
+    
+    /* Conteneur des pays - SANS MARGE */
+    .month-card > div > div[style*="background: #f8fafc"] {
+        padding: 3px !important;
+        margin: 2px 0 !important; /* Espace MINIMAL entre pays */
+    }
+    
+    /* En-tête de chaque pays - SANS ESPACE */
+    .month-card [style*="display: flex; align-items: center; gap: 6px;"] {
+        margin-bottom: 1px !important;
+        padding: 0 !important;
+        gap: 3px !important;
+    }
+    
+    /* Drapeau pays */
+    .month-card [class*="flag-"] {
+        width: 14px !important;
+        height: 9px !important;
+        margin: 0 !important;
+    }
+    
+    /* Nom du pays - COMPACT */
+    .month-card [style*="font-weight: 700; font-size: 0.8rem;"] {
+        font-size: 0.65rem !important;
+        margin: 0 !important;
+        line-height: 1 !important;
+    }
+    
+    /* Badge du nombre total - SANS MARGE */
+    .month-card [style*="background: white; padding: 2px 8px;"] {
+        padding: 0px 4px !important;
+        font-size: 0.55rem !important;
+        line-height: 1.2 !important;
+    }
+    
+    /* Liste des types de programmes - SANS INTERLIGNE */
+    .month-card [style*="display: flex; flex-wrap: wrap; gap: 6px;"] {
+        gap: 2px !important;
+        margin: 1px 0 0 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Badges des types - ULTRA COMPACTS */
+    .month-card [style*="background: white; padding: 2px 8px;"] {
+        padding: 0px 3px !important;
+        margin: 0 !important;
+        font-size: 0.5rem !important;
+        line-height: 1.3 !important;
+        border-width: 1px !important;
+    }
+    
+    /* Émoji dans les badges */
+    .month-card [style*="background: white; padding: 2px 8px;"] span:first-child {
+        font-size: 0.55rem !important;
+        margin-right: 1px !important;
+    }
+    
+    /* Chiffre dans les badges */
+    .month-card [style*="background: white; padding: 2px 8px;"] span:last-child {
+        font-size: 0.45rem !important;
+        padding: 0px 2px !important;
+        margin-left: 1px !important;
+    }
+    
+    /* Ligne kilométrage - SANS ESPACE */
+    .month-card [style*="background: linear-gradient(135deg, #dbeafe, #bfdbfe)"] {
+        margin-top: 2px !important;
+        padding: 2px 5px !important;
+        font-size: 0.6rem !important;
+        line-height: 1.2 !important;
+    }
+    
+    .month-card [style*="background: linear-gradient(135deg, #dbeafe, #bfdbfe)"] i {
+        font-size: 0.55rem !important;
+        margin-right: 2px !important;
+    }
+}
+/* ===== AGRANDIR LES POLICES SUR MOBILE SANS MODIFIER LES INTERLIGNES ===== */
+@media (max-width: 768px) {
+    /* Police de base de la page */
+    body {
+        font-size: 16px !important; /* Au lieu de 14px par défaut */
+    }
+    
+    /* Titres principaux */
+    h1 {
+        font-size: 2.2rem !important;
+    }
+    
+    .theme-text-simple {
+        font-size: 1.6rem !important;
+    }
+    
+    /* Section "Prochain programme" */
+    .next-program-title {
+        font-size: 1.1rem !important;
+    }
+    
+    .next-program-date-text {
+        font-size: 1rem !important;
+    }
+    
+    .next-program-location-line {
+        font-size: 0.95rem !important;
+    }
+    
+    .next-program-time,
+    .next-program-type {
+        font-size: 0.9rem !important;
+    }
+    
+    /* Boutons de navigation rapide */
+    .quick-nav-btn-mobile {
+        font-size: 0.9rem !important;
+    }
+    
+    .quick-nav-btn-mobile i {
+        font-size: 1.2rem !important;
+    }
+    
+    /* Informations générales (mobile) */
+    .mobile-info-btn {
+        font-size: 0.85rem !important;
+    }
+    
+    .mobile-info-btn-emoji {
+        font-size: 1.4rem !important;
+    }
+    
+    /* Calendrier */
+    .calendar-day-header {
+        font-size: 1rem !important;
+    }
+    
+    .calendar-day .day-number {
+        font-size: 1rem !important;
+    }
+    
+    .calendar-day .localite {
+        font-size: 0.85rem !important;
+    }
+    
+    .calendar-emoji {
+        font-size: 18px !important;
+    }
+    
+    /* Statistiques */
+    .calendar-stat-value {
+        font-size: 1.4rem !important;
+    }
+    
+    .calendar-stat-label {
+        font-size: 0.9rem !important;
+    }
+    
+    .program-type-btn {
+        font-size: 0.8rem !important;
+    }
+    
+    /* Section récapitulatif par pays */
+    .country-name-compact {
+        font-size: 1.2rem !important;
+    }
+    
+    .country-stats-compact {
+        font-size: 0.9rem !important;
+    }
+    
+    .country-period-compact {
+        font-size: 0.95rem !important;
+    }
+    
+    /* Cartes de programmes */
+    .date-value-compact {
+        font-size: 0.9rem !important;
+    }
+    
+    .date-location-left {
+        font-size: 0.9rem !important;
+    }
+    
+    .date-location-left .lieu {
+        font-size: 0.85rem !important;
+    }
+    
+    .date-time,
+    .date-programme {
+        font-size: 0.85rem !important;
+    }
+    
+    .date-details-line-compact {
+        font-size: 0.8rem !important;
+    }
+    
+    /* STATISTIQUES MENSUELLES - UNIQUEMENT LA TAILLE DES POLICES */
+    .monthly-stats-title {
+        font-size: 1.3rem !important;
+    }
+    
+    .month-name {
+        font-size: 1.1rem !important;
+    }
+    
+    .month-card [style*="font-weight: 700; font-size: 0.8rem;"] {
+        font-size: 0.9rem !important;
+    }
+    
+    .month-card [style*="background: #e9d5ff"],
+    .month-card [style*="background: #dbeafe"] {
+        font-size: 0.8rem !important;
+    }
+    
+    .month-card [style*="background: white; padding: 2px 8px;"] {
+        font-size: 0.75rem !important;
+    }
+    
+    .month-card [style*="background: linear-gradient(135deg, #dbeafe, #bfdbfe)"] {
+        font-size: 0.8rem !important;
+    }
+    
+    /* Pied de page */
+    footer {
+        font-size: 0.9rem !important;
+    }
+}
     </style>
 </head>
 <body>
