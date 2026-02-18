@@ -6925,6 +6925,38 @@
     transform: translateY(-3px) scale(1.1) !important;
     box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4) !important;
 }
+/* ===== STYLE SIMPLE POUR LA LOCALITÉ DANS LA BULLE ===== */
+#modalLocationText {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+}
+
+/* On agrandit un peu le drapeau pour qu'il soit proportionnel */
+#modalLocationInfo .modal-flag-small {
+    width: 30px !important;
+    height: 20px !important;
+    margin-right: 8px !important;
+}
+/* ===== AGRANDIR LE TITRE DANS LA BULLE DU RÉCAPITULATIF PAR PAYS ===== */
+#recapModalLocationInfo {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+/* On agrandit aussi le drapeau */
+#recapModalLocationInfo .modal-flag-small {
+    width: 32px !important;
+    height: 21px !important;
+}
+
+/* Si le texte est dans des spans à l'intérieur */
+#recapModalLocationInfo span {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+}
     </style>
 </head>
 <body>
@@ -11801,16 +11833,58 @@ function displayProgramInfoCompact(container, programData) {
         return;
     }
     
-    modalTitle.textContent = `${formatDateForDisplay(date)} (${programCount})`;
-    
-    const firstProgram = allProgramsForDate.length > 0 ? allProgramsForDate[0] : null;
-    const localite = firstProgram ? firstProgram.localite || location : location;
-    const pays = firstProgram ? firstProgram.pays || country : country;
-    modalLocationText.textContent = `${localite} / ${pays}`;
-    
-    const flagClass = countryFlags[pays.toUpperCase()] || 'flag-france';
-    modalFlag.className = 'modal-flag-small';
-    modalFlag.classList.add(flagClass);
+          modalTitle.textContent = `${formatDateForDisplay(date)} (${programCount})`;
+        
+        const firstProgram = allProgramsForDate.length > 0 ? allProgramsForDate[0] : null;
+        const localite = firstProgram ? firstProgram.localite || location : location;
+        const pays = firstProgram ? firstProgram.pays || country : country;
+
+        // 1. On efface TOUT le contenu de modalLocationText et modalFlag
+        modalLocationText.innerHTML = '';
+        modalFlag.className = 'modal-flag-small'; // On réinitialise la classe du drapeau
+
+        // 2. On ajoute la localité dans un span TRÈS GROS et GRAS
+        const localiteSpan = document.createElement('span');
+        localiteSpan.textContent = localite;
+        localiteSpan.style.cssText = `
+            font-size: 28px !important;
+            font-weight: 900 !important;
+            color: #1a202c !important;
+            margin-right: 8px !important;
+            line-height: 1.2 !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+        `;
+
+        // 3. On ajoute le séparateur "/" TRÈS GROS
+        const separateurSpan = document.createElement('span');
+        separateurSpan.textContent = ' / ';
+        separateurSpan.style.cssText = `
+            font-size: 28px !important;
+            font-weight: 700 !important;
+            color: #718096 !important;
+            margin-right: 8px !important;
+            line-height: 1.2 !important;
+        `;
+
+        // 4. On ajoute le pays TRÈS GROS et GRAS
+        const paysSpan = document.createElement('span');
+        paysSpan.textContent = pays;
+        paysSpan.style.cssText = `
+            font-size: 28px !important;
+            font-weight: 900 !important;
+            color: #1a202c !important;
+            line-height: 1.2 !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+        `;
+
+        // 5. On ajoute les spans au conteneur principal
+        modalLocationText.appendChild(localiteSpan);
+        modalLocationText.appendChild(separateurSpan);
+        modalLocationText.appendChild(paysSpan);
+
+        // 6. On ajoute le drapeau comme avant
+        const flagClass = countryFlags[pays.toUpperCase()] || 'flag-france';
+        modalFlag.classList.add(flagClass);
 
     // ===== LISTE DES PROGRAMMES DANS LE TITRE (AVEC GESTION DES CAS VIDES) =====
     const modalHeader = document.querySelector('.modal-compact-title');
