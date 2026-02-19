@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎶🅽🆈 🅰🅺🅾-🆃🅾🆄🆁🅽é🅴2026</title>
+    <title>🅽🆈 🅰🅺🅾-🆃🅾🆄🆁🅽é🅴2026</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -2231,37 +2231,7 @@
                 padding: 5px 3px;
                 height: 60px;
             }
-                /* =============== FORCER LES PROGRAMMES DANS L'ÉCRAN =============== */
-    .programme-item,
-    .info-grid-mobile .programme-list .programme-item,
-    .entry-content .programme-item {
-        max-width: 100% !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-        font-size: 0.95em !important;
-        padding: 8px 10px !important;
-        margin: 5px 0 !important;
-        overflow: hidden !important;
-    }
-    
-    .info-grid-mobile .programme-list {
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 5px !important;
-        box-sizing: border-box !important;
-        overflow-x: hidden !important;
-    }
-    
-    /* Empêcher le débordement général */
-    .container, .main-content, .journal-entry, 
-    .entry-content, .section {
-        max-width: 100% !important;
-        overflow-x: hidden !important;
-    }
+            
             .header-desktop-layout { display: flex; flex-direction: column; gap: 10px; }
             .header-left-column, .header-right-column { width: 100%; }
             .header-info-section, .header-contrib-section, .header-access-section { display: none; }
@@ -2990,37 +2960,6 @@
 
 /* Petit ajustement pour mobile */
 @media (max-width: 768px) {
-    /* =============== FORCER LES PROGRAMMES DANS L'ÉCRAN =============== */
-    .programme-item,
-    .info-grid-mobile .programme-list .programme-item,
-    .entry-content .programme-item {
-        max-width: 100% !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-        font-size: 0.95em !important;
-        padding: 8px 10px !important;
-        margin: 5px 0 !important;
-        overflow: hidden !important;
-    }
-    
-    .info-grid-mobile .programme-list {
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 5px !important;
-        box-sizing: border-box !important;
-        overflow-x: hidden !important;
-    }
-    
-    /* Empêcher le débordement général */
-    .container, .main-content, .journal-entry, 
-    .entry-content, .section {
-        max-width: 100% !important;
-        overflow-x: hidden !important;
-    }
     .floating-buttons {
         bottom: 16px;
         right: 16px;
@@ -3707,7 +3646,6 @@
         
         /* ===== MODIFICATION : BOUTONS SUR UNE SEULE LIGNE EN MOBILE ===== */
         @media (max-width: 768px) {
-
             .next-program-section {
                 padding: 10px 12px;
             }
@@ -3770,36 +3708,63 @@
                 padding: 0 2px !important;
                 white-space: nowrap !important;
             }
-    /* =============== FORCER LES PROGRAMMES DANS L'ÉCRAN =============== */
-    .programme-item,
-    .info-grid-mobile .programme-list .programme-item,
-    .entry-content .programme-item {
-        max-width: 100% !important;
-        width: 100% !important;
+    /* =============== CONTRÔLE STRICT DES CARTES =============== */
+    .journal-entry {
+        width: calc(100vw - 20px) !important;
+        max-width: 400px !important;  /* Largeur maximum */
+        min-width: 300px !important;  /* Largeur minimum */
+        margin-left: auto !important;
+        margin-right: auto !important;
         box-sizing: border-box !important;
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-        font-size: 0.95em !important;
-        padding: 8px 10px !important;
-        margin: 5px 0 !important;
         overflow: hidden !important;
+    }
+    
+    .entry-content {
+        width: 100% !important;
+        max-width: 380px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    .section {
+        width: 100% !important;
+        max-width: 360px !important;
+        margin: 0 auto 15px auto !important;
+        padding: 5px !important;
+    }
+    
+    .programme-item {
+        width: 100% !important;
+        max-width: 340px !important;
+        min-width: 280px !important;
+        margin: 8px auto !important;
+        padding: 8px 12px !important;
+        font-size: 14px !important;
+        line-height: 1.4 !important;
+        word-break: break-word !important;
+        white-space: normal !important;
+        box-sizing: border-box !important;
+        display: block !important;
     }
     
     .info-grid-mobile .programme-list {
         width: 100% !important;
-        max-width: 100% !important;
-        padding: 5px !important;
+        max-width: 340px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
         box-sizing: border-box !important;
-        overflow-x: hidden !important;
     }
     
-    /* Empêcher le débordement général */
-    .container, .main-content, .journal-entry, 
-    .entry-content, .section {
-        max-width: 100% !important;
-        overflow-x: hidden !important;
+    /* Force toutes les cartes à la même largeur */
+    .journal-entry,
+    .activity-section,
+    .note-box,
+    .contact-info {
+        max-width: 380px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
         }
         
@@ -4612,36 +4577,63 @@
         max-width: 95% !important;
         width: 95% !important;
     }
-    /* =============== FORCER LES PROGRAMMES DANS L'ÉCRAN =============== */
-    .programme-item,
-    .info-grid-mobile .programme-list .programme-item,
-    .entry-content .programme-item {
-        max-width: 100% !important;
-        width: 100% !important;
+    /* =============== CONTRÔLE STRICT DES CARTES =============== */
+    .journal-entry {
+        width: calc(100vw - 20px) !important;
+        max-width: 400px !important;  /* Largeur maximum */
+        min-width: 300px !important;  /* Largeur minimum */
+        margin-left: auto !important;
+        margin-right: auto !important;
         box-sizing: border-box !important;
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-        font-size: 0.95em !important;
-        padding: 8px 10px !important;
-        margin: 5px 0 !important;
         overflow: hidden !important;
+    }
+    
+    .entry-content {
+        width: 100% !important;
+        max-width: 380px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    .section {
+        width: 100% !important;
+        max-width: 360px !important;
+        margin: 0 auto 15px auto !important;
+        padding: 5px !important;
+    }
+    
+    .programme-item {
+        width: 100% !important;
+        max-width: 340px !important;
+        min-width: 280px !important;
+        margin: 8px auto !important;
+        padding: 8px 12px !important;
+        font-size: 14px !important;
+        line-height: 1.4 !important;
+        word-break: break-word !important;
+        white-space: normal !important;
+        box-sizing: border-box !important;
+        display: block !important;
     }
     
     .info-grid-mobile .programme-list {
         width: 100% !important;
-        max-width: 100% !important;
-        padding: 5px !important;
+        max-width: 340px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
         box-sizing: border-box !important;
-        overflow-x: hidden !important;
     }
     
-    /* Empêcher le débordement général */
-    .container, .main-content, .journal-entry, 
-    .entry-content, .section {
-        max-width: 100% !important;
-        overflow-x: hidden !important;
+    /* Force toutes les cartes à la même largeur */
+    .journal-entry,
+    .activity-section,
+    .note-box,
+    .contact-info {
+        max-width: 380px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 }
 
@@ -4738,36 +4730,63 @@
     .date-item-compact .date-programme i {
         font-size: 0.6rem !important;
     }
-    /* =============== FORCER LES PROGRAMMES DANS L'ÉCRAN =============== */
-    .programme-item,
-    .info-grid-mobile .programme-list .programme-item,
-    .entry-content .programme-item {
-        max-width: 100% !important;
-        width: 100% !important;
+    /* =============== CONTRÔLE STRICT DES CARTES =============== */
+    .journal-entry {
+        width: calc(100vw - 20px) !important;
+        max-width: 400px !important;  /* Largeur maximum */
+        min-width: 300px !important;  /* Largeur minimum */
+        margin-left: auto !important;
+        margin-right: auto !important;
         box-sizing: border-box !important;
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-        font-size: 0.95em !important;
-        padding: 8px 10px !important;
-        margin: 5px 0 !important;
         overflow: hidden !important;
+    }
+    
+    .entry-content {
+        width: 100% !important;
+        max-width: 380px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    .section {
+        width: 100% !important;
+        max-width: 360px !important;
+        margin: 0 auto 15px auto !important;
+        padding: 5px !important;
+    }
+    
+    .programme-item {
+        width: 100% !important;
+        max-width: 340px !important;
+        min-width: 280px !important;
+        margin: 8px auto !important;
+        padding: 8px 12px !important;
+        font-size: 14px !important;
+        line-height: 1.4 !important;
+        word-break: break-word !important;
+        white-space: normal !important;
+        box-sizing: border-box !important;
+        display: block !important;
     }
     
     .info-grid-mobile .programme-list {
         width: 100% !important;
-        max-width: 100% !important;
-        padding: 5px !important;
+        max-width: 340px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
         box-sizing: border-box !important;
-        overflow-x: hidden !important;
     }
     
-    /* Empêcher le débordement général */
-    .container, .main-content, .journal-entry, 
-    .entry-content, .section {
-        max-width: 100% !important;
-        overflow-x: hidden !important;
+    /* Force toutes les cartes à la même largeur */
+    .journal-entry,
+    .activity-section,
+    .note-box,
+    .contact-info {
+        max-width: 380px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 }
 /* Mobile (< 768px) : 1 colonne */
@@ -4776,36 +4795,63 @@
         grid-template-columns: 1fr !important;
         gap: 8px;
     }
-    /* =============== FORCER LES PROGRAMMES DANS L'ÉCRAN =============== */
-    .programme-item,
-    .info-grid-mobile .programme-list .programme-item,
-    .entry-content .programme-item {
-        max-width: 100% !important;
-        width: 100% !important;
+    /* =============== CONTRÔLE STRICT DES CARTES =============== */
+    .journal-entry {
+        width: calc(100vw - 20px) !important;
+        max-width: 400px !important;  /* Largeur maximum */
+        min-width: 300px !important;  /* Largeur minimum */
+        margin-left: auto !important;
+        margin-right: auto !important;
         box-sizing: border-box !important;
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-        font-size: 0.95em !important;
-        padding: 8px 10px !important;
-        margin: 5px 0 !important;
         overflow: hidden !important;
+    }
+    
+    .entry-content {
+        width: 100% !important;
+        max-width: 380px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    .section {
+        width: 100% !important;
+        max-width: 360px !important;
+        margin: 0 auto 15px auto !important;
+        padding: 5px !important;
+    }
+    
+    .programme-item {
+        width: 100% !important;
+        max-width: 340px !important;
+        min-width: 280px !important;
+        margin: 8px auto !important;
+        padding: 8px 12px !important;
+        font-size: 14px !important;
+        line-height: 1.4 !important;
+        word-break: break-word !important;
+        white-space: normal !important;
+        box-sizing: border-box !important;
+        display: block !important;
     }
     
     .info-grid-mobile .programme-list {
         width: 100% !important;
-        max-width: 100% !important;
-        padding: 5px !important;
+        max-width: 340px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
         box-sizing: border-box !important;
-        overflow-x: hidden !important;
     }
     
-    /* Empêcher le débordement général */
-    .container, .main-content, .journal-entry, 
-    .entry-content, .section {
-        max-width: 100% !important;
-        overflow-x: hidden !important;
+    /* Force toutes les cartes à la même largeur */
+    .journal-entry,
+    .activity-section,
+    .note-box,
+    .contact-info {
+        max-width: 380px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 }
 
@@ -4888,36 +4934,63 @@
     .country-programmes-grid .date-programme i {
         display: none !important;
     }
-    /* =============== FORCER LES PROGRAMMES DANS L'ÉCRAN =============== */
-    .programme-item,
-    .info-grid-mobile .programme-list .programme-item,
-    .entry-content .programme-item {
-        max-width: 100% !important;
-        width: 100% !important;
+    /* =============== CONTRÔLE STRICT DES CARTES =============== */
+    .journal-entry {
+        width: calc(100vw - 20px) !important;
+        max-width: 400px !important;  /* Largeur maximum */
+        min-width: 300px !important;  /* Largeur minimum */
+        margin-left: auto !important;
+        margin-right: auto !important;
         box-sizing: border-box !important;
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-        font-size: 0.95em !important;
-        padding: 8px 10px !important;
-        margin: 5px 0 !important;
         overflow: hidden !important;
+    }
+    
+    .entry-content {
+        width: 100% !important;
+        max-width: 380px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    .section {
+        width: 100% !important;
+        max-width: 360px !important;
+        margin: 0 auto 15px auto !important;
+        padding: 5px !important;
+    }
+    
+    .programme-item {
+        width: 100% !important;
+        max-width: 340px !important;
+        min-width: 280px !important;
+        margin: 8px auto !important;
+        padding: 8px 12px !important;
+        font-size: 14px !important;
+        line-height: 1.4 !important;
+        word-break: break-word !important;
+        white-space: normal !important;
+        box-sizing: border-box !important;
+        display: block !important;
     }
     
     .info-grid-mobile .programme-list {
         width: 100% !important;
-        max-width: 100% !important;
-        padding: 5px !important;
+        max-width: 340px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
         box-sizing: border-box !important;
-        overflow-x: hidden !important;
     }
     
-    /* Empêcher le débordement général */
-    .container, .main-content, .journal-entry, 
-    .entry-content, .section {
-        max-width: 100% !important;
-        overflow-x: hidden !important;
+    /* Force toutes les cartes à la même largeur */
+    .journal-entry,
+    .activity-section,
+    .note-box,
+    .contact-info {
+        max-width: 380px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 }
     
@@ -5452,6 +5525,64 @@
     #programInfoCentered [style*="border-radius: 30px"] {
         font-size: 0.8rem !important;
         padding: 4px 8px !important;
+    }
+    /* =============== CONTRÔLE STRICT DES CARTES =============== */
+    .journal-entry {
+        width: calc(100vw - 20px) !important;
+        max-width: 400px !important;  /* Largeur maximum */
+        min-width: 300px !important;  /* Largeur minimum */
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+    
+    .entry-content {
+        width: 100% !important;
+        max-width: 380px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    .section {
+        width: 100% !important;
+        max-width: 360px !important;
+        margin: 0 auto 15px auto !important;
+        padding: 5px !important;
+    }
+    
+    .programme-item {
+        width: 100% !important;
+        max-width: 340px !important;
+        min-width: 280px !important;
+        margin: 8px auto !important;
+        padding: 8px 12px !important;
+        font-size: 14px !important;
+        line-height: 1.4 !important;
+        word-break: break-word !important;
+        white-space: normal !important;
+        box-sizing: border-box !important;
+        display: block !important;
+    }
+    
+    .info-grid-mobile .programme-list {
+        width: 100% !important;
+        max-width: 340px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Force toutes les cartes à la même largeur */
+    .journal-entry,
+    .activity-section,
+    .note-box,
+    .contact-info {
+        max-width: 380px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 }
 /* ===== COULEURS SPÉCIFIQUES PAR TYPE DE PROGRAMME ===== */
@@ -6642,6 +6773,64 @@
     .country-programmes-grid .date-details-line-compact {
         font-size: 0.7rem !important;
     }
+    /* =============== CONTRÔLE STRICT DES CARTES =============== */
+    .journal-entry {
+        width: calc(100vw - 20px) !important;
+        max-width: 400px !important;  /* Largeur maximum */
+        min-width: 300px !important;  /* Largeur minimum */
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+    
+    .entry-content {
+        width: 100% !important;
+        max-width: 380px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    .section {
+        width: 100% !important;
+        max-width: 360px !important;
+        margin: 0 auto 15px auto !important;
+        padding: 5px !important;
+    }
+    
+    .programme-item {
+        width: 100% !important;
+        max-width: 340px !important;
+        min-width: 280px !important;
+        margin: 8px auto !important;
+        padding: 8px 12px !important;
+        font-size: 14px !important;
+        line-height: 1.4 !important;
+        word-break: break-word !important;
+        white-space: normal !important;
+        box-sizing: border-box !important;
+        display: block !important;
+    }
+    
+    .info-grid-mobile .programme-list {
+        width: 100% !important;
+        max-width: 340px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Force toutes les cartes à la même largeur */
+    .journal-entry,
+    .activity-section,
+    .note-box,
+    .contact-info {
+        max-width: 380px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
 }
 /* ===== SOLUTION RADICALE - REDIMENSIONNER TOUT ===== */
 @media (max-width: 768px) {
@@ -6800,6 +6989,64 @@
 }
 /* ===== POLICES ENCORE PLUS GRANDES SUR MOBILE ===== */
 @media (max-width: 768px) {
+    /* =============== CONTRÔLE STRICT DES CARTES =============== */
+    .journal-entry {
+        width: calc(100vw - 20px) !important;
+        max-width: 400px !important;  /* Largeur maximum */
+        min-width: 300px !important;  /* Largeur minimum */
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+    
+    .entry-content {
+        width: 100% !important;
+        max-width: 380px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    .section {
+        width: 100% !important;
+        max-width: 360px !important;
+        margin: 0 auto 15px auto !important;
+        padding: 5px !important;
+    }
+    
+    .programme-item {
+        width: 100% !important;
+        max-width: 340px !important;
+        min-width: 280px !important;
+        margin: 8px auto !important;
+        padding: 8px 12px !important;
+        font-size: 14px !important;
+        line-height: 1.4 !important;
+        word-break: break-word !important;
+        white-space: normal !important;
+        box-sizing: border-box !important;
+        display: block !important;
+    }
+    
+    .info-grid-mobile .programme-list {
+        width: 100% !important;
+        max-width: 340px !important;
+        margin: 0 auto !important;
+        padding: 8px !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Force toutes les cartes à la même largeur */
+    .journal-entry,
+    .activity-section,
+    .note-box,
+    .contact-info {
+        max-width: 380px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
     /* Police de base - BEAUCOUP PLUS GRANDE */
     body {
         font-size: 18px !important; /* Au lieu de 16px avant */
