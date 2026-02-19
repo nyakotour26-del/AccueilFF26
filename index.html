@@ -6842,7 +6842,7 @@
 <body>
     <div class="container">
         <header>
-        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+       <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
     <h1 style="margin: 0; font-size: 2rem; color: #2d3748; text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8); background: linear-gradient(135deg, #2d3748, #4a5568); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
         Tournée Europe 2026
     </h1>
@@ -7651,7 +7651,7 @@ function isDesktop() {
         let countryRoutes = []; // Stocke les routes par pays
         let interCountryRoutes = []; // Stocke les routes entre pays
 
-// ===== CODE POUR AFFICHER LES DATES DE PASSAGE PAR PAYS (COMME DANS RÉCAPITULATIF) =====
+// ===== CODE POUR AFFICHER LES DATES DE PASSAGE PAR PAYS =====
 function updateCountryPassingDates() {
     const titleContainer = document.querySelector('header h1')?.parentNode;
     if (!titleContainer) return;
@@ -7667,16 +7667,16 @@ function updateCountryPassingDates() {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 10px 15px;
+        gap: 8px 12px;
         margin: 8px 0 5px 0;
-        padding: 8px 15px;
+        padding: 8px 12px;
         background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95));
         border-radius: 40px;
         box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         border: 1px solid rgba(66,153,225,0.2);
         backdrop-filter: blur(5px);
         width: 100%;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     `;
     
     if (!datesWithData || datesWithData.length === 0) {
@@ -7700,11 +7700,17 @@ function updateCountryPassingDates() {
         }
     });
     
-    // Fonction pour formater une date
+    // Mois abrégés en français
+    const monthAbbr = {
+        0: 'jan', 1: 'fév', 2: 'mar', 3: 'avr', 4: 'mai', 5: 'jun',
+        6: 'jul', 7: 'aoû', 8: 'sep', 9: 'oct', 10: 'nov', 11: 'déc'
+    };
+    
+    // Fonction pour formater une date en "mmm jj"
     const formatDate = (date) => {
+        const month = monthAbbr[date.getMonth()];
         const day = date.getDate().toString().padStart(2, '0');
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        return `${day}/${month}`;
+        return `${month} ${day}`;
     };
     
     // Fonction pour trouver les intervalles (copiée du récapitulatif)
@@ -7739,6 +7745,32 @@ function updateCountryPassingDates() {
         return ranges;
     }
     
+    // Obtenir la couleur de fond pour un pays (version plus claire pour le fond)
+    function getCountryBgColor(pays) {
+        const colors = {
+            'SUISSE': 'rgba(213, 43, 30, 0.15)',     // Rouge Suisse (15% d'opacité)
+            'FRANCE': 'rgba(0, 35, 149, 0.15)',      // Bleu France (15% d'opacité)
+            'ALLEMAGNE': 'rgba(0, 0, 0, 0.1)',        // Noir Allemagne (10% d'opacité)
+            'BELGIQUE': 'rgba(250, 224, 66, 0.3)',    // Jaune Belgique (30% d'opacité)
+            'WALES': 'rgba(210, 16, 52, 0.15)',       // Rouge Wales (15% d'opacité)
+            'ANGLETERRE': 'rgba(1, 33, 105, 0.15)'    // Bleu Angleterre (15% d'opacité)
+        };
+        return colors[pays] || 'rgba(66, 153, 225, 0.15)';
+    }
+    
+    // Obtenir la couleur de bordure (couleur pleine)
+    function getCountryBorderColor(pays) {
+        const colors = {
+            'SUISSE': '#D52B1E',
+            'FRANCE': '#002395',
+            'ALLEMAGNE': '#000000',
+            'BELGIQUE': '#FAE042',
+            'WALES': '#D21034',
+            'ANGLETERRE': '#012169'
+        };
+        return colors[pays] || '#4299e1';
+    }
+    
     // Ordre des pays (comme dans le récapitulatif)
     const countryOrder = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
     
@@ -7750,6 +7782,10 @@ function updateCountryPassingDates() {
             // Drapeau correspondant
             const flagClass = countryFlags?.[pays] || 'flag-france';
             
+            // Couleurs
+            const bgColor = getCountryBgColor(pays);
+            const borderColor = getCountryBorderColor(pays);
+            
             // Créer l'élément pour ce pays
             const countryElement = document.createElement('div');
             countryElement.style.cssText = `
@@ -7757,13 +7793,24 @@ function updateCountryPassingDates() {
                 align-items: center;
                 gap: 6px;
                 padding: 3px 10px;
-                background: rgba(255,255,255,0.6);
+                background: ${bgColor};
                 border-radius: 30px;
-                border-left: 3px solid ${countryColors?.[pays] || '#4299e1'};
+                border-left: 3px solid ${borderColor};
                 box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+                transition: all 0.2s ease;
             `;
             
-            // Fonction pour formater une période (comme dans le récapitulatif)
+            // Effet de survol
+            countryElement.onmouseover = function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = `0 4px 8px ${borderColor}40`;
+            };
+            countryElement.onmouseout = function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 2px 5px rgba(0,0,0,0.03)';
+            };
+            
+            // Fonction pour formater une période
             const formatPeriod = (firstDate, lastDate) => {
                 const firstFormatted = formatDate(firstDate);
                 const lastFormatted = formatDate(lastDate);
@@ -7784,9 +7831,9 @@ function updateCountryPassingDates() {
             });
             
             countryElement.innerHTML = `
-                <div class="${flagClass}" style="width: 20px; height: 14px; border-radius: 2px;"></div>
-                <span style="font-weight: 600; color: #1e293b; font-size: 0.85rem;">${formatCountryName(pays)}</span>
-                <span style="color: #059669; font-weight: 500; background: #e6fffa; padding: 2px 8px; border-radius: 20px; font-size: 0.8rem;">
+                <div class="${flagClass}" style="width: 18px; height: 12px; border-radius: 2px;"></div>
+                <span style="font-weight: 600; color: #1e293b; font-size: 0.8rem;">${formatCountryName(pays)}</span>
+                <span style="color: #2d3748; font-weight: 500; background: white; padding: 2px 8px; border-radius: 20px; font-size: 0.75rem; border: 1px solid ${borderColor}40;">
                     ${rangesHtml}
                 </span>
             `;
