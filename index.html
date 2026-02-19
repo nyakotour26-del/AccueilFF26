@@ -7771,17 +7771,20 @@ function updateCountryPassingDates() {
     // Ordre des pays
     const countryOrder = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
     
-    // Style du conteneur principal pour que les lignes soient collées
+    // Style du conteneur principal pour centrer
     polaroidDates.style.cssText = `
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        justify-content: center;
         gap: 2px;
-        line-height: 1.2;
+        line-height: 1.3;
         font-size: 0.9rem;
+        width: 100%;
+        text-align: center;
     `;
     
-    // Construire le HTML ligne par ligne
+    // Construire le HTML
     let html = '';
     
     countryOrder.forEach(pays => {
@@ -7813,19 +7816,19 @@ function updateCountryPassingDates() {
             });
             
             html += `
-                <div style="display: flex; align-items: baseline; gap: 6px; width: 100%; margin: 0; padding: 0;">
-                    <span style="display: flex; align-items: center; gap: 3px; min-width: 70px; color: ${color}; font-weight: 700;">
+                <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 4px; width: 100%; margin: 0; padding: 0;">
+                    <span style="display: flex; align-items: center; gap: 3px; color: ${color}; font-weight: 700; white-space: nowrap;">
                         ${flagEmoji} ${countryName}
                     </span>
-                    <span style="display: flex; flex-wrap: wrap; gap: 0;">${rangesHtml}</span>
+                    <span style="display: flex; flex-wrap: wrap; gap: 0; justify-content: center;">${rangesHtml}</span>
                 </div>
             `;
         }
     });
     
-    // Ajouter l'icône musique à la fin (sur une nouvelle ligne)
+    // Ajouter l'icône musique à la fin (centrée)
     if (html) {
-        html += `<div style="margin-top: 4px; text-align: right; width: 100%;"><i class="fas fa-music" style="color: #e74c3c;"></i></div>`;
+        html += `<div style="margin-top: 4px; text-align: center; width: 100%;"><i class="fas fa-music" style="color: #e74c3c;"></i></div>`;
     } else {
         html = `<div style="text-align: center;"><i class="fas fa-music" style="color: #e74c3c;"></i></div>`;
     }
