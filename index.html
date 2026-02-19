@@ -2231,7 +2231,37 @@
                 padding: 5px 3px;
                 height: 60px;
             }
-            
+                /* =============== FORCER LES PROGRAMMES DANS L'ÉCRAN =============== */
+    .programme-item,
+    .info-grid-mobile .programme-list .programme-item,
+    .entry-content .programme-item {
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        font-size: 0.95em !important;
+        padding: 8px 10px !important;
+        margin: 5px 0 !important;
+        overflow: hidden !important;
+    }
+    
+    .info-grid-mobile .programme-list {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 5px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* Empêcher le débordement général */
+    .container, .main-content, .journal-entry, 
+    .entry-content, .section {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
             .header-desktop-layout { display: flex; flex-direction: column; gap: 10px; }
             .header-left-column, .header-right-column { width: 100%; }
             .header-info-section, .header-contrib-section, .header-access-section { display: none; }
@@ -2960,6 +2990,37 @@
 
 /* Petit ajustement pour mobile */
 @media (max-width: 768px) {
+    /* =============== FORCER LES PROGRAMMES DANS L'ÉCRAN =============== */
+    .programme-item,
+    .info-grid-mobile .programme-list .programme-item,
+    .entry-content .programme-item {
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        font-size: 0.95em !important;
+        padding: 8px 10px !important;
+        margin: 5px 0 !important;
+        overflow: hidden !important;
+    }
+    
+    .info-grid-mobile .programme-list {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 5px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* Empêcher le débordement général */
+    .container, .main-content, .journal-entry, 
+    .entry-content, .section {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
     .floating-buttons {
         bottom: 16px;
         right: 16px;
@@ -3646,6 +3707,7 @@
         
         /* ===== MODIFICATION : BOUTONS SUR UNE SEULE LIGNE EN MOBILE ===== */
         @media (max-width: 768px) {
+
             .next-program-section {
                 padding: 10px 12px;
             }
@@ -3708,6 +3770,37 @@
                 padding: 0 2px !important;
                 white-space: nowrap !important;
             }
+    /* =============== FORCER LES PROGRAMMES DANS L'ÉCRAN =============== */
+    .programme-item,
+    .info-grid-mobile .programme-list .programme-item,
+    .entry-content .programme-item {
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        font-size: 0.95em !important;
+        padding: 8px 10px !important;
+        margin: 5px 0 !important;
+        overflow: hidden !important;
+    }
+    
+    .info-grid-mobile .programme-list {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 5px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* Empêcher le débordement général */
+    .container, .main-content, .journal-entry, 
+    .entry-content, .section {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
         }
         
         @media (max-width: 480px) {
@@ -4519,6 +4612,37 @@
         max-width: 95% !important;
         width: 95% !important;
     }
+    /* =============== FORCER LES PROGRAMMES DANS L'ÉCRAN =============== */
+    .programme-item,
+    .info-grid-mobile .programme-list .programme-item,
+    .entry-content .programme-item {
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        font-size: 0.95em !important;
+        padding: 8px 10px !important;
+        margin: 5px 0 !important;
+        overflow: hidden !important;
+    }
+    
+    .info-grid-mobile .programme-list {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 5px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* Empêcher le débordement général */
+    .container, .main-content, .journal-entry, 
+    .entry-content, .section {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
 }
 
 
@@ -4614,12 +4738,74 @@
     .date-item-compact .date-programme i {
         font-size: 0.6rem !important;
     }
+    /* =============== FORCER LES PROGRAMMES DANS L'ÉCRAN =============== */
+    .programme-item,
+    .info-grid-mobile .programme-list .programme-item,
+    .entry-content .programme-item {
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        font-size: 0.95em !important;
+        padding: 8px 10px !important;
+        margin: 5px 0 !important;
+        overflow: hidden !important;
+    }
+    
+    .info-grid-mobile .programme-list {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 5px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* Empêcher le débordement général */
+    .container, .main-content, .journal-entry, 
+    .entry-content, .section {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
 }
 /* Mobile (< 768px) : 1 colonne */
 @media (max-width: 768px) {
     .country-programmes-grid {
         grid-template-columns: 1fr !important;
         gap: 8px;
+    }
+    /* =============== FORCER LES PROGRAMMES DANS L'ÉCRAN =============== */
+    .programme-item,
+    .info-grid-mobile .programme-list .programme-item,
+    .entry-content .programme-item {
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        font-size: 0.95em !important;
+        padding: 8px 10px !important;
+        margin: 5px 0 !important;
+        overflow: hidden !important;
+    }
+    
+    .info-grid-mobile .programme-list {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 5px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* Empêcher le débordement général */
+    .container, .main-content, .journal-entry, 
+    .entry-content, .section {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
     }
 }
 
@@ -4701,6 +4887,37 @@
     .country-programmes-grid .date-time i,
     .country-programmes-grid .date-programme i {
         display: none !important;
+    }
+    /* =============== FORCER LES PROGRAMMES DANS L'ÉCRAN =============== */
+    .programme-item,
+    .info-grid-mobile .programme-list .programme-item,
+    .entry-content .programme-item {
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        font-size: 0.95em !important;
+        padding: 8px 10px !important;
+        margin: 5px 0 !important;
+        overflow: hidden !important;
+    }
+    
+    .info-grid-mobile .programme-list {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 5px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* Empêcher le débordement général */
+    .container, .main-content, .journal-entry, 
+    .entry-content, .section {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
     }
 }
     
