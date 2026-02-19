@@ -6714,6 +6714,63 @@
         height: 13px !important;
     }
 }
+/* ===== GESTION COMPLÈTE TABLETTE ===== */
+@media (min-width: 768px) and (max-width: 1024px) {
+    /* Mode portrait (vertical) */
+    @media (orientation: portrait) {
+        .country-programmes-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+    }
+    
+    /* Mode paysage (horizontal) */
+    @media (orientation: landscape) {
+        .country-programmes-grid {
+            grid-template-columns: 1fr !important;
+        }
+        
+        /* Réduire la hauteur des cartes pour en voir plus */
+        .country-programmes-grid > div {
+            padding: 8px !important;
+            min-height: 85px !important;
+        }
+        
+        /* Texte plus compact */
+        .country-programmes-grid .date-value-compact {
+            font-size: 0.8rem !important;
+        }
+        
+        .country-programmes-grid .date-location-left {
+            font-size: 0.75rem !important;
+        }
+        
+        .country-programmes-grid .date-location-left .lieu {
+            font-size: 0.7rem !important;
+        }
+        
+        .country-programmes-grid .date-time,
+        .country-programmes-grid .date-programme {
+            font-size: 0.7rem !important;
+        }
+    }
+}
+
+/* Ajustement du conteneur principal en tablette */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .calendar-recap-container {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    .calendar-section {
+        width: 100% !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .recap-section {
+        width: 100% !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -16061,6 +16118,28 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Appliquer au redimensionnement
     window.addEventListener('resize', adjustCalendar);
+})();
+</script>
+<script>
+// ===== DÉTECTION ORIENTATION TABLETTE =====
+(function fixTabletDisplay() {
+    function checkOrientation() {
+        if (window.innerWidth >= 768 && window.innerWidth <= 1024) {
+            if (window.innerHeight < window.innerWidth) {
+                // Mode paysage (horizontal)
+                console.log("📱 Tablet landscape - 1 column");
+                document.body.classList.add('tablet-landscape');
+            } else {
+                // Mode portrait (vertical)
+                console.log("📱 Tablet portrait - 2 columns");
+                document.body.classList.remove('tablet-landscape');
+            }
+        }
+    }
+    
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', checkOrientation);
 })();
 </script>
 </body>
