@@ -13484,22 +13484,24 @@ function generateRecapByCountry() {
         datesContainer.style.background = '#f8fafc';
         
         if (datesWithLocation.length > 0) {
-                       const programCardsGrid = document.createElement('div');
+            const programCardsGrid = document.createElement('div');
             programCardsGrid.style.display = 'grid';
             programCardsGrid.style.gap = '10px';
             
             function updateProgramGridColumns() {
-                if (window.innerWidth >= 768) {
-                    // Écran ≥ 768px : 2 colonnes
+                // 17cm ≈ 302px (1cm = 37.8px environ)
+                if (window.innerWidth >= 610) {
+                    // Écran ≥ 6700px (8cm) : 2 colonnes
                     programCardsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
                 } else {
-                    // Écran < 768px : 1 colonne
+                    // Écran < 302px : 1 colonne
                     programCardsGrid.style.gridTemplateColumns = '1fr';
                 }
             }
             
             updateProgramGridColumns();
-            window.addEventListener('resize', updateProgramGridColumns);
+            window.addEventListener('resize', updateProgramGridColumns);            datesWithLocation.forEach(dateItem => {
+                const programEmoji = getProgramEmoji(dateItem.programme);
                 
                 // ===== COULEURS SPÉCIFIQUES PAR TYPE DE PROGRAMME =====
                 let borderColor, bgColor, accentColor, textColor;
