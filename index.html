@@ -6624,6 +6624,96 @@
         grid-template-columns: repeat(2, 1fr) !important;
     }
 }
+/* ===== CALENDRIER - LARGEUR FIXE ET RETOUR À LA LIGNE ===== */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important; /* Largeur fixe des colonnes */
+    gap: 2px;
+    width: 100%;
+    table-layout: fixed; /* Force les colonnes à largeur fixe */
+}
+
+.calendar-day {
+    min-width: 0 !important; /* Empêche le débordement */
+    width: 100% !important;
+    overflow: hidden !important;
+    word-wrap: break-word !important; /* Coupe les mots longs */
+    word-break: break-word !important; /* Force la coupure */
+    hyphens: auto !important; /* Ajoute des traits d'union si besoin */
+    white-space: normal !important; /* Force le retour à la ligne */
+}
+
+/* Pour les jours fériés longs */
+.calendar-day .holiday-name,
+.calendar-day .malagasy-holiday-name {
+    font-size: 0.6rem !important;
+    line-height: 1.1 !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    max-width: 100% !important;
+    overflow-wrap: break-word !important;
+}
+
+/* Pour les localités */
+.calendar-day .localite {
+    font-size: 0.65rem !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    max-width: 100% !important;
+    line-height: 1.2 !important;
+    display: block !important;
+}
+
+/* Pour la ligne drapeau + emojis */
+.calendar-flag-emoji-line {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 2px !important;
+    max-width: 100% !important;
+}
+
+/* Pour les emojis */
+.calendar-emoji {
+    font-size: 12px !important;
+    max-width: 100% !important;
+}
+
+/* Pour l'indicateur +X */
+.calendar-more {
+    font-size: 8px !important;
+    padding: 1px 3px !important;
+    white-space: nowrap !important;
+}
+
+/* Conteneur principal du calendrier - largeur fixe */
+.calendar-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important; /* Scroll horizontal si nécessaire */
+}
+
+.calendar {
+    width: 100% !important;
+    min-width: 600px; /* Largeur minimum pour lisibilité */
+}
+
+/* Version desktop */
+@media (min-width: 1025px) {
+    .calendar-day {
+        min-height: 100px !important;
+        padding: 4px 2px !important;
+    }
+    
+    .calendar-day .day-number {
+        font-size: 0.8rem !important;
+    }
+    
+    .calendar-day-flag {
+        width: 20px !important;
+        height: 13px !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -15939,6 +16029,39 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 1000);
 });
+</script>
+<script>
+// ===== AJUSTEMENT DU CALENDRIER =====
+(function fixCalendarDisplay() {
+    function adjustCalendar() {
+        const calendarDays = document.querySelectorAll('.calendar-day');
+        const isMobile = window.innerWidth <= 768;
+        
+        calendarDays.forEach(day => {
+            if (isMobile) {
+                // Sur mobile : on réduit encore plus
+                day.style.fontSize = '0.6rem';
+                const localite = day.querySelector('.localite');
+                if (localite) {
+                    localite.style.fontSize = '0.55rem';
+                }
+            } else {
+                // Sur desktop : on garde normal
+                day.style.fontSize = '';
+                const localite = day.querySelector('.localite');
+                if (localite) {
+                    localite.style.fontSize = '';
+                }
+            }
+        });
+    }
+    
+    // Appliquer au chargement
+    adjustCalendar();
+    
+    // Appliquer au redimensionnement
+    window.addEventListener('resize', adjustCalendar);
+})();
 </script>
 </body>
 </html>
