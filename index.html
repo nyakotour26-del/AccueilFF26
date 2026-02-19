@@ -6914,16 +6914,7 @@
                         <div class="theme-text-simple">"Toutes nos sources sont en TOI"</div>
                     </div>
                     
-                    <!-- Drapeaux sur une ligne -->
-                    <div class="flags-horizontal">
-                        <div class="flag-horizontal flag-switzerland" title="Suisse"></div>
-                        <div class="flag-horizontal flag-france" title="France"></div>
-                        <div class="flag-horizontal flag-germany" title="Allemagne"></div>
-                        <div class="flag-horizontal flag-belgium" title="Belgique"></div>
-                        <div class="flag-horizontal flag-uk" title="Royaume-Uni"></div>
-                        <div class="flag-horizontal flag-wales" title="Wales"></div>
-                        <div class="flag-horizontal flag-madagascar" title="Madagascar"></div>
-                    </div>
+                  
                     
                     <!-- Photo principale -->
                     <div class="photo-main-container">
@@ -6946,6 +6937,23 @@
                 
                 <!-- Colonne droite : informations générales, contributions, accès réservé -->
                 <div class="header-right-column">
+<!-- Statistiques pays et jours dans l'en-tête -->
+<div id="headerStats" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 5px 0 10px 0;
+    padding: 8px 15px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95));
+    border-radius: 40px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid rgba(66,153,225,0.2);
+    backdrop-filter: blur(5px);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+"></div>
                     <!-- Informations générales -->
                     <div class="header-info-section">
                         <h2 class="section-title"><i class="fas fa-info-circle"></i> Informations générales</h2>
@@ -7253,41 +7261,7 @@
 
                     </div>
                     
-                    <!-- Section des statistiques sous le calendrier -->
-                    <div class="calendar-stats" id="calendarStats">
-                        <div class="calendar-stats-grid">
-                            <div class="calendar-stat-item" onclick="scrollToRecapSection()">
-                                <div class="calendar-stat-value">
-                                    <i class="fas fa-globe-europe"></i>
-                                    <span id="statsPaysVisites">0</span>
-                                </div>
-                                <div class="calendar-stat-label">Pays visités</div>
-                                <div class="flags-container-stat" id="flagsContainerStat">
-                                    <!-- Les drapeaux seront ajoutés ici -->
-                                </div>
-                            </div>
- <div class="calendar-stat-item">
-                                <div class="calendar-stat-value">
-                                    <i class="fas fa-sun"></i>
-                                    <span id="statsJoursTournee">0</span>
-                                </div>
-                                <div class="calendar-stat-label">Jours de tournée</div>
-                            </div>
-                            <div class="calendar-stat-item" id="programmesStatItem">
-                                <div class="calendar-stat-value">
-                                    <i class="fas fa-calendar-check"></i>
-                                    <span id="statsProgrammesTotal">0</span>
-                                </div>
-
-                                <div class="calendar-stat-label">Programmes total</div>
-                                <div class="calendar-stat-details" id="statsProgrammesDetails">
-                                    <!-- Détails des types de programmes -->
-                                </div>
-                            </div>
-                           
-                           <!-- On garde les 3 premières cartes mais on enlève la 4ème -->
-
-                    
+                   
                 
                 <!-- Statistiques détaillées par pays -->
                 <div class="country-stats-section" id="countryStatsSection" style="display: none;">
@@ -13008,41 +12982,157 @@ function displayProgramInfoCompact(container, programData) {
         function updateCalendarStats() {
     if (datesWithData.length === 0) return;
     
+    // Compter les pays visités (exclure Madagascar)
     const uniqueCountries = new Set();
     datesWithData.forEach(item => {
         if (item.pays && item.pays.trim() !== '') {
             const localite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
             
-            // EXCLURE MADAGASCAR du comptage des pays visités
             if (!localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
                 !localite.toUpperCase().includes('MADAGASCAR') &&
-                item.pays.toUpperCase() !== 'MADAGASCAR') { // ← AJOUT DE CETTE CONDITION
+                item.pays.toUpperCase() !== 'MADAGASCAR') {
                 uniqueCountries.add(item.pays.toUpperCase());
             }
         }
     });
     
+    // Compter les jours de tournée
     const joursTourneeSet = new Set();
     datesWithData.forEach(item => {
         if (item.pays && item.pays.trim() !== '') {
             const localite = sheetData[item.rowIndex] ? sheetData[item.rowIndex][columnMapping['LOCALITE']] || '' : '';
             
-            // EXCLURE MADAGASCAR du comptage des jours de tournée
             if (!localite.toUpperCase().includes('RETOUR MADAGASCAR') && 
                 !localite.toUpperCase().includes('MADAGASCAR') &&
-                item.pays.toUpperCase() !== 'MADAGASCAR') { // ← AJOUT DE CETTE CONDITION
+                item.pays.toUpperCase() !== 'MADAGASCAR') {
                 joursTourneeSet.add(item.date.getTime());
             }
         }
     });
     const joursTournee = joursTourneeSet.size;
     
-    const statsPaysVisites = document.getElementById('statsPaysVisites');
-    const statsJoursTournee = document.getElementById('statsJoursTournee');
+    // Calculer les programmes par type
+    const programsByType = {};
+    datesWithData.forEach(item => {
+        const rowData = getRowData(item.rowIndex);
+        const programme = rowData.programme || 'Concert';
+        const pays = item.pays?.toUpperCase();
+        const localite = rowData.localite?.toUpperCase() || '';
+        
+        // Exclure Madagascar
+        if (pays && pays !== 'MADAGASCAR' && !localite.includes('RETOUR MADAGASCAR')) {
+            if (!programsByType[programme]) {
+                programsByType[programme] = 0;
+            }
+            programsByType[programme]++;
+        }
+    });
     
-    if (statsPaysVisites) statsPaysVisites.textContent = uniqueCountries.size;
-    if (statsJoursTournee) statsJoursTournee.textContent = joursTournee;
+    // Fonction pour obtenir la couleur du type (palette variée)
+    function getTypeColor(type) {
+        const typeLower = type.toLowerCase();
+        
+        // Palette variée de couleurs
+        if (typeLower.includes('concert')) return '#f97316'; // Orange (Concert)
+        if (typeLower.includes('visite')) return '#8b5cf6'; // Violet (Visite)
+        if (typeLower.includes('rencontre')) return '#0ea5e9'; // Bleu ciel (Rencontre)
+        if (typeLower.includes('animation')) return '#ec4899'; // Rose (Animation)
+        if (typeLower.includes('repas') || typeLower.includes('restaurant')) return '#f59e0b'; // Jaune orangé (Repas)
+        if (typeLower.includes('vol') || typeLower.includes('avion') || typeLower.includes('départ')) return '#3b82f6'; // Bleu (Vol)
+        if (typeLower.includes('repos') || typeLower.includes('rest')) return '#10b981'; // Vert (Repos)
+        if (typeLower.includes('eglise') || typeLower.includes('culte')) return '#6b21a8'; // Violet foncé (Culte)
+        
+        // Par défaut : gris
+        return '#718096';
+    }
     
+    // Trier les types (Concert en premier, puis par ordre alphabétique)
+    const sortedTypes = Object.keys(programsByType).sort((a, b) => {
+        if (a.toLowerCase() === 'concert') return -1;
+        if (b.toLowerCase() === 'concert') return 1;
+        return a.localeCompare(b);
+    });
+    
+    // Créer l'affichage des types avec NOMS
+    let typesHtml = '';
+    sortedTypes.forEach(type => {
+        const count = programsByType[type];
+        const emoji = getProgramEmoji(type);
+        const color = getTypeColor(type);
+        
+        typesHtml += `
+            <span style="
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                background: white;
+                padding: 3px 10px;
+                border-radius: 30px;
+                font-size: 0.75rem;
+                border: 1px solid ${color}40;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+                cursor: pointer;
+                transition: all 0.2s;
+            " 
+            onmouseover="this.style.background='${color}20'; this.style.transform='translateY(-2px)'"
+            onmouseout="this.style.background='white'; this.style.transform='translateY(0)'"
+            onclick="showProgramsByType('${type.toLowerCase()}')"
+            title="Voir tous les programmes de type ${type}">
+                <span style="font-size: 0.9rem;">${emoji}</span>
+                <span style="color: ${color}; font-weight: 600;">${type}</span>
+                <span style="
+                    background: ${color};
+                    color: white;
+                    padding: 1px 6px;
+                    border-radius: 20px;
+                    font-size: 0.65rem;
+                    font-weight: 700;
+                    margin-left: 2px;
+                ">${count}</span>
+            </span>
+        `;
+    });
+    
+    // Créer l'affichage des drapeaux
+    let flagsHtml = '';
+    const countryOrder = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
+    
+    countryOrder.forEach(country => {
+        if (uniqueCountries.has(country)) {
+            const flagClass = countryFlags[country] || 'flag-france';
+            flagsHtml += `<div class="${flagClass}" style="width: 24px; height: 16px; border-radius: 3px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: inline-block;" title="${formatCountryName(country)}"></div>`;
+        }
+    });
+    
+    // Mettre à jour l'affichage dans l'en-tête
+    const headerStats = document.getElementById('headerStats');
+    if (headerStats) {
+        headerStats.innerHTML = `
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%;">
+                <!-- Ligne 1 : Pays et Jours -->
+                <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                    <div style="display: flex; align-items: center; gap: 8px; background: rgba(66,153,225,0.1); padding: 6px 15px; border-radius: 30px;">
+                        <i class="fas fa-globe-europe" style="color: #4299e1; font-size: 1.1rem;"></i>
+                        <span style="font-weight: 700; color: #2d3748;">${uniqueCountries.size} pays</span>
+                        <div style="display: flex; align-items: center; gap: 4px; margin-left: 5px;">${flagsHtml}</div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; background: rgba(72,187,120,0.1); padding: 6px 15px; border-radius: 30px;">
+                        <i class="fas fa-sun" style="color: #48bb78; font-size: 1.1rem;"></i>
+                        <span style="font-weight: 700; color: #2d3748;">${joursTournee} jour${joursTournee > 1 ? 's' : ''}</span>
+                    </div>
+                </div>
+                
+                <!-- Ligne 2 : Programmes par type avec NOMS -->
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; background: rgba(255,255,255,0.5); padding: 8px 15px; border-radius: 40px;">
+                    <i class="fas fa-music" style="color: #f97316; font-size: 1rem; margin-right: 5px;"></i>
+                    <span style="font-weight: 600; color: #2d3748;">Programmes:</span>
+                    ${typesHtml}
+                </div>
+            </div>
+        `;
+    }
+    
+    // Mettre à jour les autres statistiques (programmes total, etc.)
     calculateProgrammeStats();
 }
 // ===== FORMATTER DATE POUR PÉRIODE (ex: dim 12 mai) =====
