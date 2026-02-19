@@ -6842,27 +6842,29 @@
 <body>
     <div class="container">
         <header>
-       <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
-    <h1 style="margin: 0; font-size: 2rem; color: #2d3748; text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8); background: linear-gradient(135deg, #2d3748, #4a5568); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; margin-bottom: 5px;">
+    <h1 style="margin: 0; font-size: 2.8rem; color: #2d3748; text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8); background: linear-gradient(135deg, #2d3748, #4a5568); -webkit-background-clip: text; -webkit-text-fill-color: transparent; flex: 1;">
         Tournée Europe 2026
     </h1>
     <div id="tourDayCounter" style="
-        font-size: 1.8rem;
+        font-size: 2rem;
         font-weight: 900;
         background: linear-gradient(135deg, #f59e0b, #d97706);
         color: white;
-        padding: 5px 20px;
-        border-radius: 40px;
+        padding: 8px 25px;
+        border-radius: 50px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         border: 2px solid white;
-        letter-spacing: 0.5px;
+        letter-spacing: 1px;
+        position: relative;
+        z-index: 100;
         transform: translateZ(0);
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+        text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
     "></div>
 </div>
 
@@ -6935,7 +6937,7 @@
                             
                             <div class="polaroid-caption-extra-large">
                                 <div class="polaroid-title-extra-large">꧁༺  𝕋𝕆𝕌ℝℕÉ𝔼 𝔼𝕌ℝ𝕆ℙ𝔼 𝟚𝟘𝟚𝟞 ༻</div>
-                                <div class="polaroid-date-extra-large">>A͟͞v͟͞r͟͞i͟͞l͟͞ ͟͞_͟͞ ͟͞J͟͞u͟͞i͟͞l͟͞l͟͞e͟͞t͟͞ ꧂<i class="fas fa-music"></i></div>
+                                <div class="polaroid-date-extra-large" id="polaroidDates"></div>
                             </div>
                             <div class="polaroid-tape-extra-large"></div>
                         </div>
@@ -7651,37 +7653,13 @@ function isDesktop() {
         let countryRoutes = []; // Stocke les routes par pays
         let interCountryRoutes = []; // Stocke les routes entre pays
 
-// ===== CODE POUR AFFICHER LES DATES DE PASSAGE PAR PAYS =====
+// ===== CODE POUR AFFICHER LES DATES DE PASSAGE DANS LE POLAROID =====
 function updateCountryPassingDates() {
-    const titleContainer = document.querySelector('header h1')?.parentNode;
-    if (!titleContainer) return;
-    
-    // Supprimer l'ancien conteneur s'il existe
-    const oldContainer = document.getElementById('countryDatesHeader');
-    if (oldContainer) oldContainer.remove();
-    
-    // Créer le nouveau conteneur
-    const datesContainer = document.createElement('div');
-    datesContainer.id = 'countryDatesHeader';
-    datesContainer.style.cssText = `
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px 12px;
-        margin: 8px 0 5px 0;
-        padding: 8px 12px;
-        background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95));
-        border-radius: 40px;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-        border: 1px solid rgba(66,153,225,0.2);
-        backdrop-filter: blur(5px);
-        width: 100%;
-        font-size: 0.85rem;
-    `;
+    const polaroidDates = document.getElementById('polaroidDates');
+    if (!polaroidDates) return;
     
     if (!datesWithData || datesWithData.length === 0) {
-        datesContainer.innerHTML = '<span style="color:#718096;">Chargement des dates...</span>';
-        titleContainer.insertBefore(datesContainer, titleContainer.querySelector('h1').nextSibling);
+        polaroidDates.innerHTML = 'Chargement des dates... <i class="fas fa-music"></i>';
         return;
     }
     
@@ -7691,7 +7669,7 @@ function updateCountryPassingDates() {
         const pays = item.pays?.toUpperCase();
         const localite = item.localite?.toUpperCase() || '';
         
-        // Exclure Madagascar et retours (comme dans le récapitulatif)
+        // Exclure Madagascar et retours
         if (pays && pays !== 'MADAGASCAR' && !localite.includes('RETOUR MADAGASCAR')) {
             if (!datesByCountry[pays]) {
                 datesByCountry[pays] = [];
@@ -7700,20 +7678,26 @@ function updateCountryPassingDates() {
         }
     });
     
-    // Mois abrégés en français
+    // Jours abrégés en français
+    const daysAbbr = {
+        0: 'dim', 1: 'lun', 2: 'mar', 3: 'mer', 4: 'jeu', 5: 'ven', 6: 'sam'
+    };
+    
+    // Mois abrégés en français (3 lettres)
     const monthAbbr = {
         0: 'jan', 1: 'fév', 2: 'mar', 3: 'avr', 4: 'mai', 5: 'jun',
         6: 'jul', 7: 'aoû', 8: 'sep', 9: 'oct', 10: 'nov', 11: 'déc'
     };
     
-    // Fonction pour formater une date en "mmm jj"
+    // Fonction pour formater une date en "jjj jj-mmm"
     const formatDate = (date) => {
-        const month = monthAbbr[date.getMonth()];
+        const dayName = daysAbbr[date.getDay()];
         const day = date.getDate().toString().padStart(2, '0');
-        return `${month} ${day}`;
+        const month = monthAbbr[date.getMonth()];
+        return `${dayName} ${day}-${month}`;
     };
     
-    // Fonction pour trouver les intervalles (copiée du récapitulatif)
+    // Fonction pour trouver les intervalles
     function calculateDateRanges(datesArray) {
         if (datesArray.length === 0) return [];
         
@@ -7745,70 +7729,67 @@ function updateCountryPassingDates() {
         return ranges;
     }
     
-    // Obtenir la couleur de fond pour un pays (version plus claire pour le fond)
-    function getCountryBgColor(pays) {
-        const colors = {
-            'SUISSE': 'rgba(213, 43, 30, 0.15)',     // Rouge Suisse (15% d'opacité)
-            'FRANCE': 'rgba(0, 35, 149, 0.15)',      // Bleu France (15% d'opacité)
-            'ALLEMAGNE': 'rgba(0, 0, 0, 0.1)',        // Noir Allemagne (10% d'opacité)
-            'BELGIQUE': 'rgba(250, 224, 66, 0.3)',    // Jaune Belgique (30% d'opacité)
-            'WALES': 'rgba(210, 16, 52, 0.15)',       // Rouge Wales (15% d'opacité)
-            'ANGLETERRE': 'rgba(1, 33, 105, 0.15)'    // Bleu Angleterre (15% d'opacité)
-        };
-        return colors[pays] || 'rgba(66, 153, 225, 0.15)';
-    }
-    
-    // Obtenir la couleur de bordure (couleur pleine)
-    function getCountryBorderColor(pays) {
+    // Obtenir la couleur pour un pays
+    function getCountryColor(pays) {
         const colors = {
             'SUISSE': '#D52B1E',
             'FRANCE': '#002395',
             'ALLEMAGNE': '#000000',
             'BELGIQUE': '#FAE042',
-            'WALES': '#D21034',
+            'WALES': '#008000',
             'ANGLETERRE': '#012169'
         };
         return colors[pays] || '#4299e1';
     }
     
-    // Ordre des pays (comme dans le récapitulatif)
+    // Obtenir l'emoji drapeau pour un pays
+    function getCountryFlagEmoji(pays) {
+        const flags = {
+            'SUISSE': '🇨🇭',
+            'FRANCE': '🇫🇷',
+            'ALLEMAGNE': '🇩🇪',
+            'BELGIQUE': '🇧🇪',
+            'WALES': '🏴󠁧󠁢󠁷󠁬󠁳󠁿',
+            'ANGLETERRE': '🏴󠁧󠁢󠁥󠁮󠁧󠁿'
+        };
+        return flags[pays] || '🏳️';
+    }
+    
+    // Obtenir le nom du pays formaté
+    function getCountryName(pays) {
+        const names = {
+            'SUISSE': 'Suisse',
+            'FRANCE': 'France',
+            'ALLEMAGNE': 'Allemagne',
+            'BELGIQUE': 'Belgique',
+            'WALES': 'Wales',
+            'ANGLETERRE': 'Angleterre'
+        };
+        return names[pays] || pays;
+    }
+    
+    // Ordre des pays
     const countryOrder = ['SUISSE', 'FRANCE', 'ALLEMAGNE', 'BELGIQUE', 'WALES', 'ANGLETERRE'];
+    
+    // Style du conteneur principal pour que les lignes soient collées
+    polaroidDates.style.cssText = `
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        line-height: 1.2;
+        font-size: 0.9rem;
+    `;
+    
+    // Construire le HTML ligne par ligne
+    let html = '';
     
     countryOrder.forEach(pays => {
         if (datesByCountry[pays] && datesByCountry[pays].length > 0) {
-            // Utiliser la même fonction que le récapitulatif
             const ranges = calculateDateRanges(datesByCountry[pays]);
-            
-            // Drapeau correspondant
-            const flagClass = countryFlags?.[pays] || 'flag-france';
-            
-            // Couleurs
-            const bgColor = getCountryBgColor(pays);
-            const borderColor = getCountryBorderColor(pays);
-            
-            // Créer l'élément pour ce pays
-            const countryElement = document.createElement('div');
-            countryElement.style.cssText = `
-                display: flex;
-                align-items: center;
-                gap: 6px;
-                padding: 3px 10px;
-                background: ${bgColor};
-                border-radius: 30px;
-                border-left: 3px solid ${borderColor};
-                box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-                transition: all 0.2s ease;
-            `;
-            
-            // Effet de survol
-            countryElement.onmouseover = function() {
-                this.style.transform = 'translateY(-2px)';
-                this.style.boxShadow = `0 4px 8px ${borderColor}40`;
-            };
-            countryElement.onmouseout = function() {
-                this.style.transform = 'translateY(0)';
-                this.style.boxShadow = '0 2px 5px rgba(0,0,0,0.03)';
-            };
+            const flagEmoji = getCountryFlagEmoji(pays);
+            const countryName = getCountryName(pays);
+            const color = getCountryColor(pays);
             
             // Fonction pour formater une période
             const formatPeriod = (firstDate, lastDate) => {
@@ -7821,28 +7802,35 @@ function updateCountryPassingDates() {
                 return `${firstFormatted} - ${lastFormatted}`;
             };
             
-            // Construire l'affichage des intervalles
+            // Construire les intervalles (tous en noir)
             let rangesHtml = '';
             ranges.forEach((range, index) => {
-                rangesHtml += formatPeriod(range.firstDate, range.lastDate);
+                const periodHtml = formatPeriod(range.firstDate, range.lastDate);
+                rangesHtml += `<span style="color: #2d3748;">${periodHtml}</span>`;
                 if (index < ranges.length - 1) {
-                    rangesHtml += ', ';
+                    rangesHtml += '<span style="color: #888;">, </span>';
                 }
             });
             
-            countryElement.innerHTML = `
-                <div class="${flagClass}" style="width: 18px; height: 12px; border-radius: 2px;"></div>
-                <span style="font-weight: 600; color: #1e293b; font-size: 0.8rem;">${formatCountryName(pays)}</span>
-                <span style="color: #2d3748; font-weight: 500; background: white; padding: 2px 8px; border-radius: 20px; font-size: 0.75rem; border: 1px solid ${borderColor}40;">
-                    ${rangesHtml}
-                </span>
+            html += `
+                <div style="display: flex; align-items: baseline; gap: 6px; width: 100%; margin: 0; padding: 0;">
+                    <span style="display: flex; align-items: center; gap: 3px; min-width: 70px; color: ${color}; font-weight: 700;">
+                        ${flagEmoji} ${countryName}
+                    </span>
+                    <span style="display: flex; flex-wrap: wrap; gap: 0;">${rangesHtml}</span>
+                </div>
             `;
-            
-            datesContainer.appendChild(countryElement);
         }
     });
     
-    titleContainer.insertBefore(datesContainer, titleContainer.querySelector('h1').nextSibling);
+    // Ajouter l'icône musique à la fin (sur une nouvelle ligne)
+    if (html) {
+        html += `<div style="margin-top: 4px; text-align: right; width: 100%;"><i class="fas fa-music" style="color: #e74c3c;"></i></div>`;
+    } else {
+        html = `<div style="text-align: center;"><i class="fas fa-music" style="color: #e74c3c;"></i></div>`;
+    }
+    
+    polaroidDates.innerHTML = html;
 }
 
 // Appeler la fonction quand les données sont chargées
