@@ -13016,7 +13016,7 @@ function getCountryGradient(country) {
     return gradients[country] || '#4299e1, #3182ce';
 }    
 
-// ===== GÉNÉRER LE RÉCAPITULATIF PAR PAYS (2 PAYS PAR LIGNE SUR DESKTOP) =====
+  // ===== GÉNÉRER LE RÉCAPITULATIF PAR PAYS (VERSION AVEC NOMBRE PAR TYPE) =====
 function generateRecapByCountry() {
     const recapContainer = document.getElementById('recapContainer');
     const noDatesMessage = document.getElementById('noDatesMessage');
@@ -13053,30 +13053,23 @@ function generateRecapByCountry() {
     const sortedCountries = countryOrder.filter(country => datesByCountry[country]);
     
     recapContainer.innerHTML = '';
-    
-    // CRÉER UNE GRILLE POUR 2 PAYS PAR LIGNE
-    recapContainer.style.display = 'grid';
-    recapContainer.style.gap = '15px';
-    
-    // Adapter le nombre de colonnes selon la taille d'écran
-    function updateGridColumns() {
-        if (window.innerWidth >= 1025) {
-            // Desktop : 2 colonnes
-            recapContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
-        } else if (window.innerWidth >= 768) {
-            // Tablette : 2 colonnes aussi
-            recapContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
-        } else {
-            // Mobile : 1 colonne
-            recapContainer.style.gridTemplateColumns = '1fr';
-        }
-    }
-    
-    updateGridColumns();
-    window.addEventListener('resize', updateGridColumns);
-    
-    // Générer chaque pays (le reste du code est inchangé)
     sortedCountries.forEach(country => {
+        const countryCard = document.createElement('div');
+        countryCard.className = 'country-card-compact';
+        countryCard.id = `country-${country.toLowerCase()}`;
+        countryCard.setAttribute('data-country', country.toLowerCase());
+        countryCard.style.marginBottom = '12px';
+        countryCard.style.borderRadius = '12px';
+        countryCard.style.overflow = 'hidden';
+        countryCard.style.backgroundColor = 'white';
+        countryCard.style.boxShadow = '0 2px 8px rgba(0,0,0,0.05)';
+        countryCard.style.border = '1px solid #e2e8f0';
+        
+        const borderColor = countryColors[country] || '#718096';
+        countryCard.style.borderLeftColor = borderColor;
+        countryCard.style.borderLeftWidth = '4px';
+        countryCard.style.borderLeftStyle = 'solid';
+        
         const countryDates = datesByCountry[country];
         
         const datesWithLocation = countryDates.filter(item => {
@@ -13094,12 +13087,13 @@ function generateRecapByCountry() {
         countryDates.sort((a, b) => a.date - b.date);
         datesWithLocation.sort((a, b) => a.date - b.date);
         
-        // Compter les programmes par type
+        // ===== COMPTER LES PROGRAMMES PAR TYPE POUR CE PAYS =====
         const programTypesCount = {};
         datesWithLocation.forEach(item => {
             const programme = item.programme && item.programme.trim() !== '' 
                 ? item.programme 
                 : 'Concert';
+            // Prendre le mot principal (ex: "Concert", "Visite", "Repas")
             const mainType = programme.split(' ')[0].charAt(0).toUpperCase() + programme.split(' ')[0].slice(1).toLowerCase();
             
             if (!programTypesCount[mainType]) {
@@ -13111,6 +13105,7 @@ function generateRecapByCountry() {
         // Créer la liste formatée avec les nombres
         const programTypesList = Object.entries(programTypesCount)
             .map(([type, count]) => {
+                // Ajouter un emoji selon le type
                 let emoji = '🎵';
                 const typeLower = type.toLowerCase();
                 if (typeLower.includes('vol') || typeLower.includes('avion')) emoji = '✈️';
@@ -13130,30 +13125,12 @@ function generateRecapByCountry() {
         const totalProgrammes = datesWithLocation.length;
         const uniqueDays = new Set(countryDates.map(item => item.date.getTime())).size;
         
-        // CARTE PAYS (inchangée)
-        const countryCard = document.createElement('div');
-        countryCard.className = 'country-card-compact';
-        countryCard.id = `country-${country.toLowerCase()}`;
-        countryCard.setAttribute('data-country', country.toLowerCase());
-        countryCard.style.marginBottom = '0'; // Supprimer la marge du bas car géré par grid gap
-        countryCard.style.borderRadius = '12px';
-        countryCard.style.overflow = 'hidden';
-        countryCard.style.backgroundColor = 'white';
-        countryCard.style.boxShadow = '0 2px 8px rgba(0,0,0,0.05)';
-        countryCard.style.border = '1px solid #e2e8f0';
-        countryCard.style.height = 'fit-content';
-        
-        const borderColor = countryColors[country] || '#718096';
-        countryCard.style.borderLeftColor = borderColor;
-        countryCard.style.borderLeftWidth = '4px';
-        countryCard.style.borderLeftStyle = 'solid';
-        
         // ===== EN-TÊTE DU PAYS =====
         let gradientColor;
         if (country === 'BELGIQUE') {
-            gradientColor = '#FFD700, #FFA500';
+            gradientColor = '#FFD700, #FFA500'; // Jaune pour Belgique
         } else if (country === 'MADAGASCAR') {
-            gradientColor = '#2E7D32, #1B5E20';
+            gradientColor = '#2E7D32, #1B5E20'; // Vert foncé pour Madagascar
         } else {
             gradientColor = getCountryGradient(country);
         }
@@ -13164,6 +13141,7 @@ function generateRecapByCountry() {
         countryHeader.style.position = 'relative';
         countryHeader.style.overflow = 'hidden';
 
+        // Motif décoratif léger
         const patternDiv = document.createElement('div');
         patternDiv.style.position = 'absolute';
         patternDiv.style.top = '0';
@@ -13174,6 +13152,7 @@ function generateRecapByCountry() {
         patternDiv.style.opacity = '0.3';
         countryHeader.appendChild(patternDiv);
 
+        // ===== LIGNE 1 : DRAPEAU, NOM DU PAYS ET STATS =====
         const topRow = document.createElement('div');
         topRow.style.display = 'flex';
         topRow.style.alignItems = 'center';
@@ -13182,11 +13161,13 @@ function generateRecapByCountry() {
         topRow.style.position = 'relative';
         topRow.style.zIndex = '2';
 
+        // Groupe drapeau + nom
         const flagNameGroup = document.createElement('div');
         flagNameGroup.style.display = 'flex';
         flagNameGroup.style.alignItems = 'center';
         flagNameGroup.style.gap = '10px';
 
+        // DRAPEAU
         const flagDiv = document.createElement('div');
         flagDiv.style.width = '36px';
         flagDiv.style.height = '24px';
@@ -13196,6 +13177,7 @@ function generateRecapByCountry() {
         const flagClass = countryFlags[country] || 'flag-france';
         flagDiv.classList.add(flagClass);
 
+        // NOM DU PAYS
         const countryName = document.createElement('div');
         countryName.style.fontSize = '1.4rem';
         countryName.style.fontWeight = '700';
@@ -13206,6 +13188,7 @@ function generateRecapByCountry() {
         flagNameGroup.appendChild(flagDiv);
         flagNameGroup.appendChild(countryName);
 
+        // STATS BADGE
         const statsBadge = document.createElement('div');
         statsBadge.style.background = 'rgba(255,255,255,0.2)';
         statsBadge.style.backdropFilter = 'blur(4px)';
@@ -13219,11 +13202,12 @@ function generateRecapByCountry() {
         statsBadge.style.fontWeight = '600';
         statsBadge.style.color = 'white';
 
-        statsBadge.innerHTML = `🎵 ${totalProgrammes} · 📅 ${uniqueDays}`;
+        statsBadge.innerHTML = `🎵 ${totalProgrammes} · 📅 ${uniqueDays} jour${uniqueDays > 1 ? 's' : ''}`;
 
         topRow.appendChild(flagNameGroup);
         topRow.appendChild(statsBadge);
 
+        // ===== LIGNE 2 : PÉRIODE DE SÉJOUR =====
         const periodRow = document.createElement('div');
         periodRow.style.background = 'rgba(255,255,255,0.15)';
         periodRow.style.backdropFilter = 'blur(3px)';
@@ -13274,11 +13258,13 @@ function generateRecapByCountry() {
             periodRow.innerHTML += '<span>Dates à venir</span>';
         }
 
+        // ===== LIGNE 3 : BOUTONS =====
         const buttonsRow = document.createElement('div');
         buttonsRow.style.display = 'flex';
         buttonsRow.style.gap = '10px';
         buttonsRow.style.marginTop = '5px';
 
+        // Bouton PROGRAMMES
         const toggleBtn = document.createElement('button');
         toggleBtn.style.flex = '1';
         toggleBtn.style.background = 'white';
@@ -13306,6 +13292,7 @@ function generateRecapByCountry() {
         toggleBtn.appendChild(btnIcon);
         toggleBtn.appendChild(btnText);
 
+        // Bouton DATES DISPONIBLES
         const freeBtn = document.createElement('button');
         freeBtn.style.flex = '1';
         freeBtn.style.background = 'white';
@@ -13337,6 +13324,7 @@ function generateRecapByCountry() {
         buttonsRow.appendChild(toggleBtn);
         buttonsRow.appendChild(freeBtn);
 
+        // État des boutons
         let programsOpen = false;
         let freeDatesOpen = false;
 
@@ -13366,10 +13354,12 @@ function generateRecapByCountry() {
             }
         };
 
+        // ASSEMBLAGE EN-TÊTE
         countryHeader.appendChild(topRow);
         countryHeader.appendChild(periodRow);
         countryHeader.appendChild(buttonsRow);
 
+        // ===== SECTION DATES DISPONIBLES =====
         const freeDatesSection = document.createElement('div');
         freeDatesSection.style.margin = '0';
         freeDatesSection.style.background = 'white';
@@ -13454,6 +13444,7 @@ function generateRecapByCountry() {
 
         freeDatesSection.appendChild(freeDatesList);
         
+        // ===== TITRE AVEC LISTE DES PROGRAMMES ET LEUR NOMBRE =====
         const programmesTitle = document.createElement('div');
         programmesTitle.style.padding = '10px 12px 5px 12px';
         programmesTitle.style.fontSize = '0.85rem';
@@ -13476,6 +13467,7 @@ function generateRecapByCountry() {
         programmesTitle.appendChild(iconSpan);
         programmesTitle.appendChild(textSpan);
         
+        // ===== LISTE DES PROGRAMMES PAR PAYS =====
         const datesContainer = document.createElement('div');
         datesContainer.className = 'country-dates-compact';
         datesContainer.id = `dates-${country.toLowerCase()}`;
@@ -13484,17 +13476,33 @@ function generateRecapByCountry() {
         datesContainer.style.background = '#f8fafc';
         
         if (datesWithLocation.length > 0) {
-            const programCardsGrid = document.createElement('div');
-            programCardsGrid.style.display = 'grid';
-            programCardsGrid.style.gap = '10px';
+           const programCardsGrid = document.createElement('div');
+programCardsGrid.style.display = 'grid';
+programCardsGrid.style.gap = '10px';
+
+// Fonction pour mettre à jour le nombre de colonnes
+function updateGridColumns() {
+    // MOBILE : moins de 768px
+    if (window.innerWidth < 768) {
+        programCardsGrid.style.gridTemplateColumns = '1fr';
+    } 
+    // TABLETTE : entre 768px et 1024px
+    else if (window.innerWidth >= 768 && window.innerWidth <= 1024) {
+        programCardsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+    }
+    // DESKTOP : plus de 1024px
+    else {
+        programCardsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+    }
+}
+
+// Appliquer au chargement
+updateGridColumns();
+
+// Mettre à jour au redimensionnement
+window.addEventListener('resize', updateGridColumns);
             
-            function updateGridColumns() {
-                if (window.innerWidth <= 768) {
-                    programCardsGrid.style.gridTemplateColumns = '1fr';
-                } else {
-                    programCardsGrid.style.gridTemplateColumns = '1fr';
-                }
-            }datesWithLocation.forEach(dateItem => {
+            datesWithLocation.forEach(dateItem => {
                 const programEmoji = getProgramEmoji(dateItem.programme);
                 
                 // ===== COULEURS SPÉCIFIQUES PAR TYPE DE PROGRAMME =====
@@ -13800,6 +13808,7 @@ function generateRecapByCountry() {
             noLocationMessage.style.textAlign = 'center';
             noLocationMessage.style.color = '#94a3b8';
             noLocationMessage.style.fontSize = '0.75rem';
+            noLocationMessage.style.fontStyle = 'italic';
             noLocationMessage.textContent = 'Aucun programme prévu dans ce pays';
             datesContainer.appendChild(noLocationMessage);
         }
@@ -16271,4 +16280,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
-	
