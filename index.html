@@ -6837,7 +6837,46 @@
         font-size: 0.75rem !important;
     }
 }
-/* ===== RÉCAPITULATIF DES DATES PAR PAYS - 2 COLONNES À PARTIR DE 1024px ===== */
+/* ===== RÉCAPITULATIF DES DATES PAR PAYS - 2 COLONNES ===== */
+/* iPad en mode paysage (entre 768px et 1024px en largeur) */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .recap-container-compact {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px !important;
+    }
+    
+    /* Ajuster la taille des cartes pour l'iPad */
+    .country-card-compact {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 10px !important;
+    }
+    
+    /* Réduire légèrement la taille des textes pour que ça tienne mieux */
+    .country-name-compact {
+        font-size: 1rem !important;
+    }
+    
+    .country-stats-compact {
+        font-size: 0.7rem !important;
+        padding: 4px 8px !important;
+    }
+    
+    /* Les programmes restent en 1 colonne dans chaque carte */
+    .country-programmes-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+    }
+    
+    /* Ajuster les cartes de programmes */
+    .date-item-compact {
+        padding: 8px !important;
+        min-height: 85px !important;
+    }
+}
+
+/* Desktop à partir de 1024px (inchangé) */
 @media (min-width: 1024px) {
     .recap-container-compact {
         display: grid !important;
@@ -6845,29 +6884,16 @@
         gap: 20px !important;
     }
     
-    /* Ajuster la largeur des cartes */
     .country-card-compact {
         width: 100% !important;
         margin: 0 !important;
-        height: fit-content;
-    }
-    
-    /* Pour que les cartes aient la même hauteur */
-    .country-card-compact {
-        display: flex;
-        flex-direction: column;
-    }
-    
-    /* Ajuster le contenu pour qu'il reste lisible */
-    .country-programmes-grid {
-        grid-template-columns: 1fr !important; /* Les programmes restent en 1 colonne dans chaque carte */
     }
 }
 
-/* ===== POUR LES TRÈS GRANDS ÉCRANS (optionnel) ===== */
+/* Très grands écrans (optionnel) */
 @media (min-width: 1400px) {
     .recap-container-compact {
-        grid-template-columns: repeat(3, 1fr) !important; /* 3 colonnes sur très grand écran */
+        grid-template-columns: repeat(3, 1fr) !important;
     }
 }
     </style>
@@ -13086,26 +13112,50 @@ function generateRecapByCountry() {
     const sortedCountries = countryOrder.filter(country => datesByCountry[country]);
     
     recapContainer.innerHTML = '';
-recapContainer.style.display = 'grid';
-recapContainer.style.gap = '20px';
+// Dans la fonction generateRecapByCountry(), remplacez la partie responsive par :
 
-// Appliquer le nombre de colonnes selon la largeur
+recapContainer.innerHTML = '';
+
+// Configuration responsive améliorée
 function updateRecapColumns() {
-    if (window.innerWidth >= 1400) {
+    const width = window.innerWidth;
+    const isLandscape = window.innerHeight < window.innerWidth;
+    
+    // Réinitialiser les styles
+    recapContainer.style.display = 'grid';
+    recapContainer.style.gap = '20px';
+    
+    // Logique de colonnes
+    if (width >= 1400) {
+        // Très grand écran
         recapContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
-    } else if (window.innerWidth >= 1024) {
+        recapContainer.style.gap = '25px';
+    } 
+    else if (width >= 1024) {
+        // Desktop standard
         recapContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
-    } else {
+        recapContainer.style.gap = '20px';
+    }
+    else if (width >= 768 && width <= 1024 && isLandscape) {
+        // iPad en mode paysage
+        recapContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        recapContainer.style.gap = '15px';
+    }
+    else {
+        // Mobile et iPad portrait
         recapContainer.style.gridTemplateColumns = '1fr';
+        recapContainer.style.gap = '12px';
     }
 }
 
 // Appeler au chargement
 updateRecapColumns();
 
-// Écouter le redimensionnement
+// Écouter le redimensionnement ET le changement d'orientation
 window.addEventListener('resize', updateRecapColumns);
-
+window.addEventListener('orientationchange', function() {
+    setTimeout(updateRecapColumns, 100); // Petit délai pour que les dimensions soient mises à jour
+});
     sortedCountries.forEach(country => {
         const countryCard = document.createElement('div');
         countryCard.className = 'country-card-compact';
