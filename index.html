@@ -13489,8 +13489,8 @@ function generateRecapByCountry() {
             programCardsGrid.style.gap = '10px';
             
             function updateProgramGridColumns() {
-                // 8cm ≈ 302px (1cm = 37.8px environ)
-                if (window.innerWidth >= 302) {
+                // 17cm ≈ 302px (1cm = 37.8px environ)
+                if (window.innerWidth >= 610) {
                     // Écran ≥ 302px (8cm) : 2 colonnes
                     programCardsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
                 } else {
@@ -13500,11 +13500,7 @@ function generateRecapByCountry() {
             }
             
             updateProgramGridColumns();
-            window.addEventListener('resize', updateProgramGridColumns);            
-            updateGridColumns();
-            window.addEventListener('resize', updateGridColumns);
-            
-            datesWithLocation.forEach(dateItem => {
+            window.addEventListener('resize', updateProgramGridColumns);            datesWithLocation.forEach(dateItem => {
                 const programEmoji = getProgramEmoji(dateItem.programme);
                 
                 // ===== COULEURS SPÉCIFIQUES PAR TYPE DE PROGRAMME =====
