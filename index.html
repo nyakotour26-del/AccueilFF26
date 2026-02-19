@@ -6837,6 +6837,39 @@
         font-size: 0.75rem !important;
     }
 }
+/* ===== RÉCAPITULATIF DES DATES PAR PAYS - 2 COLONNES À PARTIR DE 1024px ===== */
+@media (min-width: 1024px) {
+    .recap-container-compact {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+    }
+    
+    /* Ajuster la largeur des cartes */
+    .country-card-compact {
+        width: 100% !important;
+        margin: 0 !important;
+        height: fit-content;
+    }
+    
+    /* Pour que les cartes aient la même hauteur */
+    .country-card-compact {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Ajuster le contenu pour qu'il reste lisible */
+    .country-programmes-grid {
+        grid-template-columns: 1fr !important; /* Les programmes restent en 1 colonne dans chaque carte */
+    }
+}
+
+/* ===== POUR LES TRÈS GRANDS ÉCRANS (optionnel) ===== */
+@media (min-width: 1400px) {
+    .recap-container-compact {
+        grid-template-columns: repeat(3, 1fr) !important; /* 3 colonnes sur très grand écran */
+    }
+}
     </style>
 </head>
 <body>
@@ -13053,6 +13086,26 @@ function generateRecapByCountry() {
     const sortedCountries = countryOrder.filter(country => datesByCountry[country]);
     
     recapContainer.innerHTML = '';
+recapContainer.style.display = 'grid';
+recapContainer.style.gap = '20px';
+
+// Appliquer le nombre de colonnes selon la largeur
+function updateRecapColumns() {
+    if (window.innerWidth >= 1400) {
+        recapContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
+    } else if (window.innerWidth >= 1024) {
+        recapContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
+    } else {
+        recapContainer.style.gridTemplateColumns = '1fr';
+    }
+}
+
+// Appeler au chargement
+updateRecapColumns();
+
+// Écouter le redimensionnement
+window.addEventListener('resize', updateRecapColumns);
+
     sortedCountries.forEach(country => {
         const countryCard = document.createElement('div');
         countryCard.className = 'country-card-compact';
